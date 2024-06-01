@@ -5,3 +5,4 @@ Integrantes:
 
   - Federica Mortimer
   - Agustin Pelliciari
+  - Daniel Mamani
