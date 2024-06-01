@@ -3,4 +3,5 @@ Trabajo Practico de Algoritmos y Programación III
 
 Integrantes:
 
-  • Federica Mortimer
+  - Federica Mortimer
+  - Agustin Pelliciari
