@@ -6,3 +6,4 @@ Integrantes:
   - Federica Mortimer
   - Agustin Pelliciari
   - Daniel Mamani
+  - Pedro José Aguilar Bugeau
