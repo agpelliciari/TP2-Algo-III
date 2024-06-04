@@ -1,0 +1,96 @@
+@startuml
+title: diagrama de clases general del modelo (tentativo)
+
+class Juego{
+-panel: Panel
+-puntajeMaximo: int
++inicializar(pregunta: Pregunta, puntajeMaximo: int, panel: Panel)
++inicializar(preguntas: ArrayList<Pregunta>, puntajeMaximo: int, panel: Panel)
++iniciarPartida()
+}
+
+class Jugador{
+-nombre: string
+-puntaje: int
+id: int
++Jugador(nombre: string, puntajeInicial: int): Jugador
++responderPregunta(unaPregunta: Pregunta): Respuesta
++asignarpuntaje(correccion: Correcion, nuevoPuntaje: int)
+}
+note left: nose si es necesario el id
+
+class Panel{
++mostrarPregunta(unaPregunta: Pregunta)
+}
+
+abstract class Pregunta{
++Pregunta(tematica: Tematica, tipo: Tipo, opciones: ArrayList<Respuesta>): Pregunta
++elegirOpcion()
+}
+
+class Tipo{
++mostrarConsigna()
++mostrarOpciones()
++asignarPuntaje(respuestasElegidas: HashMap<Jugador, Respuesta>)
++asignarPuntaje(respuestasElegidas: HashMap<Jugador, ArrayList<Respuesta>>)
+}
+
+class VerdaderoFalso{
++asignarPuntaje(respuestasElegidas: HashMap<Jugador, Respuesta>)
++asignarPuntaje(respuestasElegidas: HashMap<Jugador, ArrayList<Respuesta>>)
+}
+
+class MultipleChoice{
++asignarPuntaje(respuestasElegidas: HashMap<Jugador, Respuesta>)
++asignarPuntaje(respuestasElegidas: HashMap<Jugador, ArrayList<Respuesta>>)
+}
+
+class OrderedChoice{
++asignarPuntaje(respuestasElegidas: HashMap<Jugador, Respuesta>)
++asignarPuntaje(respuestasElegidas: HashMap<Jugador, ArrayList<Respuesta>>)
+}
+
+class GroupChoice{
++asignarPuntaje(respuestasElegidas: HashMap<Jugador, Respuesta>)
++asignarPuntaje(respuestasElegidas: HashMap<Jugador, ArrayList<Respuesta>>)
+}
+
+
+class Respuesta{
++Respuesta(contenido: string, correcion: string, puntaje: int): Respuesta
++asignarPuntaje(unJugador: Jugador)
+}
+
+abstract class Correccion{
++Correccion(correccion: string): Correcion
+-asignarCorrecion(correccion: string): Correcion
+}
+
+class Correcta{}
+
+class Incorrecta{}
+
+Juego --> Panel: 1
+Juego ---> Pregunta: *
+Juego --> Jugador: *
+Juego ...> Respuesta
+
+Panel .> Pregunta
+
+Jugador ..> Pregunta
+Jugador .> Respuesta
+Jugador .> Correccion
+
+Pregunta --> Tipo: 1
+Pregunta ---> Respuesta: 2..*
+
+VerdaderoFalso <|--- Tipo
+MultipleChoice <|--- Tipo
+OrderedChoice <|--- Tipo
+GroupChoice <|- Tipo
+
+Respuesta --> Correccion: 1
+Correcta <|- Correccion
+Incorrecta <|-- Correccion
+
+@enduml

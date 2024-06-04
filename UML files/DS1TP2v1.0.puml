@@ -1,0 +1,70 @@
+@startuml
+title: una prgunta verdadero/Falso recibe una lista respuestas y asigna los puntos a quienes contestaron bien
+
+actor actor
+participant ":Juego" as juego
+participant "unPanel:panel" as panel
+participant "unaPregunta: VerderoFalso" as pregunta
+participant ":Jugador" as jugador
+participant "verdadero:Respuesta" as verdadero
+participant "falso:Respuesta" as falso
+participant ":Correcta" as correcta
+participant ":Incorrecta" as incorrecta
+
+activate actor
+actor -> juego: inicializar(pregunta, puntajeMaximo, panel)
+note right: en este se inicializa con una sola pregunta para simplificar
+activate juego
+create panel
+juego -> panel: new
+create pregunta
+juego -> pregunta: Pregunta(tematica: Tematica, tipo: tipo, opciones: ArrayList<Respuesta>)
+activate pregunta
+create verdadero
+pregunta -> verdadero: Respuesta(contenido: verdadero, correcto, puntaje: 1)
+activate verdadero
+create correcta
+verdadero -> correcta: << create >>
+deactivate verdadero
+create falso
+pregunta -> falso: Respuesta(contenido: falso, incorrecto, puntaje: 1)
+activate falso
+create incorrecta
+falso -> incorrecta: << create >>
+deactivate falso
+deactivate pregunta
+loop por cantidad de jugadores
+create jugador
+juego -> jugador: Jugador(nombre, puntajeInicial)
+juego -> juego: add(unJugador)
+end
+deactivate juego
+actor -> juego: iniciarPartida()
+activate juego
+juego -> panel: mostrarPregunta(unaPregunta)
+activate panel
+panel -> pregunta: mostrarConsigna()
+panel -> pregunta: mostarOpciones()
+deactivate panel
+loop por cantidad de jugadores
+juego -> jugador: responderPregunta(unaPregunta)
+activate jugador
+jugador -> pregunta: elegirOpcion()
+activate pregunta
+pregunta -->> jugador: opcion elegida: verdadero
+deactivate pregunta
+jugador -->> juego: respuesta elegida
+deactivate jugador
+end
+juego -> pregunta: asignarPuntaje(respuestasElegidas: HashMap<Jugador, [ArrayList<Respuesta>]>)
+activate pregunta
+loop para cada jugador
+pregunta -> verdadero: asignarPuntaje(unJugador: Jugador)
+activate verdadero
+verdadero -> jugador: asignarPuntaje(correcion, nuevoPuntaje)
+note left: puntaje += nuevoPuntaje
+deactivate verdadero
+deactivate pregunta
+end
+deactivate juego
+@enduml
