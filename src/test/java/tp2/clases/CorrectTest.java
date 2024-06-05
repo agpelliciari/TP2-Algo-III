@@ -5,17 +5,17 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.*;
 
-public class CorrectaTest {
+public class CorrectTest {
 
     @Test
     public void test01CreoInstanciaDeCorrectaYCheckeoQueEstaBienInstanciada() {
-        Correccion correccion = new Correcta();
-        assertTrue(correccion instanceof Correcta);
+        Correction correction = new Correct();
+        assertTrue(correction instanceof Correct);
     }
 
     @Test
     public void test02CreoInstanciaDeCorrectaYCheckeoQueEstaBienInstanciada() {
-        Correccion correccion = new Correcta();
-        assertEquals("correcta", correccion.getCorreccion());
+        Correction correction = new Correct();
+        assertEquals("correcta", correction.getCorreccion());
     }
 }

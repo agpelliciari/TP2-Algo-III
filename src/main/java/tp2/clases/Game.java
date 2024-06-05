@@ -24,10 +24,10 @@ class Game {
         for (Question question : questions) {
             panel.show(question);
 
-            HashMap<Player, ArrayList<Respuesta>> answers = new HashMap<>();
+            HashMap<Player, ArrayList<Answer>> answers = new HashMap<>();
 
             for (Player player : players) {
-                ArrayList<Respuesta> playerAnswers = player.answer(question);
+                ArrayList<Answer> playerAnswers = player.answer(question);
                 answers.put(player, playerAnswers);
             }
 

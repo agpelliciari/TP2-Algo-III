@@ -4,17 +4,17 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class IncorrectaTest {
+public class IncorrectTest {
 
     @Test
     public void test01CreoInstanciaDeIncorrectaYCheckeoQueEstaBienInstanciada() {
-        Correccion correccion = new Incorrecta();
-        assertTrue(correccion instanceof Incorrecta);
+        Correction correction = new Incorrect();
+        assertTrue(correction instanceof Incorrect);
     }
 
     @Test
     public void test02CreoInstanciaDeIncorrectaYCheckeoQueEstaBienInstanciada() {
-        Correccion correccion = new Incorrecta();
-        assertEquals("incorrecta", correccion.getCorreccion());
+        Correction correction = new Incorrect();
+        assertEquals("incorrecta", correction.getCorreccion());
     }
 }
