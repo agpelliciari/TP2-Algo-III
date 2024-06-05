@@ -1,0 +1,59 @@
+@startuml
+title: A true/false question receives a list of answers and assigns points to those who answered correctly
+
+actor actor
+participant ":Game" as game
+participant "panel:Panel" as panel
+participant "aQuestion: TrueFalse" as question
+participant "aPlayer: Player" as player
+participant "true: Answer" as trueAnswer
+
+create game
+actor -> game: Game(questions: ArrayList<Question>, maxScore: int, panel: Panel)
+
+create panel
+game -> panel: Panel()
+
+actor -> game: start(numberOfPlayers: int)
+activate game
+
+game -> game: selectPlayers(numberOfPlayers: int)
+
+loop for numberOfPlayers
+create player
+game -> player: Player(name, totalScore)
+game -> game: registerUser(players: ArrayList<Player>, aPlayer: Player)
+note left: players.add(aPlayer)
+end
+
+game -> panel: show(aQuestion)
+activate panel
+panel -> question: task()
+panel -> question: options()
+deactivate panel
+
+loop for each player
+game -> player: answer(aQuestion)
+activate player
+player -> question: chooseOption()
+activate question
+question -->> player: chosenOption: true
+deactivate question
+player -->> game: playerAnswers.add(chosenAnswer)
+note left: ArrayList<Answer> playerAnswers
+deactivate player
+game -> game: answers.put(player, playerAnswers)
+note left: HashMap<Player, ArrayList<Respuesta>> answers
+end
+game -> question: assignScore(answers: HashMap<Player, ArrayList<Answer>>)
+activate question
+loop for each player
+question -> trueAnswer: assignScore(aPlayer: Player)
+activate trueAnswer
+trueAnswer -> player: assignScore(correction, newScore)
+note left: totalScore += newScore
+deactivate trueAnswer
+deactivate question
+end
+deactivate game
+@enduml
