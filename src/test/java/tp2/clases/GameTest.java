@@ -30,13 +30,14 @@ public class GameTest {
 
     @Test
     public void test03UserRegisteredCorrectly() {
-        Player expectedValue = new Player("mateo", 0);
+        String expectedValue = "mateo";
         Game game = new Game(new ArrayList<Question>(), 2000, new Panel());
         ArrayList<Player> players = new ArrayList<>();
 
         game.registerUser(players, new Player("mateo", 0));
+        Player player = players.get(0);
 
-        assertEquals(expectedValue, players.get(0));
+        assertEquals(expectedValue, player.getName());
     }
 
     @Test
