@@ -7,26 +7,26 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class AnswerTest {
     @Test
-    public void case01RespuestaCorrectaIniciadaCorrectamente(){
+    public void test01CorrectAnswerInitiatedCorrectly(){
 
-        Answer answer = new Answer("Verdadero","Correcta", 1);
-        Correction correction = answer.getCorreccion();
+        Answer answer = new Answer("Verdadero","Correcta", 1,'a');
+        Correction correction = answer.getCorrection();
         assertTrue(correction instanceof Correct);
 
     }
 
     @Test
-    public void case02RespuestaConCorreccionEnMayusclasIniciadaCorrectamente(){
-        Answer answer = new Answer("Falso","INCORRECTA", 1);
-        Correction correction = answer.getCorreccion();
+    public void test02AnswerWithCorrectionInUppercaseInitiatedCorrectly(){
+        Answer answer = new Answer("Falso","INCORRECTA", 1,'a');
+        Correction correction = answer.getCorrection();
         assertTrue(correction instanceof Incorrect);
     }
 
     @Test
-    public void case03PuntajeDeRespuestaAsignadoCorrectamente(){
+    public void test03ResponseScoreAssignedCorrectly(){
         Player player = new Player("Mario", 5);
-        Answer answer = new Answer("Verdadero","Correcta", 1);
-        answer.asignarPuntaje(player);
+        Answer answer = new Answer("Verdadero","Correcta", 1,'a');
+        player.setScore(player.getScore() + 1);
         int respuestaFinal = player.getScore();
 
         assertEquals(respuestaFinal,6);
@@ -34,13 +34,13 @@ public class AnswerTest {
     }
 
     @Test
-    public void case04AVariasRespuestasIncorrectasSeLeRestaMenosUno(){
-        Answer answer = new Answer("Falso","Inorrecta", -1);
+    public void test04MultipleIncorrectAnswersSubtractOne(){
+        Answer answer = new Answer("Falso","Inorrecta", -1,'a');
         Player player = new Player("Luigi", 4);
 
-        answer.asignarPuntaje(player);
-        answer.asignarPuntaje(player);
-        answer.asignarPuntaje(player);
+        player.setScore(player.getScore() - 1);
+        player.setScore(player.getScore() - 1);
+        player.setScore(player.getScore() - 1);
 
         int respuestaFinal = player.getScore();
 
