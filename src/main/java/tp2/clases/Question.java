@@ -31,7 +31,7 @@ public class Question {
     }
 
     public void assignScore(HashMap<Player, ArrayList<Answer>> playersAnswers) {
-        type.assignScore(playersAnswers, numberOfCorrectAnswers);
+        type.assignScore(playersAnswers, getNumberOfCorrectAnswers());
     }
 
     public ArrayList<Answer> choiceOption(String chosenOptions){
