@@ -6,6 +6,7 @@ import tp2.clases.exceptions.InvalidNumberOfPlayersException;
 import tp2.clases.exceptions.UserNameAlreadyExistsException;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -15,8 +16,12 @@ public class GameTest {
     public void test01SelectedNumberOfPlayersEqualsFour() {
         int expectedValue = 4;
         Game game = new Game(new ArrayList<Question>(), 2000, new Panel());
-
-        ArrayList<Player> players = game.selectPlayers(4);
+        List<String> names = new ArrayList<>();
+        names.add("mateo");
+        names.add("julian");
+        names.add("matias");
+        names.add("lucas");
+        ArrayList<Player> players = game.selectPlayers(4, names);
 
         assertEquals(expectedValue, players.size());
     }

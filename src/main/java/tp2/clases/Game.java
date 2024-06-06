@@ -1,6 +1,7 @@
 package tp2.clases;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Scanner;
 
 import tp2.clases.exceptions.InvalidNumberOfPlayersException;
@@ -45,6 +46,21 @@ class Game {
         for (int i = 0; i < numberOfPlayers; i++) {
             String userName = getUserName();
             Player player = new Player(userName, 0);
+            registerUser(players, player);
+        }
+
+        return players;
+    }
+
+    public ArrayList<Player> selectPlayers(int numberOfPlayers, List<String> users) {
+        if (numberOfPlayers < 2) {
+            throw new InvalidNumberOfPlayersException();
+        }
+        
+        ArrayList<Player> players = new ArrayList<>();
+
+        for (int i = 0; i < numberOfPlayers; i++) {
+            Player player = new Player(users.get(i), 0);
             registerUser(players, player);
         }
 
