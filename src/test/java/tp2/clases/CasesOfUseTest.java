@@ -1,16 +1,70 @@
 package tp2.clases;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import org.junit.jupiter.api.Test;
 
 public class CasesOfUseTest {
 
     @Test
     public void test01ATrueFalseQuestionReceivesAListOfAnswersAndAssignsPointsToThoseWhoAnsweredCorrectly() {
-        
+        ArrayList<Answer> answers = new ArrayList<Answer>();
+        answers.add(new Answer("Verdadero","Correcta", 1,'a'));
+        answers.add(new Answer("Falso","Incorrecta", 1,'b'));
+
+        Question question = new Question("", new TrueOrFalse(), answers, "");
+
+        HashMap<Player, ArrayList<Answer>> playersAnswers = new HashMap<>();
+
+        Player playerOne = new Player("x", 1);
+        Player playerTwo = new Player("y", 1);
+        Player playerThree = new Player("z", 1);
+
+        ArrayList<Answer> answersPlayerOne = playerOne.answer(question, "a");
+        ArrayList<Answer> answersPlayerTwo = playerTwo.answer(question, "b");
+        ArrayList<Answer> answersPlayerThree = playerThree.answer(question, "a");
+
+        playersAnswers.put(playerOne, answersPlayerOne);
+        playersAnswers.put(playerTwo, answersPlayerTwo);
+        playersAnswers.put(playerThree, answersPlayerThree);
+
+        question.assignScore(playersAnswers);
+
+        assertEquals(2, playerOne.getScore());
+        assertEquals(1, playerTwo.getScore());
+        assertEquals(2, playerThree.getScore()); 
     }
 
     @Test
     public void test02ATrueFalseQuestionReceivesAListOfAnswersAndAssignsPointsToThoseWhoAnsweredIncorrectly() {
+        ArrayList<Answer> answers = new ArrayList<Answer>();
+        answers.add(new Answer("Verdadero","Incorrecta", 1,'a'));
+        answers.add(new Answer("Falso","Correcta", 1,'b'));
+
+        Question question = new Question("", new TrueOrFalse(), answers, "");
+
+        HashMap<Player, ArrayList<Answer>> playersAnswers = new HashMap<>();
+
+        Player playerOne = new Player("x", 1);
+        Player playerTwo = new Player("y", 1);
+        Player playerThree = new Player("z", 1);
+
+        ArrayList<Answer> answersPlayerOne = playerOne.answer(question, "a");
+        ArrayList<Answer> answersPlayerTwo = playerTwo.answer(question, "b");
+        ArrayList<Answer> answersPlayerThree = playerThree.answer(question, "a");
+
+        playersAnswers.put(playerOne, answersPlayerOne);
+        playersAnswers.put(playerTwo, answersPlayerTwo);
+        playersAnswers.put(playerThree, answersPlayerThree);
+
+        question.assignScore(playersAnswers);
+
+        assertEquals(1, playerOne.getScore());
+        assertEquals(2, playerTwo.getScore());
+        assertEquals(1, playerThree.getScore()); 
         
     }
 
