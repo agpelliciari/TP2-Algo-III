@@ -12,24 +12,24 @@ public class Player {
     private String name;
     private Score score;
 
-    public Player(String name, int initialScore){
+    public Player(String name, int initialScore) {
         this.name = name;
         this.score = new Score(initialScore);
     }
 
-    public String getName(){
+    public String getName() {
         return name;
     }
 
-    public int getScore(){
-        return score;
+    public int getScore() {
+        return score.getScore();
     }
 
-    public void setScore(int newScore){
+    public void setScore(int newScore) {
         score.setScore(newScore);
     }
 
-    public ArrayList<Answer> answer(Question question){
+    public ArrayList<Answer> answer(Question question) {
 
         Scanner scanner = new Scanner(System.in);
         String chosenOption = scanner.nextLine();
@@ -37,16 +37,16 @@ public class Player {
         return question.choiceOption(chosenOption);
     }
 
-    public ArrayList<Answer> answer(Question question, String chosenOption){
+    public ArrayList<Answer> answer(Question question, String chosenOption) {
 
         return question.choiceOption(chosenOption);
     }
 
-    public void assignScore(Correction correction, int newScore){
+    public void assignScore(Correction correction, int newScore) {
         score.assignScore(correction, newScore);
     }
 
-    public boolean equals(Player aPlayer){
+    public boolean equals(Player aPlayer) {
         return name == aPlayer.getName();
     }
 }
