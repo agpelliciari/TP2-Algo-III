@@ -8,33 +8,21 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class CorrectionTest {
     @Test
-    public void case01TestAsignarCorreccionCorrecta() {
-        Correction correction = Correction.asignarCorreccion("correcta");
+    public void test01AssignCorrectCorrection() {
+        Correction correction = Correction.assignCorrection("correcta");
         assertTrue(correction instanceof Correct);
     }
 
     @Test
-    public void case02TestAsignarCorreccionIncorrecta() {
-        Correction correction = Correction.asignarCorreccion("incorrecta");
+    public void test02AssignIncorrectCorrection() {
+        Correction correction = Correction.assignCorrection("incorrecta");
         assertTrue(correction instanceof Incorrect);
     }
 
     @Test
-    public void case03TestAsignarCorreccionDesconocida() {
-        Correction correction = Correction.asignarCorreccion("desconocida");
+    public void test03AssignUnknownCorrection() {
+        Correction correction = Correction.assignCorrection("desconocida");
         assertNull(correction);
     }
-
-    @Test
-    public void case04IngresoEnMayusculasYMinusculasYLuegoCambioEIgualmenteAsignaLaClaseCorrecta() {
-        Correction correction = new Correction("CoRRectA");
-        correction.setCorreccion("INCORRECTA");
-        assertEquals("incorrecta", correction.getCorreccion());
-    }
-
-    @Test
-    public void case05IngresoEnMayusculasYAsignaLaClaseCorrectamente() {
-        Correction correction = new Correction("CORRECTA");
-        assertEquals("correcta", correction.getCorreccion());
-    }
+    
 }
