@@ -1,4 +1,5 @@
 package tp2.clases;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -27,7 +28,7 @@ public class Question {
         return numberOfCorrectAnswers;
     }
 
-    public void assignScore(HashMap<Player, Answer> playersAnswers) {
+    public void assignScore(HashMap<Player, ArrayList<Answer>> playersAnswers) {
         type.assignScore(playersAnswers, numberOfCorrectAnswers);
     }
 
