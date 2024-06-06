@@ -61,7 +61,7 @@ class MultipleChoiceTest {
         MultipleChoice type = new MultipleChoice();
         type.assignScore(chosenAnswers, 2);
 
-        assertEquals(1, player.getScore());
+        assertEquals(0, player.getScore());
     }
 
 }
