@@ -11,21 +11,18 @@ public class MultipleChoice extends Type {
             ArrayList<Answer> answers = chosenAnswers.get(player);
 
             boolean hasIncorrectAnswer = false;
+            int numberOfCorrectAnswersOfPlayer = 0;
 
             for (Answer answer : answers) {
                 if (answer.getCorrection() instanceof Incorrect) {
                     hasIncorrectAnswer = true;
-                    break;
+                }
+                else {
+                    numberOfCorrectAnswersOfPlayer++;
                 }
             }
 
             if (!hasIncorrectAnswer) {
-                int numberOfCorrectAnswersOfPlayer = 0;
-                for (Answer answer : answers) {
-                    if (answer.getCorrection() instanceof Correct) {
-                        numberOfCorrectAnswersOfPlayer++;
-                    }
-                }
                 if (numberOfCorrectAnswersOfPlayer == numberOfCorrectAnswers) {
                     player.setScore(player.getScore() + 1);
                 }
