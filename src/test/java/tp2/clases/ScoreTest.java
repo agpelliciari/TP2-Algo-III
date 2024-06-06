@@ -1,7 +1,7 @@
 package tp2.clases;
 
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.Assertions;
+import static org.junit.jupiter.api.Assertions.*;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
@@ -26,7 +26,7 @@ public class ScoreTest {
 
         //Assert
 
-        Assert.assertEquals(expectedScore, scoreObtained);
+        assertEquals(expectedScore, scoreObtained);
     }
 
     @Test
@@ -43,6 +43,6 @@ public class ScoreTest {
 
         //Assert
 
-        Assert.assertEquals(expectedScore, scoreObtained);
+        assertEquals(expectedScore, scoreObtained);
     }
 }

@@ -1,8 +1,5 @@
 package tp2.clases;
 
-import tp2.clases.Correct;
-import tp2.clases.Incorrect;
-
 public class Score {
     private int score;
 
@@ -14,11 +11,11 @@ public class Score {
         return score;
     }
 
-    public void assignScore(Correct correction, int newScore){
-        score += newScore;
+    public void assignScore(Correction correction, int newScore){
+        score += correction.assignScore(newScore);
     }
 
-    public void assignScore(Incorrect correction, int newScore){
-        score -= newScore;
+    public void setScore(int newScore) {
+        score = newScore;
     }
 }
