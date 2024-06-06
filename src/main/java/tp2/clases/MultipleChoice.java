@@ -16,7 +16,7 @@ public class MultipleChoice extends Type {
                     numberOfCorrectAnswersOfPlayer++;
                 }
                 if (numberOfCorrectAnswersOfPlayer == numberOfCorrectAnswers) {
-                    jugador.setPuntaje(jugador.getPuntaje() + 1);
+                    player.setScore(player.getScore() + 1);
                 } 
             }   
         }
