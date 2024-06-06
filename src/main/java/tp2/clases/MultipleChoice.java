@@ -1,22 +1,25 @@
 package tp2.clases;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class MultipleChoice extends Type {
+
     @Override
-    public void assignScore(HashMap<Player, Answer> chosenAnswers, int numberOfCorrectAnswers) {
-
+    public void assignScore(HashMap<Player, ArrayList<Answer>> chosenAnswers, int numberOfCorrectAnswers) {
         int numberOfCorrectAnswersOfPlayer = 0;
+
         for (Player player : chosenAnswers.keySet()) {
-            Answer answer = chosenAnswers.get(player);
-            if (answer.getCorrection() instanceof Correct) {
-                numberOfCorrectAnswersOfPlayer++;
+            ArrayList<Answer> answers = chosenAnswers.get(player);
 
-            }
-            if (numberOfCorrectAnswersOfPlayer == numberOfCorrectAnswers) {
-                jugador.setPuntaje(jugador.getPuntaje() + 1);
-            }
+            for (Answer answer : answers) {
+                if (answer.getCorrection() instanceof Correct) {
+                    numberOfCorrectAnswersOfPlayer++;
+                }
+                if (numberOfCorrectAnswersOfPlayer == numberOfCorrectAnswers) {
+                    jugador.setPuntaje(jugador.getPuntaje() + 1);
+                } 
+            }   
         }
-
     }
 }
 

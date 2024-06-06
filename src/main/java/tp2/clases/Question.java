@@ -29,7 +29,7 @@ public class Question {
         return numberOfCorrectAnswers;
     }
 
-    public void assignScore(HashMap<Player, Answer> playersAnswers) {
+    public void assignScore(HashMap<Player, ArrayList<Answer>> playersAnswers) {
         type.assignScore(playersAnswers, numberOfCorrectAnswers);
     }
 
