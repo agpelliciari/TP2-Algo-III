@@ -26,11 +26,6 @@ class Panel {
         System.out.println(player.getName());
     }
 
-    public void showTurn(Game game) {
-        System.out.print("Pregunta ");
-        System.out.println(game.getTurn());
-    }
-
     public String getLetters(int index) {
         StringBuilder letters = new StringBuilder();
         while (index >= 0) {
