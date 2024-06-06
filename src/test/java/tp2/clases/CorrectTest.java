@@ -8,14 +8,14 @@ import static org.junit.jupiter.api.Assertions.*;
 public class CorrectTest {
 
     @Test
-    public void test01CreoInstanciaDeCorrectaYCheckeoQueEstaBienInstanciada() {
+    public void test01CreateInstanceOfCorrectAndCheckIfItIsCorrectlyInstanciated() {
         Correction correction = new Correct();
         assertTrue(correction instanceof Correct);
     }
 
     @Test
-    public void test02CreoInstanciaDeCorrectaYCheckeoQueEstaBienInstanciada() {
+    public void test02CreateInstanceOfCorrectAndCheckIfItIsCorrectlyInstanciated() {
         Correction correction = new Correct();
-        assertEquals("correcta", correction.getCorreccion());
+        assertEquals("correcta", correction.getCorrection());
     }
 }
