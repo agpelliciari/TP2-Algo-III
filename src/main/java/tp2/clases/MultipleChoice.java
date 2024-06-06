@@ -26,8 +26,6 @@ public class MultipleChoice extends Type {
                 if (numberOfCorrectAnswersOfPlayer == numberOfCorrectAnswers) {
                     player.setScore(player.getScore() + 1);
                 }
-            } else {
-                player.setScore(0);
             }
         }
     }
