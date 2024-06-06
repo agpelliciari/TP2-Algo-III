@@ -70,12 +70,48 @@ public class CasesOfUseTest {
 
     @Test
     public void test03AMultipleChoiceClassicQuestionReceivesAListOfAnswersOfAPlayerThatAnsweredCorrectlyAndAssignsTheScore() {
-        
+        ArrayList<Answer> answers = new ArrayList<Answer>();
+        answers.add(new Answer("Brazil","Incorrecta", 1,'a'));
+        answers.add(new Answer("England","Correcta", 1,'b'));
+        answers.add(new Answer("Egypt","Incorrecta", 1,'c'));
+        answers.add(new Answer("Czech Republic","Correcta", 1,'d'));
+
+        Question question = new Question("Which of the following countries is in europe", new MultipleChoice(), answers, "General Knowledge");
+
+        HashMap<Player, ArrayList<Answer>> playersAnswers = new HashMap<>();
+
+        Player playerOne = new Player("x", 1);
+
+        ArrayList<Answer> answersPlayerOne = playerOne.answer(question, "bd");
+
+        playersAnswers.put(playerOne, answersPlayerOne);
+
+        question.assignScore(playersAnswers);
+
+        assertEquals(2, playerOne.getScore());
     }
 
     @Test
     public void test04AMultipleChoiceClassicQuestionReceivesAListOfAnswersOfAPlayerThatAnsweredIncorrectlyAndAssignsTheScore() {
-        
+        ArrayList<Answer> answers = new ArrayList<Answer>();
+        answers.add(new Answer("Brazil","Incorrecta", 1,'a'));
+        answers.add(new Answer("England","Correcta", 1,'b'));
+        answers.add(new Answer("Egypt","Incorrecta", 1,'c'));
+        answers.add(new Answer("Czech Republic","Correcta", 1,'d'));
+
+        Question question = new Question("Which of the following countries is in europe", new MultipleChoice(), answers, "General Knowledge");
+
+        HashMap<Player, ArrayList<Answer>> playersAnswers = new HashMap<>();
+
+        Player playerOne = new Player("x", 1);
+
+        ArrayList<Answer> answersPlayerOne = playerOne.answer(question, "abd");
+
+        playersAnswers.put(playerOne, answersPlayerOne);
+
+        question.assignScore(playersAnswers);
+
+        assertEquals(1, playerOne.getScore());
     }
 
     @Test
