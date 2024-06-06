@@ -22,7 +22,7 @@ public class Player {
     }
 
     public int getScore(){
-        return score.getScore();
+        return score;
     }
 
     public void setScore(int newScore){

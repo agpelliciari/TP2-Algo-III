@@ -2,58 +2,37 @@
 title: A true/false question receives a list of answers and assigns points to those who answered correctly
 
 actor actor
-participant ":Game" as game
-participant "panel:Panel" as panel
-participant "aQuestion: TrueFalse" as question
-participant "aPlayer: Player" as player
-participant "true: Answer" as trueAnswer
+participant "aQuestion:Question" as question
+participant "type: TrueOrFalse" as type
+participant "aPlayer:Player" as player
+participant ":Answer" as answer
 
-create game
-actor -> game: Game(questions: ArrayList<Question>, maxScore: int, panel: Panel)
-
-create panel
-game -> panel: Panel()
-
-actor -> game: start(numberOfPlayers: int)
-activate game
-
-game -> game: selectPlayers(numberOfPlayers: int)
+create question
+actor -> question: Question(content: String, type:TrueOrFalse(), options: List<Answer>, theme: String)
 
 loop for numberOfPlayers
 create player
-game -> player: Player(name, totalScore)
-game -> game: registerUser(players: ArrayList<Player>, aPlayer: Player)
-note left: players.add(aPlayer)
+actor -> player: Player(name: String, score: Score)
 end
 
-game -> panel: show(aQuestion)
-activate panel
-panel -> question: task()
-panel -> question: options()
-deactivate panel
-
 loop for each player
-game -> player: answer(aQuestion)
+actor -> player: answer(aQuestion: Question, chosenOption: String)
 activate player
-player -> question: chooseOption()
+player -> question: choiceOption(chosenOption)
+
 activate question
-question -->> player: chosenOption: true
-deactivate question
-player -->> game: playerAnswers.add(chosenAnswer)
-note left: ArrayList<Answer> playerAnswers
+loop for char in chosenOption: chosenOptions.toCharArray
+    loop for option in options
+        question -> answer: equals(chosenOption)
+        activate answer
+        question <<-- answer: true -> chosenAnswers.add(option)
+        note left: ArrayList<Answer> chosenAnswers
+        end loop
+end loop
+deactivate answer
+player -->> actor: chosenAnswers
 deactivate player
-game -> game: answers.put(player, playerAnswers)
-note left: HashMap<Player, ArrayList<Respuesta>> answers
-end
-game -> question: assignScore(answers: HashMap<Player, ArrayList<Answer>>)
-activate question
-loop for each player
-question -> trueAnswer: assignScore(aPlayer: Player)
-activate trueAnswer
-trueAnswer -> player: assignScore(correction, newScore)
-note left: totalScore += newScore
-deactivate trueAnswer
-deactivate question
-end
-deactivate game
+actor -> actor: playerAnswers.put(aPlayer, chosenAnswers)
+note left: HashMap<Player, ArrayList<Answers>> playerAnswers
+end loop
 @enduml
