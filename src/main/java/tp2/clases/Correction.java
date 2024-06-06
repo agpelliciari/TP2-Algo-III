@@ -2,7 +2,7 @@ package tp2.clases;
 
 import java.util.Objects;
 
-public class Correction {
+public abstract class Correction {
     private String correction;
 
     public void setCorrection(String correction) {
@@ -23,9 +23,11 @@ public class Correction {
         return null;
     }
 
-    public Correction(String correccion) {
-        setCorrection(correccion);
+    public Correction(String correction) {
+        setCorrection(correction);
     }
+
+    public abstract int assignScore(int score);
 
 
 }

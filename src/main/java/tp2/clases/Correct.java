@@ -4,4 +4,8 @@ public class  Correct extends Correction {
     public Correct() {
         super("correcta");
     }
+
+    public int assignScore(int score){
+        return score;
+    }
 }
