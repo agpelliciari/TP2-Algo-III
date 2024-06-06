@@ -22,7 +22,7 @@ class Game {
 
         // while(score mas alto != maxScore)
         for (Question question : questions) {
-            panel.show(question);
+//            panel.show(question);
 
             HashMap<Player, ArrayList<Answer>> answers = new HashMap<>();
 
