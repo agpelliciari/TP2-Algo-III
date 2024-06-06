@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import static org.mockito.Mockito.*;
 
 import java.util.ArrayList;
 
@@ -12,7 +13,7 @@ public class PlayerTest {
     
     private Player player;
     @Mock private Question question;
-    @Mock private Answer answer;
+    @Mock private ArrayList<Answer> answers;
     @Mock private Correction correction;
     @Mock private Correct correct;
     @Mock private Incorrect incorrect;
@@ -20,9 +21,9 @@ public class PlayerTest {
     @Test
     public void test01AnsweringAQuestionCorrectlyIncreasesTheScore(){
         //Arrange
-        when(player.answer(question, "")).thenReturn(answer);
-        when(answer.getCorrection()).thenReturn(correct);
-        when(answer.getScore()).thenReturn(1);
+        when(player.answer(question, "")).thenReturn(answers);
+        when(answers.get(0).getCorrection()).thenReturn(correct);
+        when(answers.get(0).getScore()).thenReturn(1);
 
         int expectedScore = 1;
         player = new Player("name", 0);
@@ -40,9 +41,9 @@ public class PlayerTest {
     @Test
     public void test02AnsweringAQuestionIncorrectlyDecreasesTheScore(){
         //Arrange
-        when(player.answer(question)).thenReturn(answer);
-        when(answer.getCorrection()).thenReturn(incorrect);
-        when(answer.getScore()).thenReturn(1);
+        when(player.answer(question)).thenReturn(answers);
+        when(answers.get(0).getCorrection()).thenReturn(incorrect);
+        when(answers.get(0).getScore()).thenReturn(1);
 
         int expectedScore = 0;
         player = new Player("name", 1);
