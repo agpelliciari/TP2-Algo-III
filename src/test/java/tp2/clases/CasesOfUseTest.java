@@ -139,11 +139,48 @@ public class CasesOfUseTest {
 
     @Test
     public void test07AMultipleChoiceQuestionWithPenaltyReceivesAListOfAnswersOfAPlayerThatAnsweredCorrectlyAndAssignsTheScore() {
-        
+        ArrayList<Answer> answers = new ArrayList<Answer>();
+        answers.add(new Answer("2014","Correcta", 1,'a'));
+        answers.add(new Answer("2021","Correcta", 1,'b'));
+        answers.add(new Answer("1942","Incorrecta", 1,'c'));
+
+        Question question = new Question("In which of the following years was the Football World Cup held?", new MultipleChoiceWithPenalty(), answers, "General Knowledge");
+
+        HashMap<Player, ArrayList<Answer>> playersAnswers = new HashMap<>();
+        Player playerOne = new Player("John", 1);
+
+        ArrayList<Answer> answersPlayerOne = playerOne.answer(question, "ab");
+
+
+        playersAnswers.put(playerOne, answersPlayerOne);
+
+        question.assignScore(playersAnswers);
+
+        assertEquals(3, playerOne.getScore());
+
+
+
     }
 
     @Test
     public void test08AMultipleChoiceQuestionWithPenaltyReceivesAListOfAnswersOfAPlayerThatAnsweredIncorrectlyAndAssignsTheScore() {
-        
+        ArrayList<Answer> answers = new ArrayList<Answer>();
+        answers.add(new Answer("Eagle","Correcta", 1,'a'));
+        answers.add(new Answer("Bat","Correcta", 1,'b'));
+        answers.add(new Answer("Penguin","Incorrecta", 1,'c'));
+        answers.add(new Answer("Elephant","Incorrecta", 1,'d'));
+
+        Question question = new Question("Which of the following animals can fly?", new MultipleChoiceWithPenalty(), answers, "General Knowledge");
+
+        HashMap<Player, ArrayList<Answer>> playersAnswers = new HashMap<>();
+        Player playerOne = new Player("Juan", 5);
+
+        ArrayList<Answer> answersPlayerOne = playerOne.answer(question, "cd");
+
+        playersAnswers.put(playerOne, answersPlayerOne);
+
+        question.assignScore(playersAnswers);
+
+        assertEquals(3, playerOne.getScore());
     }
 }
