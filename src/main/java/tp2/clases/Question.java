@@ -2,7 +2,8 @@ package tp2.clases;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import tp2.clases.Player;
+
+import tp2.clases.exceptions.InvalidNumberOfChosenOptionsException;
 
 public class Question {
     private String theme;
@@ -34,12 +35,18 @@ public class Question {
     }
 
     public ArrayList<Answer> choiceOption(String chosenOptions){
-
-        ArrayList<Answer> chosenAnswers = new ArrayList<Answer>();
-        for(char chosenOption: chosenOptions.toCharArray()){
-            chosenAnswers.add((Answer) options.stream().map(option -> option.equals(chosenOption)));
+        if ((chosenOptions.toCharArray()).length > options.size() - 1){
+            throw new InvalidNumberOfChosenOptionsException();
         }
 
+        ArrayList<Answer> chosenAnswers = new ArrayList<Answer>();
+        for(char chosenOption: chosenOptions.toCharArray()) {
+            for (Answer option : options) {
+                if (option.equals(chosenOption)) {
+                    chosenAnswers.add(option);
+                }
+            }
+        }
         return chosenAnswers;
     }
 
