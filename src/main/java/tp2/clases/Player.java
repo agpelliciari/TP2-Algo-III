@@ -5,7 +5,10 @@ import tp2.clases.Answer;
 import tp2.clases.Correction;
 import tp2.clases.Score;
 
-class Player {
+import java.util.ArrayList;
+import java.util.Scanner;
+
+public class Player {
     private String name;
     private Score score;
 
@@ -22,8 +25,21 @@ class Player {
         return score.getScore();
     }
 
-    public Answer answer(Question question){
-        return question.choiceOption();
+    public void setScore(int newScore){
+        score.setScore(newScore);
+    }
+
+    public ArrayList<Answer> answer(Question question){
+
+        Scanner scanner = new Scanner(System.in);
+        String chosenOption = scanner.nextLine();
+
+        return question.choiceOption(chosenOption);
+    }
+
+    public ArrayList<Answer> answer(Question question, String chosenOption){
+
+        return question.choiceOption(chosenOption);
     }
 
     public void assignScore(Correction correction, int newScore){
