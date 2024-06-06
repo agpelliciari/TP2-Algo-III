@@ -1,0 +1,63 @@
+@startuml
+
+skinparam monochrome true
+hide circle
+skinparam classAttributeIconSize 0
+
+title: diagram of classes that interact with Game
+
+class Game{
+-maxScore: int
++Game(questions: ArrayList<Question>, maxScore: int, panel: Panel)
++start(numberOfPlayers: int)
++selectPlayers(numberOfPlayers: int): ArrayList<Player>
++selectPlayers(numberOfPlayers: int, users: List<String>): ArrayList<Player>
++getUserName(): String
++registerUser(players: ArrayList<Player>, aPlayer: Player)
+}
+
+class Panel{
++show(aQuestion: Question)
+}
+
+class Question{
+-theme: String
+-options: List<Answer>
+-content: String
+-type: Type
+-numberOfCorrectAnswers: int
++Question(content: String, type: Type, answers: List<Answer>, theme: String)
++getNumberOfCorrectAnswers(): int
++assignScore(playersAnswers: HashMap<Player, ArrayList<Answer>>)
++choiceOption(chosenOptions: String): ArrayList<Answer>
+}
+
+class Player{
+-name: String
+-score: Score
++Player(name: String, initialScore: int)
++getName(): String
++getScore(): int
++setScore(newScore: int)
++answer(question: Question): ArrayList<Answer>
++answer(question: Question, chosenOption: String): ArrayList<Answer>
++assignScore(correction: Correction, newScore: int)
++equals(aPlayer: Player): boolean
+}
+
+class InvalidNumberOfPlayersException{}
+
+class UserNameAlreadyExistsException{}
+
+Game -> Panel:1
+Game --> Question:*
+Game ..> Player
+
+InvalidNumberOfPlayersException <<Exception>>
+UserNameAlreadyExistsException <<Exception>>
+
+Game ..> InvalidNumberOfPlayersException
+Game ..> UserNameAlreadyExistsException
+
+
+@enduml
