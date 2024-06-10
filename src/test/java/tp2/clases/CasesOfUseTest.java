@@ -76,7 +76,7 @@ public class CasesOfUseTest {
         answers.add(new Answer("Egypt","Incorrecta", 1,'c'));
         answers.add(new Answer("Czech Republic","Correcta", 1,'d'));
 
-        Question question = new Question("Which of the following countries is in europe", new MultipleChoice(), answers, "General Knowledge");
+        MultipleChoice question = new MultipleChoice("Which of the following countries is in europe", new ClassicMode(), answers, "General Knowledge");
 
         HashMap<Player, ArrayList<Answer>> playersAnswers = new HashMap<>();
 
@@ -99,8 +99,7 @@ public class CasesOfUseTest {
         answers.add(new Answer("Egypt","Incorrecta", 1,'c'));
         answers.add(new Answer("Czech Republic","Correcta", 1,'d'));
 
-        Question question = new Question("Which of the following countries is in europe", new MultipleChoice(), answers, "General Knowledge");
-
+        MultipleChoice question = new MultipleChoice("Which of the following countries is in europe", new ClassicMode(), answers, "General Knowledge");
         HashMap<Player, ArrayList<Answer>> playersAnswers = new HashMap<>();
 
         Player playerOne = new Player("x", 1);
@@ -180,7 +179,7 @@ public class CasesOfUseTest {
         answers.add(new Answer("2021","Correcta", 1,'b'));
         answers.add(new Answer("1942","Incorrecta", 1,'c'));
 
-        Question question = new Question("In which of the following years was the Football World Cup held?", new MultipleChoiceWithPenalty(), answers, "General Knowledge");
+        MultipleChoice question = new MultipleChoice("In which of the following years was the Football World Cup held?", new PenaltyMode(), answers, "General Knowledge");
 
         HashMap<Player, ArrayList<Answer>> playersAnswers = new HashMap<>();
         Player playerOne = new Player("John", 1);
@@ -206,7 +205,7 @@ public class CasesOfUseTest {
         answers.add(new Answer("Penguin","Incorrecta", 1,'c'));
         answers.add(new Answer("Elephant","Incorrecta", 1,'d'));
 
-        Question question = new Question("Which of the following animals can fly?", new MultipleChoiceWithPenalty(), answers, "General Knowledge");
+        MultipleChoice question = new MultipleChoice("Which of the following animals can fly?", new PenaltyMode(), answers, "General Knowledge");
 
         HashMap<Player, ArrayList<Answer>> playersAnswers = new HashMap<>();
         Player playerOne = new Player("Juan", 5);

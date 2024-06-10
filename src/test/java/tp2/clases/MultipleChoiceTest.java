@@ -16,14 +16,11 @@ class MultipleChoiceTest {
         ArrayList<Answer> answers = new ArrayList<>();
         answers.add(new Answer("Answer1", "correcta",1,'a'));
         answers.add(new Answer("Answer2", "correcta",1,'b'));
-        answers.add(new Answer("Answer3", "incorrecta",1,'b'));
+        answers.add(new Answer("Answer3", "incorrecta",1,'c'));
+        answers.add(new Answer("Answer4", "incorrecta",1,'d'));
+        MultipleChoice question = new MultipleChoice("", new ClassicMode(), answers, "");
 
-        HashMap<Player, ArrayList<Answer>> chosenAnswers = new HashMap<>();
-
-        chosenAnswers.put(player, answers);
-
-        MultipleChoice type = new MultipleChoice();
-        type.assignScore(chosenAnswers, 2);
+        player.answer(question, "abc");
 
         assertEquals(0, player.getScore());
     }
@@ -35,13 +32,11 @@ class MultipleChoiceTest {
         ArrayList<Answer> answers = new ArrayList<>();
         answers.add(new Answer("Answer1", "correcta",1,'a'));
         answers.add(new Answer("Answer2", "correcta",1,'b'));
+        answers.add(new Answer("Answer3", "incorrecta",1,'c'));
+        answers.add(new Answer("Answer4", "incorrecta",1,'d'));
+        MultipleChoice question = new MultipleChoice("", new ClassicMode(), answers, "");
 
-        HashMap<Player, ArrayList<Answer>> chosenAnswers = new HashMap<>();
-
-        chosenAnswers.put(player, answers);
-
-        MultipleChoice type = new MultipleChoice();
-        type.assignScore(chosenAnswers, 2);
+        player.answer(question, "ab");
 
         assertEquals(1, player.getScore());
     }
@@ -51,15 +46,13 @@ class MultipleChoiceTest {
         Player player = new Player("Player1",0);
 
         ArrayList<Answer> answers = new ArrayList<>();
-        answers.add(new Answer("Answer1", "incorrecta",1,'a'));
-        answers.add(new Answer("Answer2", "incorrecta",1,'b'));
+        answers.add(new Answer("Answer1", "correcta",1,'a'));
+        answers.add(new Answer("Answer2", "correcta",1,'b'));
+        answers.add(new Answer("Answer3", "incorrecta",1,'c'));
+        answers.add(new Answer("Answer4", "incorrecta",1,'d'));
+        MultipleChoice question = new MultipleChoice("", new ClassicMode(), answers, "");
 
-        HashMap<Player, ArrayList<Answer>> chosenAnswers = new HashMap<>();
-
-        chosenAnswers.put(player, answers);
-
-        MultipleChoice type = new MultipleChoice();
-        type.assignScore(chosenAnswers, 2);
+        player.answer(question, "cd");
 
         assertEquals(0, player.getScore());
     }
