@@ -21,11 +21,11 @@ public class QuestionTest {
         answers.add(new Answer("Verdadero", "Correcta", 1, 'a'));
         answers.add(new Answer("Falso", "Incorrecta", 1, 'b'));
 
-        Question question = new Question("", new TrueOrFalse(), answers, "");
+        TrueOrFalse question = new TrueOrFalse("", new ClassicMode(), answers, "");
 
         //Act
 
-        int numberOfCorrectAnswers = question.getNumberOfCorrectAnswers();
+        int numberOfCorrectAnswers = question.getNumberOfCorrectAnswers(question.getOptions());
 
         //Assert
 
@@ -43,11 +43,11 @@ public class QuestionTest {
         answers.add(new Answer("c", "Correcta", 1, 'c'));
         answers.add(new Answer("d", "Correcta", 1, 'd'));
 
-        Question question = new Question("", new MultipleChoice(), answers, "");
+        MultipleChoice question = new MultipleChoice("", new ClassicMode(), answers, "");
 
         //Act
 
-        int numberOfCorrectAnswers = question.getNumberOfCorrectAnswers();
+        int numberOfCorrectAnswers = question.getNumberOfCorrectAnswers(answers);
 
         //Assert
 
@@ -66,7 +66,7 @@ public class QuestionTest {
 
         answers.add(new Answer("c", "Incorrecta", 1, 'c'));
 
-        Question question = new Question("", new TrueOrFalse(), answers, "");
+        TrueOrFalse question = new TrueOrFalse("", new ClassicMode(), answers, "");
 
         //Act
         ArrayList<Answer> chosenOptions = question.choiceOption("a");
@@ -94,7 +94,8 @@ public class QuestionTest {
 
         answers.add(new Answer("d", "Correcta", 1, 'd'));
 
-        Question question = new Question("", new MultipleChoice(), answers, "");
+        MultipleChoice question = new MultipleChoice("", new ClassicMode(), answers, "");
+
 
         //Act
         ArrayList<Answer> chosenOptions = question.choiceOption("ab");
@@ -112,7 +113,7 @@ public class QuestionTest {
         answers.add(new Answer("a", "Correcta", 1, 'a'));
         answers.add(new Answer("c", "Incorrecta", 1, 'c'));
 
-        Question question = new Question("", new TrueOrFalse(), answers, "");
+        TrueOrFalse question = new TrueOrFalse("", new ClassicMode(), answers, "");
 
 
         //Assert
@@ -130,8 +131,7 @@ public class QuestionTest {
         answers.add(new Answer("b", "Correcta", 1, 'b'));
         answers.add(new Answer("d", "Incorrecta", 1, 'd'));
 
-        Question question = new Question("", new TrueOrFalse(), answers, "");
-
+        MultipleChoice question = new MultipleChoice("", new ClassicMode(), answers, "");
 
         //Assert
 
