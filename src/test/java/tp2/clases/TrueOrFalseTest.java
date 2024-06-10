@@ -14,14 +14,10 @@ class TrueOrFalseTest {
 
         ArrayList<Answer> answers = new ArrayList<>();
         answers.add(new Answer("Answer1", "correcta",1,'a'));
+        answers.add(new Answer("Answer2", "incorrecta",1,'b'));
+        TrueOrFalse question = new TrueOrFalse("", new ClassicMode(), answers, "");
 
-
-        HashMap<Player, ArrayList<Answer>> chosenAnswers = new HashMap<>();
-
-        chosenAnswers.put(player, answers);
-
-        TrueOrFalse type = new TrueOrFalse();
-        type.assignScore(chosenAnswers, 2);
+        player.answer(question, "a");
 
         assertEquals(1, player.getScore());
     }
@@ -33,11 +29,10 @@ class TrueOrFalseTest {
 
         ArrayList<Answer> answers = new ArrayList<>();
         answers.add(new Answer("Answer1", "incorrecta",1,'a'));
+        answers.add(new Answer("Answer2", "correcta",1,'b'));
+        TrueOrFalse question = new TrueOrFalse("", new ClassicMode(), answers, "");
 
-        HashMap<Player, ArrayList<Answer>> chosenAnswers = new HashMap<>();
-
-        TrueOrFalse type = new TrueOrFalse();
-        type.assignScore(chosenAnswers, 1);
+        player.answer(question, "a");
 
         assertEquals(0, player.getScore());
     }
@@ -47,18 +42,13 @@ class TrueOrFalseTest {
         Player player1 = new Player("Player1",0);
         Player player2 = new Player("Player2",0);
 
-        ArrayList<Answer> answers1 = new ArrayList<>();
-        answers1.add(new Answer("Answer2", "incorrecta",0,'b'));
+        ArrayList<Answer> answers = new ArrayList<>();
+        answers.add(new Answer("Answer1", "incorrecta",1,'a'));
+        answers.add(new Answer("Answer2", "correcta",1,'b'));
+        TrueOrFalse question = new TrueOrFalse("", new ClassicMode(), answers, "");
 
-        ArrayList<Answer> answers2 = new ArrayList<>();
-        answers2.add(new Answer("Answer1", "correcta",1,'a'));
-
-        HashMap<Player, ArrayList<Answer>> chosenAnswers = new HashMap<>();
-        chosenAnswers.put(player1, answers1);
-        chosenAnswers.put(player2, answers2);
-
-        TrueOrFalse type = new TrueOrFalse();
-        type.assignScore(chosenAnswers, 1);
+        player1.answer(question, "a");
+        player2.answer(question, "b");
 
         assertEquals(0, player1.getScore());
         assertEquals(1, player2.getScore());

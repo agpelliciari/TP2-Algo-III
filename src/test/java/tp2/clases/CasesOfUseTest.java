@@ -15,7 +15,7 @@ public class CasesOfUseTest {
         answers.add(new Answer("Verdadero","Correcta", 1,'a'));
         answers.add(new Answer("Falso","Incorrecta", 1,'b'));
 
-        Question question = new Question("UBA is the most prestigious university in Argentina", new TrueOrFalse(), answers, "Education");
+        TrueOrFalse question = new TrueOrFalse("UBA is the most prestigious university in Argentina", new ClassicMode(), answers, "Education");
 
         HashMap<Player, ArrayList<Answer>> playersAnswers = new HashMap<>();
 
@@ -44,7 +44,7 @@ public class CasesOfUseTest {
         answers.add(new Answer("Verdadero","Incorrecta", 1,'a'));
         answers.add(new Answer("Falso","Correcta", 1,'b'));
 
-        Question question = new Question("France is the last World Cup champion", new TrueOrFalse(), answers, "Sports");
+        TrueOrFalse question = new TrueOrFalse("France is the last World Cup champion", new ClassicMode(), answers, "Sports");
 
         HashMap<Player, ArrayList<Answer>> playersAnswers = new HashMap<>();
 
@@ -120,7 +120,7 @@ public class CasesOfUseTest {
         answers.add(new Answer("Verdadero","Incorrecta", 1,'a'));
         answers.add(new Answer("Falso","Correcta", 1,'b'));
 
-        Question question = new Question("The Earth is flat", new TrueOrFalseWithPenalty(), answers, "Science");
+        TrueOrFalse question = new TrueOrFalse("The Earth is flat", new PenaltyMode(), answers, "Science");
 
         HashMap<Player, ArrayList<Answer>> playersAnswers = new HashMap<>();
 
@@ -149,7 +149,7 @@ public class CasesOfUseTest {
         answers.add(new Answer("Verdadero","Incorrecta", 1,'a'));
         answers.add(new Answer("Falso","Correcta", 1,'b'));
 
-        Question question = new Question("Java is a functional programming language", new TrueOrFalseWithPenalty(), answers, "Programming");
+        TrueOrFalse question = new TrueOrFalse("Java is a functional programming language", new PenaltyMode(), answers, "Programming");
 
         HashMap<Player, ArrayList<Answer>> playersAnswers = new HashMap<>();
 
