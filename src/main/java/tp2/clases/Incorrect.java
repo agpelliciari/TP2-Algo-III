@@ -8,4 +8,9 @@ public class Incorrect extends Correction {
     public int assignScore(int score){
         return score * -1;
     }
+
+    @Override
+    public boolean isCorrect() {
+        return false;
+    }
 }

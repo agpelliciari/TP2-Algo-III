@@ -29,5 +29,7 @@ public abstract class Correction {
 
     public abstract int assignScore(int score);
 
+    public abstract boolean isCorrect();
+
 
 }

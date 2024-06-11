@@ -20,15 +20,15 @@ abstract class Question {
     }
 
     public int getNumberOfCorrectAnswers(List<Answer> answers) {
-        return (int) answers.stream().filter(answer -> answer.getCorrection() instanceof Correct).count();
+        return (int) answers.stream().filter(answer -> (answer.getCorrection()).isCorrect()).count();
     }
 
     public int getNumberOfIncorrectAnswers(List<Answer> answers){
-        return (int) answers.stream().filter(answer -> answer.getCorrection() instanceof Incorrect).count();
+        return (int) answers.stream().filter(answer -> !(answer.getCorrection()).isCorrect()).count();
     }
 
     public boolean hasNoIncorrectAnswers(ArrayList<Answer> answers) {
-        return answers.stream().noneMatch(answer -> answer.getCorrection() instanceof Incorrect);
+        return answers.stream().allMatch(answer -> (answer.getCorrection()).isCorrect());
     }
 
     public List<Answer> getOptions(){return options;}
