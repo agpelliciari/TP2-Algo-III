@@ -20,7 +20,10 @@ class MultipleChoiceTest {
         answers.add(new Answer("Answer4", "incorrecta",1,'d'));
         MultipleChoice question = new MultipleChoice("", new ClassicMode(), answers, "");
 
-        player.answer(question, "abc");
+        HashMap<Player, ArrayList<Answer>> playerAnswer = new HashMap<>();
+        ArrayList<Answer> chosenAnswers = player.answer(question, "abc");
+        playerAnswer.put(player, chosenAnswers);
+        question.assignScore(playerAnswer);
 
         assertEquals(0, player.getScore());
     }
@@ -36,7 +39,10 @@ class MultipleChoiceTest {
         answers.add(new Answer("Answer4", "incorrecta",1,'d'));
         MultipleChoice question = new MultipleChoice("", new ClassicMode(), answers, "");
 
-        player.answer(question, "ab");
+        HashMap<Player, ArrayList<Answer>> playerAnswer = new HashMap<>();
+        ArrayList<Answer> chosenAnswers = player.answer(question, "ab");
+        playerAnswer.put(player, chosenAnswers);
+        question.assignScore(playerAnswer);
 
         assertEquals(1, player.getScore());
     }
@@ -44,6 +50,7 @@ class MultipleChoiceTest {
     @Test
     public void test03PlayerChoosesAllOptionsIncorrect(){
         Player player = new Player("Player1",0);
+        HashMap<Player, ArrayList<Answer>> playerAnswer = new HashMap<>();
 
         ArrayList<Answer> answers = new ArrayList<>();
         answers.add(new Answer("Answer1", "correcta",1,'a'));
@@ -52,7 +59,9 @@ class MultipleChoiceTest {
         answers.add(new Answer("Answer4", "incorrecta",1,'d'));
         MultipleChoice question = new MultipleChoice("", new ClassicMode(), answers, "");
 
-        player.answer(question, "cd");
+        ArrayList<Answer> chosenAnswers = player.answer(question, "cd");
+        playerAnswer.put(player, chosenAnswers);
+        question.assignScore(playerAnswer);
 
         assertEquals(0, player.getScore());
     }

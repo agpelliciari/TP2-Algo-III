@@ -8,12 +8,10 @@ import tp2.clases.exceptions.InvalidNumberOfPlayersException;
 import tp2.clases.exceptions.UserNameAlreadyExistsException;
 
 class Game {
-    private Panel panel;
     private int maxScore;
     private ArrayList<Question> questions;
 
-    public Game(ArrayList<Question> questions, int maxScore, Panel panel) {
-        this.panel = new Panel();
+    public Game(ArrayList<Question> questions, int maxScore) {
         this.maxScore = maxScore;
         this.questions = questions;
     }

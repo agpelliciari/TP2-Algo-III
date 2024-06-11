@@ -17,7 +17,10 @@ class TrueOrFalseTest {
         answers.add(new Answer("Answer2", "incorrecta",1,'b'));
         TrueOrFalse question = new TrueOrFalse("", new ClassicMode(), answers, "");
 
-        player.answer(question, "a");
+        HashMap<Player, ArrayList<Answer>> playerAnswer = new HashMap<>();
+        ArrayList<Answer> chosenAnswers = player.answer(question, "a");
+        playerAnswer.put(player, chosenAnswers);
+        question.assignScore(playerAnswer);
 
         assertEquals(1, player.getScore());
     }
@@ -32,7 +35,10 @@ class TrueOrFalseTest {
         answers.add(new Answer("Answer2", "correcta",1,'b'));
         TrueOrFalse question = new TrueOrFalse("", new ClassicMode(), answers, "");
 
-        player.answer(question, "a");
+        HashMap<Player, ArrayList<Answer>> playerAnswer = new HashMap<>();
+        ArrayList<Answer> chosenAnswers = player.answer(question, "a");
+        playerAnswer.put(player, chosenAnswers);
+        question.assignScore(playerAnswer);
 
         assertEquals(0, player.getScore());
     }
@@ -47,8 +53,12 @@ class TrueOrFalseTest {
         answers.add(new Answer("Answer2", "correcta",1,'b'));
         TrueOrFalse question = new TrueOrFalse("", new ClassicMode(), answers, "");
 
-        player1.answer(question, "a");
-        player2.answer(question, "b");
+        HashMap<Player, ArrayList<Answer>> playerAnswer = new HashMap<>();
+        ArrayList<Answer> chosenAnswers1 = player1.answer(question, "a");
+        ArrayList<Answer> chosenAnswers2 = player2.answer(question, "b");
+        playerAnswer.put(player1, chosenAnswers1);
+        playerAnswer.put(player2, chosenAnswers2);
+        question.assignScore(playerAnswer);
 
         assertEquals(0, player1.getScore());
         assertEquals(1, player2.getScore());
