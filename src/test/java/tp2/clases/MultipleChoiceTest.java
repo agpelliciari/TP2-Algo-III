@@ -9,8 +9,10 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class MultipleChoiceTest {
 
+    Content content = new Content("", "");
+
     @Test
-    public void test01PlayerChoosesOneIncorrectOptionAndDoesntRecievePoints(){
+    public void test01PlayerChoosesOneIncorrectOptionAndDoesntReceivePoints(){
         Player player = new Player("Player1",0);
 
         ArrayList<Answer> answers = new ArrayList<>();
@@ -18,7 +20,7 @@ class MultipleChoiceTest {
         answers.add(new Answer("Answer2", "correcta",1,'b'));
         answers.add(new Answer("Answer3", "incorrecta",1,'c'));
         answers.add(new Answer("Answer4", "incorrecta",1,'d'));
-        MultipleChoice question = new MultipleChoice("", new ClassicMode(), answers, "");
+        MultipleChoice question = new MultipleChoice(content, new ClassicMode(), answers);
 
         HashMap<Player, ArrayList<Answer>> playerAnswer = new HashMap<>();
         ArrayList<Answer> chosenAnswers = player.answer(question, "abc");
@@ -37,7 +39,7 @@ class MultipleChoiceTest {
         answers.add(new Answer("Answer2", "correcta",1,'b'));
         answers.add(new Answer("Answer3", "incorrecta",1,'c'));
         answers.add(new Answer("Answer4", "incorrecta",1,'d'));
-        MultipleChoice question = new MultipleChoice("", new ClassicMode(), answers, "");
+        MultipleChoice question = new MultipleChoice(content, new ClassicMode(), answers);
 
         HashMap<Player, ArrayList<Answer>> playerAnswer = new HashMap<>();
         ArrayList<Answer> chosenAnswers = player.answer(question, "ab");
@@ -57,7 +59,7 @@ class MultipleChoiceTest {
         answers.add(new Answer("Answer2", "correcta",1,'b'));
         answers.add(new Answer("Answer3", "incorrecta",1,'c'));
         answers.add(new Answer("Answer4", "incorrecta",1,'d'));
-        MultipleChoice question = new MultipleChoice("", new ClassicMode(), answers, "");
+        MultipleChoice question = new MultipleChoice(content, new ClassicMode(), answers);
 
         ArrayList<Answer> chosenAnswers = player.answer(question, "cd");
         playerAnswer.put(player, chosenAnswers);

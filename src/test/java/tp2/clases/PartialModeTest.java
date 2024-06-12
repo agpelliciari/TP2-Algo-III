@@ -7,8 +7,11 @@ import java.util.HashMap;
 import static org.junit.jupiter.api.Assertions.*;
 
 class PartialModeTest {
+
+    Content content = new Content("", "");
+
     @Test
-    public void test01PlayerChoosesAllPosibleCorrectOptionsAndNoneIncorrect() {
+    public void test01PlayerChoosesAllPossibleCorrectOptionsAndNoneIncorrect() {
 
         Player player = new Player("Player1",0);
 
@@ -17,7 +20,7 @@ class PartialModeTest {
         answers.add(new Answer("Answer2", "correcta",1,'b'));
         answers.add(new Answer("Answer3", "correcta",1,'c'));
         answers.add(new Answer("Answer4", "incorrecta",1,'d'));
-        MultipleChoice question = new MultipleChoice("", new PartialMode(), answers, "");
+        MultipleChoice question = new MultipleChoice(content, new PartialMode(), answers);
 
         HashMap<Player, ArrayList<Answer>> playerAnswer = new HashMap<>();
         ArrayList<Answer> chosenAnswers = player.answer(question, "abc");
@@ -28,7 +31,7 @@ class PartialModeTest {
     }
 
     @Test
-    public void test02PlayerChoosesAllPosibleCorrectOptionsAndOneIncorrectObtainsZeroPoints() {
+    public void test02PlayerChoosesAllPossibleCorrectOptionsAndOneIncorrectObtainsZeroPoints() {
 
         Player player = new Player("Player1",0);
 
@@ -37,7 +40,7 @@ class PartialModeTest {
         answers.add(new Answer("Answer2", "correcta",1,'b'));
         answers.add(new Answer("Answer3", "correcta",1,'c'));
         answers.add(new Answer("Answer4", "incorrecta",1,'d'));
-        MultipleChoice question = new MultipleChoice("", new PartialMode(), answers, "");
+        MultipleChoice question = new MultipleChoice(content, new PartialMode(), answers);
 
         HashMap<Player, ArrayList<Answer>> playerAnswer = new HashMap<>();
         ArrayList<Answer> chosenAnswers = player.answer(question, "acd");
@@ -56,7 +59,7 @@ class PartialModeTest {
         answers.add(new Answer("Answer2", "correcta",1,'b'));
         answers.add(new Answer("Answer3", "correcta",1,'c'));
         answers.add(new Answer("Answer4", "incorrecta",1,'d'));
-        MultipleChoice question = new MultipleChoice("", new PartialMode(), answers, "");
+        MultipleChoice question = new MultipleChoice(content, new PartialMode(), answers);
 
         HashMap<Player, ArrayList<Answer>> playerAnswer = new HashMap<>();
         ArrayList<Answer> chosenAnswers = player.answer(question, "ab");

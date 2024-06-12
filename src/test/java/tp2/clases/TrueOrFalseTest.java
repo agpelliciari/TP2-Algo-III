@@ -7,6 +7,9 @@ import java.util.HashMap;
 import static org.junit.jupiter.api.Assertions.*;
 
 class TrueOrFalseTest {
+
+    Content content = new Content("", "");
+
     @Test
     public void test01TrueOrFalseQuestionAssignsScoreCorrectly(){
 
@@ -15,7 +18,7 @@ class TrueOrFalseTest {
         ArrayList<Answer> answers = new ArrayList<>();
         answers.add(new Answer("Answer1", "correcta",1,'a'));
         answers.add(new Answer("Answer2", "incorrecta",1,'b'));
-        TrueOrFalse question = new TrueOrFalse("", new ClassicMode(), answers, "");
+        TrueOrFalse question = new TrueOrFalse(content, new ClassicMode(), answers);
 
         HashMap<Player, ArrayList<Answer>> playerAnswer = new HashMap<>();
         ArrayList<Answer> chosenAnswers = player.answer(question, "a");
@@ -33,7 +36,7 @@ class TrueOrFalseTest {
         ArrayList<Answer> answers = new ArrayList<>();
         answers.add(new Answer("Answer1", "incorrecta",1,'a'));
         answers.add(new Answer("Answer2", "correcta",1,'b'));
-        TrueOrFalse question = new TrueOrFalse("", new ClassicMode(), answers, "");
+        TrueOrFalse question = new TrueOrFalse(content, new ClassicMode(), answers);
 
         HashMap<Player, ArrayList<Answer>> playerAnswer = new HashMap<>();
         ArrayList<Answer> chosenAnswers = player.answer(question, "a");
@@ -51,7 +54,7 @@ class TrueOrFalseTest {
         ArrayList<Answer> answers = new ArrayList<>();
         answers.add(new Answer("Answer1", "incorrecta",1,'a'));
         answers.add(new Answer("Answer2", "correcta",1,'b'));
-        TrueOrFalse question = new TrueOrFalse("", new ClassicMode(), answers, "");
+        TrueOrFalse question = new TrueOrFalse(content, new ClassicMode(), answers);
 
         HashMap<Player, ArrayList<Answer>> playerAnswer = new HashMap<>();
         ArrayList<Answer> chosenAnswers1 = player1.answer(question, "a");

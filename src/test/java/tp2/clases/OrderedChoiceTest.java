@@ -7,8 +7,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 class OrderedChoiceTest {
+
+    Content content = new Content("", "");
+
     @Test
-    public void test01PlayerGetsOrderCorrectRecievesOnePoint(){
+    public void test01PlayerGetsOrderCorrectReceivesOnePoint(){
         Player player = new Player("Player1",0);
 
         ArrayList<Answer> answers = new ArrayList<>();
@@ -16,7 +19,7 @@ class OrderedChoiceTest {
         answers.add(new Answer("Answer2", "correcta",1,'c'));
         answers.add(new Answer("Answer3", "correcta",1,'b'));
         answers.add(new Answer("Answer4", "correcta",1,'d'));
-        OrderedChoice question = new OrderedChoice("", new ClassicMode(), answers, "");
+        OrderedChoice question = new OrderedChoice(content, new ClassicMode(), answers);
 
         HashMap<Player, ArrayList<Answer>> playerAnswer = new HashMap<>();
         ArrayList<Answer> chosenAnswers = player.answer(question, "acbd");
@@ -34,7 +37,7 @@ class OrderedChoiceTest {
         answers.add(new Answer("Answer2", "correcta",1,'c'));
         answers.add(new Answer("Answer3", "correcta",1,'b'));
         answers.add(new Answer("Answer4", "correcta",1,'d'));
-        OrderedChoice question = new OrderedChoice("", new ClassicMode(), answers, "");
+        OrderedChoice question = new OrderedChoice(content, new ClassicMode(), answers);
 
         HashMap<Player, ArrayList<Answer>> playerAnswer = new HashMap<>();
         ArrayList<Answer> chosenAnswers = player.answer(question, "abcd");

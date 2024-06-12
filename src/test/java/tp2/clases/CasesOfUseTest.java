@@ -15,7 +15,8 @@ public class CasesOfUseTest {
         answers.add(new Answer("Verdadero","Correcta", 1,'a'));
         answers.add(new Answer("Falso","Incorrecta", 1,'b'));
 
-        TrueOrFalse question = new TrueOrFalse("UBA is the most prestigious university in Argentina", new ClassicMode(), answers, "Education");
+        Content content = new Content("Which of the following animals can fly?", "UBA is the most prestigious university in Argentina");
+        TrueOrFalse question = new TrueOrFalse(content, new ClassicMode(), answers);
 
         HashMap<Player, ArrayList<Answer>> playersAnswers = new HashMap<>();
 
@@ -44,7 +45,8 @@ public class CasesOfUseTest {
         answers.add(new Answer("Verdadero","Incorrecta", 1,'a'));
         answers.add(new Answer("Falso","Correcta", 1,'b'));
 
-        TrueOrFalse question = new TrueOrFalse("France is the last World Cup champion", new ClassicMode(), answers, "Sports");
+        Content content = new Content("Sports", "France is the last World Cup champion");
+        TrueOrFalse question = new TrueOrFalse(content, new ClassicMode(), answers);
 
         HashMap<Player, ArrayList<Answer>> playersAnswers = new HashMap<>();
 
@@ -76,7 +78,8 @@ public class CasesOfUseTest {
         answers.add(new Answer("Egypt","Incorrecta", 1,'c'));
         answers.add(new Answer("Czech Republic","Correcta", 1,'d'));
 
-        MultipleChoice question = new MultipleChoice("Which of the following countries is in europe", new ClassicMode(), answers, "General Knowledge");
+        Content content = new Content("General Knowledge", "Which of the following countries is in europe");
+        MultipleChoice question = new MultipleChoice(content, new ClassicMode(), answers);
 
         HashMap<Player, ArrayList<Answer>> playersAnswers = new HashMap<>();
 
@@ -99,7 +102,8 @@ public class CasesOfUseTest {
         answers.add(new Answer("Egypt","Incorrecta", 1,'c'));
         answers.add(new Answer("Czech Republic","Correcta", 1,'d'));
 
-        MultipleChoice question = new MultipleChoice("Which of the following countries is in europe", new ClassicMode(), answers, "General Knowledge");
+        Content  content = new Content("General Knowledge", "Which of the following countries is in europe");
+        MultipleChoice question = new MultipleChoice(content, new ClassicMode(), answers);
         HashMap<Player, ArrayList<Answer>> playersAnswers = new HashMap<>();
 
         Player playerOne = new Player("x", 1);
@@ -119,7 +123,8 @@ public class CasesOfUseTest {
         answers.add(new Answer("Verdadero","Incorrecta", 1,'a'));
         answers.add(new Answer("Falso","Correcta", 1,'b'));
 
-        TrueOrFalse question = new TrueOrFalse("The Earth is flat", new PenaltyMode(), answers, "Science");
+        Content content = new Content("Science", "The Earth is flat");
+        TrueOrFalse question = new TrueOrFalse(content, new PenaltyMode(), answers);
 
         HashMap<Player, ArrayList<Answer>> playersAnswers = new HashMap<>();
 
@@ -148,7 +153,8 @@ public class CasesOfUseTest {
         answers.add(new Answer("Verdadero","Incorrecta", 1,'a'));
         answers.add(new Answer("Falso","Correcta", 1,'b'));
 
-        TrueOrFalse question = new TrueOrFalse("Java is a functional programming language", new PenaltyMode(), answers, "Programming");
+        Content content = new Content("Programming", "Java is a functional programming language");
+        TrueOrFalse question = new TrueOrFalse(content, new PenaltyMode(), answers);
 
         HashMap<Player, ArrayList<Answer>> playersAnswers = new HashMap<>();
 
@@ -179,7 +185,8 @@ public class CasesOfUseTest {
         answers.add(new Answer("2021","Correcta", 1,'b'));
         answers.add(new Answer("1942","Incorrecta", 1,'c'));
 
-        MultipleChoice question = new MultipleChoice("In which of the following years was the Football World Cup held?", new PenaltyMode(), answers, "General Knowledge");
+        Content content = new Content("General Knowledge", "In which of the following years was the Football World Cup held?");
+        MultipleChoice question = new MultipleChoice(content, new PenaltyMode(), answers);
 
         HashMap<Player, ArrayList<Answer>> playersAnswers = new HashMap<>();
         Player playerOne = new Player("John", 1);
@@ -205,7 +212,8 @@ public class CasesOfUseTest {
         answers.add(new Answer("Penguin","Incorrecta", 1,'c'));
         answers.add(new Answer("Elephant","Incorrecta", 1,'d'));
 
-        MultipleChoice question = new MultipleChoice("Which of the following animals can fly?", new PenaltyMode(), answers, "General Knowledge");
+        Content content = new Content("General Knowledge", "Which of the following animals can fly?");
+        MultipleChoice question = new MultipleChoice(content, new PenaltyMode(), answers);
 
         HashMap<Player, ArrayList<Answer>> playersAnswers = new HashMap<>();
         Player playerOne = new Player("Juan", 5);

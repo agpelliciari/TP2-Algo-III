@@ -7,15 +7,13 @@ import tp2.clases.exceptions.InvalidNumberOfChosenOptionsException;
 import tp2.clases.exceptions.InvalidChosenOptionException;
 
 abstract class Question {
-    private final String theme;
     private final List<Answer> options;
-    private final String content;
+    private final Content content;
     private final Mode mode;
 
 
-    public Question(String content, Mode mode, List<Answer> answers, String theme) {
+    public Question(Content content, Mode mode, List<Answer> answers) {
         this.options = answers;
-        this.theme = theme;
         this.content = content;
         this.mode = mode;
     }

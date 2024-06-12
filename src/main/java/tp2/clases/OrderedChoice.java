@@ -6,8 +6,8 @@ import java.util.List;
 
 public class OrderedChoice extends Question{
 
-    public OrderedChoice(String content, Mode mode, List<Answer> answers, String theme) {
-        super(content, mode, answers, theme);
+    public OrderedChoice(Content content, Mode mode, List<Answer> answers) {
+        super(content, mode, answers);
     }
 
     @Override
