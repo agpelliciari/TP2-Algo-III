@@ -11,9 +11,9 @@ class AnswerFactory {
             for (Answer option : question.getOptions()) {
                 if (option.equals(chosenAnswer)) {
                     if (option.getCorrection().isCorrect()) {
-                        answers.add(new Answer(option.getContent(), "correcta", option.getId()));
+                        answers.add(new Answer(option.getContent(), "correcta", 1, option.getId()));
                     } else {
-                        answers.add(new Answer(option.getContent(), "incorrecta", option.getId()));
+                        answers.add(new Answer(option.getContent(), "incorrecta", 1, option.getId()));
                     }
                 }
             }

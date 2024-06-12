@@ -15,7 +15,7 @@ public class CasesOfUseTest {
         answers.add(new Answer("Verdadero","Correcta", 1,'a'));
         answers.add(new Answer("Falso","Incorrecta", 1,'b'));
 
-        Content content = new Content("Which of the following animals can fly?", "UBA is the most prestigious university in Argentina");
+        Content content = new Content("UBA is the most prestigious university in Argentina", "Which of the following animals can fly?");
         TrueOrFalse question = new TrueOrFalse(content, new ClassicMode(), answers);
 
         HashMap<Player, ArrayList<Answer>> playersAnswers = new HashMap<>();

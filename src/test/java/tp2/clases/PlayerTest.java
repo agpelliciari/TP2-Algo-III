@@ -18,8 +18,8 @@ public class PlayerTest {
     private Score score;
     @Mock private Question questionMock;
     @Mock private Answer answerMock;
-    @Mock private Correct correctMock;
-    @Mock private Incorrect incorrectMock;
+    private Correct correct;
+    private Incorrect incorrect;
 
     private AutoCloseable closeable;
 
@@ -29,13 +29,12 @@ public class PlayerTest {
     @BeforeEach
     public void beforeEach(){
         closeable = MockitoAnnotations.openMocks(this);
-        Mockito.reset(questionMock, answerMock, correctMock, incorrectMock);
+        Mockito.reset(questionMock, answerMock);
 
         chosenAnswers = new ArrayList<Answer>();
         chosenAnswers.add(answerMock);
 
         when(questionMock.choiceOption("")).thenReturn(chosenAnswers);
-        when(chosenAnswers.get(0).getCorrection()).thenReturn(correctMock);
         when(chosenAnswers.get(0).getScore()).thenReturn(1);
     }
 
@@ -47,17 +46,15 @@ public class PlayerTest {
     @Test
     public void test01AnsweringAQuestionCorrectlyIncreasesTheScore(){
         //Arrange
-        score = new Score(0);
-        player = new Player("name", 0);
-        when(chosenAnswers.get(0).getCorrection()).thenReturn(correctMock);
-        //correctMock.assignScore(score, 1);
-        //when(correctMock.assignScore(score, 1)).then(score.addScore(1));
-
+        correct = new Correct();
+        when(chosenAnswers.get(0).getCorrection()).thenReturn(correct);
 
         int expectedScore = 1;
+        player = new Player("name", 0);
 
         //Act
         ArrayList<Answer> answers = player.answer(questionMock, "");
+        answers.add(answerMock);
         player.assignScore(answers.get(0).getCorrection(), answers.get(0).getScore());
         int scoreObtained = player.getScore();
 
@@ -69,15 +66,14 @@ public class PlayerTest {
     @Test
     public void test02AnsweringAQuestionIncorrectlyDecreasesTheScore(){
         //Arrange
-        score = new Score(1);
-        when(chosenAnswers.get(0).getCorrection()).thenReturn(incorrectMock);
-        //when(incorrectMock.assignScore(score,1)).then(score.subtractScore(1));
-
+        incorrect = new Incorrect();
+        when(chosenAnswers.get(0).getCorrection()).thenReturn(incorrect);
         int expectedScore = 0;
         player = new Player("name", 1);
 
         //Act
         ArrayList<Answer> answers = player.answer(questionMock, "");
+        answers.add(answerMock);
         player.assignScore(answers.get(0).getCorrection(), answers.get(0).getScore());
         int scoreObtained = player.getScore();
 

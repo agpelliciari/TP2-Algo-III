@@ -36,14 +36,14 @@ abstract class Question {
 
     public ArrayList<Answer> choiceOption(ArrayList<Answer> chosenOptions, Player aPlayer){
         for (Answer chosenOption: chosenOptions){
-            verify(chosenOption);
+            //verify(chosenOption);
             chosenOption.assignPlayer(aPlayer);
         }
 
         return chosenOptions;
     }
 
-    private void verify(Answer chosenOption) {
+/*    private void verify(Answer chosenOption) {
         boolean isVerified = false;
         for(Answer option: options){
             if(option.equals(chosenOption)){
@@ -55,7 +55,7 @@ abstract class Question {
             throw new InvalidChosenOptionException();
         }
     }
-
+*/
     public ArrayList<Answer> choiceOption(String chosenOptions){
         if ((chosenOptions.toCharArray()).length > options.size() - 1){
             throw new InvalidNumberOfChosenOptionsException();

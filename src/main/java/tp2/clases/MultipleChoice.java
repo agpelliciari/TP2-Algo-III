@@ -20,7 +20,7 @@ public class MultipleChoice extends Question {
                 mode.assignCorrectScore(player, getNumberOfCorrectAnswers(answers));
             }
             else {
-                mode.assignIncorrectScore(player,getNumberOfCorrectAnswers(answers) - getNumberOfIncorrectAnswers(answers));
+                mode.assignIncorrectScore(player,getNumberOfIncorrectAnswers(answers));
             }
         }
     }

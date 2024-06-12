@@ -21,7 +21,7 @@ public class TrueOrFalse extends Question {
                 mode.assignCorrectScore(player, getNumberOfCorrectAnswers(answers));
             }
             else {
-                mode.assignIncorrectScore(player, -(getNumberOfIncorrectAnswers(answers)));
+                mode.assignIncorrectScore(player, (getNumberOfIncorrectAnswers(answers)));
             }
         }
     }

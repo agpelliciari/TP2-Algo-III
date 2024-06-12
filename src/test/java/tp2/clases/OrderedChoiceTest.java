@@ -29,7 +29,7 @@ class OrderedChoiceTest {
         assertEquals(1, player.getScore());
     }
     @Test
-    public void test02PlayerGetsOrderIncorrectRecievesZeroPoints(){
+    public void test02PlayerGetsOrderIncorrectReceivesZeroPoints(){
         Player player = new Player("Player1",0);
 
         ArrayList<Answer> answers = new ArrayList<>();
