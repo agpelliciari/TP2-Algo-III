@@ -61,7 +61,7 @@ abstract class Question {
             throw new InvalidNumberOfChosenOptionsException();
         }
 
-        ArrayList<Answer> chosenAnswers = new ArrayList<Answer>();
+        ArrayList<Answer> chosenAnswers = new ArrayList<Answer>(); // Habria que sacarlo porq no se usa
         for(char chosenOption: chosenOptions.toCharArray()) {
             for (Answer option : options) {
                 if (option.equals(chosenOption)) {
@@ -73,4 +73,9 @@ abstract class Question {
     }
 
     public abstract void assignScore(HashMap<Player, ArrayList<Answer>> chosenAnswers);
+
+    public ArrayList<Answer> createAnswers(String chosenOption) {
+
+        return AnswerFactory.createAnswers(chosenOption, this);
+    }
 }

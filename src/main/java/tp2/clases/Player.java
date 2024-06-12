@@ -35,7 +35,7 @@ public class Player {
 
     public ArrayList<Answer> answer(Question question, String chosenOption) {
 
-        return question.choiceOption(chosenOption);
+        return question.choiceOption(question.createAnswers(chosenOption), this);
     }
 
     public void assignScore(Correction correction, int modification) {
