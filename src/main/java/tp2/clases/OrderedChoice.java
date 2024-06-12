@@ -18,7 +18,7 @@ public class OrderedChoice extends Question{
         for (Player player : chosenAnswers.keySet()) {
             List<Answer> playerAnswers = chosenAnswers.get(player);
             if(checkAnswerOrder(playerAnswers)){
-                mode.assignCorrectScore(player, getNumberOfCorrectAnswers(playerAnswers));
+                mode.assignCorrectScore(player, 1);
             }
             else{
                 mode.assignIncorrectScore(player, getNumberOfIncorrectAnswers(playerAnswers));
