@@ -47,7 +47,7 @@ class TrueOrFalseTest {
     }
 
     @Test
-    public void testMultiplePlayers() {
+    public void test03MultiplePlayers() {
         Player player1 = new Player("Player1",0);
         Player player2 = new Player("Player2",0);
 
