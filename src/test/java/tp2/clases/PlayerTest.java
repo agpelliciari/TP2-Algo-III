@@ -7,12 +7,15 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.mockito.stubbing.OngoingStubbing;
+
 import static org.mockito.Mockito.*;
 
 import java.util.ArrayList;
 
 public class PlayerTest {
     private Player player;
+    private Score score;
     @Mock private Question questionMock;
     @Mock private Answer answerMock;
     @Mock private Correct correctMock;
@@ -44,11 +47,14 @@ public class PlayerTest {
     @Test
     public void test01AnsweringAQuestionCorrectlyIncreasesTheScore(){
         //Arrange
+        score = new Score(0);
+        player = new Player("name", 0);
         when(chosenAnswers.get(0).getCorrection()).thenReturn(correctMock);
-        when(correctMock.assignScore(1)).thenReturn(1);
+        //correctMock.assignScore(score, 1);
+        //when(correctMock.assignScore(score, 1)).then(score.addScore(1));
+
 
         int expectedScore = 1;
-        player = new Player("name", 0);
 
         //Act
         ArrayList<Answer> answers = player.answer(questionMock, "");
@@ -56,15 +62,16 @@ public class PlayerTest {
         int scoreObtained = player.getScore();
 
         //Assert
-        assertEquals(expectedScore, scoreObtained);
+        assertEquals(scoreObtained, expectedScore);
         
     }
 
     @Test
     public void test02AnsweringAQuestionIncorrectlyDecreasesTheScore(){
         //Arrange
+        score = new Score(1);
         when(chosenAnswers.get(0).getCorrection()).thenReturn(incorrectMock);
-        when(incorrectMock.assignScore(1)).thenReturn(-1);
+        //when(incorrectMock.assignScore(score,1)).then(score.subtractScore(1));
 
         int expectedScore = 0;
         player = new Player("name", 1);

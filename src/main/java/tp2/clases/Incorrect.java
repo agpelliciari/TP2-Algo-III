@@ -5,8 +5,9 @@ public class Incorrect extends Correction {
         super("incorrecta");
     }
 
-    public int assignScore(int score){
-        return score * -1;
+    @Override
+    public void assignScore(Score score, int modification) {
+        score.subtractScore(modification);
     }
 
     @Override

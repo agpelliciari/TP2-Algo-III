@@ -5,8 +5,10 @@ public class Correct extends Correction {
         super("correcta");
     }
 
-    public int assignScore(int score){
-        return score;
+
+    @Override
+    public void assignScore(Score score, int modification) {
+        score.addScore(modification);
     }
 
     @Override

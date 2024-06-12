@@ -38,13 +38,13 @@ public class Player {
         return question.choiceOption(chosenOption);
     }
 
-    public void assignScore(Correct correction, int correctPoints) {
-        score.addScore(correctPoints);
+    public void assignScore(Correction correction, int modification) {
+        correction.assignScore(score, modification);
     }
 
-    public void assignScore(Incorrect correction, int wrongPoints) {
+    /*public void assignScore(Incorrect correction, int wrongPoints) {
         score.subtractScore(wrongPoints);
-    }
+    }*/
 
     public boolean equals(Player aPlayer) {
         return name == aPlayer.getName();

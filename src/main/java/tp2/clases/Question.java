@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import tp2.clases.exceptions.InvalidNumberOfChosenOptionsException;
+import tp2.clases.exceptions.InvalidChosenOptionException;
 
 abstract class Question {
     private final String theme;
@@ -34,6 +35,28 @@ abstract class Question {
     public List<Answer> getOptions(){return options;}
 
     public Mode getMode(){return mode;}
+
+    public ArrayList<Answer> choiceOption(ArrayList<Answer> chosenOptions, Player aPlayer){
+        for (Answer chosenOption: chosenOptions){
+            verify(chosenOption);
+            chosenOption.assignPlayer(aPlayer);
+        }
+
+        return chosenOptions;
+    }
+
+    private void verify(Answer chosenOption) {
+        boolean isVerified = false;
+        for(Answer option: options){
+            if(option.equals(chosenOption)){
+                isVerified = true;
+            }
+        }
+
+        if(!isVerified){
+            throw new InvalidChosenOptionException();
+        }
+    }
 
     public ArrayList<Answer> choiceOption(String chosenOptions){
         if ((chosenOptions.toCharArray()).length > options.size() - 1){

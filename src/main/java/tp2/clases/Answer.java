@@ -5,6 +5,7 @@ public class Answer {
     public Correction correction;
     public int score;
     private char id;
+    private Player player;
 
     public Answer(String content, String correction, int score, char id) {
         this.content = content;
@@ -34,6 +35,10 @@ public class Answer {
 
     public boolean equals(char searchedId){
         return getId() == searchedId;
+    }
+
+    public void assignPlayer(Player aPlayer) {
+        player = aPlayer;
     }
 }
 
