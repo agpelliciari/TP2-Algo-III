@@ -1,0 +1,102 @@
+@startuml
+
+skinparam monochrome true
+hide circle
+skinparam classAttributeIconSize 0
+
+title: Model of classes that interact with Question
+
+abstract class Question{
+-options: List<Answer>
+-content: Content
++{static}Question(content: Content, mode: Mode, answers: List<Answer>)
++getNumberOfCorrectAnswers(List<Answer> answers): int
++getNumberOfIncorrectAnswers(List<Answer> answers): int
++hasNoIncorrectAnswers(ArrayList<Answer> answers): boolean
++assignScore(playersAnswers: HashMap<Player, ArrayList<Answer>>)
++choiceOption(chosenOptions: String): ArrayList<Answer>
+}
+
+class TrueOrFalse {
++assignScore(playersAnswers: HashMap<Player, ArrayList<Answer>>)
+}
+
+class MultipleChoice {
++assignScore(playersAnswers: HashMap<Player, ArrayList<Answer>>)
+}
+
+class OrderedChoice {
++assignScore(playersAnswers: HashMap<Player, ArrayList<Answer>>)
+}
+
+class GroupChoice {
++assignScore(playersAnswers: HashMap<Player, ArrayList<Answer>>)
+}
+
+interface Mode {
++assignCorrectScore(Player player, int correctPoints);
++assignIncorrectScore(Player player, int wrongPoints);
+}
+
+class PartialMode {
++assignCorrectScore(Player player, int correctPoints);
++assignIncorrectScore(Player player, int wrongPoints);
+}
+
+class PenaltyMode {
++assignCorrectScore(Player player, int correctPoints);
++assignIncorrectScore(Player player, int wrongPoints);
+}
+
+class ClassicMode {
++assignCorrectScore(Player player, int correctPoints);
++assignIncorrectScore(Player player, int wrongPoints);
+}
+
+class Answer{
+-content: String
+-id: char
++{static}Answer(content: String, correction: String, score: int, id: char)
++getCorrection(): Correction
++equals(char searchedId): boolean
+}
+
+abstract class Correction{
+-correction: String
++{static}Correction(correction: String)
++assignCorrection(correction: String): Correction
++assignScore(score: int): int
++isCorrect(): boolean
+}
+
+class Correct{
++assignScore(score: int): int
++isCorrect(): boolean
+}
+
+class Incorrect{
+assignScore(score: int): int
++isCorrect(): boolean
+}
+
+Mode <<Interface>>
+Question <<Abstract>>
+Correction <<Abstract>>
+
+Question <|-- TrueOrFalse
+Question <|-- MultipleChoice
+Question <|-- OrderedChoice
+Question <|-- GroupChoice
+
+Mode "1" ---* Question
+Mode <|. ClassicMode
+Mode <|. PenaltyMode
+Mode <|. PartialMode
+
+Answer "2..5" --* Question
+Answer *-- Correction: "1"
+
+Correction <|-- Correct
+Correction <|-- Incorrect
+
+@enduml
