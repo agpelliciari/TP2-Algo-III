@@ -26,7 +26,7 @@ public class AnswerTest {
     public void test03ResponseScoreAssignedCorrectly(){
         Player player = new Player("Mario", 5);
         Answer answer = new Answer("Verdadero","Correcta", 1,'a');
-        player.addScore(1);
+        player.assignScore(new Correct(),1);
         int respuestaFinal = player.getScore();
 
         assertEquals(respuestaFinal,6);
@@ -38,9 +38,9 @@ public class AnswerTest {
         Answer answer = new Answer("Falso","Inorrecta", -1,'a');
         Player player = new Player("Luigi", 4);
 
-        player.subtractScore(1);
-        player.subtractScore(1);
-        player.subtractScore(1);
+        player.assignScore(new Incorrect(),1);
+        player.assignScore(new Incorrect(),1);
+        player.assignScore(new Incorrect(),1);
 
         int respuestaFinal = player.getScore();
 
