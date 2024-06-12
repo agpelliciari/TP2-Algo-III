@@ -25,10 +25,6 @@ public class Player {
         return score.getScore();
     }
 
-    public void setScore(int newScore) {
-        score.setScore(newScore);
-    }
-
     public ArrayList<Answer> answer(Question question) {
 
         Scanner scanner = new Scanner(System.in);
@@ -42,8 +38,12 @@ public class Player {
         return question.choiceOption(chosenOption);
     }
 
-    public void assignScore(Correction correction, int newScore) {
-        score.assignScore(correction, newScore);
+    public void assignScore(Correct correction, int correctPoints) {
+        score.addScore(correctPoints);
+    }
+
+    public void assignScore(Incorrect correction, int wrongPoints) {
+        score.subtractScore(wrongPoints);
     }
 
     public boolean equals(Player aPlayer) {

@@ -14,7 +14,7 @@ import java.util.ArrayList;
 
 public class ScoreTest {
     private Score score;
-    @Mock private Correct correctMock;
+/*    @Mock private Correct correctMock;
     @Mock private Incorrect incorrectMock;
 
     private AutoCloseable closeable;
@@ -30,17 +30,17 @@ public class ScoreTest {
     public void releaseMocks() throws Exception {
         closeable.close();
     }
-
+*/
     @Test
-    public void test01ACorrectCorrectionIncreasesTheScore(){
+    public void test01AddingPointsToTheCurrentScoreIncreasesTheTotalScore(){
         //Arrange
-        when(correctMock.assignScore(1)).thenReturn(1);
+//        when(correctMock.assignScore(1)).thenReturn(1);
 
         int expectedScore = 10;
         score = new Score(9);
 
         //Act
-        score.assignScore(correctMock, 1);
+        score.addScore(1);
         int scoreObtained = score.getScore();
 
         //Assert
@@ -48,15 +48,15 @@ public class ScoreTest {
     }
 
     @Test
-    public void test02AIncorrectCorrectionDecreasesTheScore(){
+    public void test02SubtractingPointsFromTheCurrentScoreDecreasesTheTotalScore(){
         //Arrange
-        when(incorrectMock.assignScore(1)).thenReturn(-1);
+//        when(incorrectMock.assignScore(1)).thenReturn(-1);
 
         int expectedScore = 0;
         score = new Score(1);
 
         //Act
-        score.assignScore(incorrectMock, 1);
+        score.subtractScore(1);
         int scoreObtained = score.getScore();
 
         //Assert
