@@ -4,15 +4,13 @@ skinparam monochrome true
 hide circle
 skinparam classAttributeIconSize 0
 
-title: diagram of classes that interact with Game
+title: Model of classes that interact with Game
 
 class Game{
 -maxScore: int
-+Game(questions: ArrayList<Question>, maxScore: int, panel: Panel)
++{static}Game(questions: ArrayList<Question>, maxScore: int, panel: Panel)
 +start(numberOfPlayers: int)
 +selectPlayers(numberOfPlayers: int): ArrayList<Player>
-+selectPlayers(numberOfPlayers: int, users: List<String>): ArrayList<Player>
-+getUserName(): String
 +registerUser(players: ArrayList<Player>, aPlayer: Player)
 }
 
@@ -20,14 +18,13 @@ class Panel{
 +show(aQuestion: Question)
 }
 
-class Question{
--theme: String
+abstract class Question{
 -options: List<Answer>
--content: String
--type: Type
--numberOfCorrectAnswers: int
-+Question(content: String, type: Type, answers: List<Answer>, theme: String)
-+getNumberOfCorrectAnswers(): int
+-content: Content
++{static}Question(content: Content, mode: Mode, answers: List<Answer>)
++getNumberOfCorrectAnswers(List<Answer> answers): int
++getNumberOfIncorrectAnswers(List<Answer> answers): int
++hasNoIncorrectAnswers(ArrayList<Answer> answers): boolean
 +assignScore(playersAnswers: HashMap<Player, ArrayList<Answer>>)
 +choiceOption(chosenOptions: String): ArrayList<Answer>
 }
@@ -35,12 +32,8 @@ class Question{
 class Player{
 -name: String
 -score: Score
-+Player(name: String, initialScore: int)
-+getName(): String
-+getScore(): int
-+setScore(newScore: int)
++{static}Player(name: String, initialScore: int)
 +answer(question: Question): ArrayList<Answer>
-+answer(question: Question, chosenOption: String): ArrayList<Answer>
 +assignScore(correction: Correction, newScore: int)
 +equals(aPlayer: Player): boolean
 }
@@ -49,15 +42,16 @@ class InvalidNumberOfPlayersException{}
 
 class UserNameAlreadyExistsException{}
 
-Game -> Panel:1
-Game --> Question:*
-Game ..> Player
+Game *- Panel:1
+Game --> Question:1..*
+Game ..> Player:1..*
 
+Question <<Abstract>>
 InvalidNumberOfPlayersException <<Exception>>
 UserNameAlreadyExistsException <<Exception>>
 
-Game ..> InvalidNumberOfPlayersException
-Game ..> UserNameAlreadyExistsException
+Game ..> InvalidNumberOfPlayersException: <<instantiates>>
+Game ..> UserNameAlreadyExistsException: <<instantiates>>
 
 
 @enduml
