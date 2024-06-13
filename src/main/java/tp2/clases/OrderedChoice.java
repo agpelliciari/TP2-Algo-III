@@ -33,7 +33,7 @@ public class OrderedChoice extends Question{
             return false;
         }
         for (int i = 0; i < playerAnswers.size(); i++) {
-            if (!playerAnswers.get(i).equals(correctAnswers.get(i))) {
+            if (playerAnswers.get(i).getId() != correctAnswers.get(i).getId()) {
                 return false;
             }
         }
