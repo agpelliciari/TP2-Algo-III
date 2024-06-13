@@ -12,6 +12,8 @@ public class Player {
     public Player(String name, int initialScore) {
         this.name = name;
         this.score = new Score(initialScore);
+        this.exclusivity = new Exclusivity(false);
+        this.numberOfCorrectAnswers = 0;
     }
 
     public String getName() {
@@ -38,7 +40,9 @@ public class Player {
     }
 
     public void assignExclusivity(boolean bool) {
-        exclusivity = new Exclusivity(bool);
+        if (bool)
+            exclusivity.decreaseNumber();
+        exclusivity.setBool(bool);
     }
 
     public void assignScore(Correction correction, int modification) {

@@ -11,6 +11,10 @@ class Game {
     private ArrayList<Question> questions = new ArrayList<>();
     private ArrayList<Player> players = new ArrayList<>();
 
+    public static boolean intToBool(int num) {
+        return num != 0;
+    }
+
     public Game(ArrayList<Question> questions, int maxScore) {
         this.maxScore = maxScore;
     }
@@ -97,5 +101,29 @@ class Game {
             }
         }
         return correctCount == 1;
+    }
+
+    public void start(ArrayList<String[]> chosenChoices, ArrayList<boolean[]> chosenBooleans) {
+        for (int i = 0; i < questions.size(); i++) {
+            int[] playersCorrectAnswers = new int[players.size()];
+            ArrayList<Player> playersWhoAnsweredCorrectly = new ArrayList<>();
+            for (int j = 0; j < players.size(); j++) {
+                players.get(j).assignExclusivity(chosenBooleans.get(j)[i]);
+                if (intToBool(playersCorrectAnswers[j] = questions.get(i).getNumberOfCorrectAnswers(players.get(j).setAnswers(questions.get(i), chosenChoices.get(j)[i])))) {
+                    playersWhoAnsweredCorrectly.add(players.get(j));
+                    players.get(j).setNumberOfCorrectAnswers(playersCorrectAnswers[j]);
+                }
+            }
+            if (this.checkIfOnlyOneCorrectAnswer(playersCorrectAnswers) && !(questions.get(i).getMode() instanceof PenaltyMode)) {
+                assert playersWhoAnsweredCorrectly.get(0) != null;
+                if (playersWhoAnsweredCorrectly.get(0).getExclusivity().getBool()) {
+                    playersWhoAnsweredCorrectly.get(0).assignScore(new Correct(), playersWhoAnsweredCorrectly.get(0).getNumberOfCorrectAnswers() * playersWhoAnsweredCorrectly.get(0).getExclusivity().getMultiplier());
+                }
+            } else {
+                for (Player playerWhoAnsweredCorrectly : playersWhoAnsweredCorrectly) {
+                    playerWhoAnsweredCorrectly.assignScore(new Correct(), playerWhoAnsweredCorrectly.getNumberOfCorrectAnswers());
+                }
+            }
+        }
     }
 }

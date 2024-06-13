@@ -8,10 +8,6 @@ public class ExclusivityTest {
     private Game game = new Game(10);
     Content content = new Content("", "", "");
 
-    public static boolean intToBool(int num) {
-        return num != 0;
-    }
-
     @Test
     public void test01CorrectAssignmentOfScoreForPlayerWhoIsTheOnlyOneToAnsweredCorrectlyWithExclusivityInQuestionWithoutPenalty() {
         game.addPlayer(new Player("Carlos", 0));
@@ -24,35 +20,18 @@ public class ExclusivityTest {
 
         game.addQuestion(new TrueOrFalse(3, content, new ClassicMode(), choices));
 
-        for (Question question : game.getQuestions()) {
-            int[] playersCorrectAnswers = new int[game.getPlayers().size()];
+        ArrayList<String[]> chosenChoices = new ArrayList<>();
+        chosenChoices.add(new String[]{"1"});
+        chosenChoices.add(new String[]{"2"});
+        chosenChoices.add(new String[]{"2"});
 
-            Player playerWhoAnsweredCorrectly = null;
-            game.getPlayers().get(0).assignExclusivity(true);
-            if (intToBool(playersCorrectAnswers[0] = question.getNumberOfCorrectAnswers(game.getPlayers().get(0).setAnswers(question, "1")))) {
-                playerWhoAnsweredCorrectly = game.getPlayers().get(0);
-                game.getPlayers().get(0).setNumberOfCorrectAnswers(playersCorrectAnswers[0]);
-            }
+        ArrayList<boolean[]> chosenExclusivities = new ArrayList<>();
+        chosenExclusivities.add(new boolean[]{true});
+        chosenExclusivities.add(new boolean[]{false});
+        chosenExclusivities.add(new boolean[]{false});
 
-            game.getPlayers().get(1).assignExclusivity(false);
-            if (intToBool(playersCorrectAnswers[1] = question.getNumberOfCorrectAnswers(game.getPlayers().get(1).setAnswers(question, "2")))) {
-                playerWhoAnsweredCorrectly = game.getPlayers().get(1);
-                game.getPlayers().get(1).setNumberOfCorrectAnswers(playersCorrectAnswers[1]);
-            }
+        game.start(chosenChoices, chosenExclusivities);
 
-            game.getPlayers().get(2).assignExclusivity(false);
-            if (intToBool(playersCorrectAnswers[2] = question.getNumberOfCorrectAnswers(game.getPlayers().get(2).setAnswers(question, "2")))) {
-                playerWhoAnsweredCorrectly = game.getPlayers().get(2);
-                game.getPlayers().get(2).setNumberOfCorrectAnswers(playersCorrectAnswers[2]);
-            }
-
-            if (game.checkIfOnlyOneCorrectAnswer(playersCorrectAnswers)) {
-                assert playerWhoAnsweredCorrectly != null;
-                if (playerWhoAnsweredCorrectly.getExclusivity().getBool()) {
-                    playerWhoAnsweredCorrectly.assignScore(new Correct(), playerWhoAnsweredCorrectly.getNumberOfCorrectAnswers() * playerWhoAnsweredCorrectly.getExclusivity().getMultiplier());
-                }
-            }
-        }
         assertEquals(2, game.getPlayers().get(0).getScore());
     }
 
@@ -68,40 +47,54 @@ public class ExclusivityTest {
 
         game.addQuestion(new TrueOrFalse(3, content, new ClassicMode(), choices));
 
-        for (Question question : game.getQuestions()) {
-            int[] playersCorrectAnswers = new int[game.getPlayers().size()];
+        ArrayList<String[]> chosenChoices = new ArrayList<>();
+        chosenChoices.add(new String[]{"1"});
+        chosenChoices.add(new String[]{"1"});
+        chosenChoices.add(new String[]{"2"});
 
-            ArrayList<Player> playersWhoAnsweredCorrectly = new ArrayList<>();
-            game.getPlayers().get(0).assignExclusivity(true);
-            if (intToBool(playersCorrectAnswers[0] = question.getNumberOfCorrectAnswers(game.getPlayers().get(0).setAnswers(question, "1")))) {
-                playersWhoAnsweredCorrectly.add(game.getPlayers().get(0));
-                game.getPlayers().get(0).setNumberOfCorrectAnswers(playersCorrectAnswers[0]);
-            }
+        ArrayList<boolean[]> chosenExclusivities = new ArrayList<>();
+        chosenExclusivities.add(new boolean[]{true});
+        chosenExclusivities.add(new boolean[]{false});
+        chosenExclusivities.add(new boolean[]{false});
 
-            game.getPlayers().get(1).assignExclusivity(false);
-            if (intToBool(playersCorrectAnswers[1] = question.getNumberOfCorrectAnswers(game.getPlayers().get(1).setAnswers(question, "1")))) {
-                playersWhoAnsweredCorrectly.add(game.getPlayers().get(1));
-                game.getPlayers().get(1).setNumberOfCorrectAnswers(playersCorrectAnswers[1]);
-            }
+        game.start(chosenChoices, chosenExclusivities);
 
-            game.getPlayers().get(2).assignExclusivity(false);
-            if (intToBool(playersCorrectAnswers[2] = question.getNumberOfCorrectAnswers(game.getPlayers().get(2).setAnswers(question, "2")))) {
-                playersWhoAnsweredCorrectly.add(game.getPlayers().get(2));
-                game.getPlayers().get(2).setNumberOfCorrectAnswers(playersCorrectAnswers[2]);
-            }
+       assertEquals(1, game.getPlayers().get(0).getScore());
+       assertEquals(1, game.getPlayers().get(1).getScore());
+    }
 
-            if (game.checkIfOnlyOneCorrectAnswer(playersCorrectAnswers)) {
-                assert playersWhoAnsweredCorrectly.get(0) != null;
-                if (playersWhoAnsweredCorrectly.get(0).getExclusivity().getBool()) {
-                    playersWhoAnsweredCorrectly.get(0).assignScore(new Correct(), playersWhoAnsweredCorrectly.get(0).getNumberOfCorrectAnswers() * playersWhoAnsweredCorrectly.get(0).getExclusivity().getMultiplier());
-                }
-            } else {
-                for (Player playerWhoAnsweredCorrectly : playersWhoAnsweredCorrectly) {
-                    playerWhoAnsweredCorrectly.assignScore(new Correct(), playerWhoAnsweredCorrectly.getNumberOfCorrectAnswers());
-                }
-            }
-        }
-        assertEquals(1, game.getPlayers().get(0).getScore());
-        assertEquals(1, game.getPlayers().get(1).getScore());
+    @Test
+    public void test03PlayerWhoUseTwoTimesExclusivityInInQuestionWithoutPenaltyDoesntHaveMoreExclusivity() {
+        game.addPlayer(new Player("Carlos", 0));
+        game.addPlayer(new Player("Ricardo", 0));
+        game.addPlayer(new Player("Pedro", 0));
+
+        ArrayList<Choice> choices1 = new ArrayList<>();
+        choices1.add(new Choice("Verdadero", "Correcta", 1));
+        choices1.add(new Choice("Falso", "Incorrecta", 2));
+
+        game.addQuestion(new TrueOrFalse(1, content, new ClassicMode(), choices1));
+
+        ArrayList<Choice> choices2 = new ArrayList<>();
+        choices2.add(new Choice("a", "Correcta", 1));
+        choices2.add(new Choice("b", "Incorrecta", 2));
+        choices2.add(new Choice("c", "Correcta", 3));
+        choices2.add(new Choice("d", "Incorrecta", 4));
+
+        game.addQuestion(new MultipleChoice(2, content, new ClassicMode(), choices2));
+
+        ArrayList<String[]> chosenChoices = new ArrayList<>();
+        chosenChoices.add(new String[]{"1", "1,2"});
+        chosenChoices.add(new String[]{"2", "1,3"});
+        chosenChoices.add(new String[]{"2", "1,3"});
+
+        ArrayList<boolean[]> chosenExclusivities = new ArrayList<>();
+        chosenExclusivities.add(new boolean[]{true, true});
+        chosenExclusivities.add(new boolean[]{false, true});
+        chosenExclusivities.add(new boolean[]{false, true});
+
+        game.start(chosenChoices, chosenExclusivities);
+
+        assertEquals(0, game.getPlayers().get(0).getExclusivity().getNumber());
     }
 }
