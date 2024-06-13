@@ -103,22 +103,34 @@ class Game {
         return correctCount == 1;
     }
 
-    public void start(ArrayList<String[]> chosenChoices, ArrayList<boolean[]> chosenBooleans) {
+    public boolean checkIfAllAreCorrectAnswers(int[] playersCorrectAnswers) {
+        for (int playerCorrectAnswers : playersCorrectAnswers)
+            if (!intToBool(playerCorrectAnswers))
+                return false;
+        return true;
+    }
+
+    public void start(ArrayList<String[]> chosenChoices, ArrayList<boolean[]> chosenExclusivities) {
         for (int i = 0; i < questions.size(); i++) {
+            int numberOfExclusivities = 0;
+            for (boolean[] bool : chosenExclusivities)
+                if(bool[i])
+                    numberOfExclusivities++;
             int[] playersCorrectAnswers = new int[players.size()];
             ArrayList<Player> playersWhoAnsweredCorrectly = new ArrayList<>();
             for (int j = 0; j < players.size(); j++) {
-                players.get(j).assignExclusivity(chosenBooleans.get(j)[i]);
+                players.get(j).assignExclusivity(chosenExclusivities.get(j)[i]);
                 if (intToBool(playersCorrectAnswers[j] = questions.get(i).getNumberOfCorrectAnswers(players.get(j).setAnswers(questions.get(i), chosenChoices.get(j)[i])))) {
                     playersWhoAnsweredCorrectly.add(players.get(j));
                     players.get(j).setNumberOfCorrectAnswers(playersCorrectAnswers[j]);
                 }
             }
-            if (this.checkIfOnlyOneCorrectAnswer(playersCorrectAnswers) && !(questions.get(i).getMode() instanceof PenaltyMode)) {
-                assert playersWhoAnsweredCorrectly.get(0) != null;
-                if (playersWhoAnsweredCorrectly.get(0).getExclusivity().getBool()) {
-                    playersWhoAnsweredCorrectly.get(0).assignScore(new Correct(), playersWhoAnsweredCorrectly.get(0).getNumberOfCorrectAnswers() * playersWhoAnsweredCorrectly.get(0).getExclusivity().getMultiplier());
-                }
+            if (!(questions.get(i).getMode() instanceof PenaltyMode)) {
+                if (this.checkIfOnlyOneCorrectAnswer(playersCorrectAnswers)) {
+                    assert playersWhoAnsweredCorrectly.get(0) != null;
+                    if (playersWhoAnsweredCorrectly.get(0).getExclusivity().getBool())
+                        playersWhoAnsweredCorrectly.get(0).assignScore(new Correct(), playersWhoAnsweredCorrectly.get(0).getNumberOfCorrectAnswers() * playersWhoAnsweredCorrectly.get(0).getExclusivity().getMultiplier() * numberOfExclusivities);
+                } else if (this.checkIfAllAreCorrectAnswers(playersCorrectAnswers)) {}
             } else {
                 for (Player playerWhoAnsweredCorrectly : playersWhoAnsweredCorrectly) {
                     playerWhoAnsweredCorrectly.assignScore(new Correct(), playerWhoAnsweredCorrectly.getNumberOfCorrectAnswers());

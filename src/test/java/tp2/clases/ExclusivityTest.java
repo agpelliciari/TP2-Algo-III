@@ -59,8 +59,8 @@ public class ExclusivityTest {
 
         game.start(chosenChoices, chosenExclusivities);
 
-       assertEquals(1, game.getPlayers().get(0).getScore());
-       assertEquals(1, game.getPlayers().get(1).getScore());
+       assertEquals(0, game.getPlayers().get(0).getScore());
+       assertEquals(0, game.getPlayers().get(1).getScore());
     }
 
     @Test
@@ -96,5 +96,61 @@ public class ExclusivityTest {
         game.start(chosenChoices, chosenExclusivities);
 
         assertEquals(0, game.getPlayers().get(0).getExclusivity().getNumber());
+    }
+
+    @Test
+    public void test04IfAllPlayersAnsweredCorrectlyInQuestionWithoutPenaltyWhithSomePlayerExclusivityNoOneScores() {
+        game.addPlayer(new Player("Carlos", 0));
+        game.addPlayer(new Player("Ricardo", 0));
+        game.addPlayer(new Player("Pedro", 0));
+
+        ArrayList<Choice> choices = new ArrayList<>();
+        choices.add(new Choice("Verdadero", "Incorrecta", 1));
+        choices.add(new Choice("Falso", "Correcta", 2));
+
+        game.addQuestion(new TrueOrFalse(1, content, new ClassicMode(), choices));
+
+        ArrayList<String[]> chosenChoices = new ArrayList<>();
+        chosenChoices.add(new String[]{"2"});
+        chosenChoices.add(new String[]{"2"});
+        chosenChoices.add(new String[]{"2"});
+
+        ArrayList<boolean[]> chosenExclusivities = new ArrayList<>();
+        chosenExclusivities.add(new boolean[]{true});
+        chosenExclusivities.add(new boolean[]{false});
+        chosenExclusivities.add(new boolean[]{false});
+
+        game.start(chosenChoices, chosenExclusivities);
+
+        int i = 0;
+        for (Player player : game.getPlayers())
+            assertEquals(0, game.getPlayers().get(i++).getScore());
+    }
+
+    @Test
+    public void test05IfTwoPlayersUseExclusivityAndOnlyOneAnsweredCorrectlyInQuestionWithoutPenaltyMultipliersMultiplies() {
+        game.addPlayer(new Player("Carlos", 0));
+        game.addPlayer(new Player("Ricardo", 0));
+        game.addPlayer(new Player("Pedro", 0));
+
+        ArrayList<Choice> choices = new ArrayList<>();
+        choices.add(new Choice("Verdadero", "Correcta", 1));
+        choices.add(new Choice("Falso", "Incorrecta", 2));
+
+        game.addQuestion(new TrueOrFalse(1, content, new ClassicMode(), choices));
+
+        ArrayList<String[]> chosenChoices = new ArrayList<>();
+        chosenChoices.add(new String[]{"1"});
+        chosenChoices.add(new String[]{"2"});
+        chosenChoices.add(new String[]{"2"});
+
+        ArrayList<boolean[]> chosenExclusivities = new ArrayList<>();
+        chosenExclusivities.add(new boolean[]{true});
+        chosenExclusivities.add(new boolean[]{true});
+        chosenExclusivities.add(new boolean[]{false});
+
+        game.start(chosenChoices, chosenExclusivities);
+
+        assertEquals(4, game.getPlayers().get(0).getScore());
     }
 }
