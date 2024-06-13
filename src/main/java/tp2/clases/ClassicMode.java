@@ -1,9 +1,5 @@
 package tp2.clases;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
 public class ClassicMode implements Mode {
 
     @Override
