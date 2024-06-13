@@ -1,41 +1,34 @@
 @startuml
 title: A true/false question receives a list of answers and assigns points to those who answered correctly
 
-actor actor
-participant ":Question" as question
-participant ":TrueOrFalse" as type
-participant ":Player" as player
-participant ":Score" as score
-participant ":Correct" as correction
-participant ":Answer" as answer
+actor testCaseOne
+participant "question:TrueOrFalse" as question
+participant "mode:ClassicMode" as type
+participant "aPlayer:Player" as player
+participant "score:Score" as score
+participant "correction:Correct" as correction
 
-actor -> question: assignScore(playerAnswers: HashMap<Player, ArrayList<Answer>>)
+testCaseOne -> question: assignScore(answers)
 activate question
-question -> question: getNumberOfCorrectAnswers(): int
-question -> type: assignScore(playerAnswers, numberOfCorrectAnswers: int)
+loop for each player
+question -> question: hasNoIncorrectAnswers(answers)
+note left: true
+question -> question: getNumberOfCorrectAnswers(answers)
+question -> type: assignCorrectScore(player, numberOfCorrectAnswers)
 deactivate question
 activate type
-
-loop for each player
-
-    loop for each answer
-        type -> answer: getCorrection()
-        activate answer
-        type <<-- answer: Correct()
-        deactivate answer
-        type -> player: assignScore(correction: Correct(), newScore: int)
-        deactivate type
-        activate player
-        player -> score: assignScore(correction: Correct(), newScore: int)
-        deactivate player
-        activate score
-        score -> correction: assignScore(newScore: int)
-        activate correction
-        correction -->> score: score
-        deactivate correction
-        deactivate score
-        note left: totalScore += score
-    end loop
+create correction
+type -> correction: new()
+type -> player: assignScore(correction, numberOfCorrectAnswers)
+deactivate type
+activate player
+player -> correction: assignScore(score, numberOfCorrectAnswers)
+deactivate player
+activate correction
+correction -> score: addScore(numberOfCorrectAnswers)
+deactivate correction
+activate score
+score -> score: totalScore += numberOfCorrectAnswers
 
 end loop
 @enduml

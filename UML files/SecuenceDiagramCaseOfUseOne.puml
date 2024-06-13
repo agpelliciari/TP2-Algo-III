@@ -1,26 +1,52 @@
 @startuml
 title: A true/false question receives a list of answers and assigns points to those who answered correctly
 
-actor actor
-participant "aQuestion:Question" as question
-participant "type: TrueOrFalse" as type
+actor testCaseOne
+participant "question:TrueOrFalse" as question
+participant "mode: ClassicMode" as type
+participant "content: Content" as content
 participant "aPlayer:Player" as player
-participant ":Answer" as answer
+participant "answer:Answer" as answer
+participant ":AnswerFactory" as factory
 
+create content
+testCaseOne -> content:new("GENERAL KNOWLEDGE", "Uba is the...")
+create type
+testCaseOne -> type: new()
 create question
-actor -> question: Question(content: String, type:TrueOrFalse(), options: List<Answer>, theme: String)
-
-loop for numberOfPlayers
-create player
-actor -> player: Player(name: String, score: Score)
-end
+testCaseOne -> question: new(content, mode, List<Answer>)
 
 loop for each player
-actor -> player: answer(aQuestion: Question, chosenOption: String)
-activate player
-player -> question: choiceOption(chosenOption)
+create player
+testCaseOne -> player: new(name, score)
 
+testCaseOne -> player: answer(question, chosenOption)
+activate player
+player -> question: createAnswer(chosenOption)
 activate question
+question -> factory: createAnswer(question, chosenOption)
+activate factory
+create answer
+factory -> answer: new()
+factory -> factory: answers.add(answer)
+factory --> question: answers
+deactivate factory
+question --> player: answers
+player -> question: choiceOption(answers, aPlayer)
+
+loop for each answer
+question -> answer: assignPlayer(aPlayer)
+activate answer
+answer -> answer: player = aPlayer
+end loop
+deactivate answer
+question --> player: answers
+player --> testCaseOne: answers
+deactivate player
+testCaseOne -> testCaseOne: playerAnswers.put(aPlayer, answers)
+end loop
+@enduml
+
 loop for char in chosenOption: chosenOptions.toCharArray
     loop for option in options
         question -> answer: equals(chosenOption)
@@ -29,10 +55,3 @@ loop for char in chosenOption: chosenOptions.toCharArray
         note left: ArrayList<Answer> chosenAnswers
         end loop
 end loop
-deactivate answer
-player -->> actor: chosenAnswers
-deactivate player
-actor -> actor: playerAnswers.put(aPlayer, chosenAnswers)
-note left: HashMap<Player, ArrayList<Answers>> playerAnswers
-end loop
-@enduml
