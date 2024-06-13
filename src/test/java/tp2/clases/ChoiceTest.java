@@ -5,32 +5,28 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class AnswerTest {
+public class ChoiceTest {
     @Test
-    public void test01CorrectAnswerInitiatedCorrectly(){
-
+    public void test01CorrectChoiceInitiatedCorrectly() {
         Choice choice = new Choice("Verdadero","correcta", 1);
         Correction correction = choice.getCorrection();
         assertTrue(correction instanceof Correct);
-
     }
 
     @Test
-    public void test02AnswerWithCorrectionInUppercaseInitiatedCorrectly(){
+    public void test02ChoiceWithCorrectionInUppercaseInitiatedCorrectly(){
         Choice choice = new Choice("Falso","incorrecta", 1);
         Correction correction = choice.getCorrection();
         assertTrue(correction instanceof Incorrect);
     }
 
     @Test
-    public void test03ResponseScoreAssignedCorrectly(){
+    public void test03AnswerScoreAssignedCorrectly(){
         Player player = new Player("Mario", 5);
         Choice choice = new Choice("Verdadero","correcta", 1);
         player.assignScore(new Correct(),1);
-        int respuestaFinal = player.getScore();
 
-        assertEquals(respuestaFinal,6);
-
+        assertEquals(player.getScore(),6);
     }
 
     @Test
@@ -42,9 +38,7 @@ public class AnswerTest {
         player.assignScore(new Incorrect(),1);
         player.assignScore(new Incorrect(),1);
 
-        int respuestaFinal = player.getScore();
-
-        assertEquals(respuestaFinal,1);
+        assertEquals(player.getScore(),1);
 
     }
 }
