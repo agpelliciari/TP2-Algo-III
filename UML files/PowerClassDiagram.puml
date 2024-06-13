@@ -59,14 +59,15 @@ class UsedState {
 
 
 
+
 Power --> PowerState : uses
 PowerState <|.. ActiveState
 PowerState <|.. InactiveState
 PowerState <|.. UsedState
 
-Player --> Power : has
-Power -->"2" Multiplicator
-Power -->"2" Exclusivity
-Power -->"1" Nullifier
+Player -->"0..*" Power
 
+Power <|-- Exclusivity
+Power <|-- Nullifier
+Power <|-- Multiplicator
 @enduml
