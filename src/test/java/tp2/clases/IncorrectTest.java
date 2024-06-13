@@ -14,6 +14,6 @@ public class IncorrectTest {
     @Test
     public void test02CreateInstanceOfIncorrectAndCheckIfItIsCorrectlyInstanciated() {
         Correction correction = new Incorrect();
-        assertEquals("incorrecta", correction.getCorrection());
+        assertEquals(false, correction.isCorrect());
     }
 }
