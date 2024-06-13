@@ -1,5 +1,5 @@
 @startuml
-title: A true/false question receives a list of answers and assigns points to those who answered correctly
+title: A true/false question receives a list of choices and assigns points to those who answered correctly
 
 actor testCaseOne
 participant "question:TrueOrFalse" as question
@@ -8,12 +8,12 @@ participant "aPlayer:Player" as player
 participant "score:Score" as score
 participant "correction:Correct" as correction
 
-testCaseOne -> question: assignScore(answers)
+testCaseOne -> question: assignScore(choices)
 activate question
 loop for each player
-question -> question: hasNoIncorrectAnswers(answers)
+question -> question: hasNoIncorrectAnswers(choices)
 note left: true
-question -> question: getNumberOfCorrectAnswers(answers)
+question -> question: getNumberOfCorrectAnswers(choices)
 question -> type: assignCorrectScore(player, numberOfCorrectAnswers)
 deactivate question
 activate type

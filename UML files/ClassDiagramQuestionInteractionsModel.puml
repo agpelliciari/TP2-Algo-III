@@ -7,30 +7,30 @@ skinparam classAttributeIconSize 0
 title: Model of classes that interact with Question
 
 abstract class Question{
--options: List<Answer>
+-options: List<Choice>
 -content: Content
-+{static}Question(content: Content, mode: Mode, answers: List<Answer>)
-+getNumberOfCorrectAnswers(List<Answer> answers): int
-+getNumberOfIncorrectAnswers(List<Answer> answers): int
-+hasNoIncorrectAnswers(ArrayList<Answer> answers): boolean
-+assignScore(playersAnswers: HashMap<Player, ArrayList<Answer>>)
-+choiceOption(chosenOptions: String): ArrayList<Answer>
++{static}Question(content: Content, mode: Mode, choices: List<Choice>)
++getNumberOfCorrectAnswers(List<Choice> choices): int
++getNumberOfIncorrectAnswers(List<Choice> choices): int
++hasNoIncorrectAnswers(ArrayList<Choice> choices): boolean
++assignScore(playersAnswers: HashMap<Player, ArrayList<Choice>>)
++choiceOption(chosenOptions: String): ArrayList<Choice>
 }
 
 class TrueOrFalse {
-+assignScore(playersAnswers: HashMap<Player, ArrayList<Answer>>)
++assignScore(playersAnswers: HashMap<Player, ArrayList<Choice>>)
 }
 
 class MultipleChoice {
-+assignScore(playersAnswers: HashMap<Player, ArrayList<Answer>>)
++assignScore(playersAnswers: HashMap<Player, ArrayList<Choice>>)
 }
 
 class OrderedChoice {
-+assignScore(playersAnswers: HashMap<Player, ArrayList<Answer>>)
++assignScore(playersAnswers: HashMap<Player, ArrayList<Choice>>)
 }
 
 class GroupChoice {
-+assignScore(playersAnswers: HashMap<Player, ArrayList<Answer>>)
++assignScore(playersAnswers: HashMap<Player, ArrayList<Choice>>)
 }
 
 interface Mode {
@@ -53,10 +53,10 @@ class ClassicMode {
 +assignIncorrectScore(Player player, int wrongPoints);
 }
 
-class Answer{
+class Choice{
 -content: String
 -id: char
-+{static}Answer(content: String, correction: String, score: int, id: char)
++{static}Choice(content: String, correction: String, score: int, id: char)
 +getCorrection(): Correction
 +equals(char searchedId): boolean
 }
@@ -93,8 +93,8 @@ Mode <|. ClassicMode
 Mode <|. PenaltyMode
 Mode <|. PartialMode
 
-Answer "2..5" --* Question
-Answer *-- Correction: "1"
+Choice "2..5" --* Question
+Choice *-- Correction: "1"
 
 Correction <|-- Correct
 Correction <|-- Incorrect

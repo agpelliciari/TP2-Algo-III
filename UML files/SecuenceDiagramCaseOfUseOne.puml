@@ -1,12 +1,12 @@
 @startuml
-title: A true/false question receives a list of answers and assigns points to those who answered correctly
+title: A true/false question receives a list of choices and assigns points to those who answered correctly
 
 actor testCaseOne
 participant "question:TrueOrFalse" as question
 participant "mode: ClassicMode" as type
 participant "content: Content" as content
 participant "aPlayer:Player" as player
-participant "answer:Answer" as answer
+participant "Choice:Choice" as Choice
 participant ":AnswerFactory" as factory
 
 create content
@@ -14,44 +14,44 @@ testCaseOne -> content:new("GENERAL KNOWLEDGE", "Uba is the...")
 create type
 testCaseOne -> type: new()
 create question
-testCaseOne -> question: new(content, mode, List<Answer>)
+testCaseOne -> question: new(content, mode, List<Choice>)
 
 loop for each player
 create player
 testCaseOne -> player: new(name, score)
 
-testCaseOne -> player: answer(question, chosenOption)
+testCaseOne -> player: Choice(question, chosenOption)
 activate player
 player -> question: createAnswer(chosenOption)
 activate question
 question -> factory: createAnswer(question, chosenOption)
 activate factory
-create answer
-factory -> answer: new()
-factory -> factory: answers.add(answer)
-factory --> question: answers
+create Choice
+factory -> Choice: new()
+factory -> factory: choices.add(Choice)
+factory --> question: choices
 deactivate factory
-question --> player: answers
-player -> question: choiceOption(answers, aPlayer)
+question --> player: choices
+player -> question: choiceOption(choices, aPlayer)
 
-loop for each answer
-question -> answer: assignPlayer(aPlayer)
-activate answer
-answer -> answer: player = aPlayer
+loop for each Choice
+question -> Choice: assignPlayer(aPlayer)
+activate Choice
+Choice -> Choice: player = aPlayer
 end loop
-deactivate answer
-question --> player: answers
-player --> testCaseOne: answers
+deactivate Choice
+question --> player: choices
+player --> testCaseOne: choices
 deactivate player
-testCaseOne -> testCaseOne: playerAnswers.put(aPlayer, answers)
+testCaseOne -> testCaseOne: playerAnswers.put(aPlayer, choices)
 end loop
 @enduml
 
 loop for char in chosenOption: chosenOptions.toCharArray
     loop for option in options
-        question -> answer: equals(chosenOption)
-        activate answer
-        question <<-- answer: true -> chosenAnswers.add(option)
-        note left: ArrayList<Answer> chosenAnswers
+        question -> Choice: equals(chosenOption)
+        activate Choice
+        question <<-- Choice: true -> chosenAnswers.add(option)
+        note left: ArrayList<Choice> chosenAnswers
         end loop
 end loop

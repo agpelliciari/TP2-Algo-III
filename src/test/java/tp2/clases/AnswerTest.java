@@ -9,23 +9,23 @@ public class AnswerTest {
     @Test
     public void test01CorrectAnswerInitiatedCorrectly(){
 
-        Answer answer = new Answer("Verdadero","Correcta", 1,'a');
-        Correction correction = answer.getCorrection();
+        Choice choice = new Choice("Verdadero","correcta", 1);
+        Correction correction = choice.getCorrection();
         assertTrue(correction instanceof Correct);
 
     }
 
     @Test
     public void test02AnswerWithCorrectionInUppercaseInitiatedCorrectly(){
-        Answer answer = new Answer("Falso","INCORRECTA", 1,'a');
-        Correction correction = answer.getCorrection();
+        Choice choice = new Choice("Falso","incorrecta", 1);
+        Correction correction = choice.getCorrection();
         assertTrue(correction instanceof Incorrect);
     }
 
     @Test
     public void test03ResponseScoreAssignedCorrectly(){
         Player player = new Player("Mario", 5);
-        Answer answer = new Answer("Verdadero","Correcta", 1,'a');
+        Choice choice = new Choice("Verdadero","correcta", 1);
         player.assignScore(new Correct(),1);
         int respuestaFinal = player.getScore();
 
@@ -35,7 +35,7 @@ public class AnswerTest {
 
     @Test
     public void test04MultipleIncorrectAnswersSubtractOne(){
-        Answer answer = new Answer("Falso","Inorrecta", -1,'a');
+        Choice choice = new Choice("Falso","Incorrecta",1);
         Player player = new Player("Luigi", 4);
 
         player.assignScore(new Incorrect(),1);

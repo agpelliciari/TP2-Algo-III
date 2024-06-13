@@ -21,23 +21,21 @@ class Game {
 
         // while(score mas alto != maxScore)
         for (Question question : questions) {
-//            panel.show(question);
 
-            HashMap<Player, ArrayList<Answer>> answers = new HashMap<>();
+            HashMap<Player, ArrayList<Choice>> choices = new HashMap<>();
 
             for (Player player : players) {
-                ArrayList<Answer> playerAnswers = player.answer(question);
-                answers.put(player, playerAnswers);
+                ArrayList<Choice> playerAnswers = player.Choice(question);
+                choices.put(player, playerAnswers);
             }
 
-            question.assignScore(answers);
+            question.assignScore(choices);
         }
     }
 
     public ArrayList<Player> selectPlayers(int numberOfPlayers) {
-        if (numberOfPlayers < 2) {
+        if (numberOfPlayers < 2)
             throw new InvalidNumberOfPlayersException();
-        }
         
         ArrayList<Player> players = new ArrayList<>();
 
@@ -51,9 +49,8 @@ class Game {
     }
 
     public ArrayList<Player> selectPlayers(int numberOfPlayers, List<String> users) {
-        if (numberOfPlayers < 2) {
+        if (numberOfPlayers < 2)
             throw new InvalidNumberOfPlayersException();
-        }
         
         ArrayList<Player> players = new ArrayList<>();
 
@@ -75,11 +72,9 @@ class Game {
     }
 
     public void registerUser(ArrayList<Player> players, Player aPlayer) {
-        for (Player player : players) {
-            if (player.equals(aPlayer)) {
+        for (Player player : players)
+            if (player.equals(aPlayer))
                 throw new UserNameAlreadyExistsException();
-            }
-        }
 
         players.add(aPlayer);
     }

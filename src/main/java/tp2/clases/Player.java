@@ -1,10 +1,5 @@
 package tp2.clases;
 
-import tp2.clases.Question;
-import tp2.clases.Answer;
-import tp2.clases.Correction;
-import tp2.clases.Score;
-
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -25,7 +20,7 @@ public class Player {
         return score.getScore();
     }
 
-    public ArrayList<Answer> answer(Question question) {
+    public ArrayList<Choice> Choice(Question question) {
 
         Scanner scanner = new Scanner(System.in);
         String chosenOption = scanner.nextLine();
@@ -33,8 +28,7 @@ public class Player {
         return question.choiceOption(chosenOption);
     }
 
-    public ArrayList<Answer> answer(Question question, String chosenOption) {
-
+    public ArrayList<Choice> Choice(Question question, String chosenOption) {
         return question.choiceOption(question.createAnswers(chosenOption), this);
     }
 

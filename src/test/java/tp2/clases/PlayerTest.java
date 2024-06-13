@@ -7,7 +7,8 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.mockito.stubbing.OngoingStubbing;
+import tp2.clases.exceptions.InvalidNumberOfChosenOptionsException;
+import tp2.clases.exceptions.InvalidChoiceIndexException;
 
 import static org.mockito.Mockito.*;
 
@@ -17,25 +18,24 @@ public class PlayerTest {
     private Player player;
     private Score score;
     @Mock private Question questionMock;
-    @Mock private Answer answerMock;
+    @Mock private Choice answerMock;
     private Correct correct;
     private Incorrect incorrect;
 
     private AutoCloseable closeable;
 
-    private ArrayList<Answer> chosenAnswers;
+    private ArrayList<Choice> chosenAnswers;
 
     //mocks are initialized
     @BeforeEach
-    public void beforeEach(){
+    public void beforeEach() throws InvalidNumberOfChosenOptionsException, InvalidChoiceIndexException {
         closeable = MockitoAnnotations.openMocks(this);
         Mockito.reset(questionMock, answerMock);
 
-        chosenAnswers = new ArrayList<Answer>();
+        chosenAnswers = new ArrayList<>();
         chosenAnswers.add(answerMock);
 
         when(questionMock.choiceOption("")).thenReturn(chosenAnswers);
-        when(chosenAnswers.get(0).getScore()).thenReturn(1);
     }
 
     @AfterEach
@@ -53,9 +53,9 @@ public class PlayerTest {
         player = new Player("name", 0);
 
         //Act
-        ArrayList<Answer> answers = player.answer(questionMock, "");
-        answers.add(answerMock);
-        player.assignScore(answers.get(0).getCorrection(), answers.get(0).getScore());
+        ArrayList<Choice> choices = player.Choice(questionMock, "");
+        choices.add(answerMock);
+        player.assignScore(choices.get(0).getCorrection(), 1);
         int scoreObtained = player.getScore();
 
         //Assert
@@ -72,9 +72,9 @@ public class PlayerTest {
         player = new Player("name", 1);
 
         //Act
-        ArrayList<Answer> answers = player.answer(questionMock, "");
-        answers.add(answerMock);
-        player.assignScore(answers.get(0).getCorrection(), answers.get(0).getScore());
+        ArrayList<Choice> choices = player.Choice(questionMock, "");
+        choices.add(answerMock);
+        player.assignScore(choices.get(0).getCorrection(), 1);
         int scoreObtained = player.getScore();
 
         //Assert
