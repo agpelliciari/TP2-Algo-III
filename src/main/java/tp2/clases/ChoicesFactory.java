@@ -9,14 +9,14 @@ class ChoicesFactory {
         String[] chosenNumbers = chosenAnswers.split(",");
 
         for (String chosenNumber : chosenNumbers) {
-            int optionId = Integer.parseInt(chosenNumber.trim());
+            int choiceId = Integer.parseInt(chosenNumber.trim());
 
-            for (Choice option : question.getChoices()) {
-                if (option.getId() == optionId) {
-                    if (option.getCorrection().isCorrect()) {
-                        choices.add(new Choice(option.getContent(), "Correcta", option.getId()));
+            for (Choice choice : question.getChoices()) {
+                if (choice.getId() == choiceId) {
+                    if (choice.getCorrection().isCorrect()) {
+                        choices.add(new Choice(choice.getContent(), "Correcta", choice.getId()));
                     } else {
-                        choices.add(new Choice(option.getContent(), "Incorrecta", option.getId()));
+                        choices.add(new Choice(choice.getContent(), "Incorrecta", choice.getId()));
                     }
                     break;
                 }

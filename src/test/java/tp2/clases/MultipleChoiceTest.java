@@ -12,7 +12,7 @@ class MultipleChoiceTest {
     Content content = new Content("", "","");
 
     @Test
-    public void test01PlayerChoosesOneIncorrectOptionAndDoesntReceivePoints(){
+    public void test01PlayerChoosesOneIncorrectChoiceAndDoesntReceivePoints(){
         Player player = new Player("Player1",0);
 
         ArrayList<Choice> choices = new ArrayList<>();
@@ -23,7 +23,7 @@ class MultipleChoiceTest {
         MultipleChoice question = new MultipleChoice(1, content, new ClassicMode(), choices);
 
         HashMap<Player, ArrayList<Choice>> playerAnswer = new HashMap<>();
-        ArrayList<Choice> chosenAnswers = player.Choice(question, "1,2,3");
+        ArrayList<Choice> chosenAnswers = player.setAnswers(question, "1,2,3");
 
         playerAnswer.put(player, chosenAnswers);
         question.assignScore(playerAnswer);
@@ -32,7 +32,7 @@ class MultipleChoiceTest {
     }
 
     @Test
-    public void test02PlayerChoosesAllOptionsCorrect(){
+    public void test02PlayerChoosesAllChoicesCorrect(){
         Player player = new Player("Player1",0);
 
         ArrayList<Choice> choices = new ArrayList<>();
@@ -43,7 +43,7 @@ class MultipleChoiceTest {
         MultipleChoice question = new MultipleChoice(1, content, new ClassicMode(), choices);
 
         HashMap<Player, ArrayList<Choice>> playerAnswer = new HashMap<>();
-        ArrayList<Choice> chosenAnswers = player.Choice(question, "1,2");
+        ArrayList<Choice> chosenAnswers = player.setAnswers(question, "1,2");
         playerAnswer.put(player, chosenAnswers);
         question.assignScore(playerAnswer);
 
@@ -51,7 +51,7 @@ class MultipleChoiceTest {
     }
 
     @Test
-    public void test03PlayerChoosesAllOptionsIncorrect(){
+    public void test03PlayerChoosesAllChoicesIncorrect(){
         Player player = new Player("Player1",0);
         HashMap<Player, ArrayList<Choice>> playerAnswer = new HashMap<>();
 
@@ -62,7 +62,7 @@ class MultipleChoiceTest {
         choices.add(new Choice("Answer4", "incorrecta",4));
         MultipleChoice question = new MultipleChoice(1, content, new ClassicMode(), choices);
 
-        ArrayList<Choice> chosenAnswers = player.Choice(question, "3,4");
+        ArrayList<Choice> chosenAnswers = player.setAnswers(question, "3,4");
         playerAnswer.put(player, chosenAnswers);
         question.assignScore(playerAnswer);
 

@@ -22,17 +22,17 @@ public class JsonParser {
         @SerializedName("Respuesta")
         private String answer;
         @SerializedName("Opcion 1")
-        private String option1;
+        private String choice1;
         @SerializedName("Opcion 2")
-        private String option2;
+        private String choice2;
         @SerializedName("Opcion 3")
-        private String option3;
+        private String choice3;
         @SerializedName("Opcion 4")
-        private String option4;
+        private String choice4;
         @SerializedName("Opcion 5")
-        private String option5;
+        private String choice5;
         @SerializedName("Opcion 6")
-        private String option6;
+        private String choice6;
         @SerializedName("Grupo A")
         private String groupA;
         @SerializedName("Grupo B")
@@ -67,28 +67,28 @@ public class JsonParser {
             return answer;
         }
 
-        public String getOption1() {
-            return option1;
+        public String getChoice1() {
+            return choice1;
         }
 
-        public String getOption2() {
-            return option2;
+        public String getChoice2() {
+            return choice2;
         }
 
-        public String getOption3() {
-            return option3;
+        public String getChoice3() {
+            return choice3;
         }
 
-        public String getOption4() {
-            return option4;
+        public String getChoice4() {
+            return choice4;
         }
 
-        public String getOption5() {
-            return option5;
+        public String getChoice5() {
+            return choice5;
         }
 
-        public String getOption6() {
-            return option6;
+        public String getChoice6() {
+            return choice6;
         }
 
         public String getGroupAText() {
@@ -124,14 +124,14 @@ public class JsonParser {
 
         for (QuestionString questionString : questionsStringParser(fileName)) {
             String[] choicesString = {
-                    questionString.getOption1(),
-                    questionString.getOption2(),
-                    questionString.getOption3(),
-                    questionString.getOption4(),
-                    questionString.getOption5(),
-                    questionString.getOption6()
+                    questionString.getChoice1(),
+                    questionString.getChoice2(),
+                    questionString.getChoice3(),
+                    questionString.getChoice4(),
+                    questionString.getChoice5(),
+                    questionString.getChoice6()
             };
-            String[] validChoicesString = Arrays.stream(choicesString).filter(option -> option != null && !option.isEmpty()).toArray(String[]::new);
+            String[] validChoicesString = Arrays.stream(choicesString).filter(choice -> choice != null && !choice.isEmpty()).toArray(String[]::new);
             ArrayList<Choice> choices = new ArrayList<>();
 
             int i = 1;
@@ -215,9 +215,8 @@ public class JsonParser {
     }
 
     private static boolean contains(String correctChoicesString, int choice) {
-        String[] answers = correctChoicesString.split(",");
-        for (String answer : answers)
-            if (Integer.parseInt(answer.trim()) == choice)
+        for (String correctChoiceString : correctChoicesString.split(","))
+            if (Integer.parseInt(correctChoiceString.trim()) == choice)
                return true;
         return false;
     }

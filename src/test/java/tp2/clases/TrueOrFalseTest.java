@@ -21,7 +21,7 @@ class TrueOrFalseTest {
         TrueOrFalse question = new TrueOrFalse(1, content, new ClassicMode(), choices);
 
         HashMap<Player, ArrayList<Choice>> playerAnswer = new HashMap<>();
-        ArrayList<Choice> chosenAnswers = player.Choice(question, "1");
+        ArrayList<Choice> chosenAnswers = player.setAnswers(question, "1");
         playerAnswer.put(player, chosenAnswers);
         question.assignScore(playerAnswer);
 
@@ -39,7 +39,7 @@ class TrueOrFalseTest {
         TrueOrFalse question = new TrueOrFalse(1, content, new ClassicMode(), choices);
 
         HashMap<Player, ArrayList<Choice>> playerAnswer = new HashMap<>();
-        ArrayList<Choice> chosenAnswers = player.Choice(question, "1");
+        ArrayList<Choice> chosenAnswers = player.setAnswers(question, "1");
         playerAnswer.put(player, chosenAnswers);
         question.assignScore(playerAnswer);
 
@@ -57,8 +57,8 @@ class TrueOrFalseTest {
         TrueOrFalse question = new TrueOrFalse(1, content, new ClassicMode(), choices);
 
         HashMap<Player, ArrayList<Choice>> playerAnswer = new HashMap<>();
-        ArrayList<Choice> chosenAnswers1 = player1.Choice(question, "1");
-        ArrayList<Choice> chosenAnswers2 = player2.Choice(question, "2");
+        ArrayList<Choice> chosenAnswers1 = player1.setAnswers(question, "1");
+        ArrayList<Choice> chosenAnswers2 = player2.setAnswers(question, "2");
         playerAnswer.put(player1, chosenAnswers1);
         playerAnswer.put(player2, chosenAnswers2);
         question.assignScore(playerAnswer);

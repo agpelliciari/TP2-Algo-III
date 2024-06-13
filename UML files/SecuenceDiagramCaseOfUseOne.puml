@@ -20,11 +20,11 @@ loop for each player
 create player
 testCaseOne -> player: new(name, score)
 
-testCaseOne -> player: Choice(question, chosenOption)
+testCaseOne -> player: Choice(question, chosenChoice)
 activate player
-player -> question: createAnswer(chosenOption)
+player -> question: createAnswer(chosenChoice)
 activate question
-question -> factory: createAnswer(question, chosenOption)
+question -> factory: createAnswer(question, chosenChoice)
 activate factory
 create Choice
 factory -> Choice: new()
@@ -32,7 +32,7 @@ factory -> factory: choices.add(Choice)
 factory --> question: choices
 deactivate factory
 question --> player: choices
-player -> question: choiceOption(choices, aPlayer)
+player -> question: assignChosenChoicesToPlayer(choices, aPlayer)
 
 loop for each Choice
 question -> Choice: assignPlayer(aPlayer)
@@ -47,11 +47,11 @@ testCaseOne -> testCaseOne: playerAnswers.put(aPlayer, choices)
 end loop
 @enduml
 
-loop for char in chosenOption: chosenOptions.toCharArray
-    loop for option in options
-        question -> Choice: equals(chosenOption)
+loop for char in chosenChoice: assignChosenChoicesToPlayer.toCharArray
+    loop for choice in choices
+        question -> Choice: equals(chosenChoice)
         activate Choice
-        question <<-- Choice: true -> chosenAnswers.add(option)
+        question <<-- Choice: true -> chosenAnswers.add(choice)
         note left: ArrayList<Choice> chosenAnswers
         end loop
 end loop

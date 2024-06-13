@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class GroupChoiceTest {
 
     @Test
-    public void test01PlayerGroupsAllOptionsRight() {
+    public void test01PlayerGroupsAllChoicesRight() {
         Player player = new Player("Player1",0);
 
         ArrayList<Choice> choices = new ArrayList<>();
@@ -23,7 +23,7 @@ class GroupChoiceTest {
 
         HashMap<Player, ArrayList<Choice>> playerAnswer = new HashMap<>();
 
-        ArrayList<Choice> groupAAnswers = player.Choice(question, "1,4");
+        ArrayList<Choice> groupAAnswers = player.setAnswers(question, "1,4");
         playerAnswer.put(player, groupAAnswers);
         question.assignScore(playerAnswer);
 
@@ -32,7 +32,7 @@ class GroupChoiceTest {
     }
 
     @Test
-    public void test02PlayerGroupsAllOptionsWrong() {
+    public void test02PlayerGroupsAllChoicesWrong() {
         Player player = new Player("Player1",0);
 
         ArrayList<Choice> choices = new ArrayList<>();
@@ -45,7 +45,7 @@ class GroupChoiceTest {
 
         HashMap<Player, ArrayList<Choice>> playerAnswer = new HashMap<>();
 
-        ArrayList<Choice> groupAAnswers = player.Choice(question, "1,4");
+        ArrayList<Choice> groupAAnswers = player.setAnswers(question, "1,4");
         playerAnswer.put(player, groupAAnswers);
         question.assignScore(playerAnswer);
 
@@ -66,10 +66,10 @@ class GroupChoiceTest {
         GroupChoice question = new GroupChoice(1, content, new ClassicMode(), choices);
         HashMap<Player, ArrayList<Choice>> playerAnswers = new HashMap<>();;
 
-        ArrayList<Choice> groupA1Answers = player1.Choice(question, "1,4");
+        ArrayList<Choice> groupA1Answers = player1.setAnswers(question, "1,4");
         playerAnswers.put(player1, groupA1Answers);
 
-        ArrayList<Choice> groupA2Answers = player2.Choice(question, "2,4");
+        ArrayList<Choice> groupA2Answers = player2.setAnswers(question, "2,4");
         playerAnswers.put(player2, groupA2Answers);
         question.assignScore(playerAnswers);
 

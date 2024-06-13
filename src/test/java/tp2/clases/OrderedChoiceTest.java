@@ -22,7 +22,7 @@ class OrderedChoiceTest {
         OrderedChoice question = new OrderedChoice(1, content, new ClassicMode(), choices, new int[]{1,2,3,4});
 
         HashMap<Player, ArrayList<Choice>> playerAnswer = new HashMap<>();
-        ArrayList<Choice> chosenAnswers = player.Choice(question, "1,3,2,4");
+        ArrayList<Choice> chosenAnswers = player.setAnswers(question, "1,3,2,4");
         playerAnswer.put(player, chosenAnswers);
         question.assignScore(playerAnswer);
 
@@ -40,7 +40,7 @@ class OrderedChoiceTest {
         OrderedChoice question = new OrderedChoice(1, content, new ClassicMode(), choices, new int[]{1,3,2,4});
 
         HashMap<Player, ArrayList<Choice>> playerAnswer = new HashMap<>();
-        ArrayList<Choice> chosenAnswers = player.Choice(question, "1,2,3,4");
+        ArrayList<Choice> chosenAnswers = player.setAnswers(question, "1,2,3,4");
         playerAnswer.put(player, chosenAnswers);
         question.assignScore(playerAnswer);
 

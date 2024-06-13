@@ -21,25 +21,25 @@ public class CasesOfUseTest {
 
         HashMap<Player, ArrayList<Choice>> playersAnswers = new HashMap<>();
 
-        Player playerOne = new Player("x", 1);
-        Player playerTwo = new Player("y", 1);
-        Player playerThree = new Player("z", 1);
+        Player player1 = new Player("x", 1);
+        Player player2 = new Player("y", 1);
+        Player player3 = new Player("z", 1);
 
         //Act
-        ArrayList<Choice> answersPlayerOne = playerOne.Choice(question, "1");
-        ArrayList<Choice> answersPlayerTwo = playerTwo.Choice(question, "2");
-        ArrayList<Choice> answersPlayerThree = playerThree.Choice(question, "1");
+        ArrayList<Choice> answersPlayer1 = player1.setAnswers(question, "1");
+        ArrayList<Choice> answersPlayer2 = player2.setAnswers(question, "2");
+        ArrayList<Choice> answersPlayer3 = player3.setAnswers(question, "1");
 
-        playersAnswers.put(playerOne, answersPlayerOne);
-        playersAnswers.put(playerTwo, answersPlayerTwo);
-        playersAnswers.put(playerThree, answersPlayerThree);
+        playersAnswers.put(player1, answersPlayer1);
+        playersAnswers.put(player2, answersPlayer2);
+        playersAnswers.put(player3, answersPlayer3);
 
         question.assignScore(playersAnswers);
 
         //Assert
-        assertEquals(2, playerOne.getScore());
-        assertEquals(1, playerTwo.getScore());
-        assertEquals(2, playerThree.getScore()); 
+        assertEquals(2, player1.getScore());
+        assertEquals(1, player2.getScore());
+        assertEquals(2, player3.getScore()); 
     }
 
     @Test
@@ -54,25 +54,25 @@ public class CasesOfUseTest {
 
         HashMap<Player, ArrayList<Choice>> playersAnswers = new HashMap<>();
 
-        Player playerOne = new Player("x", 1);
-        Player playerTwo = new Player("y", 1);
-        Player playerThree = new Player("z", 1);
+        Player player1 = new Player("x", 1);
+        Player player2 = new Player("y", 1);
+        Player player3 = new Player("z", 1);
 
         //Act
-        ArrayList<Choice> answersPlayerOne = playerOne.Choice(question, "1");
-        ArrayList<Choice> answersPlayerTwo = playerTwo.Choice(question, "2");
-        ArrayList<Choice> answersPlayerThree = playerThree.Choice(question, "1");
+        ArrayList<Choice> answersplayer1 = player1.setAnswers(question, "1");
+        ArrayList<Choice> answersplayer2 = player2.setAnswers(question, "2");
+        ArrayList<Choice> answersplayer3 = player3.setAnswers(question, "1");
 
-        playersAnswers.put(playerOne, answersPlayerOne);
-        playersAnswers.put(playerTwo, answersPlayerTwo);
-        playersAnswers.put(playerThree, answersPlayerThree);
+        playersAnswers.put(player1, answersplayer1);
+        playersAnswers.put(player2, answersplayer2);
+        playersAnswers.put(player3, answersplayer3);
 
         question.assignScore(playersAnswers);
 
         //Assert
-        assertEquals(1, playerOne.getScore());
-        assertEquals(2, playerTwo.getScore());
-        assertEquals(1, playerThree.getScore()); 
+        assertEquals(1, player1.getScore());
+        assertEquals(2, player2.getScore());
+        assertEquals(1, player3.getScore()); 
         
     }
 
@@ -90,17 +90,17 @@ public class CasesOfUseTest {
 
         HashMap<Player, ArrayList<Choice>> playersAnswers = new HashMap<>();
 
-        Player playerOne = new Player("x", 1);
+        Player player1 = new Player("x", 1);
 
         //Act
-        ArrayList<Choice> answersPlayerOne = playerOne.Choice(question, "2,4");
+        ArrayList<Choice> answersplayer1 = player1.setAnswers(question, "2,4");
 
-        playersAnswers.put(playerOne, answersPlayerOne);
+        playersAnswers.put(player1, answersplayer1);
 
         question.assignScore(playersAnswers);
 
         //Assert
-        assertEquals(2, playerOne.getScore());
+        assertEquals(2, player1.getScore());
     }
 
     @Test
@@ -116,17 +116,17 @@ public class CasesOfUseTest {
         MultipleChoice question = new MultipleChoice(1, content, new ClassicMode(), choices);
         HashMap<Player, ArrayList<Choice>> playersAnswers = new HashMap<>();
 
-        Player playerOne = new Player("x", 1);
+        Player player1 = new Player("x", 1);
 
         //Act
-        ArrayList<Choice> answersPlayerOne = playerOne.Choice(question, "1,2,4");
+        ArrayList<Choice> answersplayer1 = player1.setAnswers(question, "1,2,4");
 
-        playersAnswers.put(playerOne, answersPlayerOne);
+        playersAnswers.put(player1, answersplayer1);
 
         question.assignScore(playersAnswers);
 
         //Assert
-        assertEquals(1, playerOne.getScore());
+        assertEquals(1, player1.getScore());
     }
 
     @Test
@@ -141,25 +141,25 @@ public class CasesOfUseTest {
 
         HashMap<Player, ArrayList<Choice>> playersAnswers = new HashMap<>();
 
-        Player playerOne = new Player("x", 1);
-        Player playerTwo = new Player("y", 1);
-        Player playerThree = new Player("z", 1);
+        Player player1 = new Player("x", 1);
+        Player player2 = new Player("y", 1);
+        Player player3 = new Player("z", 1);
 
         //Act
-        ArrayList<Choice> answersPlayerOne = playerOne.Choice(question, "1");
-        ArrayList<Choice> answersPlayerTwo = playerTwo.Choice(question, "2");
-        ArrayList<Choice> answersPlayerThree = playerThree.Choice(question, "2");
+        ArrayList<Choice> answersplayer1 = player1.setAnswers(question, "1");
+        ArrayList<Choice> answersplayer2 = player2.setAnswers(question, "2");
+        ArrayList<Choice> answersplayer3 = player3.setAnswers(question, "2");
 
-        playersAnswers.put(playerOne, answersPlayerOne);
-        playersAnswers.put(playerTwo, answersPlayerTwo);
-        playersAnswers.put(playerThree, answersPlayerThree);
+        playersAnswers.put(player1, answersplayer1);
+        playersAnswers.put(player2, answersplayer2);
+        playersAnswers.put(player3, answersplayer3);
 
         question.assignScore(playersAnswers);
 
         //Assert
-        assertEquals(0, playerOne.getScore());
-        assertEquals(2, playerTwo.getScore());
-        assertEquals(2, playerThree.getScore());
+        assertEquals(0, player1.getScore());
+        assertEquals(2, player2.getScore());
+        assertEquals(2, player3.getScore());
     }
 
     @Test
@@ -174,25 +174,25 @@ public class CasesOfUseTest {
 
         HashMap<Player, ArrayList<Choice>> playersAnswers = new HashMap<>();
 
-        Player playerOne = new Player("x", 1);
-        Player playerTwo = new Player("y", 1);
-        Player playerThree = new Player("z", 1);
+        Player player1 = new Player("x", 1);
+        Player player2 = new Player("y", 1);
+        Player player3 = new Player("z", 1);
 
         //Act
-        ArrayList<Choice> answersPlayerOne = playerOne.Choice(question, "1");
-        ArrayList<Choice> answersPlayerTwo = playerTwo.Choice(question, "1");
-        ArrayList<Choice> answersPlayerThree = playerThree.Choice(question, "1");
+        ArrayList<Choice> answersplayer1 = player1.setAnswers(question, "1");
+        ArrayList<Choice> answersplayer2 = player2.setAnswers(question, "1");
+        ArrayList<Choice> answersplayer3 = player3.setAnswers(question, "1");
 
-        playersAnswers.put(playerOne, answersPlayerOne);
-        playersAnswers.put(playerTwo, answersPlayerTwo);
-        playersAnswers.put(playerThree, answersPlayerThree);
+        playersAnswers.put(player1, answersplayer1);
+        playersAnswers.put(player2, answersplayer2);
+        playersAnswers.put(player3, answersplayer3);
 
         question.assignScore(playersAnswers);
 
         //Assert
-        assertEquals(0, playerOne.getScore());
-        assertEquals(0, playerTwo.getScore());
-        assertEquals(0, playerThree.getScore());
+        assertEquals(0, player1.getScore());
+        assertEquals(0, player2.getScore());
+        assertEquals(0, player3.getScore());
     }
 
     @Test
@@ -207,17 +207,17 @@ public class CasesOfUseTest {
         MultipleChoice question = new MultipleChoice(1, content, new PenaltyMode(), choices);
 
         HashMap<Player, ArrayList<Choice>> playersAnswers = new HashMap<>();
-        Player playerOne = new Player("John", 1);
+        Player player1 = new Player("John", 1);
 
         //Act
-        ArrayList<Choice> answersPlayerOne = playerOne.Choice(question, "1,2");
+        ArrayList<Choice> answersplayer1 = player1.setAnswers(question, "1,2");
 
-        playersAnswers.put(playerOne, answersPlayerOne);
+        playersAnswers.put(player1, answersplayer1);
 
         question.assignScore(playersAnswers);
 
         //Assert
-        assertEquals(3, playerOne.getScore());
+        assertEquals(3, player1.getScore());
     }
 
     @Test
@@ -233,17 +233,17 @@ public class CasesOfUseTest {
         MultipleChoice question = new MultipleChoice(1, content, new PenaltyMode(), choices);
 
         HashMap<Player, ArrayList<Choice>> playersAnswers = new HashMap<>();
-        Player playerOne = new Player("Juan", 5);
+        Player player1 = new Player("Juan", 5);
 
         //Act
-        ArrayList<Choice> answersPlayerOne = playerOne.Choice(question, "3,4");
+        ArrayList<Choice> answersplayer1 = player1.setAnswers(question, "3,4");
 
-        playersAnswers.put(playerOne, answersPlayerOne);
+        playersAnswers.put(player1, answersplayer1);
 
         question.assignScore(playersAnswers);
 
         //Assert
-        assertEquals(3, playerOne.getScore());
+        assertEquals(3, player1.getScore());
     }
 
     @Test
@@ -259,17 +259,17 @@ public class CasesOfUseTest {
         MultipleChoice question = new MultipleChoice(1, content, new PartialMode(), choices);
 
         HashMap<Player, ArrayList<Choice>> playersAnswers = new HashMap<>();
-        Player playerOne = new Player("Juan", 5);
+        Player player1 = new Player("Juan", 5);
 
         //Act
-        ArrayList<Choice> answersPlayerOne = playerOne.Choice(question, "2");
+        ArrayList<Choice> answersplayer1 = player1.setAnswers(question, "2");
 
-        playersAnswers.put(playerOne, answersPlayerOne);
+        playersAnswers.put(player1, answersplayer1);
 
         question.assignScore(playersAnswers);
 
         //Assert
-        assertEquals(6, playerOne.getScore());
+        assertEquals(6, player1.getScore());
     }
 
     @Test
@@ -285,17 +285,17 @@ public class CasesOfUseTest {
         MultipleChoice question = new MultipleChoice(1, content, new PartialMode(), choices);
 
         HashMap<Player, ArrayList<Choice>> playersAnswers = new HashMap<>();
-        Player playerOne = new Player("Juan", 5);
+        Player player1 = new Player("Juan", 5);
 
         //Act
-        ArrayList<Choice> answersPlayerOne = playerOne.Choice(question, "2,4");
+        ArrayList<Choice> answersplayer1 = player1.setAnswers(question, "2,4");
 
-        playersAnswers.put(playerOne, answersPlayerOne);
+        playersAnswers.put(player1, answersplayer1);
 
         question.assignScore(playersAnswers);
 
         //Assert
-        assertEquals(5, playerOne.getScore());
+        assertEquals(5, player1.getScore());
     }
 
     @Test
@@ -311,15 +311,15 @@ public class CasesOfUseTest {
         OrderedChoice question = new OrderedChoice(1, content, new ClassicMode(), choices, new int[]{4, 2, 3, 1});
 
         HashMap<Player, ArrayList<Choice>> playersAnswers = new HashMap<>();
-        Player playerOne = new Player("Lucas", 7);
+        Player player1 = new Player("Lucas", 7);
 
         //Act
-        ArrayList<Choice> answersPlayerOne = playerOne.Choice(question, "4,2,3,1");
-        playersAnswers.put(playerOne, answersPlayerOne);
+        ArrayList<Choice> answersplayer1 = player1.setAnswers(question, "4,2,3,1");
+        playersAnswers.put(player1, answersplayer1);
         question.assignScore(playersAnswers);
 
         //Assert
-        assertEquals(8, playerOne.getScore());
+        assertEquals(8, player1.getScore());
     }
 
     @Test
@@ -335,17 +335,17 @@ public class CasesOfUseTest {
         OrderedChoice question = new OrderedChoice(1, content, new ClassicMode(), choices, new int[]{4, 2, 3, 1});
 
         HashMap<Player, ArrayList<Choice>> playersAnswers = new HashMap<>();
-        Player playerOne = new Player("Lucas", 7);
+        Player player1 = new Player("Lucas", 7);
 
         //Act
-        ArrayList<Choice> answersPlayerOne = playerOne.Choice(question, "2,4,3,1");
+        ArrayList<Choice> answersplayer1 = player1.setAnswers(question, "2,4,3,1");
 
-        playersAnswers.put(playerOne, answersPlayerOne);
+        playersAnswers.put(player1, answersplayer1);
 
         question.assignScore(playersAnswers);
 
         //Assert
-        assertEquals(7, playerOne.getScore());
+        assertEquals(7, player1.getScore());
     }
 
     @Test
@@ -363,17 +363,17 @@ public class CasesOfUseTest {
         GroupChoice question = new GroupChoice(1, content, new ClassicMode(), choices);
 
         HashMap<Player, ArrayList<Choice>> playersAnswers = new HashMap<>();
-        Player playerOne = new Player("Manuel", 2);
+        Player player1 = new Player("Manuel", 2);
 
         //Act
-        ArrayList<Choice> answersPlayerOne = playerOne.Choice(question, "2,3,5");
+        ArrayList<Choice> answersplayer1 = player1.setAnswers(question, "2,3,5");
 
-        playersAnswers.put(playerOne, answersPlayerOne);
+        playersAnswers.put(player1, answersplayer1);
 
         question.assignScore(playersAnswers);
 
         //Assert
-        assertEquals(3, playerOne.getScore());
+        assertEquals(3, player1.getScore());
     }
 
     @Test
@@ -391,16 +391,16 @@ public class CasesOfUseTest {
         GroupChoice question = new GroupChoice(1, content, new ClassicMode(), choices);
 
         HashMap<Player, ArrayList<Choice>> playersAnswers = new HashMap<>();
-        Player playerOne = new Player("Manuel", 2);
+        Player player1 = new Player("Manuel", 2);
 
         //Act
-        ArrayList<Choice> answersPlayerOne = playerOne.Choice(question, "1,2,3");
+        ArrayList<Choice> answersplayer1 = player1.setAnswers(question, "1,2,3");
 
-        playersAnswers.put(playerOne, answersPlayerOne);
+        playersAnswers.put(player1, answersplayer1);
 
         question.assignScore(playersAnswers);
 
         //Assert
-        assertEquals(2, playerOne.getScore());
+        assertEquals(2, player1.getScore());
     }
 }
