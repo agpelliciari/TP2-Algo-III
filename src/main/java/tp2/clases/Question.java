@@ -78,4 +78,14 @@ abstract class Question {
 
         return AnswerFactory.createAnswers(chosenOption, this);
     }
+
+    public List<Answer> getCorrectAnswers() {
+        List<Answer> correctAnswers = new ArrayList<>();
+        for (Answer option: options) {
+            if (option.getCorrection().isCorrect()) {
+                correctAnswers.add(option);
+            }
+        }
+        return correctAnswers;
+    }
 }
