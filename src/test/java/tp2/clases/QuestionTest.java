@@ -2,7 +2,7 @@ package tp2.clases;
 
 
 import org.junit.jupiter.api.Test;
-import tp2.clases.exceptions.InvalidNumberOfChosenOptionsException;
+import tp2.clases.exceptions.InvalidNumberOfChosenChoicesException;
 import tp2.clases.exceptions.UserNameAlreadyExistsException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -53,7 +53,7 @@ public class QuestionTest {
     }
 
     @Test
-    public void test03ATrueOrFalseQuestionReturnsTheChosenOptions() {
+    public void test03ATrueOrFalseQuestionReturnsTheChosenChoices() {
         //Arrange
         ArrayList<Choice> expectedValue = new ArrayList<>();
         ArrayList<Choice> choices = new ArrayList<>();
@@ -67,14 +67,14 @@ public class QuestionTest {
         TrueOrFalse question = new TrueOrFalse(1, content, new ClassicMode(), choices);
 
         //Act
-        ArrayList<Choice> chosenOptions = question.choiceOption("1");
+        ArrayList<Choice> assignChosenChoicesToPlayer = question.assignChosenChoicesToPlayer("1");
 
         //Assert
-        assertEquals(expectedValue, chosenOptions);
+        assertEquals(expectedValue, assignChosenChoicesToPlayer);
     }
 
     @Test
-    public void test04AMultipleChoiceQuestionReturnsTheChosenOptions() {
+    public void test04AMultipleChoiceQuestionReturnsTheChosenChoices() {
         //Arrange
         ArrayList<Choice> expectedValue = new ArrayList<>();
         ArrayList<Choice> choices = new ArrayList<>();
@@ -88,20 +88,19 @@ public class QuestionTest {
         expectedValue.add(answer2);
 
         choices.add(new Choice("3", "Correcta", 3));
-
         choices.add(new Choice("4", "Correcta", 4));
 
         MultipleChoice question = new MultipleChoice(1, content, new ClassicMode(), choices);
 
         //Act
-        ArrayList<Choice> chosenOptions = question.choiceOption("1,2");
+        ArrayList<Choice> assignChosenChoicesToPlayer = question.assignChosenChoicesToPlayer("1,2");
 
         //Assert
-        assertEquals(expectedValue, chosenOptions);
+        assertEquals(expectedValue, assignChosenChoicesToPlayer);
     }
 
     @Test
-    public void test05ATrueOrFalseQuestionThrowsAnExceptionWhenAnUserChoosesTwoAnswersInAQuestionWithTwoOptions() {
+    public void test05ATrueOrFalseQuestionThrowsAnExceptionWhenAnUserChoosesTwoAnswersInAQuestionWithTwoChoices() {
         // Arrange
         ArrayList<Choice> choices = new ArrayList<>();
 
@@ -111,11 +110,11 @@ public class QuestionTest {
         TrueOrFalse question = new TrueOrFalse(1, content, new ClassicMode(), choices);
 
         // Assert
-        assertThrows(InvalidNumberOfChosenOptionsException.class, () -> { question.choiceOption("1,3"); });
+        assertThrows(InvalidNumberOfChosenChoicesException.class, () -> { question.assignChosenChoicesToPlayer("1,3"); });
     }
 
     @Test
-    public void test05AMultipleChoiceQuestionThrowsAnExceptionWhenAnUserChoosesFourAnswersInAQuestionWithFourOptions() {
+    public void test05AMultipleChoiceQuestionThrowsAnExceptionWhenAnUserChoosesFourAnswersInAQuestionWithFourChoices() {
         //Arrange
         ArrayList<Choice> choices = new ArrayList<>();
 
@@ -127,6 +126,6 @@ public class QuestionTest {
         MultipleChoice question = new MultipleChoice(1, content, new ClassicMode(), choices);
 
         //Assert
-        assertThrows(InvalidNumberOfChosenOptionsException.class, () -> {question.choiceOption("1,3,2,4");});
+        assertThrows(InvalidNumberOfChosenChoicesException.class, () -> {question.assignChosenChoicesToPlayer("1,3,2,4");});
     }
 }

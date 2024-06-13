@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Player {
-    private String name;
-    private Score score;
+    private final String name;
+    private final Score score;
+    private Exclusivity exclusivity;
+    private int numberOfCorrectAnswers;
 
     public Player(String name, int initialScore) {
         this.name = name;
@@ -20,16 +22,23 @@ public class Player {
         return score.getScore();
     }
 
-    public ArrayList<Choice> Choice(Question question) {
-
-        Scanner scanner = new Scanner(System.in);
-        String chosenOption = scanner.nextLine();
-
-        return question.choiceOption(chosenOption);
+    public Exclusivity getExclusivity() {
+        return exclusivity;
     }
 
-    public ArrayList<Choice> Choice(Question question, String chosenOption) {
-        return question.choiceOption(question.createAnswers(chosenOption), this);
+    public ArrayList<Choice> setAnswers(Question question) {
+        Scanner scanner = new Scanner(System.in);
+        String chosenChoice = scanner.nextLine();
+
+        return question.assignChosenChoicesToPlayer(chosenChoice);
+    }
+
+    public ArrayList<Choice> setAnswers(Question question, String chosenChoice) {
+        return question.assignChosenChoicesToPlayer(question.createAnswers(chosenChoice), this);
+    }
+
+    public void assignExclusivity(boolean bool) {
+        exclusivity = new Exclusivity(bool);
     }
 
     public void assignScore(Correction correction, int modification) {
@@ -41,6 +50,14 @@ public class Player {
     }*/
 
     public boolean equals(Player aPlayer) {
-        return name == aPlayer.getName();
+        return name.equals(aPlayer.getName());
+    }
+
+    public int getNumberOfCorrectAnswers() {
+        return numberOfCorrectAnswers;
+    }
+
+    public void setNumberOfCorrectAnswers(int numberOfCorrectAnswers) {
+        this.numberOfCorrectAnswers = numberOfCorrectAnswers;
     }
 }

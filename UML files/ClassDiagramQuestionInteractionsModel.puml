@@ -7,14 +7,14 @@ skinparam classAttributeIconSize 0
 title: Model of classes that interact with Question
 
 abstract class Question{
--options: List<Choice>
+-choices: List<Choice>
 -content: Content
 +{static}Question(content: Content, mode: Mode, choices: List<Choice>)
 +getNumberOfCorrectAnswers(List<Choice> choices): int
 +getNumberOfIncorrectAnswers(List<Choice> choices): int
 +hasNoIncorrectAnswers(ArrayList<Choice> choices): boolean
 +assignScore(playersAnswers: HashMap<Player, ArrayList<Choice>>)
-+choiceOption(chosenOptions: String): ArrayList<Choice>
++assignChosenChoicesToPlayer(assignChosenChoicesToPlayer: String): ArrayList<Choice>
 }
 
 class TrueOrFalse {

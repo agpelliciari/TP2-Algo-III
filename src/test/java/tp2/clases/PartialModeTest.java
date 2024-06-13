@@ -11,7 +11,7 @@ class PartialModeTest {
     Content content = new Content("", "","");
 
     @Test
-    public void test01PlayerChoosesAllPossibleCorrectOptionsAndNoneIncorrect() {
+    public void test01PlayerChoosesAllPossibleCorrectChoicesAndNoneIncorrect() {
 
         Player player = new Player("Player1",0);
 
@@ -23,7 +23,7 @@ class PartialModeTest {
         MultipleChoice question = new MultipleChoice(1, content, new PartialMode(), choices);
 
         HashMap<Player, ArrayList<Choice>> playerAnswer = new HashMap<>();
-        ArrayList<Choice> chosenAnswers = player.Choice(question, "1,2,3");
+        ArrayList<Choice> chosenAnswers = player.setAnswers(question, "1,2,3");
         playerAnswer.put(player, chosenAnswers);
         question.assignScore(playerAnswer);
 
@@ -31,7 +31,7 @@ class PartialModeTest {
     }
 
     @Test
-    public void test02PlayerChoosesAllPossibleCorrectOptionsAndOneIncorrectObtainsZeroPoints() {
+    public void test02PlayerChoosesAllPossibleCorrectChoicesAndOneIncorrectObtainsZeroPoints() {
 
         Player player = new Player("Player1",0);
 
@@ -43,14 +43,14 @@ class PartialModeTest {
         MultipleChoice question = new MultipleChoice(1, content, new PartialMode(), choices);
 
         HashMap<Player, ArrayList<Choice>> playerAnswer = new HashMap<>();
-        ArrayList<Choice> chosenAnswers = player.Choice(question, "1,3,4");
+        ArrayList<Choice> chosenAnswers = player.setAnswers(question, "1,3,4");
         playerAnswer.put(player, chosenAnswers);
         question.assignScore(playerAnswer);
 
         assertEquals(0, player.getScore());
     }
     @Test
-    public void test03PlayerChooses2OutOf3CorrectOptionsAndNoneIncorrectObtains2Points() {
+    public void test03PlayerChooses2OutOf3CorrectChoicesAndNoneIncorrectObtains2Points() {
 
         Player player = new Player("Player1",0);
 
@@ -62,7 +62,7 @@ class PartialModeTest {
         MultipleChoice question = new MultipleChoice(1, content, new PartialMode(), choices);
 
         HashMap<Player, ArrayList<Choice>> playerAnswer = new HashMap<>();
-        ArrayList<Choice> chosenAnswers = player.Choice(question, "1,2");
+        ArrayList<Choice> chosenAnswers = player.setAnswers(question, "1,2");
         playerAnswer.put(player, chosenAnswers);
         question.assignScore(playerAnswer);
 

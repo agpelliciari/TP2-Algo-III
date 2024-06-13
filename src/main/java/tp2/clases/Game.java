@@ -1,42 +1,48 @@
 package tp2.clases;
+
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
-
 import tp2.clases.exceptions.InvalidNumberOfPlayersException;
 import tp2.clases.exceptions.UserNameAlreadyExistsException;
 
 class Game {
     private int maxScore;
-    private ArrayList<Question> questions;
+    private ArrayList<Question> questions = new ArrayList<>();
+    private ArrayList<Player> players = new ArrayList<>();
 
     public Game(ArrayList<Question> questions, int maxScore) {
         this.maxScore = maxScore;
-        this.questions = questions;
     }
 
-    public void start(int numberOfPlayers) {
-        ArrayList<Player> players = selectPlayers(numberOfPlayers);
+    public Game(int maxScore) {
+        this.maxScore = maxScore;
+    }
 
-        // while(score mas alto != maxScore)
-        for (Question question : questions) {
+    public void addPlayer(Player player) {
+        players.add(player);
+    }
 
-            HashMap<Player, ArrayList<Choice>> choices = new HashMap<>();
+    public void addQuestion(Question question) {
+        questions.add(question);
+    }
 
-            for (Player player : players) {
-                ArrayList<Choice> playerAnswers = player.Choice(question);
-                choices.put(player, playerAnswers);
-            }
+    public int getMaxScore() {
+        return maxScore;
+    }
 
-            question.assignScore(choices);
-        }
+    public ArrayList<Player> getPlayers() {
+        return players;
+    }
+
+    public ArrayList<Question> getQuestions() {
+        return questions;
     }
 
     public ArrayList<Player> selectPlayers(int numberOfPlayers) {
         if (numberOfPlayers < 2)
             throw new InvalidNumberOfPlayersException();
-        
+
         ArrayList<Player> players = new ArrayList<>();
 
         for (int i = 0; i < numberOfPlayers; i++) {
@@ -51,7 +57,7 @@ class Game {
     public ArrayList<Player> selectPlayers(int numberOfPlayers, List<String> users) {
         if (numberOfPlayers < 2)
             throw new InvalidNumberOfPlayersException();
-        
+
         ArrayList<Player> players = new ArrayList<>();
 
         for (int i = 0; i < numberOfPlayers; i++) {
@@ -77,5 +83,19 @@ class Game {
                 throw new UserNameAlreadyExistsException();
 
         players.add(aPlayer);
+    }
+
+    public boolean checkIfOnlyOneCorrectAnswer(int[] playersCorrectAnswers) {
+        int correctCount = 0;
+
+        for (int playerCorrectAnswers : playersCorrectAnswers) {
+            if (playerCorrectAnswers > 0) {
+                correctCount++;
+            }
+            if (correctCount > 1) {
+                return false;
+            }
+        }
+        return correctCount == 1;
     }
 }
