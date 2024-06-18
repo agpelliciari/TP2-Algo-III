@@ -2,9 +2,11 @@ package tp2.clases;
 
 public class Score {
     private int totalScore;
+    private ScoreState state;
 
     public Score(int initialScore){
         totalScore = initialScore;
+        state = new NormalState();
     }
 
     public int getScore(){
@@ -12,11 +14,16 @@ public class Score {
     }
 
     public void addScore(int scoreToAdd){
-        totalScore += scoreToAdd;
+        //totalScore += scoreToAdd;
+        totalScore += state.addScore(scoreToAdd);
     }
 
     public void subtractScore(int scoreToSubtract){
         totalScore -= scoreToSubtract;
+    }
+
+    public void cancelScore() {
+        state = new CanceledState();
     }
 
 /*    public void assignScore(Correction correction, int newScore){

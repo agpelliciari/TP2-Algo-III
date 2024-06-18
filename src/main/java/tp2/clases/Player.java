@@ -1,9 +1,18 @@
 package tp2.clases;
 
+import tp2.clases.Question;
+import tp2.clases.Answer;
+import tp2.clases.Correction;
+import tp2.clases.Score;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.List;
 
 public class Player {
+  
+    private String name;
+    private Score score;
+    private List<Multiplicator> multiplicators;
     private final String name;
     private final Score score;
     private Exclusivity exclusivity;
@@ -12,6 +21,9 @@ public class Player {
     public Player(String name, int initialScore) {
         this.name = name;
         this.score = new Score(initialScore);
+        this.multiplicators = new ArrayList<>();
+        multiplicators.add(new Multiplicator(2));
+        multiplicators.add(new Multiplicator(3));
         this.exclusivity = new Exclusivity(false);
         this.numberOfCorrectAnswers = 0;
     }
@@ -46,7 +58,18 @@ public class Player {
     }
 
     public void assignScore(Correction correction, int modification) {
-        correction.assignScore(score, modification);
+
+        Multiplicator multiplicator = getActiveMultiplicator();
+        if(multiplicator != null){
+            int factor = multiplicator.getFactor();
+            correction.assignScore(score, modification*factor);
+            multiplicator.deactivate();
+        }
+        else{
+            correction.assignScore(score, modification);
+        }
+
+
     }
 
     /*public void assignScore(Incorrect correction, int wrongPoints) {
@@ -63,5 +86,30 @@ public class Player {
 
     public void setNumberOfCorrectAnswers(int numberOfCorrectAnswers) {
         this.numberOfCorrectAnswers = numberOfCorrectAnswers;
+    }
+
+    public void useMultiplicator(int factor) {
+        Multiplicator multiplicator = getMultiplicator(factor);
+        if (!multiplicator.isActive()) {
+            multiplicator.activate();
+        }
+    }
+
+    public Multiplicator getMultiplicator(int factor) {
+        for (Multiplicator multiplicator : multiplicators) {
+            if (multiplicator.getFactor() == factor){
+                return multiplicator;
+            }
+        }
+        return null;
+    }
+
+    public Multiplicator getActiveMultiplicator() {
+        for (Multiplicator multiplicator : multiplicators) {
+            if (multiplicator.isActive()) {
+                return multiplicator;
+            }
+        }
+        return null;
     }
 }
