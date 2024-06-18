@@ -37,6 +37,10 @@ public class Answer {
         return getId() == searchedId;
     }
 
+    public boolean equals(Answer otherAnswer){
+        return id == otherAnswer.getId();
+    }
+
     public void assignPlayer(Player aPlayer) {
         player = aPlayer;
     }

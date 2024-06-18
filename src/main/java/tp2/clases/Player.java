@@ -23,6 +23,10 @@ public class Player {
         multiplicators.add(new Multiplicator(3));
     }
 
+    public Player(Score score) {
+        this.score = score;
+    }
+
     public String getName() {
         return name;
     }

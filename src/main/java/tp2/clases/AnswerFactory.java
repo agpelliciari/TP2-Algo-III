@@ -9,7 +9,7 @@ class AnswerFactory {
 
         for (char chosenAnswer : chosenAnswers.toCharArray()) {
             for (Answer option : question.getOptions()) {
-                if (option.equals(chosenAnswer)) {
+                if ((option.equals(chosenAnswer))) {
                     if (option.getCorrection().isCorrect()) {
                         answers.add(new Answer(option.getContent(), "correcta", 1, option.getId()));
                     } else {
