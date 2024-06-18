@@ -6,13 +6,13 @@
 # separate terms of service, privacy policy, and support
 # documentation.
 
-name: Java CI with Maven to 'question-refactor' branch
+name: Java CI with Maven to 'nullifier-develop' branch
 
 on:
   push:
-    branches: [ "question-refactor" ]
+    branches: [ "nullifier-develop" ]
   pull_request:
-    branches: [ "question-refactor" ]
+    branches: [ "nullifier-develop" ]
 
 jobs:
   build:
