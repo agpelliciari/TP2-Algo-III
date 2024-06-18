@@ -27,6 +27,7 @@ jobs:
         java-version: '20.0.1'
         distribution: 'oracle'
         cache: maven
+        cache-dependency-path: 'TP2-Algo-III/pom.xml'
     - name: Build with Maven
       run: mvn -B package --file pom.xml
 
