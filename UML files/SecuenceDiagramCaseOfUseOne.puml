@@ -1,38 +1,57 @@
 @startuml
-title: A true/false question receives a list of answers and assigns points to those who answered correctly
+title: A true/false question receives a list of choices and assigns points to those who answered correctly
 
-actor actor
-participant "aQuestion:Question" as question
-participant "type: TrueOrFalse" as type
+actor testCaseOne
+participant "question:TrueOrFalse" as question
+participant "mode: ClassicMode" as type
+participant "content: Content" as content
 participant "aPlayer:Player" as player
-participant ":Answer" as answer
+participant "Choice:Choice" as Choice
+participant ":AnswerFactory" as factory
 
+create content
+testCaseOne -> content:new("GENERAL KNOWLEDGE", "Uba is the...")
+create type
+testCaseOne -> type: new()
 create question
-actor -> question: Question(content: String, type:TrueOrFalse(), options: List<Answer>, theme: String)
-
-loop for numberOfPlayers
-create player
-actor -> player: Player(name: String, score: Score)
-end
+testCaseOne -> question: new(content, mode, List<Choice>)
 
 loop for each player
-actor -> player: answer(aQuestion: Question, chosenOption: String)
-activate player
-player -> question: choiceOption(chosenOption)
+create player
+testCaseOne -> player: new(name, score)
 
+testCaseOne -> player: Choice(question, chosenChoice)
+activate player
+player -> question: createAnswer(chosenChoice)
 activate question
-loop for char in chosenOption: chosenOptions.toCharArray
-    loop for option in options
-        question -> answer: equals(chosenOption)
-        activate answer
-        question <<-- answer: true -> chosenAnswers.add(option)
-        note left: ArrayList<Answer> chosenAnswers
-        end loop
+question -> factory: createAnswer(question, chosenChoice)
+activate factory
+create Choice
+factory -> Choice: new()
+factory -> factory: choices.add(Choice)
+factory --> question: choices
+deactivate factory
+question --> player: choices
+player -> question: assignChosenChoicesToPlayer(choices, aPlayer)
+
+loop for each Choice
+question -> Choice: assignPlayer(aPlayer)
+activate Choice
+Choice -> Choice: player = aPlayer
 end loop
-deactivate answer
-player -->> actor: chosenAnswers
+deactivate Choice
+question --> player: choices
+player --> testCaseOne: choices
 deactivate player
-actor -> actor: playerAnswers.put(aPlayer, chosenAnswers)
-note left: HashMap<Player, ArrayList<Answers>> playerAnswers
+testCaseOne -> testCaseOne: playerAnswers.put(aPlayer, choices)
 end loop
 @enduml
+
+loop for char in chosenChoice: assignChosenChoicesToPlayer.toCharArray
+    loop for choice in choices
+        question -> Choice: equals(chosenChoice)
+        activate Choice
+        question <<-- Choice: true -> chosenAnswers.add(choice)
+        note left: ArrayList<Choice> chosenAnswers
+        end loop
+end loop

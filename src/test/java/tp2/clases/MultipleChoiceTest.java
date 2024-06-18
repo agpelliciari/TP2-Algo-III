@@ -9,21 +9,22 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class MultipleChoiceTest {
 
-    Content content = new Content("", "");
+    Content content = new Content("", "","");
 
     @Test
-    public void test01PlayerChoosesOneIncorrectOptionAndDoesntReceivePoints(){
+    public void test01PlayerChoosesOneIncorrectChoiceAndDoesntReceivePoints(){
         Player player = new Player("Player1",0);
 
-        ArrayList<Answer> answers = new ArrayList<>();
-        answers.add(new Answer("Answer1", "correcta",1,'a'));
-        answers.add(new Answer("Answer2", "correcta",1,'b'));
-        answers.add(new Answer("Answer3", "incorrecta",1,'c'));
-        answers.add(new Answer("Answer4", "incorrecta",1,'d'));
-        MultipleChoice question = new MultipleChoice(content, new ClassicMode(), answers);
+        ArrayList<Choice> choices = new ArrayList<>();
+        choices.add(new Choice("Answer1", "correcta",1));
+        choices.add(new Choice("Answer2", "correcta",2));
+        choices.add(new Choice("Answer3", "incorrecta",3));
+        choices.add(new Choice("Answer4", "incorrecta",4));
+        MultipleChoice question = new MultipleChoice(1, content, new ClassicMode(), choices);
 
-        HashMap<Player, ArrayList<Answer>> playerAnswer = new HashMap<>();
-        ArrayList<Answer> chosenAnswers = player.answer(question, "abc");
+        HashMap<Player, ArrayList<Choice>> playerAnswer = new HashMap<>();
+        ArrayList<Choice> chosenAnswers = player.setAnswers(question, "1,2,3");
+
         playerAnswer.put(player, chosenAnswers);
         question.assignScore(playerAnswer);
 
@@ -31,18 +32,18 @@ class MultipleChoiceTest {
     }
 
     @Test
-    public void test02PlayerChoosesAllOptionsCorrect(){
+    public void test02PlayerChoosesAllChoicesCorrect(){
         Player player = new Player("Player1",0);
 
-        ArrayList<Answer> answers = new ArrayList<>();
-        answers.add(new Answer("Answer1", "correcta",1,'a'));
-        answers.add(new Answer("Answer2", "correcta",1,'b'));
-        answers.add(new Answer("Answer3", "incorrecta",1,'c'));
-        answers.add(new Answer("Answer4", "incorrecta",1,'d'));
-        MultipleChoice question = new MultipleChoice(content, new ClassicMode(), answers);
+        ArrayList<Choice> choices = new ArrayList<>();
+        choices.add(new Choice("Answer1", "correcta",1));
+        choices.add(new Choice("Answer2", "correcta",2));
+        choices.add(new Choice("Answer3", "incorrecta",3));
+        choices.add(new Choice("Answer4", "incorrecta",4));
+        MultipleChoice question = new MultipleChoice(1, content, new ClassicMode(), choices);
 
-        HashMap<Player, ArrayList<Answer>> playerAnswer = new HashMap<>();
-        ArrayList<Answer> chosenAnswers = player.answer(question, "ab");
+        HashMap<Player, ArrayList<Choice>> playerAnswer = new HashMap<>();
+        ArrayList<Choice> chosenAnswers = player.setAnswers(question, "1,2");
         playerAnswer.put(player, chosenAnswers);
         question.assignScore(playerAnswer);
 
@@ -50,18 +51,18 @@ class MultipleChoiceTest {
     }
 
     @Test
-    public void test03PlayerChoosesAllOptionsIncorrect(){
+    public void test03PlayerChoosesAllChoicesIncorrect(){
         Player player = new Player("Player1",0);
-        HashMap<Player, ArrayList<Answer>> playerAnswer = new HashMap<>();
+        HashMap<Player, ArrayList<Choice>> playerAnswer = new HashMap<>();
 
-        ArrayList<Answer> answers = new ArrayList<>();
-        answers.add(new Answer("Answer1", "correcta",1,'a'));
-        answers.add(new Answer("Answer2", "correcta",1,'b'));
-        answers.add(new Answer("Answer3", "incorrecta",1,'c'));
-        answers.add(new Answer("Answer4", "incorrecta",1,'d'));
-        MultipleChoice question = new MultipleChoice(content, new ClassicMode(), answers);
+        ArrayList<Choice> choices = new ArrayList<>();
+        choices.add(new Choice("Answer1", "correcta",1));
+        choices.add(new Choice("Answer2", "correcta",2));
+        choices.add(new Choice("Answer3", "incorrecta",3));
+        choices.add(new Choice("Answer4", "incorrecta",4));
+        MultipleChoice question = new MultipleChoice(1, content, new ClassicMode(), choices);
 
-        ArrayList<Answer> chosenAnswers = player.answer(question, "cd");
+        ArrayList<Choice> chosenAnswers = player.setAnswers(question, "3,4");
         playerAnswer.put(player, chosenAnswers);
         question.assignScore(playerAnswer);
 

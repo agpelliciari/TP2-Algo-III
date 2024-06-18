@@ -5,18 +5,27 @@ import java.util.HashMap;
 import java.util.List;
 
 public class GroupChoice extends Question{
+    public final ArrayList<Group> groups = new ArrayList<>();
 
-
-    public GroupChoice(Content content, Mode mode, List<Answer> answers) {
-        super(content, mode, answers);
+    public GroupChoice(int id, Content content, Mode mode, ArrayList<Choice> choices) {
+        super(id, content, mode, choices);
     }
+
+    public void addGroups(ArrayList<Group> groups) {
+        this.groups.addAll(groups);
+    }
+
+    public ArrayList<Group> getGroups() {
+        return groups;
+    }
+
     @Override
-    public void assignScore(HashMap<Player, ArrayList<Answer>> chosenAnswers) {
+    public void assignScore(HashMap<Player, ArrayList<Choice>> chosenAnswers) {
 
         Mode mode = getMode();
 
         for (Player player : chosenAnswers.keySet()) {
-            List<Answer> playerAnswers = chosenAnswers.get(player);
+            ArrayList<Choice> playerAnswers = chosenAnswers.get(player);
             if(checkAnswersGroups(playerAnswers)){
                 mode.assignCorrectScore(player, getNumberOfCorrectAnswers(playerAnswers));
             }
@@ -25,15 +34,15 @@ public class GroupChoice extends Question{
             }
         }
     }
-    public boolean checkAnswersGroups(List<Answer> playerAnswers) {
+    public boolean checkAnswersGroups(List<Choice> playerAnswers) {
 
-        List<Answer> answers = getCorrectAnswers();
-        List<Character> filteredAnswers = filterAnswersIds(answers);
+        List<Choice> choices = getCorrectAnswers();
+        List<Integer> filteredAnswers = filterAnswersIds(choices);
 
-        if (playerAnswers.size() != answers.size()) {
+        if (playerAnswers.size() != choices.size()) {
             return false;
         }
-        for (Answer playerAnswer : playerAnswers) {
+        for (Choice playerAnswer : playerAnswers) {
             if (!filteredAnswers.contains(playerAnswer.getId())) {
                 return false;
             }
@@ -43,10 +52,10 @@ public class GroupChoice extends Question{
 
     }
 
-    public static List<Character> filterAnswersIds(List<Answer> answers) {
-        List<Character> ids = new ArrayList<>();
-        for (Answer answer : answers) {
-                ids.add(answer.getId());
+    public static List<Integer> filterAnswersIds(List<Choice> choices) {
+        List<Integer> ids = new ArrayList<>();
+        for (Choice choice : choices) {
+                ids.add(choice.getId());
         }
         return ids;
     }

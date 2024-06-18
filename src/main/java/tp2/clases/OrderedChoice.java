@@ -4,19 +4,20 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class OrderedChoice extends Question{
-
-    public OrderedChoice(Content content, Mode mode, List<Answer> answers) {
-        super(content, mode, answers);
+public class OrderedChoice extends Question {
+    private int[] correctOrder;
+    public OrderedChoice(int id, Content content, Mode mode, ArrayList<Choice> choices, int[] correctOrder) {
+        super(id, content, mode, choices);
+        this.correctOrder = correctOrder;
     }
 
     @Override
-    public void assignScore(HashMap<Player, ArrayList<Answer>> chosenAnswers) {
+    public void assignScore(HashMap<Player, ArrayList<Choice>> chosenAnswers) {
 
         Mode mode = getMode();
 
         for (Player player : chosenAnswers.keySet()) {
-            List<Answer> playerAnswers = chosenAnswers.get(player);
+            ArrayList<Choice> playerAnswers = chosenAnswers.get(player);
             if(checkAnswerOrder(playerAnswers)){
                 mode.assignCorrectScore(player, 1);
             }
@@ -24,11 +25,10 @@ public class OrderedChoice extends Question{
                 mode.assignIncorrectScore(player, getNumberOfIncorrectAnswers(playerAnswers));
             }
         }
-
     }
 
-    public boolean checkAnswerOrder(List<Answer> playerAnswers) {
-        List<Answer> correctAnswers = getOptions();
+    public boolean checkAnswerOrder(List<Choice> playerAnswers) {
+        ArrayList<Choice> correctAnswers = getChoices();
         if (playerAnswers.size() != correctAnswers.size()) {
             return false;
         }
@@ -40,7 +40,7 @@ public class OrderedChoice extends Question{
         return true;
     }
 
-
-
-
+    public int[] getCorrectOrder() {
+        return correctOrder;
+    }
 }

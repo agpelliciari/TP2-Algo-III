@@ -1,17 +1,13 @@
 package tp2.clases;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-
-import java.util.Arrays;
-import java.io.FileReader;
-import java.io.Reader;
 import java.util.ArrayList;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import java.util.Arrays;
+import java.util.stream.Collectors;
 
 import javax.swing.*;
 
@@ -32,8 +28,7 @@ public class Main extends Application{
         stage.show();
     }
 
-
-    public static void main(String[] args) {
+    public static void main(String[] args) {     // main con cambios de Dany sin el JsonParser
 
         //to run javaFx basic example
         ///
@@ -65,24 +60,77 @@ public class Main extends Application{
                     question.setGroups(groups);
                 }
             }
-
-            for (Question_ question : questions) {
-                System.out.println("ID: " + question.getID());
-                System.out.println("Tema: " + question.getTheme());
-                System.out.println("Tipo: " + question.getType());
-                System.out.println("Question_: " + question.getQuestion());
-                System.out.println("Respuesta: " + question.getAnswer());
-                for (Option option : question.getOptions())
-                    System.out.println("Opcion " + option.getNumber() + ": " + option.getText());
-                for (Group group : question.getGroups())
-                    System.out.println("Grupo " + group.getLetter() + ": " + group.getText());
-                System.out.println("Texto respuesta: " + question.getAnswerText());
-                System.out.println("Respuesta del usuario: 1,2");
-                System.out.println(question.checkAllAnswersAreCorrect("1,2"));
-                System.out.println();
+            System.out.println();
+            for (Choice choice : question.getChoices()) {
+                System.out.println("Opcion " + choice.getId() + ": " + choice.getContent());
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+            if (question instanceof GroupChoice) {
+                for (Group group : ((GroupChoice) question).getGroups()) {
+                    System.out.println("Grupo " + group.getLetter() + ": " + group.getText());
+                }
+            }
+            System.out.println("Texto Respuesta: " + question.getContent().getAnswerText());
+            System.out.println();
+        }
+    }
+  
+              
+    public static void main(String[] args) {     // main con cambios de Pedro con el JsonParser
+      
+        JsonParser jsonParser = new JsonParser();
+        ArrayList<Question> questions = jsonParser.questionsParser("src/main/resources/preguntas.json");
+        for (Question question : questions) {
+            System.out.println("ID: " + question.getId());
+            System.out.println("Tema: " + question.getContent().getTheme());
+            System.out.println("Pregunta: " + question.getContent().getPrompt());
+            System.out.print("Respuesta: ");
+            if (question instanceof OrderedChoice) {
+                String orderedResponse = Arrays.stream(((OrderedChoice) question).getCorrectOrder())
+                        .mapToObj(String::valueOf)
+                        .collect(Collectors.joining(","));
+                System.out.print(orderedResponse);
+            } else if (question instanceof GroupChoice) {
+                StringBuilder answer = new StringBuilder();
+                boolean firstGroup = true;
+                for (Group group : ((GroupChoice) question).getGroups()) {
+                    if (!firstGroup) {
+                        answer.append("; ");
+                    }
+                    answer.append(group.getLetter()).append(": ");
+                    boolean firstChoice = true;
+                    for (Choice choice : group.getChoices()) {
+                        if (!firstChoice) {
+                            answer.append(",");
+                        }
+                        answer.append(choice.getId());
+                        firstChoice = false;
+                    }
+                    firstGroup = false;
+                }
+                System.out.print(answer.toString());
+            } else {
+                boolean first = true;
+                for (Choice choice : question.getChoices()) {
+                    if (choice.getCorrection().isCorrect()) {
+                        if (!first) {
+                            System.out.print(",");
+                        }
+                        System.out.print(choice.getId());
+                        first = false;
+                    }
+                }
+            }
+            System.out.println();
+            for (Choice choice : question.getChoices()) {
+                System.out.println("Opcion " + choice.getId() + ": " + choice.getContent());
+            }
+            if (question instanceof GroupChoice) {
+                for (Group group : ((GroupChoice) question).getGroups()) {
+                    System.out.println("Grupo " + group.getLetter() + ": " + group.getText());
+                }
+            }
+            System.out.println("Texto Respuesta: " + question.getContent().getAnswerText());
+            System.out.println();
         }
     }
 }

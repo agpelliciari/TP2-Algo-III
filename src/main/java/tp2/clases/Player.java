@@ -4,16 +4,19 @@ import tp2.clases.Question;
 import tp2.clases.Answer;
 import tp2.clases.Correction;
 import tp2.clases.Score;
-
-
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.List;
 
 public class Player {
+  
     private String name;
     private Score score;
     private List<Multiplicator> multiplicators;
+    private final String name;
+    private final Score score;
+    private Exclusivity exclusivity;
+    private int numberOfCorrectAnswers;
 
     public Player(String name, int initialScore) {
         this.name = name;
@@ -21,6 +24,8 @@ public class Player {
         this.multiplicators = new ArrayList<>();
         multiplicators.add(new Multiplicator(2));
         multiplicators.add(new Multiplicator(3));
+        this.exclusivity = new Exclusivity(false);
+        this.numberOfCorrectAnswers = 0;
     }
 
     public String getName() {
@@ -31,17 +36,25 @@ public class Player {
         return score.getScore();
     }
 
-    public ArrayList<Answer> answer(Question question) {
-
-        Scanner scanner = new Scanner(System.in);
-        String chosenOption = scanner.nextLine();
-
-        return question.choiceOption(chosenOption);
+    public Exclusivity getExclusivity() {
+        return exclusivity;
     }
 
-    public ArrayList<Answer> answer(Question question, String chosenOption) {
+    public ArrayList<Choice> setAnswers(Question question) {
+        Scanner scanner = new Scanner(System.in);
+        String chosenChoice = scanner.nextLine();
 
-        return question.choiceOption(question.createAnswers(chosenOption), this);
+        return question.assignChosenChoicesToPlayer(chosenChoice);
+    }
+
+    public ArrayList<Choice> setAnswers(Question question, String chosenChoice) {
+        return question.assignChosenChoicesToPlayer(question.createAnswers(chosenChoice), this);
+    }
+
+    public void assignExclusivity(boolean bool) {
+        if (bool)
+            exclusivity.decreaseNumber();
+        exclusivity.setBool(bool);
     }
 
     public void assignScore(Correction correction, int modification) {
@@ -64,7 +77,15 @@ public class Player {
     }*/
 
     public boolean equals(Player aPlayer) {
-        return name == aPlayer.getName();
+        return name.equals(aPlayer.getName());
+    }
+
+    public int getNumberOfCorrectAnswers() {
+        return numberOfCorrectAnswers;
+    }
+
+    public void setNumberOfCorrectAnswers(int numberOfCorrectAnswers) {
+        this.numberOfCorrectAnswers = numberOfCorrectAnswers;
     }
 
     public void useMultiplicator(int factor) {

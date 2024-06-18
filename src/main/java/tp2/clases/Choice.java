@@ -1,16 +1,14 @@
 package tp2.clases;
 
-public class Answer {
+public class Choice {
     public String content;
     public Correction correction;
-    public int score;
-    private char id;
+    private final int id;
     private Player player;
 
-    public Answer(String content, String correction, int score, char id) {
+    public Choice(String content, String correction, int id) {
         this.content = content;
         this.correction = Correction.assignCorrection(correction);
-        this.score = score;
         this.id = id;
     }
 
@@ -27,15 +25,7 @@ public class Answer {
         return content;
     }
 
-    public int getScore() {
-        return score;
-    }
-
-    public char getId() { return id;}
-
-    public boolean equals(char searchedId){
-        return getId() == searchedId;
-    }
+    public int getId() { return id;}
 
     public void assignPlayer(Player aPlayer) {
         player = aPlayer;
