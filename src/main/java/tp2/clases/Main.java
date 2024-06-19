@@ -186,6 +186,16 @@ public class Main extends Application {
         CheckBox exclusivityCheckBox = new CheckBox("Usar exclusividad");
         vbox.getChildren().add(exclusivityCheckBox);
 
+        HBox multiplicatorContainer = new HBox(10);
+        multiplicatorContainer.setAlignment(Pos.CENTER);
+        CheckBox multiplicatorCheckBox = new CheckBox("Usar multiplicador");
+        TextField factorTextField = new TextField();
+        factorTextField.setPromptText("Factor");
+        factorTextField.setPrefWidth(50);
+        multiplicatorContainer.getChildren().addAll(multiplicatorCheckBox, factorTextField);
+        vbox.getChildren().add(multiplicatorContainer);
+
+
         Button answerButton = new Button("Responder");
         answerButton.setOnAction(e -> {
             try {
