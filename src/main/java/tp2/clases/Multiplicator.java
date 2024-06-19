@@ -1,14 +1,14 @@
 package tp2.clases;
 
-public class Multiplicator {
+public class Multiplicator extends Power{
 
-    private MultiplicatorState state;
+    private PowerState state;
     private final int factor;
     private boolean used;
 
     public Multiplicator(int factor) {
         this.factor = factor;
-        this.state = new InactiveState(this);
+        this.state = new _InactiveState(this);
         this.used = false;
     }
 
@@ -17,7 +17,7 @@ public class Multiplicator {
         return factor;
     }
 
-    public void setState(MultiplicatorState state) {
+    public void setState(PowerState state) {
         this.state = state;
     }
 
@@ -25,9 +25,6 @@ public class Multiplicator {
         this.used = used;
     }
 
-    public void apply(Player player) {
-        state.apply(player);
-    }
 
     public boolean isActive() {
         return state.isActive();
