@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class JsonParser {
-    public class QuestionString {
+    public static class QuestionString {
         @SerializedName("ID")
         private String id;
         @SerializedName("Tema")
@@ -20,7 +20,7 @@ public class JsonParser {
         @SerializedName("Pregunta")
         private String question;
         @SerializedName("Respuesta")
-        private String answer;
+        private String Choice;
         @SerializedName("Opcion 1")
         private String choice1;
         @SerializedName("Opcion 2")
@@ -64,7 +64,7 @@ public class JsonParser {
         }
 
         public String getAnswer() {
-            return answer;
+            return Choice;
         }
 
         public String getChoice1() {
@@ -205,8 +205,8 @@ public class JsonParser {
         return questions;
     }
 
-    private int[] getIntArrayFromString(String answer) {
-        String[] answerParts = answer.split(",");
+    private int[] getIntArrayFromString(String Choice) {
+        String[] answerParts = Choice.split(",");
         int[] answerInt = new int[answerParts.length];
         for (int i = 0; i < answerParts.length; i++) {
             answerInt[i] = Integer.parseInt(answerParts[i]);

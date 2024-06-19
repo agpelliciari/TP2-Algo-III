@@ -76,7 +76,7 @@ public class ExclusivityTest {
         game.addQuestion(new TrueOrFalse(1, content, new ClassicMode(), choices1));
 
         ArrayList<Choice> choices2 = new ArrayList<>();
-        choices2.add(new Choice("a", "Correcta", 1));
+        choices2.add(new Choice("", "Correcta", 1));
         choices2.add(new Choice("b", "Incorrecta", 2));
         choices2.add(new Choice("c", "Correcta", 3));
         choices2.add(new Choice("d", "Incorrecta", 4));

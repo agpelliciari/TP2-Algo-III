@@ -1,17 +1,11 @@
 package tp2.clases;
 
-import tp2.clases.Question;
-import tp2.clases.Answer;
-import tp2.clases.Correction;
-import tp2.clases.Score;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.List;
 
 public class Player {
   
-    private String name;
-    private Score score;
     private List<Multiplicator> multiplicators;
     private final String name;
     private final Score score;
