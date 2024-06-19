@@ -9,4 +9,6 @@ public interface PowerState {
     public abstract void use(Power power);
 
     public abstract boolean isActive();
+
+    public abstract boolean isUsed();
 }
