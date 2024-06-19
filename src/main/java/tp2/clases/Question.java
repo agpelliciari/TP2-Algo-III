@@ -1,91 +1,99 @@
 package tp2.clases;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
-import tp2.clases.exceptions.InvalidNumberOfChosenOptionsException;
-import tp2.clases.exceptions.InvalidChosenOptionException;
+import java.util.ArrayList;
+import tp2.clases.exceptions.InvalidNumberOfChosenChoicesException;
 
 abstract class Question {
-    private final List<Answer> options;
+
+    private final int id;
+    private final ArrayList<Choice> choices;
     private final Content content;
     private final Mode mode;
 
-
-    public Question(Content content, Mode mode, List<Answer> answers) {
-        this.options = answers;
+    public Question(int id, Content content, Mode mode, ArrayList<Choice> choices) {
+        this.id = id;
+        this.choices = choices;
         this.content = content;
         this.mode = mode;
     }
 
-    public int getNumberOfCorrectAnswers(List<Answer> answers) {
-        return (int) answers.stream().filter(answer -> (answer.getCorrection()).isCorrect()).count();
+    public Content getContent() {
+        return content;
     }
 
-    public int getNumberOfIncorrectAnswers(List<Answer> answers){
-        return (int) answers.stream().filter(answer -> !(answer.getCorrection()).isCorrect()).count();
+    public int getId() {
+        return id;
     }
 
-    public boolean hasNoIncorrectAnswers(ArrayList<Answer> answers) {
-        return answers.stream().allMatch(answer -> (answer.getCorrection()).isCorrect());
+    public Mode getMode() {
+        return mode;
     }
 
-    public List<Answer> getOptions(){return options;}
+    public ArrayList<Choice> getChoices() {
+        return choices;
+    }
 
-    public Mode getMode(){return mode;}
-
-    public ArrayList<Answer> choiceOption(ArrayList<Answer> chosenOptions, Player aPlayer){
-        for (Answer chosenOption: chosenOptions){
-            //verify(chosenOption);
-            chosenOption.assignPlayer(aPlayer);
+    public ArrayList<Choice> getCorrectAnswers() {
+        ArrayList<Choice> correctAnswers = new ArrayList<>();
+        for (Choice choice: choices) {
+            if (choice.getCorrection().isCorrect()) {
+                correctAnswers.add(choice);
+            }
         }
-
-        return chosenOptions;
+        return correctAnswers;
     }
 
-/*    private void verify(Answer chosenOption) {
-        boolean isVerified = false;
-        for(Answer option: options){
-            if(option.equals(chosenOption)){
-                isVerified = true;
+    public ArrayList<Choice> createAnswers(String chosenChoice) {
+        ArrayList<Choice> chosenAnswers = new ArrayList<>();
+        String[] choiceIndices = chosenChoice.split(",");
+
+        for (String index : choiceIndices) {
+            try {
+                int choiceIndex = Integer.parseInt(index.trim()) - 1;
+                if (choiceIndex >= 0 && choiceIndex < choices.size()) {
+                    chosenAnswers.add(choices.get(choiceIndex));
+                }
+            } catch (NumberFormatException e) {
+                // Manejar error si es necesario
             }
         }
 
-        if(!isVerified){
-            throw new InvalidChosenOptionException();
-        }
+        return chosenAnswers;
     }
-*/
-    public ArrayList<Answer> choiceOption(String chosenOptions){
-        if ((chosenOptions.toCharArray()).length > options.size() - 1){
-            throw new InvalidNumberOfChosenOptionsException();
-        }
 
-        ArrayList<Answer> chosenAnswers = new ArrayList<Answer>(); // Habria que sacarlo porq no se usa
-        for(char chosenOption: chosenOptions.toCharArray()) {
-            for (Answer option : options) {
-                if (option.equals(chosenOption)) {
-                    chosenAnswers.add(option);
+    public int getNumberOfCorrectAnswers(ArrayList<Choice> choices) {
+        return (int) choices.stream().filter(choice -> choice.getCorrection().isCorrect()).count();
+    }
+
+    public int getNumberOfIncorrectAnswers(ArrayList<Choice> choices){
+        return (int) choices.stream().filter(choice -> !choice.getCorrection().isCorrect()).count();
+    }
+
+    public boolean hasNoIncorrectAnswers(ArrayList<Choice> choices) {
+        return choices.stream().allMatch(choice -> choice.getCorrection().isCorrect());
+    }
+
+    public ArrayList<Choice> assignChosenChoicesToPlayer(String chosenChoiceString) {
+        String[] choiceStrings = chosenChoiceString.split(",");
+        if (choiceStrings.length > choices.size() - 1) {
+            throw new InvalidNumberOfChosenChoicesException();
+        }
+        ArrayList<Choice> chosenAnswers = new ArrayList<>();
+
+        for (String choiceStr : choiceStrings) {
+            try {
+                int choiceIndex = Integer.parseInt(choiceStr.trim()) - 1;
+                if (choiceIndex >= 0 && choiceIndex < choices.size()) {
+                    chosenAnswers.add(choices.get(choiceIndex));
+                } else {
+                    throw new InvalidNumberOfChosenChoicesException();
                 }
+            } catch (NumberFormatException e) {
+                throw new InvalidNumberOfChosenChoicesException();
             }
         }
         return chosenAnswers;
     }
 
-    public abstract void assignScore(HashMap<Player, ArrayList<Answer>> chosenAnswers);
-
-    public ArrayList<Answer> createAnswers(String chosenOption) {
-
-        return AnswerFactory.createAnswers(chosenOption, this);
-    }
-
-    public List<Answer> getCorrectAnswers() {
-        List<Answer> correctAnswers = new ArrayList<>();
-        for (Answer option: options) {
-            if (option.getCorrection().isCorrect()) {
-                correctAnswers.add(option);
-            }
-        }
-        return correctAnswers;
-    }
+    public abstract void assignScore(Player player, ArrayList<Choice> chosenAnswers);
 }

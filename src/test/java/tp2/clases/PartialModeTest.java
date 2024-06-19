@@ -1,72 +1,75 @@
 package tp2.clases;
+
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class PartialModeTest {
 
-    Content content = new Content("", "");
+    Content content = new Content("", "", "");
 
     @Test
-    public void test01PlayerChoosesAllPossibleCorrectOptionsAndNoneIncorrect() {
+    public void test01PlayerChoosesAllPossibleCorrectChoicesAndNoneIncorrect() {
+        // Arrange
+        Player player = new Player("Player1", 0);
 
-        Player player = new Player("Player1",0);
+        ArrayList<Choice> choices = new ArrayList<>();
+        choices.add(new Choice("Answer1", "correcta", 1));
+        choices.add(new Choice("Answer2", "correcta", 2));
+        choices.add(new Choice("Answer3", "correcta", 3));
+        choices.add(new Choice("Answer4", "incorrecta", 4));
+        MultipleChoice question = new MultipleChoice(1, content, new PartialMode(), choices);
 
-        ArrayList<Answer> answers = new ArrayList<>();
-        answers.add(new Answer("Answer1", "correcta",1,'a'));
-        answers.add(new Answer("Answer2", "correcta",1,'b'));
-        answers.add(new Answer("Answer3", "correcta",1,'c'));
-        answers.add(new Answer("Answer4", "incorrecta",1,'d'));
-        MultipleChoice question = new MultipleChoice(content, new PartialMode(), answers);
+        // Act
+        ArrayList<Choice> chosenAnswers = player.setAnswers(question, "1,2,3");
 
-        HashMap<Player, ArrayList<Answer>> playerAnswer = new HashMap<>();
-        ArrayList<Answer> chosenAnswers = player.answer(question, "abc");
-        playerAnswer.put(player, chosenAnswers);
-        question.assignScore(playerAnswer);
+        question.assignScore(player, chosenAnswers);
 
+        // Assert
         assertEquals(3, player.getScore());
     }
 
     @Test
-    public void test02PlayerChoosesAllPossibleCorrectOptionsAndOneIncorrectObtainsZeroPoints() {
+    public void test02PlayerChoosesAllPossibleCorrectChoicesAndOneIncorrectObtainsZeroPoints() {
+        // Arrange
+        Player player = new Player("Player1", 0);
 
-        Player player = new Player("Player1",0);
+        ArrayList<Choice> choices = new ArrayList<>();
+        choices.add(new Choice("Answer1", "correcta", 1));
+        choices.add(new Choice("Answer2", "correcta", 2));
+        choices.add(new Choice("Answer3", "correcta", 3));
+        choices.add(new Choice("Answer4", "incorrecta", 4));
+        MultipleChoice question = new MultipleChoice(1, content, new PartialMode(), choices);
 
-        ArrayList<Answer> answers = new ArrayList<>();
-        answers.add(new Answer("Answer1", "correcta",1,'a'));
-        answers.add(new Answer("Answer2", "correcta",1,'b'));
-        answers.add(new Answer("Answer3", "correcta",1,'c'));
-        answers.add(new Answer("Answer4", "incorrecta",1,'d'));
-        MultipleChoice question = new MultipleChoice(content, new PartialMode(), answers);
+        // Act
+        ArrayList<Choice> chosenAnswers = player.setAnswers(question, "1,3,4");
 
-        HashMap<Player, ArrayList<Answer>> playerAnswer = new HashMap<>();
-        ArrayList<Answer> chosenAnswers = player.answer(question, "acd");
-        playerAnswer.put(player, chosenAnswers);
-        question.assignScore(playerAnswer);
+        question.assignScore(player, chosenAnswers);
 
+        // Assert
         assertEquals(0, player.getScore());
     }
+
     @Test
-    public void test03PlayerChooses2OutOf3CorrectOptionsAndNoneIncorrectObtains2Points() {
+    public void test03PlayerChooses2OutOf3CorrectChoicesAndNoneIncorrectObtains2Points() {
+        // Arrange
+        Player player = new Player("Player1", 0);
 
-        Player player = new Player("Player1",0);
+        ArrayList<Choice> choices = new ArrayList<>();
+        choices.add(new Choice("Answer1", "correcta", 1));
+        choices.add(new Choice("Answer2", "correcta", 2));
+        choices.add(new Choice("Answer3", "correcta", 3));
+        choices.add(new Choice("Answer4", "incorrecta", 4));
+        MultipleChoice question = new MultipleChoice(1, content, new PartialMode(), choices);
 
-        ArrayList<Answer> answers = new ArrayList<>();
-        answers.add(new Answer("Answer1", "correcta",1,'a'));
-        answers.add(new Answer("Answer2", "correcta",1,'b'));
-        answers.add(new Answer("Answer3", "correcta",1,'c'));
-        answers.add(new Answer("Answer4", "incorrecta",1,'d'));
-        MultipleChoice question = new MultipleChoice(content, new PartialMode(), answers);
+        // Act
+        ArrayList<Choice> chosenAnswers = player.setAnswers(question, "1,2");
 
-        HashMap<Player, ArrayList<Answer>> playerAnswer = new HashMap<>();
-        ArrayList<Answer> chosenAnswers = player.answer(question, "ab");
-        playerAnswer.put(player, chosenAnswers);
-        question.assignScore(playerAnswer);
+        question.assignScore(player, chosenAnswers);
 
+        // Assert
         assertEquals(2, player.getScore());
     }
-
 }

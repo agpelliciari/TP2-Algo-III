@@ -1,10 +1,8 @@
 package tp2.clases;
 
 public class Correct extends Correction {
-    public Correct() {
-        super("correcta");
-    }
 
+    public Correct() {}
 
     @Override
     public void assignScore(Score score, int modification) {

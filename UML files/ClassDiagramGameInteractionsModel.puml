@@ -19,21 +19,21 @@ class Panel{
 }
 
 abstract class Question{
--options: List<Answer>
+-choices: List<Choice>
 -content: Content
-+{static}Question(content: Content, mode: Mode, answers: List<Answer>)
-+getNumberOfCorrectAnswers(List<Answer> answers): int
-+getNumberOfIncorrectAnswers(List<Answer> answers): int
-+hasNoIncorrectAnswers(ArrayList<Answer> answers): boolean
-+assignScore(playersAnswers: HashMap<Player, ArrayList<Answer>>)
-+choiceOption(chosenOptions: String): ArrayList<Answer>
++{static}Question(content: Content, mode: Mode, choices: List<Choice>)
++getNumberOfCorrectAnswers(List<Choice> choices): int
++getNumberOfIncorrectAnswers(List<Choice> choices): int
++hasNoIncorrectAnswers(ArrayList<Choice> choices): boolean
++assignScore(playersAnswers: HashMap<Player, ArrayList<Choice>>)
++assignChosenChoicesToPlayer(assignChosenChoicesToPlayer: String): ArrayList<Choice>
 }
 
 class Player{
 -name: String
 -score: Score
 +{static}Player(name: String, initialScore: int)
-+answer(question: Question): ArrayList<Answer>
++Choice(question: Question): ArrayList<Choice>
 +assignScore(correction: Correction, newScore: int)
 +equals(aPlayer: Player): boolean
 }

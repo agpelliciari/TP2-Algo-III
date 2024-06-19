@@ -3,73 +3,72 @@ package tp2.clases;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class MultiplicatorTest {
-    Content content = new Content("", "");
+
+    Content content = new Content("", "", "");
 
     @Test
-    public void test01TrueOrFalseQuestionAssignsScoreCorrectly(){
+    public void test01TrueOrFalseQuestionAssignsScoreCorrectly() {
+        // Arrange
+        Player player = new Player("Player1", 0);
 
-        Player player = new Player("Player1",0);
+        ArrayList<Choice> choices = new ArrayList<>();
+        choices.add(new Choice("Answer1", "correcta", 1));
+        choices.add(new Choice("Answer2", "incorrecta", 2));
+        TrueOrFalse question = new TrueOrFalse(1, content, new ClassicMode(), choices);
 
-        ArrayList<Answer> answers = new ArrayList<>();
-        answers.add(new Answer("Answer1", "correcta",1,'a'));
-        answers.add(new Answer("Answer2", "incorrecta",1,'b'));
-        TrueOrFalse question = new TrueOrFalse(content, new ClassicMode(), answers);
-
-        HashMap<Player, ArrayList<Answer>> playerAnswer = new HashMap<>();
-
+        // Act
         player.useMultiplicator(2);
-        ArrayList<Answer> chosenAnswers = player.answer(question, "a");
+        ArrayList<Choice> chosenAnswers = player.setAnswers(question, "1");
 
-        playerAnswer.put(player, chosenAnswers);
-        question.assignScore(playerAnswer);
+        question.assignScore(player, chosenAnswers);
 
+        // Assert
         assertEquals(2, player.getScore());
     }
 
     @Test
-    public void test02TrueOrFalseQuestionAssignsScoreCorrectly(){
+    public void test02TrueOrFalseQuestionAssignsScoreCorrectly() {
+        // Arrange
+        Player player = new Player("Player1", 4);
 
-        Player player = new Player("Player1",4);
+        ArrayList<Choice> choices = new ArrayList<>();
+        choices.add(new Choice("Answer1", "correcta", 1));
+        choices.add(new Choice("Answer2", "incorrecta", 2));
+        TrueOrFalse question = new TrueOrFalse(1, content, new PenaltyMode(), choices);
 
-        ArrayList<Answer> answers = new ArrayList<>();
-        answers.add(new Answer("Answer1", "correcta",1,'a'));
-        answers.add(new Answer("Answer2", "incorrecta",1,'b'));
-        TrueOrFalse question = new TrueOrFalse(content, new PenaltyMode(), answers);
-
-        HashMap<Player, ArrayList<Answer>> playerAnswer = new HashMap<>();
-
+        // Act
         player.useMultiplicator(2);
-        ArrayList<Answer> chosenAnswers = player.answer(question, "b");
+        ArrayList<Choice> chosenAnswers = player.setAnswers(question, "2");
 
-        playerAnswer.put(player, chosenAnswers);
-        question.assignScore(playerAnswer);
+        question.assignScore(player, chosenAnswers);
 
+        // Assert
         assertEquals(2, player.getScore());
     }
 
     @Test
-    public void test03PlayerChoosesAllOptionsCorrectUsingx3Multiplicator(){
-        Player player = new Player("Player1",0);
+    public void test03PlayerChoosesAllOptionsCorrectUsingx3Multiplicator() {
+        // Arrange
+        Player player = new Player("Player1", 0);
 
-        ArrayList<Answer> answers = new ArrayList<>();
-        answers.add(new Answer("Answer1", "correcta",1,'a'));
-        answers.add(new Answer("Answer2", "correcta",1,'b'));
-        answers.add(new Answer("Answer3", "incorrecta",1,'c'));
-        answers.add(new Answer("Answer4", "incorrecta",1,'d'));
-        MultipleChoice question = new MultipleChoice(content, new PartialMode(), answers);
+        ArrayList<Choice> choices = new ArrayList<>();
+        choices.add(new Choice("Answer1", "correcta", 1));
+        choices.add(new Choice("Answer2", "correcta", 2));
+        choices.add(new Choice("Answer3", "incorrecta", 3));
+        choices.add(new Choice("Answer4", "incorrecta", 4));
+        MultipleChoice question = new MultipleChoice(1, content, new PartialMode(), choices);
 
-        HashMap<Player, ArrayList<Answer>> playerAnswer = new HashMap<>();
+        // Act
         player.useMultiplicator(3);
-        ArrayList<Answer> chosenAnswers = player.answer(question, "ab");
-        playerAnswer.put(player, chosenAnswers);
+        ArrayList<Choice> chosenAnswers = player.setAnswers(question, "1,2");
 
-        question.assignScore(playerAnswer);
+        question.assignScore(player, chosenAnswers);
 
+        // Assert
         assertEquals(6, player.getScore());
     }
 

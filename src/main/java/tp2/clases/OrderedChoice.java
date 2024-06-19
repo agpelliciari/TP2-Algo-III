@@ -1,46 +1,44 @@
 package tp2.clases;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
-public class OrderedChoice extends Question{
+public class OrderedChoice extends Question {
+    private int[] correctOrder;
 
-    public OrderedChoice(Content content, Mode mode, List<Answer> answers) {
-        super(content, mode, answers);
+    public OrderedChoice(int id, Content content, Mode mode, ArrayList<Choice> choices, int[] correctOrder) {
+        super(id, content, mode, choices);
+        this.correctOrder = correctOrder;
     }
 
     @Override
-    public void assignScore(HashMap<Player, ArrayList<Answer>> chosenAnswers) {
-
+    public void assignScore(Player player, ArrayList<Choice> chosenAnswers) {
         Mode mode = getMode();
 
-        for (Player player : chosenAnswers.keySet()) {
-            List<Answer> playerAnswers = chosenAnswers.get(player);
-            if(checkAnswerOrder(playerAnswers)){
-                mode.assignCorrectScore(player, 1);
-            }
-            else{
-                mode.assignIncorrectScore(player, getNumberOfIncorrectAnswers(playerAnswers));
-            }
+        if (checkAnswerOrder(chosenAnswers)) {
+            mode.assignCorrectScore(player, 1);
+        } else {
+            mode.assignIncorrectScore(player, getNumberOfIncorrectAnswers(chosenAnswers));
         }
-
     }
 
-    public boolean checkAnswerOrder(List<Answer> playerAnswers) {
-        List<Answer> correctAnswers = getOptions();
-        if (playerAnswers.size() != correctAnswers.size()) {
+    public boolean checkAnswerOrder(ArrayList<Choice> playerAnswers) {
+        ArrayList<Choice> correctChoices = getChoices();
+        if (playerAnswers.size() != correctOrder.length) {
             return false;
         }
+
         for (int i = 0; i < playerAnswers.size(); i++) {
-            if (playerAnswers.get(i).getId() != correctAnswers.get(i).getId()) {
+            // correctOrder[i] is 1-based, so we need to convert to 0-based by subtracting 1
+            int correctChoiceIndex = correctOrder[i] - 1;
+            int correctChoiceId = correctChoices.get(correctChoiceIndex).getId();
+            if (playerAnswers.get(i).getId() != correctChoiceId) {
                 return false;
             }
         }
         return true;
     }
 
-
-
-
+    public int[] getCorrectOrder() {
+        return correctOrder;
+    }
 }

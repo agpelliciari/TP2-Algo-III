@@ -1,26 +1,23 @@
 package tp2.clases;
 
-import tp2.clases.Question;
-import tp2.clases.Answer;
-import tp2.clases.Correction;
-import tp2.clases.Score;
-
-
 import java.util.ArrayList;
-import java.util.Scanner;
-import java.util.List;
 
 public class Player {
-    private String name;
-    private Score score;
-    private List<Multiplicator> multiplicators;
+
+    private ArrayList<Multiplicator> multiplicators = new ArrayList<>();
+    private final String name;
+    private final Score score;
+    private Exclusivity exclusivity;
+    private int numberOfCorrectAnswers;
+    private ArrayList<String> answers = new ArrayList<>();
 
     public Player(String name, int initialScore) {
         this.name = name;
         this.score = new Score(initialScore);
-        this.multiplicators = new ArrayList<>();
         multiplicators.add(new Multiplicator(2));
         multiplicators.add(new Multiplicator(3));
+        this.exclusivity = new Exclusivity(false);
+        this.numberOfCorrectAnswers = 0;
     }
 
     public Player(Score score) {
@@ -35,17 +32,22 @@ public class Player {
         return score.getScore();
     }
 
-    public ArrayList<Answer> answer(Question question) {
-
-        Scanner scanner = new Scanner(System.in);
-        String chosenOption = scanner.nextLine();
-
-        return question.choiceOption(chosenOption);
+    public Exclusivity getExclusivity() {
+        return exclusivity;
     }
 
-    public ArrayList<Answer> answer(Question question, String chosenOption) {
+    public ArrayList<Choice> setAnswers(Question question, String chosenChoice) {
+        ArrayList<Choice> chosenAnswers = question.createAnswers(chosenChoice);
 
-        return question.choiceOption(question.createAnswers(chosenOption), this);
+        answers.add(chosenChoice);
+
+        return chosenAnswers;
+    }
+
+    public void assignExclusivity(boolean bool) {
+        if (bool)
+            exclusivity.decreaseNumber();
+        exclusivity.setBool(bool);
     }
 
     public void assignScore(Correction correction, int modification) {
@@ -53,27 +55,33 @@ public class Player {
         Multiplicator multiplicator = getActiveMultiplicator();
         if(multiplicator != null){
             int factor = multiplicator.getFactor();
-            correction.assignScore(score, modification*factor);
+            correction.assignScore(score, modification * factor);
             multiplicator.deactivate();
         }
         else{
             correction.assignScore(score, modification);
         }
-
-
     }
 
-    /*public void assignScore(Incorrect correction, int wrongPoints) {
-        score.subtractScore(wrongPoints);
-    }*/
+    public void addToScore(int number) {
+        score.addScore(number);
+    }
 
     public boolean equals(Player aPlayer) {
-        return name == aPlayer.getName();
+        return name.equals(aPlayer.getName());
+    }
+
+    public int getNumberOfCorrectAnswers() {
+        return numberOfCorrectAnswers;
+    }
+
+    public void setNumberOfCorrectAnswers(int numberOfCorrectAnswers) {
+        this.numberOfCorrectAnswers = numberOfCorrectAnswers;
     }
 
     public void useMultiplicator(int factor) {
         Multiplicator multiplicator = getMultiplicator(factor);
-        if (!multiplicator.isActive()) {
+        if (!multiplicator.isActive() && !multiplicator.isUsed()) {
             multiplicator.activate();
         }
     }

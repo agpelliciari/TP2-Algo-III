@@ -1,30 +1,21 @@
 package tp2.clases;
+
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
 public class MultipleChoice extends Question {
 
-    public MultipleChoice(Content content, Mode mode, List<Answer> answers) {
-        super(content, mode, answers);
+    public MultipleChoice(int id, Content content, Mode mode, ArrayList<Choice> choices) {
+        super(id, content, mode, choices);
     }
 
     @Override
-    public void assignScore(HashMap<Player, ArrayList<Answer>> chosenAnswers) {
+    public void assignScore(Player player, ArrayList<Choice> chosenAnswers) {
         Mode mode = getMode();
 
-        for (Player player : chosenAnswers.keySet()) {
-            ArrayList<Answer> answers = chosenAnswers.get(player);
-
-            if ((hasNoIncorrectAnswers(answers))) {
-                mode.assignCorrectScore(player, getNumberOfCorrectAnswers(answers));
-            }
-            else {
-                mode.assignIncorrectScore(player,getNumberOfIncorrectAnswers(answers));
-            }
+        if (hasNoIncorrectAnswers(chosenAnswers)) {
+            mode.assignCorrectScore(player, getNumberOfCorrectAnswers(chosenAnswers));
+        } else {
+            mode.assignIncorrectScore(player, getNumberOfIncorrectAnswers(chosenAnswers));
         }
     }
 }
-
-
-

@@ -1,16 +1,10 @@
 package tp2.clases;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.when;
 
-public class nullifierTest {
+public class NullifierTest {
     private Nullifier nullifier;
     private Score score;
     private Correct correct;
@@ -20,9 +14,9 @@ public class nullifierTest {
         //Arrange
         score = new Score(0);
         correct = new Correct();
-        Player otherPlayer = new Player(score);
+        Player otherPlayer = new Player("Pedro", 0);
 
-        int expectedScore = 0;
+        int expectedScore = 1;
         nullifier = new Nullifier();
 
         //Act
@@ -34,6 +28,5 @@ public class nullifierTest {
 
         //Assert
         assertEquals(expectedScore, scoreObtained);
-
     }
 }

@@ -11,8 +11,8 @@ public class ContentTest {
     public void test01ItIsPossibleToKnowIfTwoContentsHaveTheSameTheme(){
         //Arrange
         boolean expectedResult = true;
-        aContent = new Content("Art", "The painter Leonardo Da Vici painted the painting Las Meninas");
-        otherContent = new Content("Art", "The painter Picaso painted the painting La Monalisa");
+        aContent = new Content("Art", "The painter Leonardo Da Vici painted the painting Las Meninas","");
+        otherContent = new Content("Art", "The painter Picaso painted the painting La Monalisa","");
 
         //Act
         String searchedTheme = otherContent.getTheme();

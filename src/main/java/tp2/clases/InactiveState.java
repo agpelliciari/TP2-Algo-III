@@ -1,15 +1,24 @@
 package tp2.clases;
 
-public class InactiveState implements MultiplicatorState {
-    private final Multiplicator multiplicator;
+public class InactiveState implements PowerState {
 
-    public InactiveState(Multiplicator multiplicator) {
-        this.multiplicator = multiplicator;
+    private Power power;
+
+    public InactiveState(Power power) {
+        this.power = power;
     }
 
     @Override
-    public void apply(Player player) {
-        throw new IllegalStateException("Multiplicator is not active.");
+    public void activate(Power power) {
+        power.setState(new ActiveState(power));
+    }
+
+    @Override
+    public void deactivate(Power power) {
+    }
+
+    @Override
+    public void use(Power power) {
     }
 
     @Override
@@ -18,13 +27,7 @@ public class InactiveState implements MultiplicatorState {
     }
 
     @Override
-    public void activate(Multiplicator multiplicator) {
-        multiplicator.setState(new ActiveState(multiplicator));
+    public boolean isUsed(){
+        return false;
     }
-
-    @Override
-    public void deactivate(Multiplicator multiplicator) {
-        // Already inactive, do nothing
-    }
-
 }

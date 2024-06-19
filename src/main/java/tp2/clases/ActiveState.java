@@ -1,17 +1,23 @@
 package tp2.clases;
 
-public class ActiveState implements MultiplicatorState {
+public class ActiveState implements PowerState {
 
-    private final Multiplicator multiplicator;
+    private Power power;
 
-    public ActiveState(Multiplicator multiplicator) {
-        this.multiplicator = multiplicator;
+    public ActiveState(Power power) {
+        this.power = power;
     }
 
     @Override
-    public void apply(Player player) {
-        multiplicator.setState(new UsedState(multiplicator));
+    public void activate(Power power) {}
+
+    @Override
+    public void deactivate(Power power) {
+        power.setState(new UsedState(power));
     }
+
+    @Override
+    public void use(Power power) {}
 
     @Override
     public boolean isActive() {
@@ -19,13 +25,7 @@ public class ActiveState implements MultiplicatorState {
     }
 
     @Override
-    public void activate(Multiplicator multiplicator) {
-        // Already active
-    }
-
-    @Override
-    public void deactivate(Multiplicator multiplicator) {
-        multiplicator.setState(new UsedState(multiplicator));
+    public boolean isUsed(){
+        return false;
     }
 }
-
