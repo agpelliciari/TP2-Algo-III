@@ -13,6 +13,8 @@ on:
     branches: [ "main", "nullifier-develop" ]
   pull_request:
     branches: [ "main", "nullifier-develop" ]
+  
+  workflow_dispatch:
 
 jobs:
   build:
