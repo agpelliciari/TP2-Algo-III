@@ -26,4 +26,9 @@ public class InactiveState implements PowerState {
     public boolean isActive() {
         return false;
     }
+
+    @Override
+    public boolean isUsed(){
+        return false;
+    }
 }

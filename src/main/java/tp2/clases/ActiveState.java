@@ -14,7 +14,7 @@ public class ActiveState implements PowerState {
 
     @Override
     public void deactivate(Power power) {
-        power.setState(new InactiveState(power));
+        power.setState(new UsedState(power));
     }
 
     @Override
@@ -25,5 +25,10 @@ public class ActiveState implements PowerState {
     @Override
     public boolean isActive() {
         return true;
+    }
+
+    @Override
+    public boolean isUsed(){
+        return false;
     }
 }

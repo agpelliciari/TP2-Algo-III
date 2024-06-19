@@ -84,7 +84,7 @@ public class Player {
 
     public void useMultiplicator(int factor) {
         Multiplicator multiplicator = getMultiplicator(factor);
-        if (!multiplicator.isActive()) {
+        if (!multiplicator.isActive() && !multiplicator.isUsed()) {
             multiplicator.activate();
         }
     }

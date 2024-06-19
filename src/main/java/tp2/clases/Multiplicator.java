@@ -30,6 +30,10 @@ public class Multiplicator extends Power{
         return state.isActive();
     }
 
+    public boolean isUsed() {
+        return state.isUsed();
+    }
+
     public boolean wasUsed() {
         return used;
     }
