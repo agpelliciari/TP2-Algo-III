@@ -1,9 +1,9 @@
 package tp2.clases;
 
-public class _ActiveState implements PowerState {
+public class ActiveState implements PowerState {
     private Power power;
 
-    public _ActiveState(Power power) {
+    public ActiveState(Power power) {
         this.power = power;
     }
 
@@ -14,7 +14,7 @@ public class _ActiveState implements PowerState {
 
     @Override
     public void deactivate(Power power) {
-        power.setState(new _InactiveState(power));
+        power.setState(new InactiveState(power));
     }
 
     @Override

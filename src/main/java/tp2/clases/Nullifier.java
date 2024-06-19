@@ -6,13 +6,13 @@ public class Nullifier extends Power {
 
 
     public Nullifier(){
-        this.state = new _InactiveState(this);
+        this.state = new InactiveState(this);
         this.used = false;
     }
 
     public void apply(Score score) {
         score.cancelScore();
-        state = new _ActiveState(this);
+        state = new ActiveState(this);
         used = true;
     }
 

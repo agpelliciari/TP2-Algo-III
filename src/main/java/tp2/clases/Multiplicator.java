@@ -8,7 +8,7 @@ public class Multiplicator extends Power{
 
     public Multiplicator(int factor) {
         this.factor = factor;
-        this.state = new _InactiveState(this);
+        this.state = new InactiveState(this);
         this.used = false;
     }
 
