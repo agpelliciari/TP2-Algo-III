@@ -10,6 +10,9 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import tp2.clases.exceptions.InvalidAnswerFormatException;
+import tp2.clases.screens.StartScreen;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
 import java.util.ArrayList;
 
@@ -32,16 +35,27 @@ public class App extends Application {
 
     @Override
     public void start(Stage primaryStage) {
+
         mainContainer = new VBox(20);
         mainContainer.setAlignment(Pos.CENTER);
 
-        Button startButton = new Button("Comenzar");
-        startButton.setOnAction(e -> showNumberOfPlayersField());
-        mainContainer.getChildren().add(startButton);
+        StartScreen startScreen = new StartScreen(() -> showNumberOfPlayersField());
+        mainContainer.getChildren().add(startScreen);
 
         primaryStage.setTitle("Juego de preguntas y respuestas");
         primaryStage.setScene(new Scene(mainContainer, 800, 600));
         primaryStage.show();
+
+//        mainContainer = new VBox(20);
+//        mainContainer.setAlignment(Pos.CENTER);
+//
+//        Button startButton = new Button("Comenzar");
+//        startButton.setOnAction(e -> showNumberOfPlayersField());
+//        mainContainer.getChildren().add(startButton);
+//
+//        primaryStage.setTitle("Juego de preguntas y respuestas");
+//        primaryStage.setScene(new Scene(mainContainer, 800, 600));
+//        primaryStage.show();
     }
 
     public void showNumberOfPlayersField() {
