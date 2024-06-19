@@ -1,6 +1,7 @@
 package tp2.clases;
 
 public class Nullifier extends Power {
+
     private PowerState state;
     private boolean used;
 

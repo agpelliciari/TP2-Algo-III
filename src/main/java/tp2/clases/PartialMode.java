@@ -1,6 +1,7 @@
 package tp2.clases;
 
 public class PartialMode implements Mode {
+
     @Override
     public void assignCorrectScore(Player player, int correctPoints) {player.assignScore(new Correct(), correctPoints);}
 

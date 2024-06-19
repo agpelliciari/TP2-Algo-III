@@ -1,4 +1,3 @@
 package tp2.clases.exceptions;
 
-public class UserNameAlreadyExistsException extends RuntimeException{
-}
+public class UserNameAlreadyExistsException extends RuntimeException {}

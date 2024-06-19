@@ -1,6 +1,7 @@
 package tp2.clases;
 
 public class PenaltyMode implements Mode {
+
     @Override
     public void assignCorrectScore(Player player, int correctPints) {
         player.assignScore(new Correct(), correctPints);

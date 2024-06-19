@@ -12,7 +12,6 @@ public class Multiplicator extends Power{
         this.used = false;
     }
 
-
     public int getFactor() {
         return factor;
     }
@@ -24,7 +23,6 @@ public class Multiplicator extends Power{
     public void setUsed(Boolean used) {
         this.used = used;
     }
-
 
     public boolean isActive() {
         return state.isActive();

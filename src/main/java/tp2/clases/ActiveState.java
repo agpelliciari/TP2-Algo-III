@@ -1,6 +1,7 @@
 package tp2.clases;
 
 public class ActiveState implements PowerState {
+
     private Power power;
 
     public ActiveState(Power power) {
@@ -8,9 +9,7 @@ public class ActiveState implements PowerState {
     }
 
     @Override
-    public void activate(Power power) {
-        //Already active
-    }
+    public void activate(Power power) {}
 
     @Override
     public void deactivate(Power power) {
@@ -18,9 +17,7 @@ public class ActiveState implements PowerState {
     }
 
     @Override
-    public void use(Power power) {
-        ////
-    }
+    public void use(Power power) {}
 
     @Override
     public boolean isActive() {

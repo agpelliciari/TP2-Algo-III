@@ -3,6 +3,7 @@ package tp2.clases;
 import java.util.Objects;
 
 public abstract class Correction {
+
     public static Correction assignCorrection(String correction) {
         correction = correction.toLowerCase();
         if (Objects.equals(correction, "correcta")) {

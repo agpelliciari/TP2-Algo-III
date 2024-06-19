@@ -3,6 +3,7 @@ package tp2.clases;
 import java.util.ArrayList;
 
 class ChoicesFactory {
+
     public static ArrayList<Choice> createAnswers(String chosenAnswers, Question question) {
         ArrayList<Choice> choices = new ArrayList<>();
 

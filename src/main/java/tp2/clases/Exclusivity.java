@@ -1,6 +1,7 @@
 package tp2.clases;
 
 public class Exclusivity {
+
     private boolean bool;
     private int number;
     private final int multiplier;

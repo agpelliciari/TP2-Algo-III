@@ -1,6 +1,7 @@
 package tp2.clases;
 
 public class InactiveState implements PowerState {
+
     private Power power;
 
     public InactiveState(Power power) {
@@ -14,12 +15,10 @@ public class InactiveState implements PowerState {
 
     @Override
     public void deactivate(Power power) {
-        //Already inactive, do nothing
     }
 
     @Override
     public void use(Power power) {
-        ///....
     }
 
     @Override

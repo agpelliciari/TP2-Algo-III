@@ -1,6 +1,8 @@
 package tp2.clases;
 
 public class Incorrect extends Correction {
+    public Incorrect() {}
+
     @Override
     public void assignScore(Score score, int modification) {
         score.subtractScore(modification);

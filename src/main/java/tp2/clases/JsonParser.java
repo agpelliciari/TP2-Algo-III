@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class JsonParser {
+
     public static class QuestionString {
         @SerializedName("ID")
         private String id;
@@ -40,8 +41,7 @@ public class JsonParser {
         @SerializedName("Texto respuesta")
         private String answerText;
 
-        public QuestionString() {
-        }
+        public QuestionString() {}
 
         public String getId() {
             return id;

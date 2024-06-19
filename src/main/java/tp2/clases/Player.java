@@ -1,21 +1,19 @@
 package tp2.clases;
 
 import java.util.ArrayList;
-import java.util.Scanner;
-import java.util.List;
 
 public class Player {
-  
-    private List<Multiplicator> multiplicators;
+
+    private ArrayList<Multiplicator> multiplicators = new ArrayList<>();
     private final String name;
     private final Score score;
     private Exclusivity exclusivity;
     private int numberOfCorrectAnswers;
+    private ArrayList<String> answers = new ArrayList<>();
 
     public Player(String name, int initialScore) {
         this.name = name;
         this.score = new Score(initialScore);
-        this.multiplicators = new ArrayList<>();
         multiplicators.add(new Multiplicator(2));
         multiplicators.add(new Multiplicator(3));
         this.exclusivity = new Exclusivity(false);
@@ -34,15 +32,12 @@ public class Player {
         return exclusivity;
     }
 
-    public ArrayList<Choice> setAnswers(Question question) {
-        Scanner scanner = new Scanner(System.in);
-        String chosenChoice = scanner.nextLine();
-
-        return question.assignChosenChoicesToPlayer(chosenChoice);
-    }
-
     public ArrayList<Choice> setAnswers(Question question, String chosenChoice) {
-        return question.assignChosenChoicesToPlayer(question.createAnswers(chosenChoice), this);
+        ArrayList<Choice> chosenAnswers = question.createAnswers(chosenChoice);
+
+        answers.add(chosenChoice);
+
+        return chosenAnswers;
     }
 
     public void assignExclusivity(boolean bool) {
@@ -56,19 +51,17 @@ public class Player {
         Multiplicator multiplicator = getActiveMultiplicator();
         if(multiplicator != null){
             int factor = multiplicator.getFactor();
-            correction.assignScore(score, modification*factor);
+            correction.assignScore(score, modification * factor);
             multiplicator.deactivate();
         }
         else{
             correction.assignScore(score, modification);
         }
-
-
     }
 
-    /*public void assignScore(Incorrect correction, int wrongPoints) {
-        score.subtractScore(wrongPoints);
-    }*/
+    public void addToScore(int number) {
+        score.addScore(number);
+    }
 
     public boolean equals(Player aPlayer) {
         return name.equals(aPlayer.getName());

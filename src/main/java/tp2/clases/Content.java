@@ -1,6 +1,9 @@
 package tp2.clases;
 
+import java.util.Objects;
+
 public class Content {
+
     private final String theme;
     private final String prompt;
     private final String answerText;
@@ -24,6 +27,6 @@ public class Content {
     }
 
     public boolean hasTheme(String searchedTheme) {
-        return theme == searchedTheme;
+        return Objects.equals(theme, searchedTheme);
     }
 }
