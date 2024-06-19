@@ -14,9 +14,9 @@ public class NullifierTest {
         //Arrange
         score = new Score(0);
         correct = new Correct();
-        Player otherPlayer = new Player("Pedro", 0);
+        Player otherPlayer = new Player("Pedro", score);
 
-        int expectedScore = 1;
+        int expectedScore = 0;
         nullifier = new Nullifier();
 
         //Act

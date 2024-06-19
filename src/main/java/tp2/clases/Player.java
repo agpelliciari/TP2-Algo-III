@@ -20,8 +20,13 @@ public class Player {
         this.numberOfCorrectAnswers = 0;
     }
 
-    public Player(Score score) {
+    public Player(String name, Score score) {
+        this.name = name;
         this.score = score;
+        multiplicators.add(new Multiplicator(2));
+        multiplicators.add(new Multiplicator(3));
+        this.exclusivity = new Exclusivity(false);
+        this.numberOfCorrectAnswers = 0;
     }
 
     public String getName() {
