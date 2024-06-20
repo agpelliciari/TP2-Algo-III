@@ -7,50 +7,52 @@ skinparam classAttributeIconSize 0
 title: Model of classes that interact with Question
 
 abstract class Question{
--choices: List<Choice>
+-id: int
+-choices: ArrayList<Choice>
 -content: Content
 +{static}Question(content: Content, mode: Mode, choices: List<Choice>)
-+getNumberOfCorrectAnswers(List<Choice> choices): int
-+getNumberOfIncorrectAnswers(List<Choice> choices): int
++getNumberOfCorrectAnswers(choices: ArrayList<Choice>): int
++getNumberOfIncorrectAnswers(choices: ArrayList<Choice>): int
 +hasNoIncorrectAnswers(ArrayList<Choice> choices): boolean
-+assignScore(playersAnswers: HashMap<Player, ArrayList<Choice>>)
++assignScore(playersAnswers: ArrayList<Choice>): void
 +assignChosenChoicesToPlayer(assignChosenChoicesToPlayer: String): ArrayList<Choice>
++createAnswers(chosenChoice: String): ArrayList<Choice>
 }
 
 class TrueOrFalse {
-+assignScore(playersAnswers: HashMap<Player, ArrayList<Choice>>)
++assignScore(playersAnswers: ArrayList<Choice>)
 }
 
 class MultipleChoice {
-+assignScore(playersAnswers: HashMap<Player, ArrayList<Choice>>)
++assignScore(playersAnswers: ArrayList<Choice>)
 }
 
 class OrderedChoice {
-+assignScore(playersAnswers: HashMap<Player, ArrayList<Choice>>)
++assignScore(playersAnswers: ArrayList<Choice>)
 }
 
 class GroupChoice {
-+assignScore(playersAnswers: HashMap<Player, ArrayList<Choice>>)
++assignScore(playersAnswers: ArrayList<Choice>)
 }
 
 interface Mode {
-+assignCorrectScore(Player player, int correctPoints);
-+assignIncorrectScore(Player player, int wrongPoints);
++assignCorrectScore(player: Player, correctPoints: int): void
++assignIncorrectScore(player: Player, wrongPoints: int): void
 }
 
 class PartialMode {
-+assignCorrectScore(Player player, int correctPoints);
-+assignIncorrectScore(Player player, int wrongPoints);
++assignCorrectScore(player: Player, correctPoints: int): void
++assignIncorrectScore(player: Player, wrongPoints: int): void
 }
 
 class PenaltyMode {
-+assignCorrectScore(Player player, int correctPoints);
-+assignIncorrectScore(Player player, int wrongPoints);
++assignCorrectScore(player: Player, correctPoints: int): void
++assignIncorrectScore(player: Player, wrongPoints: int): void
 }
 
 class ClassicMode {
-+assignCorrectScore(Player player, int correctPoints);
-+assignIncorrectScore(Player player, int wrongPoints);
++assignCorrectScore(player: Player, correctPoints: int): void
++assignIncorrectScore(player: Player, wrongPoints: int): void
 }
 
 class Choice{
@@ -75,8 +77,12 @@ class Correct{
 }
 
 class Incorrect{
-assignScore(score: int): int
++assignScore(score: int): int
 +isCorrect(): boolean
+}
+
+class ChoicesFactory{
++{static}createAnswers(chosenChoice: String, aQuestion: Question): ArrayList<Choice>
 }
 
 Mode <<Interface>>
@@ -95,6 +101,8 @@ Mode <|. PartialMode
 
 Choice "2..5" --* Question
 Choice *-- Correction: "1"
+
+Question ..> ChoicesFactory: "<<uses>>"
 
 Correction <|-- Correct
 Correction <|-- Incorrect
