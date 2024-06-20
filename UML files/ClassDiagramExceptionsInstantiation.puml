@@ -15,11 +15,6 @@ class Power{}
 class PowerState{}
 class UsedPowerException{}
 
-InvalidNumberOfPlayersException <<Exception>>
-UserNameAlreadyExistsException <<Exception>>
-InvalidAnswerFormatException <<Exception>>
-InvalidNumberOfChosenChoicesException <<Exception>>
-
 Game ..> InvalidNumberOfPlayersException: <<instantiates>>
 Game ..> UserNameAlreadyExistsException: <<instantiates>>
 Game ..> InvalidAnswerFormatException: <<instantiates>>
@@ -31,13 +26,18 @@ Player --> Power
 Power --> PowerState
 PowerState <|.. UsedState
 
-UsedState ..> UsedPowerException: <<instantiates>>
+UsedState .> UsedPowerException: <<instantiates>>
 UsedPowerException <<Exception>>
 PowerState <<Interface>>
 Power <<Abstract>>
 
 Question ..> InvalidNumberOfChosenChoicesException: <<instantiates>>
-InvalidNumberOfChosenChoicesException <<instantiates>>
+
+InvalidNumberOfPlayersException --|> RuntimeException
+UserNameAlreadyExistsException --|> RuntimeException
+InvalidAnswerFormatException --|> RuntimeException
+InvalidNumberOfChosenChoicesException -|> RuntimeException
+UsedPowerException --|> RuntimeException
 
 
 @enduml
