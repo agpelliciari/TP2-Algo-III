@@ -10,6 +10,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import tp2.clases.exceptions.InvalidAnswerFormatException;
+import tp2.clases.screens.PlayersInputScreen;
 import tp2.clases.screens.StartScreen;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -46,61 +47,16 @@ public class App extends Application {
         primaryStage.setScene(new Scene(mainContainer, 800, 600));
         primaryStage.show();
 
-//        mainContainer = new VBox(20);
-//        mainContainer.setAlignment(Pos.CENTER);
-//
-//        Button startButton = new Button("Comenzar");
-//        startButton.setOnAction(e -> showNumberOfPlayersField());
-//        mainContainer.getChildren().add(startButton);
-//
-//        primaryStage.setTitle("Juego de preguntas y respuestas");
-//        primaryStage.setScene(new Scene(mainContainer, 800, 600));
-//        primaryStage.show();
     }
 
     public void showNumberOfPlayersField() {
-        VBox vbox = createVBoxWithPaddingAndAlignment(Pos.CENTER, 20, 20);
+        PlayersInputScreen playersInputScreen = new PlayersInputScreen(this::setNumberOfPlayers);
+        updateMainContainer(playersInputScreen);
 
-        Label label = new Label("Ingrese la cantidad de jugadores: ");
-        vbox.getChildren().add(label);
-
-        TextField numberOfPlayersTextField = new TextField();
-        numberOfPlayersTextField.setPromptText("Cantidad de jugadores");
-        vbox.getChildren().add(numberOfPlayersTextField);
-
-        Button confirmButton = new Button("Confirmar");
-        confirmButton.setOnAction(e -> {
-            if (confirmNumberOfPlayers(numberOfPlayersTextField)) {
-                showPlayerNameInputFields();
-            }
-        });
-
-        vbox.getChildren().add(confirmButton);
-
-        numberOfPlayersTextField.setOnKeyPressed(event -> {
-            if (event.getCode() == KeyCode.ENTER) {
-                if (confirmNumberOfPlayers(numberOfPlayersTextField)) {
-                    showPlayerNameInputFields();
-                }
-            }
-        });
-
-        updateMainContainer(vbox);
-        numberOfPlayersTextField.requestFocus();
     }
-
-    public boolean confirmNumberOfPlayers(TextField numberOfPlayersTextField) {
-        try {
-            numberOfPlayers = Integer.parseInt(numberOfPlayersTextField.getText());
-            for (int i = 0; i < numberOfPlayers; i++) {
-                chosenExclusivities.add(new boolean[questions.size()]);
-            }
-            numberOfPlayersTextField.clear();
-            return true;
-        } catch (NumberFormatException e) {
-            showErrorDialog("Por favor ingrese un número válido.");
-            return false;
-        }
+    private void setNumberOfPlayers(int numberOfPlayers) {
+        this.numberOfPlayers = numberOfPlayers;
+        showPlayerNameInputFields();
     }
 
     public void showPlayerNameInputFields() {
