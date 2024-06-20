@@ -40,7 +40,7 @@ public class App extends Application {
         mainContainer.getChildren().add(startButton);
 
         primaryStage.setTitle("Juego de preguntas y respuestas");
-        primaryStage.setScene(new Scene(mainContainer, 800, 600));
+        primaryStage.setScene(new Scene(mainContainer, 800, 700));
         primaryStage.show();
     }
 

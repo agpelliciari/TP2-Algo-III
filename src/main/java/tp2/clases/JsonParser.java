@@ -104,8 +104,7 @@ public class JsonParser {
         }
     }
 
-    public JsonParser() {
-    }
+    public JsonParser() {}
 
     public ArrayList<QuestionString> questionsStringParser(String fileName) {
         Gson gson = new Gson();

@@ -1,27 +1,34 @@
 package tp2.clases;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 
 public class QuestionFactory {
-    private HashMap<String, Mode> modes;
+    private ArrayList<ModeEntry> modes;
 
     public QuestionFactory() {
-        modes = new HashMap<String, Mode>();
-        modes.put("Simple", new ClassicMode());
-        modes.put("Penalidad", new PenaltyMode());
-        modes.put("Puntaje Parcial", new PartialMode());
+        modes = new ArrayList<>();
+        modes.add(new ModeEntry("Simple", new ClassicMode()));
+        modes.add(new ModeEntry("Penalidad", new PenaltyMode()));
+        modes.add(new ModeEntry("Puntaje Parcial", new PartialMode()));
     }
 
     private Mode defineMode(String type) {
-        ArrayList<String> list = new ArrayList<String>(Arrays.asList(type.split(" ")));
-        String searchedMode = list.get(list.size()-1);
+        ArrayList<String> list = new ArrayList<>(Arrays.asList(type.split(" ")));
+        String searchedMode = list.get(list.size() - 1);
         if (list.size() < 2) {
-            return modes.get("Simple");
+            return findModeByName("Simple");
         }
-        return modes.get(searchedMode);
+        return findModeByName(searchedMode);
+    }
+
+    private Mode findModeByName(String name) {
+        for (ModeEntry modeEntry : modes) {
+            if (modeEntry.getName().equals(name)) {
+                return modeEntry.getMode();
+            }
+        }
+        return new ClassicMode();
     }
 
     public TrueOrFalse createTrueFalse(int id, String theme, String prompt, String type, ArrayList<Choice> choices, String answerText) {
@@ -42,5 +49,23 @@ public class QuestionFactory {
     public GroupChoice createGroupChoice(int id, String theme, String prompt, String type, ArrayList<Choice> choices, String answerText) {
         Content content = new Content(theme, prompt, answerText);
         return new GroupChoice(id, content, defineMode(type), choices);
+    }
+
+    private class ModeEntry {
+        private String name;
+        private Mode mode;
+
+        public ModeEntry(String name, Mode mode) {
+            this.name = name;
+            this.mode = mode;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public Mode getMode() {
+            return mode;
+        }
     }
 }
