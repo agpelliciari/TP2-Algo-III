@@ -26,7 +26,7 @@ public class App extends Application {
     private ArrayList<Player> players = new ArrayList<>();
     private JsonParser jsonParser = new JsonParser();
     private ArrayList<Question> questions;
-    private ArrayList<boolean[]> chosenExclusivities = new ArrayList<>();
+//    private ArrayList<boolean[]> chosenExclusivities = new ArrayList<>();
     private Label questionLabel, choiceLabel;
     private TextField answerTextField;
 
@@ -197,7 +197,7 @@ public class App extends Application {
         ArrayList<Choice> chosenAnswers = player.setAnswers(question, answer);
         question.assignScore(player, chosenAnswers);
 
-        chosenExclusivities.get(currentPlayerIndex)[currentQuestionIndex] = useExclusivity;
+//        chosenExclusivities.get(currentPlayerIndex)[currentQuestionIndex] = useExclusivity;
 
         currentPlayerIndex++;
         if (currentPlayerIndex >= players.size()) {
