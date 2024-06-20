@@ -11,6 +11,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import tp2.clases.exceptions.InvalidAnswerFormatException;
 import tp2.clases.screens.PlayersInputScreen;
+import tp2.clases.screens.PlayersNamesInputScreen;
 import tp2.clases.screens.StartScreen;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -60,47 +61,18 @@ public class App extends Application {
     }
 
     public void showPlayerNameInputFields() {
-        VBox vbox = createVBoxWithPaddingAndAlignment(Pos.CENTER, 20, 20);
-
-        for (int i = 0; i < numberOfPlayers; i++) {
-            Label label = new Label("Ingrese el nombre del jugador " + (i + 1) + ": ");
-            vbox.getChildren().add(label);
-
-            TextField playerNameTextField = new TextField();
-            playerNameTextField.setPromptText("Nombre del jugador");
-            vbox.getChildren().add(playerNameTextField);
-
-            Button confirmButton = new Button("Confirmar");
-            confirmButton.setOnAction(e -> handlePlayerNameEntry(playerNameTextField));
-            vbox.getChildren().add(confirmButton);
-
-            playerNameTextField.setOnKeyPressed(event -> {
-                if (event.getCode() == KeyCode.ENTER) {
-                    handlePlayerNameEntry(playerNameTextField);
-                }
-            });
-        }
-
-        updateMainContainer(vbox);
+        PlayersNamesInputScreen playersNamesInputScreen = new PlayersNamesInputScreen(numberOfPlayers, this::setPlayersNames);
+        updateMainContainer(playersNamesInputScreen);
     }
 
-    private void handlePlayerNameEntry(TextField playerNameTextField) {
-        confirmPlayersName(playerNameTextField);
-        if (players.size() == numberOfPlayers) {
-            showQuestionForPlayer();
-        }
-    }
 
-    private void confirmPlayersName(TextField playerNameTextField) {
-        String playerName = playerNameTextField.getText();
-        if (!playerName.isEmpty()) {
+    private void setPlayersNames(ArrayList<String> playersNames) {
+        for (String playerName : playersNames) {
             players.add(new Player(playerName, 0));
-            playerNameTextField.clear();
-            playerNameTextField.setDisable(true);
-        } else {
-            showErrorDialog("Por favor ingrese un nombre de jugador válido.");
         }
+        showQuestionForPlayer();
     }
+
 
     private void showQuestionForPlayer() {
         if (currentQuestionIndex >= questions.size()) {
