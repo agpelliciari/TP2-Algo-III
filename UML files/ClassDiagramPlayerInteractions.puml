@@ -1,0 +1,112 @@
+@startuml
+
+title: Model of classes that interact with Player
+
+skinparam monochrome true
+hide circle
+skinparam classAttributeIconSize 0
+
+class Player{
+-name: String
++{static}Player(name: String, initialScore: int)
++useMultiplicator(factor: int): void
++assignateMultiplicator(factor: int)
+}
+
+abstract class Power{
++setState(state: PowerState): void
++isActive(): boolean
+}
+
+class Exclusivity{
+-used: boolean
++{static}Exclusivity(used: boolean)
+
+}
+
+class Nullifier{
+-used: boolean
++apply(score: Score): void
+}
+
+class Multiplicator{
+-used: boolean
+- factor: int
++{static}Multiplicator(factor: int)
++int getFactor(): int
++setState(state: PowerState): void
++apply(player: Player): void
+}
+
+interface PowerState {
+  + activate(Power power): void
+   + deactivate(Power power): void
+   + use(Power power): void
+   +boolean isActive(): boolean
+}
+
+
+class ActiveState {
+
+    + activate(power: Power): void
+    + deactivate(power: Power): void
+    +boolean isActive(): boolean
+}
+
+class InactiveState {
+
+    + activate(power: Power): void
+    + deactivate(power: Power): void
+    +boolean isActive(): boolean
+}
+
+class UsedState {
+
+    + activate(power: Power): void
+    + deactivate(power: Power): void
+    +boolean isActive(): boolean
+}
+
+class Score{
+-totalScore: int
++{static}Score(totalScore: int)
++addScore(int scoreToAdd): void
++subtractScore(int scoreToSubtract): void
++cancelScore(): void
+}
+
+class ScoreState{
++addScore(scoreToAdd: int): void
+}
+
+class NormalState{
++addScore(scoreToAdd: int): void
+}
+
+class CanceledState{
++addScore(scoreToAdd: int): void
+}
+
+Power --> PowerState : "<<uses>>"
+PowerState <|.. ActiveState
+PowerState <|.. InactiveState
+PowerState <|.. UsedState
+
+PowerState <<Interface>>
+
+Player -->"*" Power
+
+Power <|-- Exclusivity
+Power <|-- Nullifier
+Power <|-- Multiplicator
+
+Player -->"1" Score
+
+Score --> ScoreState : "<<uses>>"
+ScoreState <|.. NormalState
+ScoreState <|.. CanceledState
+
+ScoreState <<Interface>>
+
+Power <<Abstract>>
+@enduml
