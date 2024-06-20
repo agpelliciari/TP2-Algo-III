@@ -78,4 +78,28 @@ public class PlayerTest {
         //Assert
         assertEquals(expectedScore, scoreObtained);
     }
+
+    @Test
+    public void test03IfThereIsAnActiveNullifierIfAnotherPlayerAnswersCorrectlyNoneOfThemReceivePoints() {
+        //Arrange
+        correct = new Correct();
+        when(chosenAnswers.get(0).getCorrection()).thenReturn(correct);
+        Player player1 = new Player("ABC", 0);
+        Player player2 = new Player("DEF", 0);
+
+        //Act
+        player1.useNullifier();
+        if(!player2.nullifierIsActive()) {
+            player2.aNullifierisActivated();
+        }
+
+        ArrayList<Choice> choices = player2.setAnswers(questionMock, "");
+        choices.add(answerMock);
+        player2.assignScore(choices.get(0).getCorrection(), 1);
+        player1.assignScore(choices.get(0).getCorrection(), 1);
+
+        //Assert
+        assertEquals(0, player1.getScore());
+        assertEquals(0, player2.getScore());
+    }
 }

@@ -8,6 +8,7 @@ public class Player {
     private final String name;
     private final Score score;
     private Exclusivity exclusivity;
+    private Nullifier nullifier;
     private int numberOfCorrectAnswers;
     private ArrayList<String> answers = new ArrayList<>();
 
@@ -17,6 +18,7 @@ public class Player {
         multiplicators.add(new Multiplicator(2));
         multiplicators.add(new Multiplicator(3));
         this.exclusivity = new Exclusivity();
+        this.nullifier = new Nullifier();
         this.numberOfCorrectAnswers = 0;
     }
 
@@ -26,6 +28,7 @@ public class Player {
         multiplicators.add(new Multiplicator(2));
         multiplicators.add(new Multiplicator(3));
         this.exclusivity = new Exclusivity();
+        this.nullifier = new Nullifier();
         this.numberOfCorrectAnswers = 0;
     }
 
@@ -107,5 +110,17 @@ public class Player {
             }
         }
         return null;
+    }
+
+    public void useNullifier() {
+        nullifier.apply(score);
+    }
+
+    public boolean nullifierIsActive() {
+        return nullifier.isActive();
+    }
+
+    public void aNullifierisActivated() {
+        nullifier.cancel(score);
     }
 }
