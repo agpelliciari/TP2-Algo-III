@@ -44,21 +44,7 @@ abstract class Question {
     }
 
     public ArrayList<Choice> createAnswers(String chosenChoice) {
-        ArrayList<Choice> chosenAnswers = new ArrayList<>();
-        String[] choiceIndices = chosenChoice.split(",");
-
-        for (String index : choiceIndices) {
-            try {
-                int choiceIndex = Integer.parseInt(index.trim()) - 1;
-                if (choiceIndex >= 0 && choiceIndex < choices.size()) {
-                    chosenAnswers.add(choices.get(choiceIndex));
-                }
-            } catch (NumberFormatException e) {
-                // Manejar error si es necesario
-            }
-        }
-
-        return chosenAnswers;
+        return ChoicesFactory.createAnswers(chosenChoice, this);
     }
 
     public int getNumberOfCorrectAnswers(ArrayList<Choice> choices) {
