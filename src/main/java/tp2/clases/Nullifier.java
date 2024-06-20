@@ -5,8 +5,6 @@ import tp2.clases.exceptions.UsedPowerException;
 public class Nullifier extends Power {
 
     private PowerState state;
-    private boolean used;
-
 
     public Nullifier(){
         this.state = new InactiveState(this);
