@@ -1,0 +1,49 @@
+@startuml
+title: A true/false with penalty question receives a list of choices
+
+actor testCaseFive
+participant "question:TrueOrFalse" as question
+participant "mode: PenaltyMode" as type
+participant "content: Content" as content
+participant "aPlayer:Player" as player
+participant "choice:Choice" as Choice
+participant ":ChoicesFactory" as factory
+
+create content
+testCaseFive -> content:new("GENERAL KNOWLEDGE", "Uba is the...")
+create type
+testCaseFive -> type: new()
+create question
+testCaseFive -> question: new(id, content, mode, choices)
+
+loop for each player
+create player
+testCaseFive -> player: new(name, score)
+
+testCaseFive -> player: setAnswers(question, chosenChoice)
+activate player
+player -> question: createAnswer(chosenChoice)
+activate question
+question -> factory: createAnswer(question, chosenChoice)
+activate factory
+create Choice
+factory -> Choice: new()
+factory -> factory: choices.add(choice)
+factory --> question: choices
+deactivate factory
+question --> player: choices
+deactivate question
+player -> player: answers.add(chosenChoice)
+player --> testCaseFive: choices
+deactivate player
+end loop
+@enduml
+
+loop for char in chosenChoice: assignChosenChoicesToPlayer.toCharArray
+    loop for choice in choices
+        question -> Choice: equals(chosenChoice)
+        activate Choice
+        question <<-- Choice: true -> chosenAnswers.add(choice)
+        note left: ArrayList<Choice> chosenAnswers
+        end loop
+end loop
