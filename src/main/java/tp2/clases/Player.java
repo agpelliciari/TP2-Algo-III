@@ -16,7 +16,7 @@ public class Player {
         this.score = new Score(initialScore);
         multiplicators.add(new Multiplicator(2));
         multiplicators.add(new Multiplicator(3));
-        this.exclusivity = new Exclusivity(false);
+        this.exclusivity = new Exclusivity();
         this.numberOfCorrectAnswers = 0;
     }
 
@@ -25,7 +25,7 @@ public class Player {
         this.score = score;
         multiplicators.add(new Multiplicator(2));
         multiplicators.add(new Multiplicator(3));
-        this.exclusivity = new Exclusivity(false);
+        this.exclusivity = new Exclusivity();
         this.numberOfCorrectAnswers = 0;
     }
 
@@ -52,7 +52,7 @@ public class Player {
     public void assignExclusivity(boolean bool) {
         if (bool)
             exclusivity.decreaseNumber();
-        exclusivity.setBool(bool);
+        exclusivity.activate();
     }
 
     public void assignScore(Correction correction, int modification) {
