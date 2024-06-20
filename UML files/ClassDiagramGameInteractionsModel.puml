@@ -21,6 +21,8 @@ class Panel{
 abstract class Question{
 -choices: List<Choice>
 -content: Content
+-mode: Mode
+-id: int
 +{static}Question(content: Content, mode: Mode, choices: List<Choice>)
 +getNumberOfCorrectAnswers(List<Choice> choices): int
 +getNumberOfIncorrectAnswers(List<Choice> choices): int
@@ -32,26 +34,33 @@ abstract class Question{
 class Player{
 -name: String
 -score: Score
+-powers: List<Power>
 +{static}Player(name: String, initialScore: int)
-+Choice(question: Question): ArrayList<Choice>
++setAnswers(question: Question, chosenOptions: String): ArrayList<Choice>
 +assignScore(correction: Correction, newScore: int)
 +equals(aPlayer: Player): boolean
 }
 
-class InvalidNumberOfPlayersException{}
+class JsonParser{
++questionsParser(fileName: String): ArrayList<Question>
+}
 
-class UserNameAlreadyExistsException{}
+class QuestionFactory{
++createTrueFalse(id: int, theme: String, prompt: String, type: String, choices: ArrayList<Choice>, answerText: String)
++createMultipleChoice(id: int, theme: String, prompt: String, type: String, choices: ArrayList<Choice>, answerText: String)
++createGroupChoice(id: int, theme: String, prompt: String, type: String, choices: ArrayList<Choice>, answerText: String)
++createOrderedChoice(id: int, theme: String, prompt: String, type: String, choices: ArrayList<Choice>, answerText: String, correctOrder: List<int>)
+
+}
 
 Game *- Panel:1
 Game --> Question:1..*
-Game ..> Player:1..*
+Game --> Player:2..*
+Game --> JsonParser:1
+
+JsonParser --> QuestionFactory
+QuestionFactory .> Question: "<<creates>>"
 
 Question <<Abstract>>
-InvalidNumberOfPlayersException <<Exception>>
-UserNameAlreadyExistsException <<Exception>>
-
-Game ..> InvalidNumberOfPlayersException: <<instantiates>>
-Game ..> UserNameAlreadyExistsException: <<instantiates>>
-
 
 @enduml
