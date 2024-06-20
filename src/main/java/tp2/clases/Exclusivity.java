@@ -12,7 +12,7 @@ public class Exclusivity extends Power {
         multiplier = 2;
     }
 
-    public PowerState getState(){
+    public PowerState getState() {
         return state;
     }
 

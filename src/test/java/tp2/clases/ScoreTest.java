@@ -21,7 +21,7 @@ public class ScoreTest {
 
     //mocks are initialized
     @BeforeEach
-    public void beforeEach(){
+    public void beforeEach() {
         closeable = MockitoAnnotations.openMocks(this);
         Mockito.reset(correctMock, incorrectMock);
     }
@@ -32,7 +32,7 @@ public class ScoreTest {
     }
 */
     @Test
-    public void test01AddingPointsToTheCurrentScoreIncreasesTheTotalScore(){
+    public void test01AddingPointsToTheCurrentScoreIncreasesTheTotalScore() {
         //Arrange
 //        when(correctMock.assignScore(1)).thenReturn(1);
 
@@ -48,7 +48,7 @@ public class ScoreTest {
     }
 
     @Test
-    public void test02SubtractingPointsFromTheCurrentScoreDecreasesTheTotalScore(){
+    public void test02SubtractingPointsFromTheCurrentScoreDecreasesTheTotalScore() {
         //Arrange
 //        when(incorrectMock.assignScore(1)).thenReturn(-1);
 

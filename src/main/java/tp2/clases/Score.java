@@ -5,20 +5,20 @@ public class Score {
     private int totalScore;
     private ScoreState state;
 
-    public Score(int initialScore){
+    public Score(int initialScore) {
         totalScore = initialScore;
         state = new NormalState();
     }
 
-    public int getScore(){
+    public int getScore() {
         return totalScore;
     }
 
-    public void addScore(int scoreToAdd){
+    public void addScore(int scoreToAdd) {
         totalScore += state.addScore(scoreToAdd);
     }
 
-    public void subtractScore(int scoreToSubtract){
+    public void subtractScore(int scoreToSubtract) {
         totalScore -= scoreToSubtract;
     }
 

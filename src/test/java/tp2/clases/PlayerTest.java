@@ -43,7 +43,7 @@ public class PlayerTest {
     }
     
     @Test
-    public void test01AnsweringAQuestionCorrectlyIncreasesTheScore(){
+    public void test01AnsweringAQuestionCorrectlyIncreasesTheScore() {
         //Arrange
         correct = new Correct();
         when(chosenAnswers.get(0).getCorrection()).thenReturn(correct);
@@ -62,7 +62,7 @@ public class PlayerTest {
     }
 
     @Test
-    public void test02AnsweringAQuestionIncorrectlyDecreasesTheScore(){
+    public void test02AnsweringAQuestionIncorrectlyDecreasesTheScore() {
         //Arrange
         incorrect = new Incorrect();
         when(chosenAnswers.get(0).getCorrection()).thenReturn(incorrect);

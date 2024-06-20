@@ -6,7 +6,7 @@ public class Nullifier extends Power {
 
     private PowerState state;
 
-    public Nullifier(){
+    public Nullifier() {
         this.state = new InactiveState(this);
     }
 

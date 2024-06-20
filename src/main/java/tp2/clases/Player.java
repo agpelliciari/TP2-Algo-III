@@ -61,7 +61,7 @@ public class Player {
     public void assignScore(Correction correction, int modification) {
 
         Multiplicator multiplicator = getActiveMultiplicator();
-        if(multiplicator != null){
+        if(multiplicator != null) {
             int factor = multiplicator.getFactor();
             correction.assignScore(score, modification * factor);
             multiplicator.deactivate();
@@ -96,7 +96,7 @@ public class Player {
 
     public Multiplicator getMultiplicator(int factor) {
         for (Multiplicator multiplicator : multiplicators) {
-            if (multiplicator.getFactor() == factor){
+            if (multiplicator.getFactor() == factor) {
                 return multiplicator;
             }
         }

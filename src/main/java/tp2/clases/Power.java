@@ -4,11 +4,11 @@ public abstract class Power {
 
     protected PowerState state;
 
-    public void setState(PowerState state){
+    public void setState(PowerState state) {
         this.state = state;
     }
 
-    public boolean isActive(){
+    public boolean isActive() {
         return state.isActive();
     }
 }

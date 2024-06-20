@@ -51,7 +51,7 @@ abstract class Question {
         return (int) choices.stream().filter(choice -> choice.getCorrection().isCorrect()).count();
     }
 
-    public int getNumberOfIncorrectAnswers(ArrayList<Choice> choices){
+    public int getNumberOfIncorrectAnswers(ArrayList<Choice> choices) {
         return (int) choices.stream().filter(choice -> !choice.getCorrection().isCorrect()).count();
     }
 
