@@ -8,7 +8,6 @@ public class Nullifier extends Power {
 
     public Nullifier(){
         this.state = new InactiveState(this);
-        this.used = false;
     }
 
     public void apply(Score score) {
