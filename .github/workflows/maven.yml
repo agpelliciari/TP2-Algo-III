@@ -10,9 +10,9 @@ name: Java CI with Maven
 
 on:
   push:
-    branches: [ "main", "nullifier-develop" ]
+    branches: [ "main", "entrega_3" ]
   pull_request:
-    branches: [ "main", "nullifier-develop" ]
+    branches: [ "main", "entrega_3" ]
 
   workflow_dispatch:
 
