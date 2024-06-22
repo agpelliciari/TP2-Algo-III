@@ -6,23 +6,21 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.*;
 
-public class CorrectionTest {
+public class CorrectionFactoryTest {
     @Test
     public void test01AssignCorrectCorrection() {
-        Correction correction = Correction.assignCorrection("correcta");
-        assertTrue(correction instanceof Correct);
+        Correction correction = CorrectionFactory.assignCorrection("Correcta");
+        assertInstanceOf(Correct.class, correction);
     }
 
     @Test
     public void test02AssignIncorrectCorrection() {
-        Correction correction = Correction.assignCorrection("incorrecta");
-        assertTrue(correction instanceof Incorrect);
+        Correction correction = CorrectionFactory.assignCorrection("Incorrecta");
+        assertInstanceOf(Incorrect.class, correction);
     }
 
     @Test
     public void test03AssignUnknownCorrection() {
-        Correction correction = Correction.assignCorrection("desconocida");
-        assertNull(correction);
+        assertThrows(IllegalArgumentException.class, () -> {CorrectionFactory.assignCorrection("Desconocida");});
     }
-    
 }

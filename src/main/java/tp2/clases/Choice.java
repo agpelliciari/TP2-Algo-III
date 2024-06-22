@@ -8,7 +8,7 @@ public class Choice {
 
     public Choice(String content, String correction, int id) {
         this.content = content;
-        this.correction = Correction.assignCorrection(correction);
+        this.correction = CorrectionFactory.assignCorrection(correction);
         this.id = id;
     }
 
