@@ -1,23 +1,39 @@
 package tp2.clases;
 
-public class Exclusivity {
+public class Exclusivity extends Power {
 
-    private boolean bool;
+    private PowerState state;
     private int number;
     private final int multiplier;
 
-    public Exclusivity(boolean bool) {
-        this.bool = bool;
+    public Exclusivity() {
+        this.state = new InactiveState(this);
         number = 2;
         multiplier = 2;
     }
 
-    public boolean getBool() {
-        return bool;
+    public PowerState getState() {
+        return state;
     }
 
-    public void setBool(boolean bool) {
-        this.bool = bool;
+    public void setState(PowerState state) {
+        this.state = state;
+    }
+
+    public boolean isActive() {
+        return state.isActive();
+    }
+
+    public boolean isUsed() {
+        return state.isUsed();
+    }
+
+    public void activate() {
+        state.activate(this);
+    }
+
+    public void deactivate() {
+        state.deactivate(this);
     }
 
     public int getNumber() {

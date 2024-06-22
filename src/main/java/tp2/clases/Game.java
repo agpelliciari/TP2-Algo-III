@@ -138,7 +138,7 @@ class Game {
             if (!(questions.get(i).getMode() instanceof PenaltyMode)) {
                 if (this.checkIfOnlyOneCorrectAnswer(playersCorrectAnswers)) {
                     Player onlyCorrectPlayer = playersWhoAnsweredCorrectly.get(0);
-                    if (onlyCorrectPlayer.getExclusivity().getBool()) {
+                    if (onlyCorrectPlayer.getExclusivity().isActive()) {
                         onlyCorrectPlayer.assignScore(new Correct(), onlyCorrectPlayer.getNumberOfCorrectAnswers() * onlyCorrectPlayer.getExclusivity().getMultiplier() * numberOfExclusivities);
                     }
                 } else if (this.checkIfAllAreCorrectAnswers(playersCorrectAnswers)) {

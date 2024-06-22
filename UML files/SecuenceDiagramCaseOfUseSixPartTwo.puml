@@ -1,0 +1,36 @@
+@startuml
+title: A true/false with penalty question assigns points to those who answered incorrectly
+
+actor testCaseSix
+participant "question:TrueOrFalse" as question
+participant "mode:PenaltyMode" as type
+participant "aPlayer:Player" as player
+participant "score:Score" as score
+participant "correction:Incorrect" as correction
+
+testCaseSix -> question: assignScore(aPlayer, choices)
+activate question
+loop for each player
+question -> question: hasNoIncorrectAnswers(choices)
+note left: false
+question -> question: getNumberOfIncorrectAnswers(choices)
+note left: numberOfIncorrectAnswers
+question -> type: assignCorrectScore(player, numberOfIncorrectAnswers)
+deactivate question
+activate type
+create correction
+type -> correction: new()
+type -> player: assignScore(correction, numberOfIncorrectAnswers)
+deactivate type
+activate player
+player -> correction: assignScore(score, numberOfIncorrectAnswers)
+deactivate player
+activate correction
+correction -> score: subtractScore(numberOfIncorrectAnswers)
+deactivate correction
+activate score
+score -> score: totalScore -= numberOfIncorrectAnswers
+deactivate score
+
+end loop
+@enduml

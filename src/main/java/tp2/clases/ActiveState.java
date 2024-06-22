@@ -25,7 +25,7 @@ public class ActiveState implements PowerState {
     }
 
     @Override
-    public boolean isUsed(){
+    public boolean isUsed() {
         return false;
     }
 }

@@ -8,7 +8,7 @@ public class ContentTest {
     private Content otherContent;
 
     @Test
-    public void test01ItIsPossibleToKnowIfTwoContentsHaveTheSameTheme(){
+    public void test01ItIsPossibleToKnowIfTwoContentsHaveTheSameTheme() {
         //Arrange
         boolean expectedResult = true;
         aContent = new Content("Art", "The painter Leonardo Da Vici painted the painting Las Meninas","");

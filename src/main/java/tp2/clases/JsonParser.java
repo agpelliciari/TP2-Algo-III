@@ -104,8 +104,7 @@ public class JsonParser {
         }
     }
 
-    public JsonParser() {
-    }
+    public JsonParser() {}
 
     public ArrayList<QuestionString> questionsStringParser(String fileName) {
         Gson gson = new Gson();
@@ -151,31 +150,24 @@ public class JsonParser {
 
             int questionId = (int) Double.parseDouble(questionString.getId());
 
+            QuestionFactory questionFactory = new QuestionFactory();
             switch (questionString.getType()) {
                 case "Verdadero Falso Simple":
                 case "Verdadero Falso":
-                    questions.add(new TrueOrFalse(questionId, new Content(questionString.getTheme(), questionString.getQuestion(), questionString.getAnswerText()), new ClassicMode(), choices));
-                    break;
-
                 case "Verdadero Falso Penalidad":
-                    questions.add(new TrueOrFalse(questionId, new Content(questionString.getTheme(), questionString.getQuestion(), questionString.getAnswerText()), new PenaltyMode(), choices));
-                    break;
+                    questions.add(questionFactory.createTrueFalse(questionId, questionString.getTheme(), questionString.getQuestion(), questionString.getType(),choices , questionString.getAnswerText()));
                 case "Multiple Choice Simple":
-                    questions.add(new MultipleChoice(questionId, new Content(questionString.getTheme(), questionString.getQuestion(), questionString.getAnswerText()), new ClassicMode(), choices));
-                    break;
-                case "Multiple Choice Puntaje Parcial":
-                    questions.add(new MultipleChoice(questionId, new Content(questionString.getTheme(), questionString.getQuestion(), questionString.getAnswerText()), new PartialMode(), choices));
-                    break;
                 case "Multiple Choice Penalidad":
-                    questions.add(new MultipleChoice(questionId, new Content(questionString.getTheme(), questionString.getQuestion(), questionString.getAnswerText()), new PenaltyMode(), choices));
+                case "Multiple Choice Puntaje Parcial":
+                    questions.add(questionFactory.createMultipleChoice(questionId, questionString.getTheme(), questionString.getQuestion(), questionString.getType(),choices , questionString.getAnswerText()));
                     break;
                 case "Ordered choice":
                 case "Ordered Choice":
                     int[] correctOrder = getIntArrayFromString(questionString.getAnswer());
-                    questions.add(new OrderedChoice(questionId, new Content(questionString.getTheme(), questionString.getQuestion(), questionString.getAnswerText()), new ClassicMode(), choices, correctOrder));
+                    questions.add(questionFactory.createOrderedChoice(questionId, questionString.getTheme(), questionString.getQuestion(), questionString.getType(), choices, questionString.getAnswerText(), correctOrder));
                     break;
                 case "Group Choice":
-                    questions.add(new GroupChoice(questionId, new Content(questionString.getTheme(), questionString.getQuestion(), questionString.getAnswerText()), new ClassicMode(), choices));
+                    questions.add(questionFactory.createGroupChoice(questionId, questionString.getTheme(), questionString.getQuestion(), questionString.getType(),choices , questionString.getAnswerText()));
                     if (questionString.getGroupAText() != null && questionString.getGroupBText() != null) {
                         String[] groupsString = {
                                 questionString.getGroupAText(),
@@ -193,7 +185,7 @@ public class JsonParser {
                                 numbers[j] = (int) Double.parseDouble(numbersString[j]);
                             groups.add(new Group(data[0].charAt(0), groupsString[i++], numbers));
                         }
-                        GroupChoice groupChoice = new GroupChoice(questionId, new Content(questionString.getTheme(), questionString.getQuestion(), questionString.getAnswerText()), new ClassicMode(), choices);
+                        GroupChoice groupChoice = questionFactory.createGroupChoice(questionId, questionString.getTheme(), questionString.getQuestion(), questionString.getType(),choices , questionString.getAnswerText());
                         groupChoice.addGroups(groups);
                         questions.add(groupChoice);
                     }

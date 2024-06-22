@@ -8,6 +8,7 @@ public class Player {
     private final String name;
     private final Score score;
     private Exclusivity exclusivity;
+    private Nullifier nullifier;
     private int numberOfCorrectAnswers;
     private ArrayList<String> answers = new ArrayList<>();
 
@@ -16,7 +17,8 @@ public class Player {
         this.score = new Score(initialScore);
         multiplicators.add(new Multiplicator(2));
         multiplicators.add(new Multiplicator(3));
-        this.exclusivity = new Exclusivity(false);
+        this.exclusivity = new Exclusivity();
+        this.nullifier = new Nullifier();
         this.numberOfCorrectAnswers = 0;
     }
 
@@ -25,7 +27,8 @@ public class Player {
         this.score = score;
         multiplicators.add(new Multiplicator(2));
         multiplicators.add(new Multiplicator(3));
-        this.exclusivity = new Exclusivity(false);
+        this.exclusivity = new Exclusivity();
+        this.nullifier = new Nullifier();
         this.numberOfCorrectAnswers = 0;
     }
 
@@ -52,13 +55,13 @@ public class Player {
     public void assignExclusivity(boolean bool) {
         if (bool)
             exclusivity.decreaseNumber();
-        exclusivity.setBool(bool);
+        exclusivity.activate();
     }
 
     public void assignScore(Correction correction, int modification) {
 
         Multiplicator multiplicator = getActiveMultiplicator();
-        if(multiplicator != null){
+        if(multiplicator != null) {
             int factor = multiplicator.getFactor();
             correction.assignScore(score, modification * factor);
             multiplicator.deactivate();
@@ -93,7 +96,7 @@ public class Player {
 
     public Multiplicator getMultiplicator(int factor) {
         for (Multiplicator multiplicator : multiplicators) {
-            if (multiplicator.getFactor() == factor){
+            if (multiplicator.getFactor() == factor) {
                 return multiplicator;
             }
         }
@@ -107,5 +110,17 @@ public class Player {
             }
         }
         return null;
+    }
+
+    public void useNullifier() {
+        nullifier.apply(score);
+    }
+
+    public boolean nullifierIsActive() {
+        return nullifier.isActive();
+    }
+
+    public void aNullifierisActivated() {
+        nullifier.cancel(score);
     }
 }

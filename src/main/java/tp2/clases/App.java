@@ -6,8 +6,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import tp2.clases.exceptions.InvalidAnswerFormatException;
 import tp2.clases.screens.PlayersInputScreen;
@@ -40,19 +39,59 @@ public class App extends Application {
 
         mainContainer = new VBox(20);
         mainContainer.setAlignment(Pos.CENTER);
+        mainContainer.setBackground(new Background(new BackgroundFill(javafx.scene.paint.Color.LIGHTBLUE, CornerRadii.EMPTY, Insets.EMPTY)));
+
+  /*
+        Button startButton = new Button("Comenzar");
+        startButton.setStyle("-fx-font-size: 16px; -fx-background-color: #ff6666; -fx-text-fill: white;");
+        startButton.setOnAction(e -> showNumberOfPlayersField());
+        mainContainer.getChildren().add(startButton);
+        */
 
         StartScreen startScreen = new StartScreen(() -> showNumberOfPlayersField());
         mainContainer.getChildren().add(startScreen);
 
         primaryStage.setTitle("Juego de preguntas y respuestas");
-        primaryStage.setScene(new Scene(mainContainer, 800, 600));
+        primaryStage.setScene(new Scene(mainContainer, 800, 700));
         primaryStage.show();
 
     }
 
     public void showNumberOfPlayersField() {
+      
+  /*
+        VBox vbox = createVBoxWithPaddingAndAlignment(Pos.CENTER, 20, 20);
+
+        Label label = new Label("Ingrese la cantidad de jugadores: ");
+        label.setStyle("-fx-font-size: 18px; -fx-font-weight: bold;");
+        vbox.getChildren().add(label);
+
+        TextField numberOfPlayersTextField = new TextField();
+        numberOfPlayersTextField.setPromptText("Cantidad de jugadores");
+        numberOfPlayersTextField.setStyle("-fx-font-size: 14px;");
+        vbox.getChildren().add(numberOfPlayersTextField);
+
+        Button confirmButton = new Button("Confirmar");
+        confirmButton.setStyle("-fx-font-size: 14px; -fx-background-color: #66ff66;");
+        confirmButton.setOnAction(e -> {
+            if (confirmNumberOfPlayers(numberOfPlayersTextField)) {
+                showPlayerNameInputFields();
+            }
+        });
+
+        vbox.getChildren().add(confirmButton);
+
+        numberOfPlayersTextField.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                if (confirmNumberOfPlayers(numberOfPlayersTextField)) {
+                    showPlayerNameInputFields();
+                }
+            }
+        }); */
+
         PlayersInputScreen playersInputScreen = new PlayersInputScreen(this::setNumberOfPlayers);
         updateMainContainer(playersInputScreen);
+
 
     }
     private void setNumberOfPlayers(int numberOfPlayers) {
@@ -61,8 +100,37 @@ public class App extends Application {
     }
 
     public void showPlayerNameInputFields() {
+
+  /*
+        VBox vbox = createVBoxWithPaddingAndAlignment(Pos.CENTER, 20, 20);
+
+        for (int i = 0; i < numberOfPlayers; i++) {
+            Label label = new Label("Ingrese el nombre del jugador " + (i + 1) + ": ");
+            label.setStyle("-fx-font-size: 18px; -fx-font-weight: bold;");
+            vbox.getChildren().add(label);
+
+            TextField playerNameTextField = new TextField();
+            playerNameTextField.setPromptText("Nombre del jugador");
+            playerNameTextField.setStyle("-fx-font-size: 14px;");
+            vbox.getChildren().add(playerNameTextField);
+
+            Button confirmButton = new Button("Confirmar");
+            confirmButton.setStyle("-fx-font-size: 14px; -fx-background-color: #66ff66;");
+            confirmButton.setOnAction(e -> handlePlayerNameEntry(playerNameTextField));
+            vbox.getChildren().add(confirmButton);
+
+            playerNameTextField.setOnKeyPressed(event -> {
+                if (event.getCode() == KeyCode.ENTER) {
+                    handlePlayerNameEntry(playerNameTextField);
+                }
+            });
+        }
+
+        updateMainContainer(vbox); */
+      
         PlayersNamesInputScreen playersNamesInputScreen = new PlayersNamesInputScreen(numberOfPlayers, this::setPlayersNames);
         updateMainContainer(playersNamesInputScreen);
+
     }
 
 
@@ -98,7 +166,7 @@ public class App extends Application {
         vbox.getChildren().add(questionNumberLabel);
 
         Label playerLabel = new Label(currentPlayer.getName());
-        playerLabel.setStyle("-fx-font-size: 30px; -fx-font-weight: bold;");
+        playerLabel.setStyle("-fx-font-size: 30px; -fx-font-weight: bold; -fx-text-fill: #ff9900;");
         vbox.getChildren().add(playerLabel);
 
         questionLabel = new Label(currentQuestion.getContent().getTheme());
@@ -124,6 +192,7 @@ public class App extends Application {
 
         answerTextField = new TextField();
         answerTextField.setPromptText("Respuesta");
+        answerTextField.setStyle("-fx-font-size: 14px;");
         vbox.getChildren().add(answerTextField);
 
         CheckBox exclusivityCheckBox = new CheckBox("Usar exclusividad");
@@ -132,14 +201,15 @@ public class App extends Application {
         HBox multiplicatorContainer = new HBox(10);
         multiplicatorContainer.setAlignment(Pos.CENTER);
         CheckBox multiplicatorCheckBox = new CheckBox("Usar multiplicador");
+
         TextField factorTextField = new TextField();
         factorTextField.setPromptText("Factor");
         factorTextField.setPrefWidth(50);
         multiplicatorContainer.getChildren().addAll(multiplicatorCheckBox, factorTextField);
         vbox.getChildren().add(multiplicatorContainer);
 
-
         Button answerButton = new Button("Responder");
+        answerButton.setStyle("-fx-font-size: 14px; -fx-background-color: #ff6666; -fx-text-fill: white;");
         answerButton.setOnAction(e -> {
             try {
                 saveAnswerAndProceed(currentQuestion, currentPlayer, exclusivityCheckBox.isSelected());
@@ -236,6 +306,3 @@ public class App extends Application {
         mainContainer.getChildren().add(newContent);
     }
 }
-
-
-

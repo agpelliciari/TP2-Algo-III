@@ -10,7 +10,7 @@ public class NullifierTest {
     private Correct correct;
 
     @Test
-    public void test01IfAPlayerReceivesTheScoreCancelerIfHeAnswersAQuestionCorrectlyHeDoesNotReceivePoints(){
+    public void test01IfAPlayerReceivesTheScoreCancelerIfHeAnswersAQuestionCorrectlyHeDoesNotReceivePoints() {
         //Arrange
         score = new Score(0);
         correct = new Correct();

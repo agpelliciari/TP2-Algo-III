@@ -14,14 +14,14 @@ public class ChoiceTest {
     }
 
     @Test
-    public void test02ChoiceWithCorrectionInUppercaseInitiatedCorrectly(){
+    public void test02ChoiceWithCorrectionInUppercaseInitiatedCorrectly() {
         Choice choice = new Choice("Falso","incorrecta", 1);
         Correction correction = choice.getCorrection();
         assertTrue(correction instanceof Incorrect);
     }
 
     @Test
-    public void test03AnswerScoreAssignedCorrectly(){
+    public void test03AnswerScoreAssignedCorrectly() {
         Player player = new Player("Mario", 5);
         Choice choice = new Choice("Verdadero","correcta", 1);
         player.assignScore(new Correct(),1);
@@ -30,7 +30,7 @@ public class ChoiceTest {
     }
 
     @Test
-    public void test04MultipleIncorrectAnswersSubtractOne(){
+    public void test04MultipleIncorrectAnswersSubtractOne() {
         Choice choice = new Choice("Falso","Incorrecta",1);
         Player player = new Player("Luigi", 4);
 
