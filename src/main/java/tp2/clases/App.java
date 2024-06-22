@@ -9,6 +9,11 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import tp2.clases.exceptions.InvalidAnswerFormatException;
+import tp2.clases.screens.PlayersInputScreen;
+import tp2.clases.screens.PlayersNamesInputScreen;
+import tp2.clases.screens.StartScreen;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
 import java.util.ArrayList;
 
@@ -21,7 +26,7 @@ public class App extends Application {
     private ArrayList<Player> players = new ArrayList<>();
     private JsonParser jsonParser = new JsonParser();
     private ArrayList<Question> questions;
-    private ArrayList<boolean[]> chosenExclusivities = new ArrayList<>();
+//    private ArrayList<boolean[]> chosenExclusivities = new ArrayList<>();
     private Label questionLabel, choiceLabel;
     private TextField answerTextField;
 
@@ -31,21 +36,30 @@ public class App extends Application {
 
     @Override
     public void start(Stage primaryStage) {
+
         mainContainer = new VBox(20);
         mainContainer.setAlignment(Pos.CENTER);
         mainContainer.setBackground(new Background(new BackgroundFill(javafx.scene.paint.Color.LIGHTBLUE, CornerRadii.EMPTY, Insets.EMPTY)));
 
+  /*
         Button startButton = new Button("Comenzar");
         startButton.setStyle("-fx-font-size: 16px; -fx-background-color: #ff6666; -fx-text-fill: white;");
         startButton.setOnAction(e -> showNumberOfPlayersField());
         mainContainer.getChildren().add(startButton);
+        */
+
+        StartScreen startScreen = new StartScreen(() -> showNumberOfPlayersField());
+        mainContainer.getChildren().add(startScreen);
 
         primaryStage.setTitle("Juego de preguntas y respuestas");
         primaryStage.setScene(new Scene(mainContainer, 800, 700));
         primaryStage.show();
+
     }
 
     public void showNumberOfPlayersField() {
+      
+  /*
         VBox vbox = createVBoxWithPaddingAndAlignment(Pos.CENTER, 20, 20);
 
         Label label = new Label("Ingrese la cantidad de jugadores: ");
@@ -73,27 +87,21 @@ public class App extends Application {
                     showPlayerNameInputFields();
                 }
             }
-        });
+        }); */
 
-        updateMainContainer(vbox);
-        numberOfPlayersTextField.requestFocus();
+        PlayersInputScreen playersInputScreen = new PlayersInputScreen(this::setNumberOfPlayers);
+        updateMainContainer(playersInputScreen);
+
+
     }
-
-    public boolean confirmNumberOfPlayers(TextField numberOfPlayersTextField) {
-        try {
-            numberOfPlayers = Integer.parseInt(numberOfPlayersTextField.getText());
-            for (int i = 0; i < numberOfPlayers; i++) {
-                chosenExclusivities.add(new boolean[questions.size()]);
-            }
-            numberOfPlayersTextField.clear();
-            return true;
-        } catch (NumberFormatException e) {
-            showErrorDialog("Por favor ingrese un número válido.");
-            return false;
-        }
+    private void setNumberOfPlayers(int numberOfPlayers) {
+        this.numberOfPlayers = numberOfPlayers;
+        showPlayerNameInputFields();
     }
 
     public void showPlayerNameInputFields() {
+
+  /*
         VBox vbox = createVBoxWithPaddingAndAlignment(Pos.CENTER, 20, 20);
 
         for (int i = 0; i < numberOfPlayers; i++) {
@@ -118,26 +126,21 @@ public class App extends Application {
             });
         }
 
-        updateMainContainer(vbox);
+        updateMainContainer(vbox); */
+      
+        PlayersNamesInputScreen playersNamesInputScreen = new PlayersNamesInputScreen(numberOfPlayers, this::setPlayersNames);
+        updateMainContainer(playersNamesInputScreen);
+
     }
 
-    private void handlePlayerNameEntry(TextField playerNameTextField) {
-        confirmPlayersName(playerNameTextField);
-        if (players.size() == numberOfPlayers) {
-            showQuestionForPlayer();
-        }
-    }
 
-    private void confirmPlayersName(TextField playerNameTextField) {
-        String playerName = playerNameTextField.getText();
-        if (!playerName.isEmpty()) {
+    private void setPlayersNames(ArrayList<String> playersNames) {
+        for (String playerName : playersNames) {
             players.add(new Player(playerName, 0));
-            playerNameTextField.clear();
-            playerNameTextField.setDisable(true);
-        } else {
-            showErrorDialog("Por favor ingrese un nombre de jugador válido.");
         }
+        showQuestionForPlayer();
     }
+
 
     private void showQuestionForPlayer() {
         if (currentQuestionIndex >= questions.size()) {
@@ -236,7 +239,7 @@ public class App extends Application {
         ArrayList<Choice> chosenAnswers = player.setAnswers(question, answer);
         question.assignScore(player, chosenAnswers);
 
-        chosenExclusivities.get(currentPlayerIndex)[currentQuestionIndex] = useExclusivity;
+//        chosenExclusivities.get(currentPlayerIndex)[currentQuestionIndex] = useExclusivity;
 
         currentPlayerIndex++;
         if (currentPlayerIndex >= players.size()) {
