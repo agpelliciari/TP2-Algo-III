@@ -6,8 +6,8 @@ import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class QuestionFactoryTest {
-    Choice choice1 = new Choice("", "correct", 1);
-    Choice choice2 = new Choice("", "incorrect", 2);
+    Choice choice1 = new Choice("", "correcta", 1);
+    Choice choice2 = new Choice("", "incorrecta", 2);
     ArrayList<Choice> choices = new ArrayList<Choice>();
     private QuestionFactory questionFactory;
 

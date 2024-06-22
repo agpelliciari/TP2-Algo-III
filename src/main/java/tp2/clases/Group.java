@@ -12,7 +12,7 @@ public class Group {
         this.letter = letter;
         this.text = text;
         for (int choiceId : choicesId) {
-            this.choices.add(new Choice("", "Correct", choiceId));
+            this.choices.add(new Choice("", "Correcta", choiceId));
         }
     }
 
