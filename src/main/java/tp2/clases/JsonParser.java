@@ -130,23 +130,10 @@ public class JsonParser {
                     questionString.getChoice5(),
                     questionString.getChoice6()
             };
-            String[] validChoicesString = Arrays.stream(choicesString).filter(choice -> choice != null && !choice.isEmpty()).toArray(String[]::new);
-            ArrayList<Choice> choices = new ArrayList<>();
 
-            int i = 1;
-            if (!questionString.getType().equals("Ordered choice") && !questionString.getType().equals("Ordered Choice") && !questionString.type.equals("Group Choice")) {
-                for (String validChoiceString : validChoicesString) {
-                    if (contains(questionString.getAnswer(), i)) {
-                        choices.add(new Choice(validChoiceString, "Correcta", i++));
-                    } else {
-                        choices.add(new Choice(validChoiceString, "Incorrecta", i++));
-                    }
-                }
-            } else {
-                for (String validChoiceString : validChoicesString) {
-                    choices.add(new Choice(validChoiceString, "Correcta", i++));
-                }
-            }
+            String[] validChoicesString = Arrays.stream(choicesString).filter(choice -> choice != null && !choice.isEmpty()).toArray(String[]::new);
+
+            ArrayList<Choice> choices = ChoicesFactory.createChoices(questionString, validChoicesString);
 
             int questionId = (int) Double.parseDouble(questionString.getId());
 
@@ -176,7 +163,7 @@ public class JsonParser {
                         ArrayList<Group> groups = new ArrayList<>();
                         String answerString = questionString.getAnswer().replaceAll("\\s", "");
                         String[] answerParts = answerString.split(";");
-                        i = 0;
+                        int i = 0;
                         for (String part : answerParts) {
                             String[] data = part.split(":");
                             String[] numbersString = data[1].split(",");
@@ -204,12 +191,5 @@ public class JsonParser {
             answerInt[i] = Integer.parseInt(answerParts[i]);
         }
         return answerInt;
-    }
-
-    private static boolean contains(String correctChoicesString, int choice) {
-        for (String correctChoiceString : correctChoicesString.split(","))
-            if (Integer.parseInt(correctChoiceString.trim()) == choice)
-               return true;
-        return false;
     }
 }
