@@ -10,10 +10,7 @@ import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import tp2.clases.exceptions.InvalidAnswerFormatException;
 import tp2.clases.handlers.NullifierCheckBoxEventHandler;
-import tp2.clases.screens.MainContainer;
-import tp2.clases.screens.PlayersInputScreen;
-import tp2.clases.screens.PlayersNamesInputScreen;
-import tp2.clases.screens.StartScreen;
+import tp2.clases.screens.*;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -21,7 +18,7 @@ import java.util.ArrayList;
 
 public class App extends Application {
     private MainContainer mainContainer;
-    private HBox scoreContainer;
+    private ScoreContainer scoreContainer;
     private int numberOfPlayers = 0;
     private int currentPlayerIndex = 0;
     private int currentQuestionIndex = 0;
@@ -88,9 +85,8 @@ public class App extends Application {
 
         mainContainer.cleanContainer();
 
-        scoreContainer = new HBox(10);
-        scoreContainer.setAlignment(Pos.TOP_RIGHT);
-        scoreContainer.setPadding(new Insets(10));
+        scoreContainer = new ScoreContainer();
+
         updateScores();
 
         mainContainer.addChild(scoreContainer);
@@ -195,11 +191,13 @@ public class App extends Application {
     }
 
     private void updateScores() {
-        scoreContainer.getChildren().clear();
+        scoreContainer.cleanContainer();
+
         for (Player player : players) {
             Label scoreLabel = new Label(player.getName() + ": " + player.getScore() + " puntos");
             scoreLabel.setStyle("-fx-font-size: 14px; -fx-font-weight: bold;");
-            scoreContainer.getChildren().add(scoreLabel);
+
+            scoreContainer.addChild(scoreLabel);
         }
     }
 
@@ -213,6 +211,7 @@ public class App extends Application {
         vbox.getChildren().add(endGameLabel);
 
         updateScores();
+
         vbox.getChildren().add(scoreContainer);
 
         mainContainer.addChild(vbox);
