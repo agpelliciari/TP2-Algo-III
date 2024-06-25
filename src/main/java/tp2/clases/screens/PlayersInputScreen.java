@@ -50,10 +50,10 @@ public class PlayersInputScreen extends VBox {
     public void confirmNumberOfPlayers(Consumer<Integer> numberOfPlayersConsumer) {
         try {
             int numberOfPlayers = Integer.parseInt(numberOfPlayersTextField.getText());
-            if (numberOfPlayers > 0) {
+            if (numberOfPlayers > 1) {
                 numberOfPlayersConsumer.accept(numberOfPlayers);
             } else {
-                showErrorDialog("Ingrese un número válido (> 0).");
+                showErrorDialog("Ingrese un número válido (> 1).");
             }
         } catch (NumberFormatException e) {
             showErrorDialog("Ingrese un número válido.");
