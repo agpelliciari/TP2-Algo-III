@@ -10,6 +10,7 @@ import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import tp2.clases.exceptions.InvalidAnswerFormatException;
 import tp2.clases.handlers.NullifierCheckBoxEventHandler;
+import tp2.clases.screens.MainContainer;
 import tp2.clases.screens.PlayersInputScreen;
 import tp2.clases.screens.PlayersNamesInputScreen;
 import tp2.clases.screens.StartScreen;
@@ -19,7 +20,7 @@ import javafx.stage.Stage;
 import java.util.ArrayList;
 
 public class App extends Application {
-    private VBox mainContainer;
+    private MainContainer mainContainer;
     private HBox scoreContainer;
     private int numberOfPlayers = 0;
     private int currentPlayerIndex = 0;
@@ -38,20 +39,11 @@ public class App extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-
-        mainContainer = new VBox(20);
-        mainContainer.setAlignment(Pos.CENTER);
-        mainContainer.setBackground(new Background(new BackgroundFill(javafx.scene.paint.Color.LIGHTBLUE, CornerRadii.EMPTY, Insets.EMPTY)));
-
-  /*
-        Button startButton = new Button("Comenzar");
-        startButton.setStyle("-fx-font-size: 16px; -fx-background-color: #ff6666; -fx-text-fill: white;");
-        startButton.setOnAction(e -> showNumberOfPlayersField());
-        mainContainer.getChildren().add(startButton);
-        */
+        mainContainer = new MainContainer();
 
         StartScreen startScreen = new StartScreen(() -> showNumberOfPlayersField());
-        mainContainer.getChildren().add(startScreen);
+
+        mainContainer.addChild(startScreen);
 
         primaryStage.setTitle("Juego de preguntas y respuestas");
         primaryStage.setScene(new Scene(mainContainer, 800, 700));
@@ -60,79 +52,18 @@ public class App extends Application {
     }
 
     public void showNumberOfPlayersField() {
-      
-  /*
-        VBox vbox = createVBoxWithPaddingAndAlignment(Pos.CENTER, 20, 20);
-
-        Label label = new Label("Ingrese la cantidad de jugadores: ");
-        label.setStyle("-fx-font-size: 18px; -fx-font-weight: bold;");
-        vbox.getChildren().add(label);
-
-        TextField numberOfPlayersTextField = new TextField();
-        numberOfPlayersTextField.setPromptText("Cantidad de jugadores");
-        numberOfPlayersTextField.setStyle("-fx-font-size: 14px;");
-        vbox.getChildren().add(numberOfPlayersTextField);
-
-        Button confirmButton = new Button("Confirmar");
-        confirmButton.setStyle("-fx-font-size: 14px; -fx-background-color: #66ff66;");
-        confirmButton.setOnAction(e -> {
-            if (confirmNumberOfPlayers(numberOfPlayersTextField)) {
-                showPlayerNameInputFields();
-            }
-        });
-
-        vbox.getChildren().add(confirmButton);
-
-        numberOfPlayersTextField.setOnKeyPressed(event -> {
-            if (event.getCode() == KeyCode.ENTER) {
-                if (confirmNumberOfPlayers(numberOfPlayersTextField)) {
-                    showPlayerNameInputFields();
-                }
-            }
-        }); */
-
         PlayersInputScreen playersInputScreen = new PlayersInputScreen(this::setNumberOfPlayers);
         updateMainContainer(playersInputScreen);
-
-
     }
+
     private void setNumberOfPlayers(int numberOfPlayers) {
         this.numberOfPlayers = numberOfPlayers;
         showPlayerNameInputFields();
     }
 
     public void showPlayerNameInputFields() {
-
-  /*
-        VBox vbox = createVBoxWithPaddingAndAlignment(Pos.CENTER, 20, 20);
-
-        for (int i = 0; i < numberOfPlayers; i++) {
-            Label label = new Label("Ingrese el nombre del jugador " + (i + 1) + ": ");
-            label.setStyle("-fx-font-size: 18px; -fx-font-weight: bold;");
-            vbox.getChildren().add(label);
-
-            TextField playerNameTextField = new TextField();
-            playerNameTextField.setPromptText("Nombre del jugador");
-            playerNameTextField.setStyle("-fx-font-size: 14px;");
-            vbox.getChildren().add(playerNameTextField);
-
-            Button confirmButton = new Button("Confirmar");
-            confirmButton.setStyle("-fx-font-size: 14px; -fx-background-color: #66ff66;");
-            confirmButton.setOnAction(e -> handlePlayerNameEntry(playerNameTextField));
-            vbox.getChildren().add(confirmButton);
-
-            playerNameTextField.setOnKeyPressed(event -> {
-                if (event.getCode() == KeyCode.ENTER) {
-                    handlePlayerNameEntry(playerNameTextField);
-                }
-            });
-        }
-
-        updateMainContainer(vbox); */
-      
         PlayersNamesInputScreen playersNamesInputScreen = new PlayersNamesInputScreen(numberOfPlayers, this::setPlayersNames);
         updateMainContainer(playersNamesInputScreen);
-
     }
 
 
@@ -155,13 +86,14 @@ public class App extends Application {
         Player currentPlayer = players.get(currentPlayerIndex);
         Question currentQuestion = questions.get(currentQuestionIndex);
 
-        mainContainer.getChildren().clear();
+        mainContainer.cleanContainer();
 
         scoreContainer = new HBox(10);
         scoreContainer.setAlignment(Pos.TOP_RIGHT);
         scoreContainer.setPadding(new Insets(10));
         updateScores();
-        mainContainer.getChildren().add(scoreContainer);
+
+        mainContainer.addChild(scoreContainer);
 
         VBox vbox = createVBoxWithPaddingAndAlignment(Pos.CENTER, 20, 20);
 
@@ -236,7 +168,7 @@ public class App extends Application {
             }
         });
 
-        mainContainer.getChildren().add(vbox);
+        mainContainer.addChild(vbox);
     }
 
     private void saveAnswerAndProceed(Question question, Player player, boolean useExclusivity, boolean selectedNullifier) throws InvalidAnswerFormatException {
@@ -272,7 +204,8 @@ public class App extends Application {
     }
 
     private void showEndGame() {
-        mainContainer.getChildren().clear();
+        mainContainer.cleanContainer();
+
         VBox vbox = createVBoxWithPaddingAndAlignment(Pos.CENTER, 20, 20);
 
         Label endGameLabel = new Label("¡Fin del juego!");
@@ -282,7 +215,7 @@ public class App extends Application {
         updateScores();
         vbox.getChildren().add(scoreContainer);
 
-        mainContainer.getChildren().add(vbox);
+        mainContainer.addChild(vbox);
     }
 
     private void showErrorDialog(String errorMessage) {
@@ -314,7 +247,7 @@ public class App extends Application {
     }
 
     private void updateMainContainer(VBox newContent) {
-        mainContainer.getChildren().clear();
-        mainContainer.getChildren().add(newContent);
+        mainContainer.cleanContainer();
+        mainContainer.addChild(newContent);
     }
 }
