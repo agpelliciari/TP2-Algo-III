@@ -9,6 +9,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import tp2.clases.exceptions.InvalidAnswerFormatException;
+import tp2.clases.handlers.NullifierCheckBoxEventHandler;
 import tp2.clases.screens.PlayersInputScreen;
 import tp2.clases.screens.PlayersNamesInputScreen;
 import tp2.clases.screens.StartScreen;
@@ -29,6 +30,7 @@ public class App extends Application {
 //    private ArrayList<boolean[]> chosenExclusivities = new ArrayList<>();
     private Label questionLabel, choiceLabel;
     private TextField answerTextField;
+    private Game game;
 
     public void initialize(String[] args) {
         launch(args);
@@ -148,6 +150,8 @@ public class App extends Application {
             return;
         }
 
+        game.checkIfThereIsAScoreNullifierActivated();
+
         Player currentPlayer = players.get(currentPlayerIndex);
         Question currentQuestion = questions.get(currentQuestionIndex);
 
@@ -208,11 +212,14 @@ public class App extends Application {
         multiplicatorContainer.getChildren().addAll(multiplicatorCheckBox, factorTextField);
         vbox.getChildren().add(multiplicatorContainer);
 
+        CheckBox nullifierCheckBox = new CheckBox("Usar anulador");
+        vbox.getChildren().add(nullifierCheckBox);
+
         Button answerButton = new Button("Responder");
         answerButton.setStyle("-fx-font-size: 14px; -fx-background-color: #ff6666; -fx-text-fill: white;");
         answerButton.setOnAction(e -> {
             try {
-                saveAnswerAndProceed(currentQuestion, currentPlayer, exclusivityCheckBox.isSelected());
+                saveAnswerAndProceed(currentQuestion, currentPlayer, exclusivityCheckBox.isSelected(), nullifierCheckBox.isSelected());
             } catch (InvalidAnswerFormatException ex) {
                 showErrorDialog(ex.getMessage());
             }
@@ -222,7 +229,7 @@ public class App extends Application {
         answerTextField.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ENTER) {
                 try {
-                    saveAnswerAndProceed(currentQuestion, currentPlayer, exclusivityCheckBox.isSelected());
+                    saveAnswerAndProceed(currentQuestion, currentPlayer, exclusivityCheckBox.isSelected(), nullifierCheckBox.isSelected());
                 } catch (InvalidAnswerFormatException ex) {
                     showErrorDialog(ex.getMessage());
                 }
@@ -232,12 +239,15 @@ public class App extends Application {
         mainContainer.getChildren().add(vbox);
     }
 
-    private void saveAnswerAndProceed(Question question, Player player, boolean useExclusivity) throws InvalidAnswerFormatException {
+    private void saveAnswerAndProceed(Question question, Player player, boolean useExclusivity, boolean selectedNullifier) throws InvalidAnswerFormatException {
         String answer = answerTextField.getText();
         validateAnswerFormat(answer);
 
         ArrayList<Choice> chosenAnswers = player.setAnswers(question, answer);
         question.assignScore(player, chosenAnswers);
+
+        NullifierCheckBoxEventHandler nullifierHandler = new NullifierCheckBoxEventHandler(game);
+        nullifierHandler.selectNullifier(player, selectedNullifier);
 
 //        chosenExclusivities.get(currentPlayerIndex)[currentQuestionIndex] = useExclusivity;
 
@@ -245,6 +255,7 @@ public class App extends Application {
         if (currentPlayerIndex >= players.size()) {
             currentPlayerIndex = 0;
             currentQuestionIndex++;
+            game.deactivateNullifier();
         }
 
         updateScores();
@@ -292,6 +303,7 @@ public class App extends Application {
     public void init() throws Exception {
         super.init();
         questions = jsonParser.questionsParser("src/main/resources/preguntas.json");
+        game = new Game(players, questions, 100);
     }
 
     private VBox createVBoxWithPaddingAndAlignment(Pos alignment, double spacing, double padding) {
