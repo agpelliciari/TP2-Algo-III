@@ -25,4 +25,8 @@ public class Score {
     public void cancelScore() {
         state = new CanceledState();
     }
+
+    public void restoreScore() {
+        state = new NormalState();
+    }
 }

@@ -6,10 +6,11 @@ import java.util.Scanner;
 import tp2.clases.exceptions.InvalidNumberOfPlayersException;
 import tp2.clases.exceptions.UserNameAlreadyExistsException;
 
-class Game {
+public class Game {
     private int maxScore;
     private ArrayList<Question> questions = new ArrayList<>();
     private ArrayList<Player> players = new ArrayList<>();
+    private boolean aNullifierIsActivated = false;
 
     public static boolean intToBool(int num) {
         return num != 0;
@@ -126,11 +127,13 @@ class Game {
             int[] playersCorrectAnswers = new int[players.size()];
             ArrayList<Player> playersWhoAnsweredCorrectly = new ArrayList<>();
 
+            checkIfThereIsAScoreNullifierActivated();
+
             for (int j = 0; j < players.size(); j++) {
                 players.get(j).assignExclusivity(chosenExclusivities.get(j)[i]);
                 playersCorrectAnswers[j] = questions.get(i).getNumberOfCorrectAnswers(players.get(j).setAnswers(questions.get(i), chosenChoices.get(j)[i]));
                 if (playersCorrectAnswers[j] > 0) {
-                    playersWhoAnsweredCorrectly.add(players.get(j));
+                     playersWhoAnsweredCorrectly.add(players.get(j));
                     players.get(j).setNumberOfCorrectAnswers(playersCorrectAnswers[j]);
                 }
             }
@@ -148,6 +151,27 @@ class Game {
                     playerWhoAnsweredCorrectly.assignScore(new Correct(), playerWhoAnsweredCorrectly.getNumberOfCorrectAnswers());
                 }
             }
+        }
+    }
+
+    public void checkIfThereIsAScoreNullifierActivated() {
+        if (aNullifierIsActivated) {
+            for (Player player: players) {
+                if (!player.nullifierIsActive()) {
+                    player.aNullifierisActivated();
+                }
+            }
+        }
+    }
+
+    public void activateNullifier() {
+        aNullifierIsActivated = true;
+    }
+
+    public void deactivateNullifier() {
+        aNullifierIsActivated = false;
+        for (Player player: players) {
+            player.disableNullifier();
         }
     }
 }

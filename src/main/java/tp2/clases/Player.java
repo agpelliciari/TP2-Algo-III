@@ -123,4 +123,8 @@ public class Player {
     public void aNullifierisActivated() {
         nullifier.cancel(score);
     }
+
+    public void disableNullifier() {
+        nullifier.disable(score);
+    }
 }

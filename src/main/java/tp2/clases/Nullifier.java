@@ -31,4 +31,12 @@ public class Nullifier extends Power {
     public boolean isActive() {
         return state.isActive();
     }
+
+    public void disable(Score score) {
+        score.restoreScore();
+
+        if (isActive()) {
+            state = new UsedState(this);
+        }
+    }
 }
