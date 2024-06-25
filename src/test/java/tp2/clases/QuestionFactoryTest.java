@@ -6,76 +6,55 @@ import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class QuestionFactoryTest {
-    Choice choice1 = new Choice("", "correcta", 1);
-    Choice choice2 = new Choice("", "incorrecta", 2);
     ArrayList<Choice> choices = new ArrayList<Choice>();
-    private QuestionFactory questionFactory;
+    JsonParser jsonParser = new JsonParser();
+    ArrayList<JsonParser.QuestionString> questionsString = jsonParser.questionsStringParser("src/main/resources/preguntas.json");
 
     @Test
-    public void test01ItIsPossibleToCreateAQuestionWithTheExpectedTheme() {
+    public void test01AQuestionFactoryCreatesATrueOrFalseQuestion() {
         //Arrange
-        String expectedTheme = "Sports";
-        questionFactory = new QuestionFactory();
-        choices.add(choice1);
-        choices.add(choice2);
+        QuestionFactory factory = QuestionFactoryProvider.getFactory("Verdadero Falso");
 
         //Act
-        TrueOrFalse question = questionFactory.createTrueFalse(1, "Sports", "", "Verdadero Falso", choices, "");
-
+        Question question = factory.createQuestion("", questionsString.get(0), choices);
 
         //Assert
-        assertTrue(question.getContent().hasTheme(expectedTheme));
+        assertInstanceOf(TrueOrFalse.class, question);
     }
 
     @Test
-    public void test02ItIsPossibleToCreateAMultipleChoiceQuestionWithPartialScore() {
+    public void test02AQuestionFactoryCreatesAMultipleChoiceQuestion() {
         //Arrange
-        Mode expectedMode = new PartialMode();
-        questionFactory = new QuestionFactory();
-        choices.add(choice1);
-        choices.add(choice2);
-        
+        QuestionFactory factory = QuestionFactoryProvider.getFactory("Multiple Choice Simple");
+
         //Act
-        MultipleChoice question = questionFactory.createMultipleChoice(2, "Art", "", "Multiple Choice Puntaje Parcial", choices, "");
-        Mode obtainedMode = question.getMode();
+        Question question = factory.createQuestion("", questionsString.get(0), choices);
 
         //Assert
-        assertNotEquals(expectedMode, obtainedMode);
+        assertInstanceOf(MultipleChoice.class, question);
     }
 
     @Test
-    public void test03IsItPossibleToCreateAnOrderedChoiceQuestionWithCorrectOrderOfYourChoices() {
+    public void test03AQuestionFactoryCreatesAOrderedChoiceQuestion() {
         //Arrange
-        int[] expectedOrder = { 1, 2 };
-        questionFactory = new QuestionFactory();
-        choices.add(choice1);
-        choices.add(choice2);
+        QuestionFactory factory = QuestionFactoryProvider.getFactory("Ordered Choice");
 
         //Act
-        OrderedChoice question = questionFactory.createOrderedChoice(3, "Science", "", "Ordered Choice", choices, "", expectedOrder);
+        Question question = factory.createQuestion("", questionsString.get(0), choices);
 
         //Assert
-        assertTrue(question.checkAnswerOrder(choices));
+        assertInstanceOf(OrderedChoice.class, question);
     }
 
     @Test
-    public void test04ItIsPossibleToCreateAGroupChoiceQuestionWithTwoGroups() {
+    public void test04AQuestionFactoryCreatesAGroupChoiceQuestion() {
         //Arrange
-        ArrayList<Group> groups = new ArrayList<>();
-        int[] choicesIdGroupA = { 1 };
-        int[] choicesIdGroupB = { 2 };
-        groups.add(new Group('A', "", choicesIdGroupA));
-        groups.add(new Group('B', "", choicesIdGroupB));
-
-        questionFactory = new QuestionFactory();
-        choices.add(choice1);
-        choices.add(choice2);
+        QuestionFactory factory = QuestionFactoryProvider.getFactory("Group Choice");
 
         //Act
-        GroupChoice question = questionFactory.createGroupChoice(3, "Science", "", "Ordered Choice", choices, "");
-        question.addGroups(groups);
+        Question question = factory.createQuestion("", questionsString.get(0), choices);
 
         //Assert
-        assertEquals(groups, question.getGroups());
+        assertInstanceOf(GroupChoice.class, question);
     }
 }
