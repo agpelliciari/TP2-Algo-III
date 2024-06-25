@@ -135,61 +135,11 @@ public class JsonParser {
 
             ArrayList<Choice> choices = ChoicesFactory.createChoices(questionString, validChoicesString);
 
-            int questionId = (int) Double.parseDouble(questionString.getId());
+            QuestionFactory factory = QuestionFactoryProvider.getFactory(questionString.getType());
 
-            QuestionFactory questionFactory = new QuestionFactory();
-            switch (questionString.getType()) {
-                case "Verdadero Falso Simple":
-                case "Verdadero Falso":
-                case "Verdadero Falso Penalidad":
-                    questions.add(questionFactory.createTrueFalse(questionId, questionString.getTheme(), questionString.getQuestion(), questionString.getType(),choices , questionString.getAnswerText()));
-                case "Multiple Choice Simple":
-                case "Multiple Choice Penalidad":
-                case "Multiple Choice Puntaje Parcial":
-                    questions.add(questionFactory.createMultipleChoice(questionId, questionString.getTheme(), questionString.getQuestion(), questionString.getType(),choices , questionString.getAnswerText()));
-                    break;
-                case "Ordered choice":
-                case "Ordered Choice":
-                    int[] correctOrder = getIntArrayFromString(questionString.getAnswer());
-                    questions.add(questionFactory.createOrderedChoice(questionId, questionString.getTheme(), questionString.getQuestion(), questionString.getType(), choices, questionString.getAnswerText(), correctOrder));
-                    break;
-                case "Group Choice":
-                    questions.add(questionFactory.createGroupChoice(questionId, questionString.getTheme(), questionString.getQuestion(), questionString.getType(),choices , questionString.getAnswerText()));
-                    if (questionString.getGroupAText() != null && questionString.getGroupBText() != null) {
-                        String[] groupsString = {
-                                questionString.getGroupAText(),
-                                questionString.getGroupBText()
-                        };
-                        ArrayList<Group> groups = new ArrayList<>();
-                        String answerString = questionString.getAnswer().replaceAll("\\s", "");
-                        String[] answerParts = answerString.split(";");
-                        int i = 0;
-                        for (String part : answerParts) {
-                            String[] data = part.split(":");
-                            String[] numbersString = data[1].split(",");
-                            int[] numbers = new int[numbersString.length];
-                            for (int j = 0; j < numbersString.length; j++)
-                                numbers[j] = (int) Double.parseDouble(numbersString[j]);
-                            groups.add(new Group(data[0].charAt(0), groupsString[i++], numbers));
-                        }
-                        GroupChoice groupChoice = questionFactory.createGroupChoice(questionId, questionString.getTheme(), questionString.getQuestion(), questionString.getType(),choices , questionString.getAnswerText());
-                        groupChoice.addGroups(groups);
-                        questions.add(groupChoice);
-                    }
-                    break;
-                default:
-                    throw new IllegalStateException("Unknown question type: " + questionString.getType());
-            }
+            questions.add(factory.createQuestion(questionString.getId(), questionString, choices));
         }
+
         return questions;
-    }
-
-    private int[] getIntArrayFromString(String Choice) {
-        String[] answerParts = Choice.split(",");
-        int[] answerInt = new int[answerParts.length];
-        for (int i = 0; i < answerParts.length; i++) {
-            answerInt[i] = Integer.parseInt(answerParts[i]);
-        }
-        return answerInt;
     }
 }
