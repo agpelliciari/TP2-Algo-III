@@ -13,7 +13,7 @@ public class MultiplicatorButtonHandler {
 
     public void selectMultiplier(Player player, boolean selectedMultiplier) {
 
-        int factor = handleMultiplicator(this.factorString);
+        int factor = handleMultiplicator(this.factorString, selectedMultiplier);
 
         if (selectedMultiplier) {
             try {
@@ -23,12 +23,15 @@ public class MultiplicatorButtonHandler {
             }
         }
     }
-    public int handleMultiplicator(String factorText) {
+    public int handleMultiplicator(String factorText, boolean selectedMultiplier) {
         if (factorText.matches("[23]")) {  // Validar que el factor sea 2 o 3
             return Integer.parseInt(factorText);
 
         } else {
-            showErrorDialog("Por favor ingrese un multiplicador válido (2 o 3).");
+            if (selectedMultiplier) {
+                showErrorDialog("Por favor ingrese un multiplicador válido (2 o 3).");
+            }
+
         }
 
         return 0;

@@ -1,5 +1,7 @@
 package tp2.clases;
 
+import tp2.clases.exceptions.UsedPowerException;
+
 import java.util.ArrayList;
 
 public class Player {
@@ -91,6 +93,9 @@ public class Player {
         Multiplicator multiplicator = getMultiplicator(factor);
         if (!multiplicator.isActive() && !multiplicator.isUsed()) {
             multiplicator.activate();
+        }
+        else {
+            throw new UsedPowerException();
         }
     }
 
