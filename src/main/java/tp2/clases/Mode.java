@@ -10,4 +10,5 @@ public interface Mode {
 
     public abstract int calculateIncorrectScore(Player player, int wrongPoints);
 
+    public abstract boolean isPenaltyMode();
 }

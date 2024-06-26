@@ -21,4 +21,8 @@ public class PartialMode implements Mode {
     public int calculateIncorrectScore(Player player, int wrongPoints) {
         return player.calculateScore(new Incorrect(), 0);
     }
+    @Override
+    public boolean isPenaltyMode(){
+        return false;
+    }
 }

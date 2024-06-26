@@ -21,4 +21,9 @@ public class PenaltyMode implements Mode {
     public int calculateIncorrectScore(Player player, int wrongPoints) {
         return player.calculateScore(new Incorrect(), wrongPoints);
     }
+
+    @Override
+    public boolean isPenaltyMode(){
+        return true;
+    }
 }
