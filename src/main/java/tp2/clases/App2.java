@@ -22,6 +22,9 @@ public class App2 extends Application {
     private MainContainer mainContainer;
     private ScoreContainer scoreContainer;
     private int numberOfPlayers = 0;
+    private int questionLimit = 0;
+    private int questionCount = 0;
+    private int pointsLimit = 0;
     private int currentPlayerIndex = 0;
     private int currentQuestionIndex = 0;
     private ArrayList<Player> players = new ArrayList<>();
@@ -50,13 +53,21 @@ public class App2 extends Application {
     }
 
     public void showNumberOfPlayersField() {
-        PlayersInputScreen playersInputScreen = new PlayersInputScreen(this::setNumberOfPlayers);
+        PlayersInputScreen playersInputScreen = new PlayersInputScreen(this::setNumberOfPlayers, this::setQuestionLimit, this::setPointsLimit);
         updateMainContainer(playersInputScreen);
     }
 
     private void setNumberOfPlayers(int numberOfPlayers) {
         this.numberOfPlayers = numberOfPlayers;
         showPlayerNameInputFields();
+    }
+
+    private void setQuestionLimit(int limit) {
+        this.questionLimit = limit;
+    }
+
+    private void setPointsLimit(int limit) {
+        this.pointsLimit = limit;
     }
 
     public void showPlayerNameInputFields() {
@@ -133,6 +144,14 @@ public class App2 extends Application {
 
         currentPlayerIndex++;
         if (currentPlayerIndex >= players.size()) {
+
+            questionCount++;
+
+            if (limitReached()) {
+                showEndGame();
+                return;
+            }
+
             currentPlayerIndex = 0;
 //            currentQuestionIndex++;
             currentQuestionIndex = getQuestionIndex();
@@ -222,6 +241,24 @@ public class App2 extends Application {
         String currentTheme = questions.get(currentQuestionIndex).getContent().getTheme();
         return newTheme.equals(currentTheme);
 
+    }
+
+    private boolean limitReached() {
+        return questionLimitReached() | pointsLimitReached();
+    }
+
+    private boolean pointsLimitReached() {
+        boolean limitReached = false;
+        for (Player player: players) {
+            if (player.getScore() > pointsLimit) {
+                limitReached = true;
+            }
+        }
+        return limitReached;
+    }
+
+    private boolean questionLimitReached() {
+        return questionCount >= questionLimit;
     }
 
 }
