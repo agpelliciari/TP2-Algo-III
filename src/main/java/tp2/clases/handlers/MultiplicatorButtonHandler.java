@@ -31,6 +31,9 @@ public class MultiplicatorButtonHandler {
             if (selectedMultiplier) {
                 showErrorDialog("Por favor ingrese un multiplicador válido (2 o 3).");
             }
+//            else if (factorText.matches("") && selectedMultiplier) {
+//                showErrorDialog("Por favor elija un multiplicador (x2 o x3)");
+//            }
 
         }
 
