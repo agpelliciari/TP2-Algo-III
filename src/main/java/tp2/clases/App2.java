@@ -204,13 +204,16 @@ public class App2 extends Application {
         int numQuestions = questions.size();
         int randomIndex = random.nextInt(numQuestions);
         while (selectedQuestionIndices.contains(randomIndex)) {
-//            if(questions.){
-//
-//            }
             randomIndex = random.nextInt(numQuestions);
         }
         selectedQuestionIndices.add(randomIndex);
 
         return randomIndex;
     }
+    public boolean checkIfRepeatedTheme(int index){
+        String newTheme = questions.get(index).getContent().getTheme();
+        String currentTheme = questions.get(currentQuestionIndex).getContent().getTheme();
+        return newTheme.equals(currentTheme);
+    }
+
 }
