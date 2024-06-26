@@ -123,8 +123,8 @@ public class App2 extends Application {
         ArrayList<Choice> chosenAnswers = player.setAnswers(question, answer);
         question.assignScore(player, chosenAnswers);
 
-        NullifierCheckBoxEventHandler nullifierHandler = new NullifierCheckBoxEventHandler(game);
-        nullifierHandler.selectNullifier(player, selectedNullifier);
+        NullifierCheckBoxEventHandler nullifierHandler = new NullifierCheckBoxEventHandler();
+        nullifierHandler.selectNullifier(player, players, selectedNullifier);
 //        chosenExclusivities.get(currentPlayerIndex)[currentQuestionIndex] = useExclusivity;
 
         currentPlayerIndex++;
