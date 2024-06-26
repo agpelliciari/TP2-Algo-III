@@ -3,7 +3,7 @@ package tp2.clases;
 import java.util.ArrayList;
 import tp2.clases.exceptions.InvalidNumberOfChosenChoicesException;
 
-abstract class Question {
+public abstract class Question {
 
     private final int id;
     private final ArrayList<Choice> choices;
