@@ -7,6 +7,10 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
+import tp2.clases.App;
+import tp2.clases.Player;
+import tp2.clases.Question;
+import tp2.clases.exceptions.InvalidAnswerFormatException;
 
 public class PanelBuilder {
 
@@ -36,10 +40,16 @@ public class PanelBuilder {
         return multiplicatorContainer;
     }
 
-    public static Button createAnswerButton(Runnable onAnswerSubmitted) {
-        Button button = new Button("Responder");
-        button.setStyle("-fx-font-size: 14px; -fx-background-color: #ff6666; -fx-text-fill: white;");
-        button.setOnAction(e -> onAnswerSubmitted.run());
-        return button;
+    public static Button createAnswerButton(Question currentQuestion, Player currentPlayer, Panel panel, App app) {
+        Button answerButton = new Button("Responder");
+        answerButton.setStyle("-fx-font-size: 14px; -fx-background-color: #ff6666; -fx-text-fill: white;");
+        answerButton.setOnAction(e -> {
+            try {
+                app.saveAnswerAndProceed(currentQuestion, currentPlayer, panel.isExclusivitySelected(), panel.isNullifierSelected(), panel.getAnswer(), panel.getFactor(), panel.isMultiplicatorSelected());
+            } catch (InvalidAnswerFormatException ex) {
+                app.showErrorDialog(ex.getMessage());
+            }
+        });
+        return answerButton;
     }
 }
