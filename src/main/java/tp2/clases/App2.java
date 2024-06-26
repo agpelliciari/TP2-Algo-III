@@ -117,6 +117,10 @@ public class App2 extends Application {
     public void saveAnswerAndProceed(Question question, Player player, boolean useExclusivity, boolean selectedNullifier, String answer, String factor, boolean selectedMultiplicator) throws InvalidAnswerFormatException {
         validateAnswerFormat(answer);
 
+        if (selectedMultiplicator && !question.getMode().isPenaltyMode()) {
+            showErrorDialog("El multiplicador solo se puede usar en preguntas de tipo penalidad.");
+            return;
+        }
         MultiplicatorButtonHandler multiplicatorButtonHandler = new MultiplicatorButtonHandler(factor);
         multiplicatorButtonHandler.selectMultiplier(player,selectedMultiplicator);
 
