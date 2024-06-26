@@ -6,13 +6,14 @@ import tp2.clases.exceptions.UsedPowerException;
 
 public class MultiplicatorButtonHandler {
     String factorString;
+
     public MultiplicatorButtonHandler(String factorString) {
         this.factorString = factorString;
     }
 
-    public void selectMultiplier(Player player, boolean selectedMultiplier, String factorText) {
+    public void selectMultiplier(Player player, boolean selectedMultiplier) {
 
-        int factor = handleMultiplicator(factorText);
+        int factor = handleMultiplicator(this.factorString);
 
         if (selectedMultiplier) {
             try {
@@ -27,7 +28,7 @@ public class MultiplicatorButtonHandler {
             return Integer.parseInt(factorText);
 
         } else {
-            showErrorDialog("Por favor ingrese un factor válido (2 o 3).");
+            showErrorDialog("Por favor ingrese un multiplicador válido (2 o 3).");
         }
 
         return 0;
