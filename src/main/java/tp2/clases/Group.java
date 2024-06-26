@@ -44,11 +44,9 @@ public class Group {
         return true;
     }
 
-
     public void assignScore(Player player, ArrayList<Choice> chosenAnswers) {
         if (containsSet(chosenAnswers)) {
             player.addToScore(1);
         }
     }
-
 }

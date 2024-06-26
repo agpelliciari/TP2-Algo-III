@@ -13,10 +13,11 @@ public class Player {
     private Nullifier nullifier;
     private int numberOfCorrectAnswers;
     private ArrayList<String> answers = new ArrayList<>();
+    private Boolean answeredCorrectly = false;
 
-    public Player(String name, int initialScore) {
+    public Player(String name, int score) {
         this.name = name;
-        this.score = new Score(initialScore);
+        this.score = new Score(score);
         multiplicators.add(new Multiplicator(2));
         multiplicators.add(new Multiplicator(3));
         this.exclusivity = new Exclusivity();
@@ -63,14 +64,26 @@ public class Player {
     public void assignScore(Correction correction, int modification) {
 
         Multiplicator multiplicator = getActiveMultiplicator();
+        int factor = 1;
         if(multiplicator != null) {
-            int factor = multiplicator.getFactor();
-            correction.assignScore(score, modification * factor);
+            factor = multiplicator.getFactor();
             multiplicator.deactivate();
         }
-        else{
-            correction.assignScore(score, modification);
+        correction.assignScore(score, modification * factor);
+    }
+
+    public void assignScore(int modification) {
+        score.addScore(modification);
+    }
+
+    public int calculateScore(Correction correction, int modification) {
+        Multiplicator multiplicator = getActiveMultiplicator();
+        int factor = 1;
+        if(multiplicator != null) {
+            factor = multiplicator.getFactor();
+            multiplicator.deactivate();
         }
+        return correction.calculateScore(score, modification * factor);
     }
 
     public void addToScore(int number) {
@@ -131,5 +144,13 @@ public class Player {
 
     public void disableNullifier() {
         nullifier.disable(score);
+    }
+
+    public boolean answeredCorrectly() {
+        return answeredCorrectly;
+    }
+
+    public void setAnsweredCorrectly() {
+        answeredCorrectly = true;
     }
 }

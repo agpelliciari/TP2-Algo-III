@@ -18,4 +18,15 @@ public class MultipleChoice extends Question {
             mode.assignIncorrectScore(player, getNumberOfIncorrectAnswers(chosenAnswers));
         }
     }
+
+    public int calculateScore(Player player, ArrayList<Choice> chosenAnswers) {
+        Mode mode = getMode();
+
+        if (hasNoIncorrectAnswers(chosenAnswers)) {
+            return mode.calculateCorrectScore(player, getNumberOfCorrectAnswers(chosenAnswers));
+        } else {
+            return mode.calculateIncorrectScore(player, getNumberOfIncorrectAnswers(chosenAnswers));
+        }
+    }
+
 }

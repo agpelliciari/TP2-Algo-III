@@ -7,6 +7,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
+import tp2.clases.PenaltyMode;
 import tp2.clases.Player;
 import tp2.clases.Question;
 import javafx.scene.control.ScrollPane;
@@ -40,10 +41,12 @@ public class Panel extends ScrollPane {
         box.getChildren().add(answerTextField);
 
         exclusivityCheckBox = new CheckBox("Usar exclusividad");
-        box.getChildren().add(exclusivityCheckBox);
+        if (!(currentQuestion.getMode() instanceof PenaltyMode) && currentPlayer.getExclusivity().getNumber() > 0) {
+            box.getChildren().add(exclusivityCheckBox);
+        }
 
         multiplicatorCheckBox = new CheckBox("Usar multiplicador");
-        factorTextField = (TextField) PanelBuilder.createTextField("Factor", 14);
+        factorTextField = (TextField) PanelBuilder.createTextField("Factor", 12);
         box.getChildren().add(PanelBuilder.createMultiplicatorContainer(multiplicatorCheckBox, factorTextField));
 
         nullifierCheckBox = new CheckBox("Usar anulador");

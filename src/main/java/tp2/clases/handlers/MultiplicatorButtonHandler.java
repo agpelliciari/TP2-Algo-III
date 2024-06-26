@@ -1,10 +1,11 @@
 package tp2.clases.handlers;
+
 import javafx.scene.control.Alert;
-import tp2.clases.Game;
 import tp2.clases.Player;
 import tp2.clases.exceptions.UsedPowerException;
 
 public class MultiplicatorButtonHandler {
+
     String factorString;
 
     public MultiplicatorButtonHandler(String factorString) {
@@ -26,7 +27,6 @@ public class MultiplicatorButtonHandler {
     public int handleMultiplicator(String factorText, boolean selectedMultiplier) {
         if (factorText.matches("[23]")) {  // Validar que el factor sea 2 o 3
             return Integer.parseInt(factorText);
-
         } else {
             if (selectedMultiplier) {
                 showErrorDialog("Por favor ingrese un multiplicador válido (2 o 3).");
@@ -34,9 +34,7 @@ public class MultiplicatorButtonHandler {
 //            else if (factorText.matches("") && selectedMultiplier) {
 //                showErrorDialog("Por favor elija un multiplicador (x2 o x3)");
 //            }
-
         }
-
         return 0;
     }
 

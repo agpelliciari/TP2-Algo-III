@@ -82,4 +82,6 @@ public abstract class Question {
     }
 
     public abstract void assignScore(Player player, ArrayList<Choice> chosenAnswers);
+
+    public abstract int calculateScore(Player player, ArrayList<Choice> chosenAnswers);
 }

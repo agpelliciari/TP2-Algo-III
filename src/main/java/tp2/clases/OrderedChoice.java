@@ -21,6 +21,17 @@ public class OrderedChoice extends Question {
         }
     }
 
+    @Override
+    public int calculateScore(Player player, ArrayList<Choice> chosenAnswers) {
+        Mode mode = getMode();
+
+        if (checkAnswerOrder(chosenAnswers)) {
+            return mode.calculateCorrectScore(player, 1);
+        } else {
+            return mode.calculateIncorrectScore(player, getNumberOfIncorrectAnswers(chosenAnswers));
+        }
+    }
+
     public boolean checkAnswerOrder(ArrayList<Choice> playerAnswers) {
         ArrayList<Choice> correctChoices = getChoices();
         if (playerAnswers.size() != correctOrder.length) {

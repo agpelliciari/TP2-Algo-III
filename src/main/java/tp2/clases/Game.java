@@ -80,7 +80,6 @@ public class Game {
     }
 
     public String getUserName() {
-        System.out.print("Name: ");
         Scanner scanner = new Scanner(System.in);
         String userName = scanner.nextLine();
         scanner.close();

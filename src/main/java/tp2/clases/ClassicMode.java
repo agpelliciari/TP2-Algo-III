@@ -11,4 +11,14 @@ public class ClassicMode implements Mode {
     public void assignIncorrectScore(Player player, int wrongPoints) {
         player.assignScore(new Incorrect(), 0);
     }
+
+    @Override
+    public int calculateCorrectScore(Player player, int correctPoints) {
+        return player.calculateScore(new Correct(), 1);
+    }
+
+    @Override
+    public int calculateIncorrectScore(Player player, int wrongPoints) {
+        return player.calculateScore(new Incorrect(), 0);
+    }
 }

@@ -18,6 +18,10 @@ public class GroupChoice extends Question {
     }
 
     @Override
-    public void assignScore(Player player, ArrayList<Choice> chosenAnswers) {
+    public void assignScore(Player player, ArrayList<Choice> chosenAnswers) {}
+
+    @Override
+    public int calculateScore(Player player, ArrayList<Choice> chosenAnswers) {
+        return 0;
     }
 }

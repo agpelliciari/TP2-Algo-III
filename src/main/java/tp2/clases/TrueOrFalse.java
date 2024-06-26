@@ -18,4 +18,16 @@ public class TrueOrFalse extends Question {
             mode.assignIncorrectScore(player, getNumberOfIncorrectAnswers(chosenAnswers));
         }
     }
+
+
+    @Override
+    public int calculateScore(Player player, ArrayList<Choice> chosenAnswers) {
+        Mode mode = getMode();
+
+        if (hasNoIncorrectAnswers(chosenAnswers)) {
+            return mode.calculateCorrectScore(player, getNumberOfCorrectAnswers(chosenAnswers));
+        } else {
+            return mode.calculateIncorrectScore(player, getNumberOfIncorrectAnswers(chosenAnswers));
+        }
+    }
 }

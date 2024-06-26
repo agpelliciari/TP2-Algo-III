@@ -13,12 +13,10 @@ import tp2.clases.handlers.NullifierCheckBoxEventHandler;
 import tp2.clases.screens.*;
 import javafx.scene.layout.VBox;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Random;
-import java.util.Set;
+import java.util.*;
 
 public class App extends Application {
+
     private MainContainer mainContainer;
     private ScoreContainer scoreContainer;
     private int numberOfPlayers = 0;
@@ -28,8 +26,8 @@ public class App extends Application {
     private JsonParser jsonParser = new JsonParser();
     private ArrayList<Question> questions;
     private Set<Integer> selectedQuestionIndices = new HashSet<>();
-    private TextField currentQuestionTheme;
-//    private ArrayList<boolean[]> chosenExclusivities = new ArrayList<>();
+    private ArrayList<Boolean> chosenExclusivities =  new ArrayList<>();
+    private int[] playersScore;
     private Game game;
 
     public void initialize(String[] args) {
@@ -39,13 +37,11 @@ public class App extends Application {
     @Override
     public void start(Stage primaryStage) {
         mainContainer = new MainContainer();
-
         StartScreen startScreen = new StartScreen(() -> showNumberOfPlayersField());
-
         mainContainer.addChild(startScreen);
 
         primaryStage.setTitle("Juego de preguntas y respuestas");
-        primaryStage.setScene(new Scene(mainContainer, 800, 700));
+        primaryStage.setScene(new Scene(mainContainer, 900, 800));
         primaryStage.show();
     }
 
@@ -55,6 +51,7 @@ public class App extends Application {
     }
 
     private void setNumberOfPlayers(int numberOfPlayers) {
+        playersScore = new int[numberOfPlayers];
         this.numberOfPlayers = numberOfPlayers;
         showPlayerNameInputFields();
     }
@@ -64,12 +61,11 @@ public class App extends Application {
         updateMainContainer(playersNamesInputScreen);
     }
 
-
     private void setPlayersNames(ArrayList<String> playersNames) {
         for (String playerName : playersNames) {
             players.add(new Player(playerName, 0));
         }
-        this.currentQuestionIndex = getQuestionIndex();
+        this.currentQuestionIndex = getRandomQuestionIndex();
         showQuestionForPlayer();
     }
 
@@ -78,25 +74,18 @@ public class App extends Application {
             showEndGame();
             return;
         }
-        
+
         game.checkIfThereIsAScoreNullifierActivated();
         Player currentPlayer = players.get(currentPlayerIndex);
         Question currentQuestion = questions.get(currentQuestionIndex);
 
         mainContainer.cleanContainer();
-
         scoreContainer = new ScoreContainer();
-
-        updateScores();
-
         mainContainer.addChild(scoreContainer);
 
         Panel panel = new Panel(currentPlayer, currentQuestion);
-
         Button answerButton = PanelBuilder.createAnswerButton(currentQuestion, currentPlayer, panel, this);
-
         panel.addChild(answerButton);
-
         pressedKeyEvent(currentQuestion, currentPlayer, panel);
 
         mainContainer.addChild(panel);
@@ -114,36 +103,98 @@ public class App extends Application {
         });
     }
 
-    public void saveAnswerAndProceed(Question question, Player player, boolean useExclusivity, boolean selectedNullifier, String answer, String factor, boolean selectedMultiplicator) throws InvalidAnswerFormatException {
+    public void saveAnswerAndProceed(Question question, Player player, boolean useExclusivity, boolean selectedNullifier, String answer, String factor, boolean selectedMultiplicator) {
         validateAnswerFormat(answer);
 
         MultiplicatorButtonHandler multiplicatorButtonHandler = new MultiplicatorButtonHandler(factor);
-        multiplicatorButtonHandler.selectMultiplier(player,selectedMultiplicator);
+        multiplicatorButtonHandler.selectMultiplier(player, selectedMultiplicator);
 
-        ArrayList<Choice> chosenAnswers = player.setAnswers(question, answer);
-        question.assignScore(player, chosenAnswers);
+        boolean isCorrect = false;
+
+        int calculatedScore = question.calculateScore(player, player.setAnswers(question, answer));
+
+        if (calculatedScore > 0) {
+            isCorrect = true;
+            player.setAnsweredCorrectly();
+        }
+
+        playersScore[currentPlayerIndex] = calculatedScore;
+
+        if (useExclusivity) {
+            chosenExclusivities.add(true);
+            player.getExclusivity().decreaseNumber();
+        } else {
+            chosenExclusivities.add(false);
+        }
 
         NullifierCheckBoxEventHandler nullifierHandler = new NullifierCheckBoxEventHandler(game);
         nullifierHandler.selectNullifier(player, selectedNullifier);
-//        chosenExclusivities.get(currentPlayerIndex)[currentQuestionIndex] = useExclusivity;
 
         currentPlayerIndex++;
         if (currentPlayerIndex >= players.size()) {
-            currentPlayerIndex = 0;
-//            currentQuestionIndex++;
-            currentQuestionIndex = getQuestionIndex();
-            game.deactivateNullifier();
-        }
+            calculateExclusivityScore();
+            updateScores(playersScore, chosenExclusivities);
 
-        updateScores();
-        showQuestionForPlayer();
+            game.deactivateNullifier();
+            playersScore = new int[numberOfPlayers];
+            chosenExclusivities = new ArrayList<>();
+            showCorrectAnswer();
+
+            currentPlayerIndex = 0;
+            currentQuestionIndex = getRandomQuestionIndex();
+        } else {
+            showQuestionForPlayer();
+        }
     }
 
-    private void updateScores() {
+    private void calculateExclusivityScore() {
+        int exclusivityCount = 0;
+        for (Boolean chosenExclusivity : chosenExclusivities) {
+            if (chosenExclusivity) exclusivityCount++;
+        }
+
+        boolean anyCorrectAnswer = false;
+        boolean[] correctAnswers = new boolean[numberOfPlayers];
+
+        for (int i = 0; i < numberOfPlayers; i++) {
+            Player player = players.get(i);
+            correctAnswers[i] = player.answeredCorrectly();
+            if (correctAnswers[i]) anyCorrectAnswer = true;
+        }
+
+        for (int i = 0; i < numberOfPlayers; i++) {
+            if (chosenExclusivities.get(i)) {
+                if (exclusivityCount == 1) {
+                    if (correctAnswers[i] && !anyCorrectAnswer) {
+                        playersScore[i] *= 2;
+                    } else {
+                        playersScore[i] = 0;
+                    }
+                } else {
+                    if (correctAnswers[i] && !anyCorrectAnswer) {
+                        playersScore[i] *= exclusivityCount;
+                    } else {
+                        playersScore[i] = 0;
+                    }
+                }
+            }
+        }
+    }
+
+    private void showCorrectAnswer() {
+        mainContainer.cleanContainer();
+        AnswerScreen answerScreen = new AnswerScreen(() -> showQuestionForPlayer(), questions.get(currentQuestionIndex).getContent().getAnswerText());
+        answerScreen.getChildren().add(scoreContainer);
+        mainContainer.addChild(answerScreen);
+    }
+
+    private void updateScores(int[] playersScore, ArrayList<Boolean> chosenExclusivities) {
         scoreContainer.cleanContainer();
 
-        for (Player player : players) {
-            Label scoreLabel = new Label(player.getName() + ": " + player.getScore() + " puntos");
+        for (int i = 0; i < numberOfPlayers; i++) {
+            players.get(i).assignScore(playersScore[i]);
+
+            Label scoreLabel = new Label(players.get(i).getName() + ": " + players.get(i).getScore() + " puntos");
             scoreLabel.setStyle("-fx-font-size: 14px; -fx-font-weight: bold;");
 
             scoreContainer.addChild(scoreLabel);
@@ -152,17 +203,13 @@ public class App extends Application {
 
     private void showEndGame() {
         mainContainer.cleanContainer();
-
         VBox vbox = createVBoxWithPaddingAndAlignment(Pos.CENTER, 20, 20);
 
         Label endGameLabel = new Label("¡Fin del juego!");
-        endGameLabel.setStyle("-fx-font-size: 24px; -fx-font-weight: bold;");
+        endGameLabel.setStyle("-fx-font-size: 30px; -fx-font-weight: bold;");
         vbox.getChildren().add(endGameLabel);
 
-        updateScores();
-
         vbox.getChildren().add(scoreContainer);
-
         mainContainer.addChild(vbox);
     }
 
@@ -199,14 +246,13 @@ public class App extends Application {
         mainContainer.addChild(newContent);
     }
 
-    public Integer getQuestionIndex() {
+    public Integer getRandomQuestionIndex() {
         Random random = new Random();
         int numQuestions = questions.size();
         int randomIndex = random.nextInt(numQuestions);
         while (selectedQuestionIndices.contains(randomIndex)) {
             randomIndex = random.nextInt(numQuestions);
         }
-
         return randomIndex;
     }
 }

@@ -11,4 +11,14 @@ public class PenaltyMode implements Mode {
     public void assignIncorrectScore(Player player, int wrongPoints) {
         player.assignScore(new Incorrect(), wrongPoints);
     }
+
+    @Override
+    public int calculateCorrectScore(Player player, int correctPints) {
+        return player.calculateScore(new Correct(), correctPints);
+    }
+
+    @Override
+    public int calculateIncorrectScore(Player player, int wrongPoints) {
+        return player.calculateScore(new Incorrect(), wrongPoints);
+    }
 }

@@ -9,6 +9,11 @@ public class Incorrect extends Correction {
     }
 
     @Override
+    public int calculateScore(Score score, int modification) {
+        return score.getScore() - modification;
+    }
+
+    @Override
     public boolean isCorrect() {
         return false;
     }

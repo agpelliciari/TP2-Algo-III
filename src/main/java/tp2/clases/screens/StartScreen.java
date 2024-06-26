@@ -30,7 +30,7 @@ public class StartScreen extends VBox {
         startButton.setOnAction(new StartButtonEventHandler(startHandler));
 
         this.getChildren().add(startButton);
-}
+    }
 //    public StartScreen(ActionHandler startHandler) {
 //        Button startButton = new Button("Comenzar");
 //        StartButtonEventHandler startButtonEventHandler = new StartButtonEventHandler(startHandler);

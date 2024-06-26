@@ -6,6 +6,7 @@ import tp2.clases.Player;
 import tp2.clases.exceptions.UsedPowerException;
 
 public class NullifierCheckBoxEventHandler {
+
     private Game game;
 
     public NullifierCheckBoxEventHandler(Game game) {
