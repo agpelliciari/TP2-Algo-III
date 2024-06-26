@@ -42,7 +42,7 @@ class JsonParser{
 }
 
 class QuestionFactory{
-+createQuestion(questionId: String, questionString: QuestionString, choices: ArrayList<Choice>
++createQuestion(questionId: String, questionString: QuestionString, choices: ArrayList<Choice>): Question
 }
 
 Game --> Question:1..*

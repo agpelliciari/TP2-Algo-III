@@ -11,8 +11,8 @@ public class OrderedChoiceFactory implements QuestionFactory {
         return new OrderedChoice(questionIdToInt, new Content(questionString.getTheme(), questionString.getQuestion(), questionString.getAnswerText()), new ClassicMode(), choices, correctOrder);
     }
 
-    private int[] getIntArrayFromString(String Choice) {
-        String[] answerParts = Choice.split(",");
+    private int[] getIntArrayFromString(String choice) {
+        String[] answerParts = choice.split(",");
         int[] answerInt = new int[answerParts.length];
         for (int i = 0; i < answerParts.length; i++) {
             answerInt[i] = Integer.parseInt(answerParts[i]);
