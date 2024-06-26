@@ -30,6 +30,7 @@ public class App extends Application {
     private JsonParser jsonParser = new JsonParser();
     private ArrayList<Question> questions;
     private Set<Integer> selectedQuestionIndices = new HashSet<>();
+    private TextField currentQuestionTheme;
 //    private ArrayList<boolean[]> chosenExclusivities = new ArrayList<>();
     private Label questionLabel, choiceLabel;
     private TextField answerTextField;
@@ -73,6 +74,7 @@ public class App extends Application {
         for (String playerName : playersNames) {
             players.add(new Player(playerName, 0));
         }
+        this.currentQuestionIndex = getQuestionIndex();
         showQuestionForPlayer();
     }
 
@@ -81,10 +83,9 @@ public class App extends Application {
             showEndGame();
             return;
         }
-
         game.checkIfThereIsAScoreNullifierActivated();
         Player currentPlayer = players.get(currentPlayerIndex);
-        Question currentQuestion = questions.get(getQuestionIndex());
+        Question currentQuestion = questions.get(currentQuestionIndex);
 
         mainContainer.cleanContainer();
 
@@ -236,6 +237,7 @@ public class App extends Application {
         if (currentPlayerIndex >= players.size()) {
             currentPlayerIndex = 0;
 //            currentQuestionIndex++;
+            currentQuestionIndex = getQuestionIndex();
             game.deactivateNullifier();
         }
 
