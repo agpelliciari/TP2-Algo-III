@@ -1,21 +1,36 @@
 package tp2.clases.handlers;
-import java.util.function.BiConsumer;
 import javafx.scene.control.Alert;
+import tp2.clases.Game;
+import tp2.clases.Player;
+import tp2.clases.exceptions.UsedPowerException;
 
 public class MultiplicatorButtonHandler {
-    private BiConsumer<Boolean, Integer> applyMultiplicatorConsumer;
-
-    public MultiplicatorButtonHandler(BiConsumer<Boolean, Integer> applyMultiplicatorConsumer) {
-        this.applyMultiplicatorConsumer = applyMultiplicatorConsumer;
+    String factorString;
+    public MultiplicatorButtonHandler(String factorString) {
+        this.factorString = factorString;
     }
 
-    public void handleMultiplicator(boolean useMultiplicator, String factorText) {
+    public void selectMultiplier(Player player, boolean selectedMultiplier, String factorText) {
+
+        int factor = handleMultiplicator(factorText);
+
+        if (selectedMultiplier) {
+            try {
+                player.useMultiplicator(factor);
+            } catch (UsedPowerException e) {
+                showErrorDialog(e.getMessage());
+            }
+        }
+    }
+    public int handleMultiplicator(String factorText) {
         if (factorText.matches("[23]")) {  // Validar que el factor sea 2 o 3
-            int factor = Integer.parseInt(factorText);
-            applyMultiplicatorConsumer.accept(useMultiplicator, factor);
+            return Integer.parseInt(factorText);
+
         } else {
             showErrorDialog("Por favor ingrese un factor válido (2 o 3).");
         }
+
+        return 0;
     }
 
     private void showErrorDialog(String errorMessage) {
