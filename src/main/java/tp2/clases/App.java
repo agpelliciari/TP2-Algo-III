@@ -97,7 +97,7 @@ public class App extends Application {
         answerButton.setStyle("-fx-font-size: 14px; -fx-background-color: #ff6666; -fx-text-fill: white;");
         answerButton.setOnAction(e -> {
             try {
-                saveAnswerAndProceed(currentQuestion, currentPlayer, panel.isExclusivitySelected(), panel.isNullifierSelected(), panel.getAnswer(), panel.getFactor());
+                saveAnswerAndProceed(currentQuestion, currentPlayer, panel.isExclusivitySelected(), panel.isNullifierSelected(), panel.getAnswer(), panel.getFactor(), panel.isMultiplicatorSelected());
             } catch (InvalidAnswerFormatException ex) {
                 showErrorDialog(ex.getMessage());
             }
@@ -108,7 +108,7 @@ public class App extends Application {
         panel.getAnswerTextField().setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ENTER) {
                 try {
-                    saveAnswerAndProceed(currentQuestion, currentPlayer, panel.isExclusivitySelected(), panel.isNullifierSelected(), panel.getAnswer(), panel.getFactor());
+                    saveAnswerAndProceed(currentQuestion, currentPlayer, panel.isExclusivitySelected(), panel.isNullifierSelected(), panel.getAnswer(), panel.getFactor(), panel.isMultiplicatorSelected());
                 } catch (InvalidAnswerFormatException ex) {
                     showErrorDialog(ex.getMessage());
                 }
@@ -214,7 +214,7 @@ public class App extends Application {
         mainContainer.addChild(vbox);
     }*/
 
-    private void saveAnswerAndProceed(Question question, Player player, boolean useExclusivity, boolean selectedNullifier, String answer, String factor) throws InvalidAnswerFormatException {
+    private void saveAnswerAndProceed(Question question, Player player, boolean useExclusivity, boolean selectedNullifier, String answer, String factor, boolean selectedMultiplicator) throws InvalidAnswerFormatException {
         //String answer = answerTextField.getText();
         validateAnswerFormat(answer);
 
@@ -225,6 +225,7 @@ public class App extends Application {
         nullifierHandler.selectNullifier(player, selectedNullifier);
 
         MultiplicatorButtonHandler multiplicatorButtonHandler = new MultiplicatorButtonHandler(factor);
+        multiplicatorButtonHandler.selectMultiplier(player,selectedMultiplicator);
 
 //        chosenExclusivities.get(currentPlayerIndex)[currentQuestionIndex] = useExclusivity;
 
