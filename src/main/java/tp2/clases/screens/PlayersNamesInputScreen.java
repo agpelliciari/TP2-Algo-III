@@ -34,30 +34,67 @@ public class PlayersNamesInputScreen extends VBox {
 
     private void createPlayerNameInputFields() {
         for (int i = 0; i < numberOfPlayers; i++) {
-            Label label = new Label("Ingrese el nombre del jugador " + (i + 1) + ":");
-            label.setStyle("-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #333;");
-            getChildren().add(label);
-
-            TextField playerNameTextField = new TextField();
-            playerNameTextField.setPromptText("Nombre del jugador");
-            playerNameTextField.setStyle("-fx-font-size: 14px; -fx-padding: 10px; -fx-border-color: #ccc; -fx-border-radius: 5px; -fx-background-radius: 5px;");
-            playerNameTextFields.add(playerNameTextField);
-            getChildren().add(playerNameTextField);
-
-            Button confirmButton = new Button("Confirmar");
-            confirmButton.setStyle("-fx-font-size: 14px; -fx-padding: 10px 20px; -fx-background-color: #266d99; -fx-text-fill: white; -fx-border-radius: 5px; -fx-background-radius: 5px;");
-            confirmButton.setOnMouseEntered(e -> confirmButton.setStyle("-fx-font-size: 14px; -fx-padding: 10px 20px; -fx-background-color: #0b4163; -fx-text-fill: white; -fx-border-radius: 5px; -fx-background-radius: 5px;"));
-            confirmButton.setOnMouseExited(e -> confirmButton.setStyle("-fx-font-size: 14px; -fx-padding: 10px 20px; -fx-background-color: #266d99; -fx-text-fill: white; -fx-border-radius: 5px; -fx-background-radius: 5px;"));
-            confirmButton.setOnAction(e -> handlePlayerNameEntry(playerNameTextField));
-            getChildren().add(confirmButton);
-
-            playerNameTextField.setOnKeyPressed(event -> {
-                if (event.getCode() == KeyCode.ENTER) {
-                    handlePlayerNameEntry(playerNameTextField);
-                }
-            });
+            displayPlayerNameInputFields(i+1);
+            //updatePlayerNameInputFields(i+1);
         }
     }
+
+    /*private void updatePlayerNameInputFields(int indexCurrentPlayer) {
+        label.setText("Ingrese el nombre del jugador " + indexCurrentPlayer + ":");
+        playerNameTextField.clear();
+    }*/
+
+    private void displayPlayerNameInputFields(int indexCurrentPlayer) {
+        Label label = createPlayerNameInputLabel(indexCurrentPlayer);
+        getChildren().add(label);
+
+        TextField playerNameTextField = createPlayerNameTextField();
+        getChildren().add(playerNameTextField);
+
+        Button confirmButton = createConfirmButton(playerNameTextField);
+        getChildren().add(confirmButton);
+
+        playerNameTextField.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                handlePlayerNameEntry(playerNameTextField);
+            }
+        });
+    }
+    
+
+    private Label createPlayerNameInputLabel(int indexCurrentPlayer) {
+        Label label = new Label("Ingrese el nombre del jugador " + indexCurrentPlayer + ":");
+        label.setStyle("-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #333;");
+
+        return label;
+    }
+
+    private TextField createPlayerNameTextField() {
+        TextField playerNameTextField = new TextField();
+        playerNameTextField.setPromptText("Nombre del jugador");
+        playerNameTextField.setStyle("-fx-font-size: 14px; -fx-padding: 10px; -fx-border-color: #ccc; -fx-border-radius: 5px; -fx-background-radius: 5px;");
+        playerNameTextFields.add(playerNameTextField);
+
+        return playerNameTextField;
+    }
+
+    private Button createConfirmButton(TextField playerNameTextField) {
+        Button confirmButton = new Button("Confirmar");
+        confirmButton.setStyle("-fx-font-size: 14px; -fx-padding: 10px 20px; -fx-background-color: #266d99; -fx-text-fill: white; -fx-border-radius: 5px; -fx-background-radius: 5px;");
+        confirmButton.setOnMouseEntered(e -> confirmButton.setStyle("-fx-font-size: 14px; -fx-padding: 10px 20px; -fx-background-color: #0b4163; -fx-text-fill: white; -fx-border-radius: 5px; -fx-background-radius: 5px;"));
+        confirmButton.setOnMouseExited(e -> confirmButton.setStyle("-fx-font-size: 14px; -fx-padding: 10px 20px; -fx-background-color: #266d99; -fx-text-fill: white; -fx-border-radius: 5px; -fx-background-radius: 5px;"));
+        confirmButton.setOnAction(e -> handlePlayerNameEntry(playerNameTextField));
+
+        return confirmButton;
+    }
+
+    /*private void handlePlayerNameEntry2(TextField playerNameTextField) {
+        confirmPlayersName(playerNameTextField);
+        if (playerNameEntered()) {
+            playersNames.add(playerNameTextField.getText());
+            playersNamesConsumer.accept(playersNames);
+        }
+    }*/
 
     private void handlePlayerNameEntry(TextField playerNameTextField) {
         confirmPlayersName(playerNameTextField);
@@ -66,6 +103,7 @@ public class PlayersNamesInputScreen extends VBox {
             for (TextField textField : playerNameTextFields) {
                 playersNames.add(textField.getText());
             }
+
             playersNamesConsumer.accept(playersNames);
         }
     }
@@ -78,6 +116,10 @@ public class PlayersNamesInputScreen extends VBox {
             showErrorDialog("Por favor ingrese un nombre de jugador válido.");
         }
     }
+
+    /*private boolean playerNameEntered() {
+        return playerNameTextField.isDisabled();
+    }*/
 
     private boolean allPlayersNamesEntered() {
         for (TextField textField : playerNameTextFields) {
