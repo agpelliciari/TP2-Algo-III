@@ -71,8 +71,54 @@ public class App extends Application {
         showQuestionForPlayer();
     }
 
-
     private void showQuestionForPlayer() {
+        if (currentQuestionIndex >= questions.size()) {
+            showEndGame();
+            return;
+        }
+
+        game.checkIfThereIsAScoreNullifierActivated();
+
+        Player currentPlayer = players.get(currentPlayerIndex);
+        Question currentQuestion = questions.get(currentQuestionIndex);
+
+        mainContainer.cleanContainer();
+
+        scoreContainer = new ScoreContainer();
+
+        updateScores();
+
+        mainContainer.addChild(scoreContainer);
+
+        Panel panel = new Panel(currentPlayer, currentQuestion);
+
+        Button answerButton = new Button("Responder");
+        answerButton.setStyle("-fx-font-size: 14px; -fx-background-color: #ff6666; -fx-text-fill: white;");
+        answerButton.setOnAction(e -> {
+            try {
+                saveAnswerAndProceed(currentQuestion, currentPlayer, panel.isExclusivitySelected(), panel.isNullifierSelected(), panel.getAnswer());
+            } catch (InvalidAnswerFormatException ex) {
+                showErrorDialog(ex.getMessage());
+            }
+        });
+
+        panel.addChild(answerButton);
+
+        panel.getAnswerTextField().setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                try {
+                    saveAnswerAndProceed(currentQuestion, currentPlayer, panel.isExclusivitySelected(), panel.isNullifierSelected(), panel.getAnswer());
+                } catch (InvalidAnswerFormatException ex) {
+                    showErrorDialog(ex.getMessage());
+                }
+            }
+        });
+
+        mainContainer.addChild(panel);
+    }
+
+
+    /*private void showQuestionForPlayer() {
         if (currentQuestionIndex >= questions.size()) {
             showEndGame();
             return;
@@ -165,10 +211,10 @@ public class App extends Application {
         });
 
         mainContainer.addChild(vbox);
-    }
+    }*/
 
-    private void saveAnswerAndProceed(Question question, Player player, boolean useExclusivity, boolean selectedNullifier) throws InvalidAnswerFormatException {
-        String answer = answerTextField.getText();
+    private void saveAnswerAndProceed(Question question, Player player, boolean useExclusivity, boolean selectedNullifier, String answer) throws InvalidAnswerFormatException {
+        //String answer = answerTextField.getText();
         validateAnswerFormat(answer);
 
         ArrayList<Choice> chosenAnswers = player.setAnswers(question, answer);
