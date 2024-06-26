@@ -7,32 +7,12 @@ skinparam classAttributeIconSize 0
 title: Model of classes that interact with Question
 
 abstract class Question{
--id: int
--choices: ArrayList<Choice>
 -content: Content
 +{static}Question(content: Content, mode: Mode, choices: List<Choice>)
 +getNumberOfCorrectAnswers(choices: ArrayList<Choice>): int
 +getNumberOfIncorrectAnswers(choices: ArrayList<Choice>): int
 +hasNoIncorrectAnswers(ArrayList<Choice> choices): boolean
-+assignScore(playersAnswers: ArrayList<Choice>): void
-+assignChosenChoicesToPlayer(assignChosenChoicesToPlayer: String): ArrayList<Choice>
 +createAnswers(chosenChoice: String): ArrayList<Choice>
-}
-
-class TrueOrFalse {
-+assignScore(playersAnswers: ArrayList<Choice>)
-}
-
-class MultipleChoice {
-+assignScore(playersAnswers: ArrayList<Choice>)
-}
-
-class OrderedChoice {
-+assignScore(playersAnswers: ArrayList<Choice>)
-}
-
-class GroupChoice {
-+assignScore(playersAnswers: ArrayList<Choice>)
 }
 
 interface Mode {
@@ -66,7 +46,6 @@ class Choice{
 abstract class Correction{
 -correction: String
 +{static}Correction(correction: String)
-+assignCorrection(correction: String): Correction
 +assignScore(score: int): int
 +isCorrect(): boolean
 }
@@ -85,24 +64,28 @@ class ChoicesFactory{
 +{static}createAnswers(chosenChoice: String, aQuestion: Question): ArrayList<Choice>
 }
 
+class CorrectionFactory{
++{static}assignCorrection(correction: String): Correction
+}
+
 Mode <<Interface>>
 Question <<Abstract>>
 Correction <<Abstract>>
 
-Question <|-- TrueOrFalse
-Question <|-- MultipleChoice
-Question <|-- OrderedChoice
-Question <|-- GroupChoice
-
 Mode "1" ---* Question
-Mode <|. ClassicMode
-Mode <|. PenaltyMode
+Mode <|.. ClassicMode
+Mode <|.. PenaltyMode
 Mode <|. PartialMode
 
-Choice "2..5" --* Question
+Choice "2..5" <-- Question
 Choice *-- Correction: "1"
 
 Question ..> ChoicesFactory: "<<uses>>"
+ChoicesFactory ..> Choice: "<<creates>>"
+
+Choice ..> CorrectionFactory: "<<uses>>"
+CorrectionFactory ..> Correct: "<<creates>>"
+CorrectionFactory ..> Incorrect: "<<creates>>"
 
 Correction <|-- Correct
 Correction <|-- Incorrect

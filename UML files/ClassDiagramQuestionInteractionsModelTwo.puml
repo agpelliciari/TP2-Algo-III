@@ -1,0 +1,94 @@
+@startuml
+@startuml
+
+skinparam monochrome true
+hide circle
+skinparam classAttributeIconSize 0
+
+title: Model of classes that interact with Question
+
+abstract class Question{
+-id: int
+-choices: ArrayList<Choice>
+-mode: Mode
+-content: Content
++{static}Question(content: Content, mode: Mode, choices: List<Choice>)
++assignScore(playersAnswers: ArrayList<Choice>): void
++assignChosenChoicesToPlayer(assignChosenChoicesToPlayer: String): ArrayList<Choice>
++createAnswers(chosenChoice: String): ArrayList<Choice>
+}
+
+class TrueOrFalse {
++assignScore(playersAnswers: ArrayList<Choice>): void
+}
+
+class MultipleChoice {
++assignScore(playersAnswers: ArrayList<Choice>): void
+}
+
+class OrderedChoice {
+-correctOrder: int[]
++{static}OrderedChoice(id: int, content: Content, mode: Mode, choices, correctOrder: int[])
++assignScore(playersAnswers: ArrayList<Choice>): void
++checkAnswerOrder(playerAnswers: ArrayList<Choice>): boolean
+}
+
+class GroupChoice {
+-groups: ArrayList<Group>
++assignScore(playersAnswers: ArrayList<Choice>): void
++addGroups(groups: ArrayList<Group>): void
+}
+
+class QuestionFactory{
++createQuestion(questionId: String, questionString: QuestionString, choices: ArrayList<Choice>): Question
+}
+
+class TrueOrFalseFactory {
+-mode: Mode
++{static}TrueOrFalseFactory(mode: Mode)
++createQuestion(questionId: String, questionString: QuestionString, choices: ArrayList<Choice>): Question
+}
+
+class MultipleChoiceFactory {
+-mode: Mode
++{static}MultipleChoiceFactory(mode: Mode)
++createQuestion(questionId: String, questionString: QuestionString, choices: ArrayList<Choice>): Question
+}
+
+class OrderedChoiceFactory {
++createQuestion(questionId: String, questionString: QuestionString, choices: ArrayList<Choice>): Question
++getIntArrayFromString(choice: String): int[]
+}
+
+class GroupChoiceFactory {
++createQuestion(questionId: String, questionString: QuestionString, choices: ArrayList<Choice>): Question
+}
+
+class QuestionFactoryProvider{
++{static}getFactory(type: String): QuestionFactory
+}
+
+QuestionFactory <<Interface>>
+Question <<Abstract>>
+
+Question <|-- TrueOrFalse
+Question <|-- MultipleChoice
+Question <|-- OrderedChoice
+Question <|-- GroupChoice
+
+QuestionFactory <|.. TrueOrFalseFactory
+TrueOrFalseFactory ..> TrueOrFalse: "<<creates>>"
+
+QuestionFactory <|.. MultipleChoiceFactory
+MultipleChoiceFactory ..> MultipleChoice: "<<creates>>"
+
+QuestionFactory <|.. OrderedChoiceFactory
+OrderedChoiceFactory ..> OrderedChoice: "<<creates>>"
+
+QuestionFactory <|.. GroupChoiceFactory
+GroupChoiceFactory ..> GroupChoice: "<<creates>>"
+
+QuestionFactory .> Question: "<<creates>>"
+QuestionFactoryProvider ..> QuestionFactory: "<<creates>>"
+
+@enduml
