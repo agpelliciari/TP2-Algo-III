@@ -218,15 +218,15 @@ public class App extends Application {
         //String answer = answerTextField.getText();
         validateAnswerFormat(answer);
 
+
+        MultiplicatorButtonHandler multiplicatorButtonHandler = new MultiplicatorButtonHandler(factor);
+        multiplicatorButtonHandler.selectMultiplier(player,selectedMultiplicator);
+
         ArrayList<Choice> chosenAnswers = player.setAnswers(question, answer);
         question.assignScore(player, chosenAnswers);
 
         NullifierCheckBoxEventHandler nullifierHandler = new NullifierCheckBoxEventHandler(game);
         nullifierHandler.selectNullifier(player, selectedNullifier);
-
-        MultiplicatorButtonHandler multiplicatorButtonHandler = new MultiplicatorButtonHandler(factor);
-        multiplicatorButtonHandler.selectMultiplier(player,selectedMultiplicator);
-
 //        chosenExclusivities.get(currentPlayerIndex)[currentQuestionIndex] = useExclusivity;
 
         currentPlayerIndex++;
