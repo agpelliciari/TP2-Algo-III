@@ -6,14 +6,12 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
-import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import tp2.clases.exceptions.InvalidAnswerFormatException;
 import tp2.clases.handlers.MultiplicatorButtonHandler;
 import tp2.clases.handlers.NullifierCheckBoxEventHandler;
 import tp2.clases.screens.*;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -32,8 +30,6 @@ public class App extends Application {
     private Set<Integer> selectedQuestionIndices = new HashSet<>();
     private TextField currentQuestionTheme;
 //    private ArrayList<boolean[]> chosenExclusivities = new ArrayList<>();
-    private Label questionLabel, choiceLabel;
-    private TextField answerTextField;
     private Game game;
 
     public void initialize(String[] args) {
@@ -51,7 +47,6 @@ public class App extends Application {
         primaryStage.setTitle("Juego de preguntas y respuestas");
         primaryStage.setScene(new Scene(mainContainer, 800, 700));
         primaryStage.show();
-
     }
 
     public void showNumberOfPlayersField() {
@@ -83,6 +78,7 @@ public class App extends Application {
             showEndGame();
             return;
         }
+        
         game.checkIfThereIsAScoreNullifierActivated();
         Player currentPlayer = players.get(currentPlayerIndex);
         Question currentQuestion = questions.get(currentQuestionIndex);
@@ -97,18 +93,16 @@ public class App extends Application {
 
         Panel panel = new Panel(currentPlayer, currentQuestion);
 
-        Button answerButton = new Button("Responder");
-        answerButton.setStyle("-fx-font-size: 14px; -fx-background-color: #ff6666; -fx-text-fill: white;");
-        answerButton.setOnAction(e -> {
-            try {
-                saveAnswerAndProceed(currentQuestion, currentPlayer, panel.isExclusivitySelected(), panel.isNullifierSelected(), panel.getAnswer(), panel.getFactor(), panel.isMultiplicatorSelected());
-            } catch (InvalidAnswerFormatException ex) {
-                showErrorDialog(ex.getMessage());
-            }
-        });
+        Button answerButton = PanelBuilder.createAnswerButton(currentQuestion, currentPlayer, panel, this);
 
         panel.addChild(answerButton);
 
+        pressedKeyEvent(currentQuestion, currentPlayer, panel);
+
+        mainContainer.addChild(panel);
+    }
+
+    public void pressedKeyEvent(Question currentQuestion, Player currentPlayer, Panel panel) {
         panel.getAnswerTextField().setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ENTER) {
                 try {
@@ -118,110 +112,10 @@ public class App extends Application {
                 }
             }
         });
-
-        mainContainer.addChild(panel);
     }
 
-
-    /*private void showQuestionForPlayer() {
-        if (currentQuestionIndex >= questions.size()) {
-            showEndGame();
-            return;
-        }
-
-        game.checkIfThereIsAScoreNullifierActivated();
-
-        Player currentPlayer = players.get(currentPlayerIndex);
-        Question currentQuestion = questions.get(currentQuestionIndex);
-
-        mainContainer.cleanContainer();
-
-        scoreContainer = new ScoreContainer();
-
-        updateScores();
-
-        mainContainer.addChild(scoreContainer);
-
-        VBox vbox = createVBoxWithPaddingAndAlignment(Pos.CENTER, 20, 20);
-
-        Label questionNumberLabel = new Label("Pregunta " + currentQuestion.getId());
-        questionNumberLabel.setStyle("-fx-font-size: 20px; -fx-font-weight: bold;");
-        vbox.getChildren().add(questionNumberLabel);
-
-        Label playerLabel = new Label(currentPlayer.getName());
-        playerLabel.setStyle("-fx-font-size: 30px; -fx-font-weight: bold; -fx-text-fill: #ff9900;");
-        vbox.getChildren().add(playerLabel);
-
-        questionLabel = new Label(currentQuestion.getContent().getTheme());
-        questionLabel.setWrapText(true);
-        questionLabel.setStyle("-fx-font-size: 16px;");
-        vbox.getChildren().add(questionLabel);
-
-        questionLabel = new Label(currentQuestion.getContent().getPrompt());
-        questionLabel.setWrapText(true);
-        questionLabel.setStyle("-fx-font-size: 16px;");
-        vbox.getChildren().add(questionLabel);
-
-        for (int i = 0; i < currentQuestion.getChoices().size(); i++) {
-            choiceLabel = new Label(currentQuestion.getChoices().get(i).getId() + ") " + currentQuestion.getChoices().get(i).getContent());
-            choiceLabel.setWrapText(true);
-            choiceLabel.setStyle("-fx-font-size: 14px;");
-            vbox.getChildren().add(choiceLabel);
-        }
-
-        Label helpAnswerFormatLabel = new Label("Escriba la respuesta");
-        helpAnswerFormatLabel.setStyle("-fx-font-size: 16px");
-        vbox.getChildren().add(helpAnswerFormatLabel);
-
-        answerTextField = new TextField();
-        answerTextField.setPromptText("Respuesta");
-        answerTextField.setStyle("-fx-font-size: 14px;");
-        vbox.getChildren().add(answerTextField);
-
-        CheckBox exclusivityCheckBox = new CheckBox("Usar exclusividad");
-        vbox.getChildren().add(exclusivityCheckBox);
-
-        HBox multiplicatorContainer = new HBox(10);
-        multiplicatorContainer.setAlignment(Pos.CENTER);
-        CheckBox multiplicatorCheckBox = new CheckBox("Usar multiplicador");
-
-        TextField factorTextField = new TextField();
-        factorTextField.setPromptText("Factor");
-        factorTextField.setPrefWidth(50);
-        multiplicatorContainer.getChildren().addAll(multiplicatorCheckBox, factorTextField);
-        vbox.getChildren().add(multiplicatorContainer);
-
-        CheckBox nullifierCheckBox = new CheckBox("Usar anulador");
-        vbox.getChildren().add(nullifierCheckBox);
-
-        Button answerButton = new Button("Responder");
-        answerButton.setStyle("-fx-font-size: 14px; -fx-background-color: #ff6666; -fx-text-fill: white;");
-        answerButton.setOnAction(e -> {
-            try {
-                saveAnswerAndProceed(currentQuestion, currentPlayer, exclusivityCheckBox.isSelected(), nullifierCheckBox.isSelected());
-            } catch (InvalidAnswerFormatException ex) {
-                showErrorDialog(ex.getMessage());
-            }
-        });
-        vbox.getChildren().add(answerButton);
-
-        answerTextField.setOnKeyPressed(event -> {
-            if (event.getCode() == KeyCode.ENTER) {
-                try {
-                    saveAnswerAndProceed(currentQuestion, currentPlayer, exclusivityCheckBox.isSelected(), nullifierCheckBox.isSelected());
-                } catch (InvalidAnswerFormatException ex) {
-                    showErrorDialog(ex.getMessage());
-                }
-            }
-        });
-
-        mainContainer.addChild(vbox);
-    }*/
-
-    private void saveAnswerAndProceed(Question question, Player player, boolean useExclusivity, boolean selectedNullifier, String answer, String factor, boolean selectedMultiplicator) throws InvalidAnswerFormatException {
-        //String answer = answerTextField.getText();
+    public void saveAnswerAndProceed(Question question, Player player, boolean useExclusivity, boolean selectedNullifier, String answer, String factor, boolean selectedMultiplicator) throws InvalidAnswerFormatException {
         validateAnswerFormat(answer);
-
 
         MultiplicatorButtonHandler multiplicatorButtonHandler = new MultiplicatorButtonHandler(factor);
         multiplicatorButtonHandler.selectMultiplier(player,selectedMultiplicator);
@@ -272,7 +166,7 @@ public class App extends Application {
         mainContainer.addChild(vbox);
     }
 
-    private void showErrorDialog(String errorMessage) {
+    public void showErrorDialog(String errorMessage) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Error");
         alert.setHeaderText(null);
