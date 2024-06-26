@@ -127,8 +127,8 @@ public class App extends Application {
             chosenExclusivities.add(false);
         }
 
-        NullifierCheckBoxEventHandler nullifierHandler = new NullifierCheckBoxEventHandler(game);
-        nullifierHandler.selectNullifier(player, selectedNullifier);
+        NullifierCheckBoxEventHandler nullifierHandler = new NullifierCheckBoxEventHandler();
+        nullifierHandler.selectNullifier(player, players, selectedNullifier);
 
         currentPlayerIndex++;
         if (currentPlayerIndex >= players.size()) {

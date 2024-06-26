@@ -1,26 +1,27 @@
 package tp2.clases.handlers;
 
 import javafx.scene.control.Alert;
-import tp2.clases.Game;
 import tp2.clases.Player;
 import tp2.clases.exceptions.UsedPowerException;
 
+import java.util.ArrayList;
+
 public class NullifierCheckBoxEventHandler {
 
-    private Game game;
-
-    public NullifierCheckBoxEventHandler(Game game) {
-        this.game = game;
-    }
-
-    public void selectNullifier(Player player, boolean selectedNullifier) {
+    public void selectNullifier(Player player, ArrayList<Player> players, boolean selectedNullifier) {
         if (selectedNullifier) {
-            game.activateNullifier();
             try {
                 player.useNullifier();
+                notifyNullifierIsActive(players);
             } catch (UsedPowerException e) {
                 showErrorDialog(e.getMessage());
             }
+        }
+    }
+
+    private void notifyNullifierIsActive(ArrayList<Player> players) {
+        for (Player player: players) {
+            player.aNullifierisActivated();
         }
     }
 

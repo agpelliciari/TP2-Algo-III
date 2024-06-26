@@ -25,7 +25,9 @@ public class Nullifier extends Power {
     }
 
     public void cancel(Score score) {
-        score.cancelScore();
+        if (!state.isActive()) {
+            score.cancelScore();
+        }
     }
 
     public boolean isActive() {
