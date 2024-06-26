@@ -9,6 +9,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import tp2.clases.exceptions.InvalidAnswerFormatException;
+import tp2.clases.handlers.MultiplicatorButtonHandler;
 import tp2.clases.handlers.NullifierCheckBoxEventHandler;
 import tp2.clases.screens.*;
 import javafx.scene.layout.VBox;
@@ -96,7 +97,7 @@ public class App extends Application {
         answerButton.setStyle("-fx-font-size: 14px; -fx-background-color: #ff6666; -fx-text-fill: white;");
         answerButton.setOnAction(e -> {
             try {
-                saveAnswerAndProceed(currentQuestion, currentPlayer, panel.isExclusivitySelected(), panel.isNullifierSelected(), panel.getAnswer());
+                saveAnswerAndProceed(currentQuestion, currentPlayer, panel.isExclusivitySelected(), panel.isNullifierSelected(), panel.getAnswer(), panel.getFactor());
             } catch (InvalidAnswerFormatException ex) {
                 showErrorDialog(ex.getMessage());
             }
@@ -107,7 +108,7 @@ public class App extends Application {
         panel.getAnswerTextField().setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ENTER) {
                 try {
-                    saveAnswerAndProceed(currentQuestion, currentPlayer, panel.isExclusivitySelected(), panel.isNullifierSelected(), panel.getAnswer());
+                    saveAnswerAndProceed(currentQuestion, currentPlayer, panel.isExclusivitySelected(), panel.isNullifierSelected(), panel.getAnswer(), panel.getFactor());
                 } catch (InvalidAnswerFormatException ex) {
                     showErrorDialog(ex.getMessage());
                 }
@@ -213,7 +214,7 @@ public class App extends Application {
         mainContainer.addChild(vbox);
     }*/
 
-    private void saveAnswerAndProceed(Question question, Player player, boolean useExclusivity, boolean selectedNullifier, String answer) throws InvalidAnswerFormatException {
+    private void saveAnswerAndProceed(Question question, Player player, boolean useExclusivity, boolean selectedNullifier, String answer, String factor) throws InvalidAnswerFormatException {
         //String answer = answerTextField.getText();
         validateAnswerFormat(answer);
 
@@ -222,6 +223,8 @@ public class App extends Application {
 
         NullifierCheckBoxEventHandler nullifierHandler = new NullifierCheckBoxEventHandler(game);
         nullifierHandler.selectNullifier(player, selectedNullifier);
+
+        MultiplicatorButtonHandler multiplicatorButtonHandler = new MultiplicatorButtonHandler(factor);
 
 //        chosenExclusivities.get(currentPlayerIndex)[currentQuestionIndex] = useExclusivity;
 
