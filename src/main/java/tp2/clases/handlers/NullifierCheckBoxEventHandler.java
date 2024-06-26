@@ -32,4 +32,10 @@ public class NullifierCheckBoxEventHandler {
         alert.setContentText(errorMessage);
         alert.showAndWait();
     }
+
+    public void deactivateNullifier(ArrayList<Player> players) {
+        for (Player player: players) {
+            player.disableNullifier();
+        }
+    }
 }

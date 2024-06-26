@@ -132,7 +132,7 @@ public class App2 extends Application {
             currentPlayerIndex = 0;
 //            currentQuestionIndex++;
             currentQuestionIndex = getQuestionIndex();
-            game.deactivateNullifier();
+            nullifierHandler.deactivateNullifier(players);
         }
 
         updateScores();
