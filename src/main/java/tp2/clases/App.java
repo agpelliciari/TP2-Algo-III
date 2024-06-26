@@ -16,6 +16,9 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Random;
+import java.util.Set;
 
 public class App extends Application {
     private MainContainer mainContainer;
@@ -26,6 +29,7 @@ public class App extends Application {
     private ArrayList<Player> players = new ArrayList<>();
     private JsonParser jsonParser = new JsonParser();
     private ArrayList<Question> questions;
+    private Set<Integer> selectedQuestionIndices = new HashSet<>();
 //    private ArrayList<boolean[]> chosenExclusivities = new ArrayList<>();
     private Label questionLabel, choiceLabel;
     private TextField answerTextField;
@@ -79,9 +83,8 @@ public class App extends Application {
         }
 
         game.checkIfThereIsAScoreNullifierActivated();
-
         Player currentPlayer = players.get(currentPlayerIndex);
-        Question currentQuestion = questions.get(currentQuestionIndex);
+        Question currentQuestion = questions.get(getQuestionIndex());
 
         mainContainer.cleanContainer();
 
@@ -232,7 +235,7 @@ public class App extends Application {
         currentPlayerIndex++;
         if (currentPlayerIndex >= players.size()) {
             currentPlayerIndex = 0;
-            currentQuestionIndex++;
+//            currentQuestionIndex++;
             game.deactivateNullifier();
         }
 
@@ -298,5 +301,16 @@ public class App extends Application {
     private void updateMainContainer(VBox newContent) {
         mainContainer.cleanContainer();
         mainContainer.addChild(newContent);
+    }
+
+    public Integer getQuestionIndex() {
+        Random random = new Random();
+        int numQuestions = questions.size();
+        int randomIndex = random.nextInt(numQuestions);
+        while (selectedQuestionIndices.contains(randomIndex)) {
+            randomIndex = random.nextInt(numQuestions);
+        }
+
+        return randomIndex;
     }
 }
