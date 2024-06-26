@@ -98,7 +98,7 @@ public class PlayersNamesInputScreen extends VBox {
             TextField textField = playerNameTextFields.get(i);
             String playerName = textField.getText();
             if (!isValidName(playerName)) {
-                invalidPlayersNames.add(playerName);
+                invalidPlayersNames.add(String.valueOf(i+1));
                 allNamesValid = false;
 //                break;
             }
