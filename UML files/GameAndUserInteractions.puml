@@ -1,0 +1,67 @@
+@startuml
+
+actor User
+
+participant "game:App" as App
+participant "startScreen:StartScreen" as StartScreen
+participant ":StartButtonEventHandler" as StartButtonEventHandler
+participant ":ConfirmButton" as ConfirmButton
+participant "inputScreen:PlayersInputScreen" as PlayersInputScreen
+participant ":PlayersNamesInputScreen" as PlayersNamesInputScreen
+participant "player:Player" as Player
+
+
+User -> App: " Click 'Comenzar' "
+activate App
+App -> StartScreen: handle(event)
+activate StartScreen
+StartScreen -> StartButtonEventHandler: handle(event)
+activate StartButtonEventHandler
+StartScreen <- StartButtonEventHandler: execute(event)
+deactivate StartButtonEventHandler
+StartScreen -> App: showNumberOfPlayersField()
+deactivate StartScreen
+
+create PlayersInputScreen
+App -> PlayersInputScreen: new(setNumberOfPlayers(),setQuestionLimit(), setLimitScore())
+App -> App: updateMainContainer(inputScreen)
+
+User -> App: " Ingresa y confirma inputs "
+
+App -> PlayersInputScreen: handle(event)
+activate PlayersInputScreen
+create ConfirmButton
+ConfirmButton <- PlayersInputScreen: handle(event)
+activate ConfirmButton
+ConfirmButton -> PlayersInputScreen: execute(event)
+deactivate ConfirmButton
+PlayersInputScreen -> App: setQuestionLimit(questionLimitInput)
+PlayersInputScreen -> App: setLimitScore(scoreLimitInput)
+PlayersInputScreen -> App: setNumberOfPlayers(numberOfPlayersInput)
+deactivate PlayersInputScreen
+
+App -> App: showPlayerNameInputFields()
+create PlayersNamesInputScreen
+App -> PlayersNamesInputScreen: new(numberOfPlayers, setPlayersNames())
+App -> App: updateMainContainer(playersNamesInputScreen)
+
+User -> App: "Ingresa y confirma los nombres de los jugadores"
+App -> PlayersNamesInputScreen: handle(event)
+activate PlayersNamesInputScreen
+create ConfirmButton
+PlayersNamesInputScreen -> ConfirmButton: handle(event)
+activate ConfirmButton
+PlayersNamesInputScreen <- ConfirmButton: execute(event)
+deactivate ConfirmButton
+PlayersNamesInputScreen -> App: setPlayersNames(userNameInputs)
+deactivate PlayersNamesInputScreen
+
+loop for each userNameInput in userNameInputs
+create Player
+App -> Player: new Player(userNameInput, 0)
+App -> App: players.add(player)
+end loop
+
+App -> App: showQuestionForPlayer()
+
+@enduml

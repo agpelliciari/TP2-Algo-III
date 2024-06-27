@@ -19,9 +19,6 @@ public class ActiveState implements PowerState {
     }
 
     @Override
-    public void use(Power power) {}
-
-    @Override
     public boolean isActive() {
         return true;
     }

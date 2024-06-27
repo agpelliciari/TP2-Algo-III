@@ -1,0 +1,48 @@
+Jugador activa el poder multiplicator en 
+una pregunta de verdadero o falso con penalidad
+
+@startuml Diag rama de Secuencia
+title Sequence Diagram: Player uses Multiplicator on True or False with penalty question
+
+
+hide footbox
+
+participant "testCase02" as actor
+participant "aPlayer:Player" as player
+participant "question:TrueOrFalse" as question
+participant "power:Multiplicator" as power
+participant "state:Inactive" as state
+
+
+
+
+actor -> player: useMultiplicator(2)
+note left
+    Misma secuencia para el guardado de respuestas 
+    que en "SecuenceDiagramCaseOfUseFivePartOne"
+end note
+activate player
+player -> power: getMultiplicator(2)
+activate power
+power -> power: isInactive()
+note left: true
+power -> state: activate()
+activate state
+
+player -> player: disablePowers()
+player -> power: disableMultiplicators()
+deactivate player
+loop for each Multiplicator
+power -> state: deactivate()
+state -> state: deactivate()
+end loop
+deactivate power
+deactivate state
+actor -> question: assignScore(aPlayer, choices)
+note right
+    Misma secuencia para la asignacion de puntos
+    que en "SecuenceDiagramCaseOfUseFivePartTwo"
+end note
+
+
+@enduml
