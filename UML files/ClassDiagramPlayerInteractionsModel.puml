@@ -10,7 +10,8 @@ class Player{
 -name: String
 +{static}Player(name: String, initialScore: int)
 +useMultiplicator(factor: int): void
-+assignateMultiplicator(factor: int)
++useNullifier(): void
++assignExclusivity(bool boolean): void
 }
 
 abstract class Power{
@@ -20,51 +21,52 @@ abstract class Power{
 
 class Exclusivity{
 -used: boolean
-+{static}Exclusivity(used: boolean)
-
++activate(): void
 }
 
 class Nullifier{
--used: boolean
 +apply(score: Score): void
++cancel(score: Score): void
++disable(score: Score): void
 }
 
 class Multiplicator{
 -used: boolean
 - factor: int
 +{static}Multiplicator(factor: int)
-+int getFactor(): int
-+setState(state: PowerState): void
-+apply(player: Player): void
++activate(): void
 }
 
 interface PowerState {
-  + activate(Power power): void
-   + deactivate(Power power): void
-   + use(Power power): void
-   +boolean isActive(): boolean
++ activate(power: Power): void
+   + deactivate(power: Power): void
+   + isUsed(): boolean
+   + isActive(): boolean
 }
 
 
 class ActiveState {
-
-    + activate(power: Power): void
-    + deactivate(power: Power): void
-    +boolean isActive(): boolean
++{static}ActiveState(power: Power)
++ activate(power: Power): void
+   + deactivate(power: Power): void
+   + isUsed(): boolean
+   + isActive(): boolean
 }
 
 class InactiveState {
-
-    + activate(power: Power): void
-    + deactivate(power: Power): void
-    +boolean isActive(): boolean
++{static}InactiveState(power: Power)
++ activate(power: Power): void
+   + deactivate(power: Power): void
+   + isUsed(): boolean
+   + isActive(): boolean
 }
 
 class UsedState {
-
-    + activate(power: Power): void
-    + deactivate(power: Power): void
-    +boolean isActive(): boolean
++{static}UsedState(power: Power)
++ activate(power: Power): void
+   + deactivate(power: Power): void
+   + isUsed(): boolean
+   + isActive(): booleann
 }
 
 class Score{
@@ -76,15 +78,15 @@ class Score{
 }
 
 class ScoreState{
-+addScore(scoreToAdd: int): void
++addScore(scoreToAdd: int): int
 }
 
 class NormalState{
-+addScore(scoreToAdd: int): void
++addScore(scoreToAdd: int): int
 }
 
 class CanceledState{
-+addScore(scoreToAdd: int): void
++addScore(scoreToAdd: int): int
 }
 
 Power --> PowerState : "<<uses>>"

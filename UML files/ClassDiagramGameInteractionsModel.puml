@@ -7,15 +7,11 @@ skinparam classAttributeIconSize 0
 title: Model of classes that interact with Game
 
 class Game{
--maxScore: int
-+{static}Game(questions: ArrayList<Question>, maxScore: int, panel: Panel)
-+start(numberOfPlayers: int)
-+selectPlayers(numberOfPlayers: int): ArrayList<Player>
-+registerUser(players: ArrayList<Player>, aPlayer: Player)
-}
-
-class Panel{
-+show(aQuestion: Question)
+-limits: Limit
++initialize(args: String[]): void
++showQuestionForPlayer(): void
++saveAnswerAndProceed(question: Question, player: Player, ...): void
++showEndGame(): void
 }
 
 abstract class Question{
@@ -24,17 +20,17 @@ abstract class Question{
 -mode: Mode
 -id: int
 +{static}Question(content: Content, mode: Mode, choices: List<Choice>)
-+getNumberOfCorrectAnswers(List<Choice> choices): int
-+getNumberOfIncorrectAnswers(List<Choice> choices): int
-+hasNoIncorrectAnswers(ArrayList<Choice> choices): boolean
-+assignScore(playersAnswers: HashMap<Player, ArrayList<Choice>>)
++hasNoIncorrectAnswers(choices: ArrayList<Choice>): boolean
++assignScore(playersAnswers: HashMap<Player, ArrayList<Choice>>): void
 +assignChosenChoicesToPlayer(assignChosenChoicesToPlayer: String): ArrayList<Choice>
++createAnswers(chosenChoice: String): ArrayList<Choice>
 }
 
 class Player{
--name: String
 -score: Score
--powers: List<Power>
+-multiplicators: ArrayList<Multiplicator>
+-exclusivity: Exclusivity
+-nullifier: Nullifier
 +{static}Player(name: String, initialScore: int)
 +setAnswers(question: Question, chosenOptions: String): ArrayList<Choice>
 +assignScore(correction: Correction, newScore: int)
@@ -45,22 +41,24 @@ class JsonParser{
 +questionsParser(fileName: String): ArrayList<Question>
 }
 
-class QuestionFactory{
-+createTrueFalse(id: int, theme: String, prompt: String, type: String, choices: ArrayList<Choice>, answerText: String)
-+createMultipleChoice(id: int, theme: String, prompt: String, type: String, choices: ArrayList<Choice>, answerText: String)
-+createGroupChoice(id: int, theme: String, prompt: String, type: String, choices: ArrayList<Choice>, answerText: String)
-+createOrderedChoice(id: int, theme: String, prompt: String, type: String, choices: ArrayList<Choice>, answerText: String, correctOrder: List<int>)
-
+class QuestionFactoryProvider{
++{static}getFactory(type: String): QuestionFactory
 }
 
-Game *- Panel:1
+class QuestionFactory{
++{static}createQuestion(questionId: String, questionString: QuestionString, choices: ArrayList<Choice>): Question
+}
+
 Game --> Question:1..*
 Game --> Player:2..*
 Game --> JsonParser:1
 
-JsonParser --> QuestionFactory
+JsonParser ..> QuestionFactoryProvider: <<uses>>
 QuestionFactory .> Question: "<<creates>>"
 
+QuestionFactoryProvider ..> QuestionFactory: "<<creates>>"
+
 Question <<Abstract>>
+QuestionFactory <<Interface>>
 
 @enduml

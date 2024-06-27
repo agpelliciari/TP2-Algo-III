@@ -14,8 +14,10 @@ import java.util.function.Consumer;
 
 public class PlayersInputScreen extends VBox {
     private TextField numberOfPlayersTextField;
+    private TextField numberOfQuestionsTextField;
+    private TextField numberOfPointsTextField;
 
-    public PlayersInputScreen(Consumer<Integer> numberOfPlayersConsumer) {
+    public PlayersInputScreen(Consumer<Integer> numberOfPlayersConsumer, Consumer<Integer> numberOfQuestionsConsumer, Consumer<Integer> numberOfPointsConsumer) {
         super(20);
 
         setAlignment(Pos.CENTER);
@@ -23,35 +25,78 @@ public class PlayersInputScreen extends VBox {
 
         setStyle("-fx-background-color: #f0f0f0;");
 
+        Label label = labelCreator("Ingrese la cantidad de jugadores:");
+        numberOfPlayersTextField = textFieldCreator("Cantidad de jugadores");
 
-        Label label = new Label("Ingrese la cantidad de jugadores:");
+        Label questionsLabel = labelCreator("Ingrese el limite de preguntas:");
+        numberOfQuestionsTextField = textFieldCreator("Limite de preguntas");
+
+        Label pointsLabel = labelCreator("Ingrese el limite de puntos:");
+        numberOfPointsTextField = textFieldCreator("Limite de puntos");
+
+        Button confirmButton = getButton(numberOfPlayersConsumer, numberOfQuestionsConsumer, numberOfPointsConsumer);
+
+        numberOfPlayersTextField.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                confirmNumber(numberOfPlayersTextField, numberOfPlayersConsumer, 1);
+            }
+        });
+
+        numberOfQuestionsTextField.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                confirmNumber(numberOfQuestionsTextField, numberOfQuestionsConsumer, 1);
+            }
+        });
+
+        numberOfPointsTextField.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                confirmNumber(numberOfPointsTextField, numberOfPointsConsumer, 1);
+            }
+        });
+
+        getChildren().addAll(label, numberOfPlayersTextField, questionsLabel, numberOfQuestionsTextField, pointsLabel, numberOfPointsTextField, confirmButton);
+    }
+
+    private Label labelCreator(String text) {
+        Label label = new Label(text);
         label.setStyle("-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #333;");
+        return label;
+    }
 
-        numberOfPlayersTextField = new TextField();
-        numberOfPlayersTextField.setPromptText("Cantidad de jugadores");
-        numberOfPlayersTextField.setStyle("-fx-font-size: 14px; -fx-padding: 10px; -fx-border-color: #ccc; -fx-border-radius: 5px; -fx-background-radius: 5px;");
+    private TextField textFieldCreator(String promptText) {
+        TextField textField = new TextField();
+        textField.setPromptText(promptText);
+        textField.setStyle("-fx-font-size: 14px; -fx-padding: 10px; -fx-border-color: #ccc; -fx-border-radius: 5px; -fx-background-radius: 5px;");
+        return textField;
+    }
 
+    private Button getButton(Consumer<Integer> numberOfPlayersConsumer, Consumer<Integer> numberOfQuestionsConsumer, Consumer<Integer> numberOfPointsConsumer) {
         Button confirmButton = new Button("Confirmar");
-        ConfirmButtonHandler confirmButtonHandler = new ConfirmButtonHandler(this,numberOfPlayersConsumer);
+        ConfirmButtonHandler confirmButtonHandler = new ConfirmButtonHandler(this, numberOfPlayersConsumer, numberOfQuestionsConsumer, numberOfPointsConsumer);
         confirmButton.setStyle("-fx-font-size: 14px; -fx-padding: 10px 20px; -fx-background-color: #266d99; -fx-text-fill: white; -fx-border-radius: 5px; -fx-background-radius: 5px;");
         confirmButton.setOnMouseEntered(e -> confirmButton.setStyle("-fx-font-size: 14px; -fx-padding: 10px 20px; -fx-background-color: #0b4163; -fx-text-fill: white; -fx-border-radius: 5px; -fx-background-radius: 5px;"));
         confirmButton.setOnMouseExited(e -> confirmButton.setStyle("-fx-font-size: 14px; -fx-padding: 10px 20px; -fx-background-color: #266d99; -fx-text-fill: white; -fx-border-radius: 5px; -fx-background-radius: 5px;"));
         confirmButton.setOnAction(confirmButtonHandler);
-
-        numberOfPlayersTextField.setOnKeyPressed(event -> {
-            if (event.getCode() == KeyCode.ENTER) {
-                confirmNumberOfPlayers(numberOfPlayersConsumer);
-            }
-        });
-
-        getChildren().addAll(label, numberOfPlayersTextField, confirmButton);
+        return confirmButton;
     }
 
-    public void confirmNumberOfPlayers(Consumer<Integer> numberOfPlayersConsumer) {
+    public TextField getNumberOfPlayersTextField() {
+        return numberOfPlayersTextField;
+    }
+
+    public TextField getNumberOfQuestionsTextField() {
+        return numberOfQuestionsTextField;
+    }
+
+    public TextField getNumberOfPointsTextField() {
+        return numberOfPointsTextField;
+    }
+
+    public void confirmNumber(TextField textField, Consumer<Integer> consumer, int minValue) {
         try {
-            int numberOfPlayers = Integer.parseInt(numberOfPlayersTextField.getText());
-            if (numberOfPlayers > 1) {
-                numberOfPlayersConsumer.accept(numberOfPlayers);
+            int value = Integer.parseInt(textField.getText());
+            if (value > minValue) {
+                consumer.accept(value);
             } else {
                 showErrorDialog("Ingrese un número válido (> 1).");
             }

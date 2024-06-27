@@ -10,7 +10,6 @@ import javafx.stage.Stage;
 import tp2.clases.exceptions.InvalidAnswerFormatException;
 import tp2.clases.handlers.MultiplicatorButtonHandler;
 import tp2.clases.handlers.NullifierCheckBoxEventHandler;
-import tp2.clases.handlers.ContinueButtonEventHandler;
 import tp2.clases.screens.*;
 import javafx.scene.layout.VBox;
 
@@ -23,6 +22,9 @@ public class App2 extends Application {
     private MainContainer mainContainer;
     private ScoreContainer scoreContainer;
     private int numberOfPlayers = 0;
+    private int questionLimit = 0;
+    private int questionCount = 0;
+    private int pointsLimit = 0;
     private int currentPlayerIndex = 0;
     private int currentQuestionIndex = 0;
     private ArrayList<Player> players = new ArrayList<>();
@@ -51,13 +53,21 @@ public class App2 extends Application {
     }
 
     public void showNumberOfPlayersField() {
-        PlayersInputScreen playersInputScreen = new PlayersInputScreen(this::setNumberOfPlayers);
+        PlayersInputScreen playersInputScreen = new PlayersInputScreen(this::setNumberOfPlayers, this::setQuestionLimit, this::setPointsLimit);
         updateMainContainer(playersInputScreen);
     }
 
     private void setNumberOfPlayers(int numberOfPlayers) {
         this.numberOfPlayers = numberOfPlayers;
         showPlayerNameInputFields();
+    }
+
+    private void setQuestionLimit(int limit) {
+        this.questionLimit = limit;
+    }
+
+    private void setPointsLimit(int limit) {
+        this.pointsLimit = limit;
     }
 
     public void showPlayerNameInputFields() {
@@ -118,6 +128,10 @@ public class App2 extends Application {
     public void saveAnswerAndProceed(Question question, Player player, boolean useExclusivity, boolean selectedNullifier, String answer, String factor, boolean selectedMultiplicator) throws InvalidAnswerFormatException {
         validateAnswerFormat(answer);
 
+        if (selectedMultiplicator && !question.getMode().isPenaltyMode()) {
+            showErrorDialog("El multiplicador solo se puede usar en preguntas de tipo penalidad.");
+            return;
+        }
         MultiplicatorButtonHandler multiplicatorButtonHandler = new MultiplicatorButtonHandler(factor);
         multiplicatorButtonHandler.selectMultiplier(player,selectedMultiplicator);
 
@@ -132,7 +146,16 @@ public class App2 extends Application {
         if (currentPlayerIndex >= players.size()) {
             updateScores();
             showCorrectAnswer();
+
+            questionCount++;
+
+            if (limitReached()) {
+                showEndGame();
+                return;
+            }
+
             currentPlayerIndex = 0;
+//            currentQuestionIndex++;
             currentQuestionIndex = getQuestionIndex();
             nullifierHandler.deactivateNullifier(players);
         }
@@ -212,7 +235,7 @@ public class App2 extends Application {
         Random random = new Random();
         int numQuestions = questions.size();
         int randomIndex = random.nextInt(numQuestions);
-        while (selectedQuestionIndices.contains(randomIndex)) {
+        while (selectedQuestionIndices.contains(randomIndex) || checkIfRepeatedTheme(randomIndex)) {
             randomIndex = random.nextInt(numQuestions);
         }
         selectedQuestionIndices.add(randomIndex);
@@ -220,9 +243,31 @@ public class App2 extends Application {
         return randomIndex;
     }
     public boolean checkIfRepeatedTheme(int index){
+        if ((selectedQuestionIndices.size()) == questions.size()-1){
+            return false;
+        }
         String newTheme = questions.get(index).getContent().getTheme();
         String currentTheme = questions.get(currentQuestionIndex).getContent().getTheme();
         return newTheme.equals(currentTheme);
+
+    }
+
+    private boolean limitReached() {
+        return questionLimitReached() | pointsLimitReached();
+    }
+
+    private boolean pointsLimitReached() {
+        boolean limitReached = false;
+        for (Player player: players) {
+            if (player.getScore() > pointsLimit) {
+                limitReached = true;
+            }
+        }
+        return limitReached;
+    }
+
+    private boolean questionLimitReached() {
+        return questionCount >= questionLimit;
     }
 
 }
