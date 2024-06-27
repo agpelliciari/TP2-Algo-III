@@ -6,10 +6,11 @@ public class Multiplicator extends Power{
     private final int factor;
     private boolean used;
 
-    public Multiplicator(int factor) {
+    public Multiplicator(Integer factor) {
         this.factor = factor;
         this.state = new InactiveState(this);
         this.used = false;
+        this.name = "Multiplicador X" + factor.toString();
     }
 
     public int getFactor() {

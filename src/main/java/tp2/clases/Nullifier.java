@@ -8,6 +8,7 @@ public class Nullifier extends Power {
 
     public Nullifier() {
         this.state = new InactiveState(this);
+        this.name = "Anulador";
     }
 
     public void apply(Score score) {

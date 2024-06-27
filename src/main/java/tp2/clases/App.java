@@ -183,7 +183,7 @@ public class App extends Application {
 
     private void showCorrectAnswer() {
         mainContainer.cleanContainer();
-        AnswerScreen answerScreen = new AnswerScreen(() -> showQuestionForPlayer(), questions.get(currentQuestionIndex).getContent().getAnswerText());
+        AnswerScreen answerScreen = new AnswerScreen(() -> showQuestionForPlayer(), questions.get(currentQuestionIndex).getContent().getAnswerText(), players);
         answerScreen.getChildren().add(scoreContainer);
         mainContainer.addChild(answerScreen);
     }

@@ -153,4 +153,14 @@ public class Player {
     public void setAnsweredCorrectly() {
         answeredCorrectly = true;
     }
+
+    public ArrayList<Power> getPowers() {
+        ArrayList<Power> powers = new ArrayList<>();
+        powers.add(getMultiplicator(2));
+        powers.add(getMultiplicator(3));
+        powers.add(exclusivity);
+        powers.add(nullifier);
+
+        return powers;
+    }
 }

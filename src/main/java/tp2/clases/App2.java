@@ -10,6 +10,7 @@ import javafx.stage.Stage;
 import tp2.clases.exceptions.InvalidAnswerFormatException;
 import tp2.clases.handlers.MultiplicatorButtonHandler;
 import tp2.clases.handlers.NullifierCheckBoxEventHandler;
+import tp2.clases.handlers.ContinueButtonEventHandler;
 import tp2.clases.screens.*;
 import javafx.scene.layout.VBox;
 
@@ -129,14 +130,22 @@ public class App2 extends Application {
 
         currentPlayerIndex++;
         if (currentPlayerIndex >= players.size()) {
+            updateScores();
+            showCorrectAnswer();
             currentPlayerIndex = 0;
-//            currentQuestionIndex++;
             currentQuestionIndex = getQuestionIndex();
             nullifierHandler.deactivateNullifier(players);
         }
+        else {
+            showQuestionForPlayer();
+        }
+    }
 
-        updateScores();
-        showQuestionForPlayer();
+    private void showCorrectAnswer() {
+        mainContainer.cleanContainer();
+        AnswerScreen answerScreen = new AnswerScreen(() -> showQuestionForPlayer(), questions.get(currentQuestionIndex).getContent().getAnswerText(), players);
+        answerScreen.getChildren().add(scoreContainer);
+        mainContainer.addChild(answerScreen);
     }
 
     private void updateScores() {

@@ -8,6 +8,7 @@ public class Exclusivity extends Power {
 
     public Exclusivity() {
         this.state = new InactiveState(this);
+        this.name = "Exclusividad";
         number = 2;
         multiplier = 2;
     }
