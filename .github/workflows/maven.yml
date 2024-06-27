@@ -10,10 +10,10 @@ name: Java CI with Maven
 
 on:
   push:
-    branches: [ "main", "nullifier-develop" ]
+    branches: [ "main", "entrega_4" ]
   pull_request:
-    branches: [ "main", "nullifier-develop" ]
-  
+    branches: [ "main", "entrega_4" ]
+    
   workflow_dispatch:
 
 jobs:
@@ -30,4 +30,6 @@ jobs:
         distribution: 'oracle'
         cache: maven
     - name: Build with Maven
+      run: mvn clean install --file pom.xml
+    - name: Run tests
       run: mvn test --file pom.xml

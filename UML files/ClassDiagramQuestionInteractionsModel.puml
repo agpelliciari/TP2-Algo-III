@@ -1,0 +1,93 @@
+@startuml
+
+skinparam monochrome true
+hide circle
+skinparam classAttributeIconSize 0
+
+title: Model of classes that interact with Question
+
+abstract class Question{
+-content: Content
++{static}Question(content: Content, mode: Mode, choices: List<Choice>)
++getNumberOfCorrectAnswers(choices: ArrayList<Choice>): int
++getNumberOfIncorrectAnswers(choices: ArrayList<Choice>): int
++hasNoIncorrectAnswers(ArrayList<Choice> choices): boolean
++createAnswers(chosenChoice: String): ArrayList<Choice>
+}
+
+interface Mode {
++assignCorrectScore(player: Player, correctPoints: int): void
++assignIncorrectScore(player: Player, wrongPoints: int): void
+}
+
+class PartialMode {
++assignCorrectScore(player: Player, correctPoints: int): void
++assignIncorrectScore(player: Player, wrongPoints: int): void
+}
+
+class PenaltyMode {
++assignCorrectScore(player: Player, correctPoints: int): void
++assignIncorrectScore(player: Player, wrongPoints: int): void
+}
+
+class ClassicMode {
++assignCorrectScore(player: Player, correctPoints: int): void
++assignIncorrectScore(player: Player, wrongPoints: int): void
+}
+
+class Choice{
+-content: String
+-id: char
++{static}Choice(content: String, correction: String, score: int, id: char)
++getCorrection(): Correction
++equals(char searchedId): boolean
+}
+
+abstract class Correction{
+-correction: String
++{static}Correction(correction: String)
++assignScore(score: int): int
++isCorrect(): boolean
+}
+
+class Correct{
++assignScore(score: int): int
++isCorrect(): boolean
+}
+
+class Incorrect{
++assignScore(score: int): int
++isCorrect(): boolean
+}
+
+class ChoicesFactory{
++{static}createAnswers(chosenChoice: String, aQuestion: Question): ArrayList<Choice>
+}
+
+class CorrectionFactory{
++{static}assignCorrection(correction: String): Correction
+}
+
+Mode <<Interface>>
+Question <<Abstract>>
+Correction <<Abstract>>
+
+Mode "1" ---* Question
+Mode <|.. ClassicMode
+Mode <|.. PenaltyMode
+Mode <|. PartialMode
+
+Choice "2..5" <-- Question
+Choice *-- Correction: "1"
+
+Question ..> ChoicesFactory: "<<uses>>"
+ChoicesFactory ..> Choice: "<<creates>>"
+
+Choice ..> CorrectionFactory: "<<uses>>"
+CorrectionFactory ..> Correct: "<<creates>>"
+CorrectionFactory ..> Incorrect: "<<creates>>"
+
+Correction <|-- Correct
+Correction <|-- Incorrect
+
+@enduml

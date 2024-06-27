@@ -1,0 +1,114 @@
+@startuml
+
+title: Model of classes that interact with Player
+
+skinparam monochrome true
+hide circle
+skinparam classAttributeIconSize 0
+
+class Player{
+-name: String
++{static}Player(name: String, initialScore: int)
++useMultiplicator(factor: int): void
++useNullifier(): void
++assignExclusivity(bool boolean): void
+}
+
+abstract class Power{
++setState(state: PowerState): void
++isActive(): boolean
+}
+
+class Exclusivity{
+-used: boolean
++activate(): void
+}
+
+class Nullifier{
++apply(score: Score): void
++cancel(score: Score): void
++disable(score: Score): void
+}
+
+class Multiplicator{
+-used: boolean
+- factor: int
++{static}Multiplicator(factor: int)
++activate(): void
+}
+
+interface PowerState {
++ activate(power: Power): void
+   + deactivate(power: Power): void
+   + isUsed(): boolean
+   + isActive(): boolean
+}
+
+
+class ActiveState {
++{static}ActiveState(power: Power)
++ activate(power: Power): void
+   + deactivate(power: Power): void
+   + isUsed(): boolean
+   + isActive(): boolean
+}
+
+class InactiveState {
++{static}InactiveState(power: Power)
++ activate(power: Power): void
+   + deactivate(power: Power): void
+   + isUsed(): boolean
+   + isActive(): boolean
+}
+
+class UsedState {
++{static}UsedState(power: Power)
++ activate(power: Power): void
+   + deactivate(power: Power): void
+   + isUsed(): boolean
+   + isActive(): booleann
+}
+
+class Score{
+-totalScore: int
++{static}Score(totalScore: int)
++addScore(int scoreToAdd): void
++subtractScore(int scoreToSubtract): void
++cancelScore(): void
+}
+
+class ScoreState{
++addScore(scoreToAdd: int): int
+}
+
+class NormalState{
++addScore(scoreToAdd: int): int
+}
+
+class CanceledState{
++addScore(scoreToAdd: int): int
+}
+
+Power --> PowerState : "<<uses>>"
+PowerState <|.. ActiveState
+PowerState <|.. InactiveState
+PowerState <|.. UsedState
+
+PowerState <<Interface>>
+
+Player -->"*" Power
+
+Power <|-- Exclusivity
+Power <|-- Nullifier
+Power <|-- Multiplicator
+
+Player -->"1" Score
+
+Score --> ScoreState : "<<uses>>"
+ScoreState <|.. NormalState
+ScoreState <|.. CanceledState
+
+ScoreState <<Interface>>
+
+Power <<Abstract>>
+@enduml

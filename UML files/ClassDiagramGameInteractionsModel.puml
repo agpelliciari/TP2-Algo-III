@@ -1,0 +1,63 @@
+@startuml
+
+skinparam monochrome true
+hide circle
+skinparam classAttributeIconSize 0
+
+title: Model of classes that interact with App
+
+class App {
++initialize(args: String[]): void
++showQuestionForPlayer(): void
++saveAnswerAndProceed(question: Question, player: Player, ...): void
++showEndGame(): void
+}
+
+abstract class Question{
+-choices: List<Choice>
+-content: Content
+-mode: Mode
+-id: int
++{static}Question(content: Content, mode: Mode, choices: List<Choice>)
++hasNoIncorrectAnswers(choices: ArrayList<Choice>): boolean
++assignScore(playersAnswers: HashMap<Player, ArrayList<Choice>>): void
++assignChosenChoicesToPlayer(assignChosenChoicesToPlayer: String): ArrayList<Choice>
++createAnswers(chosenChoice: String): ArrayList<Choice>
+}
+
+class Player{
+-score: Score
+-multiplicators: ArrayList<Multiplicator>
+-exclusivity: Exclusivity
+-nullifier: Nullifier
++{static}Player(name: String, initialScore: int)
++setAnswers(question: Question, chosenOptions: String): ArrayList<Choice>
++assignScore(correction: Correction, newScore: int)
++equals(aPlayer: Player): boolean
+}
+
+class JsonParser{
++questionsParser(fileName: String): ArrayList<Question>
+}
+
+class QuestionFactoryProvider{
++{static}getFactory(type: String): QuestionFactory
+}
+
+class QuestionFactory{
++{static}createQuestion(questionId: String, questionString: QuestionString, choices: ArrayList<Choice>): Question
+}
+
+App --> Question:1..*
+App --> Player:2..*
+App --> JsonParser:1
+
+JsonParser ..> QuestionFactoryProvider: <<uses>>
+QuestionFactory .> Question: "<<creates>>"
+
+QuestionFactoryProvider ..> QuestionFactory: "<<creates>>"
+
+Question <<Abstract>>
+QuestionFactory <<Interface>>
+
+@enduml

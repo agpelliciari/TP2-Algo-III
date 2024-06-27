@@ -1,0 +1,43 @@
+@startuml
+
+title: Model of classes that instantiates exceptions
+
+skinparam monochrome true
+hide circle
+skinparam classAttributeIconSize 0
+
+class Game{}
+class InvalidNumberOfPlayersException{}
+class UserNameAlreadyExistsException{}
+class InvalidAnswerFormatException{}
+class InvalidNumberOfChosenChoicesException{}
+class Power{}
+class PowerState{}
+class UsedPowerException{}
+
+Game ..> InvalidNumberOfPlayersException: <<instantiates>>
+Game ..> UserNameAlreadyExistsException: <<instantiates>>
+Game ..> InvalidAnswerFormatException: <<instantiates>>
+
+Game --> Question
+
+Game --> Player
+Player --> Power
+Power --> PowerState
+PowerState <|.. UsedState
+
+UsedState .> UsedPowerException: <<instantiates>>
+UsedPowerException <<Exception>>
+PowerState <<Interface>>
+Power <<Abstract>>
+
+Question ..> InvalidNumberOfChosenChoicesException: <<instantiates>>
+
+InvalidNumberOfPlayersException --|> RuntimeException
+UserNameAlreadyExistsException --|> RuntimeException
+InvalidAnswerFormatException --|> RuntimeException
+InvalidNumberOfChosenChoicesException -|> RuntimeException
+UsedPowerException --|> RuntimeException
+
+
+@enduml
