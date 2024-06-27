@@ -23,7 +23,7 @@ public class PenaltyMode implements Mode {
     }
 
     @Override
-    public boolean isPenaltyMode(){
+    public boolean isPenaltyMode() {
         return true;
     }
 }

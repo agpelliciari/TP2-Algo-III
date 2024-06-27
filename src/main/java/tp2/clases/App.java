@@ -5,7 +5,6 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 import tp2.clases.exceptions.InvalidAnswerFormatException;
 import tp2.clases.handlers.MultiplicatorButtonHandler;
@@ -13,23 +12,25 @@ import tp2.clases.handlers.NullifierCheckBoxEventHandler;
 import tp2.clases.screens.*;
 import javafx.scene.layout.VBox;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Random;
+import java.util.Set;
 
 public class App extends Application {
-
     private MainContainer mainContainer;
     private ScoreContainer scoreContainer;
     private int numberOfPlayers = 0;
     private int questionLimit = 0;
     private int questionCount = 0;
-    private int pointsLimit = 0;
+    private int limitScore = 0;
     private int currentPlayerIndex = 0;
     private int currentQuestionIndex = 0;
     private ArrayList<Player> players = new ArrayList<>();
     private JsonParser jsonParser = new JsonParser();
     private ArrayList<Question> questions;
     private Set<Integer> selectedQuestionIndices = new HashSet<>();
-    private ArrayList<Boolean> chosenExclusivities =  new ArrayList<>();
+    int numberOfPlayersWhoUsedExclusivity = 0;
     private int[] playersScore;
     private Game game;
 
@@ -40,16 +41,16 @@ public class App extends Application {
     @Override
     public void start(Stage primaryStage) {
         mainContainer = new MainContainer();
-        StartScreen startScreen = new StartScreen(() -> showNumberOfPlayersField());
+        StartScreen startScreen = new StartScreen(this::showNumberOfPlayersField);
         mainContainer.addChild(startScreen);
 
         primaryStage.setTitle("Juego de preguntas y respuestas");
-        primaryStage.setScene(new Scene(mainContainer, 900, 800));
+        primaryStage.setScene(new Scene(mainContainer, 1000, 800));
         primaryStage.show();
     }
 
     public void showNumberOfPlayersField() {
-        PlayersInputScreen playersInputScreen = new PlayersInputScreen(this::setNumberOfPlayers, this::setQuestionLimit, this::setPointsLimit);
+        PlayersInputScreen playersInputScreen = new PlayersInputScreen(this::setNumberOfPlayers, this::setQuestionLimit, this::setLimitScore);
         updateMainContainer(playersInputScreen);
     }
 
@@ -63,8 +64,8 @@ public class App extends Application {
         this.questionLimit = limit;
     }
 
-    private void setPointsLimit(int limit) {
-        this.pointsLimit = limit;
+    private void setLimitScore(int limit) {
+        this.limitScore = limit;
     }
 
     public void showPlayerNameInputFields() {
@@ -81,135 +82,104 @@ public class App extends Application {
     }
 
     private void showQuestionForPlayer() {
-        game.checkIfThereIsAScoreNullifierActivated();
+        if (currentQuestionIndex >= questions.size()) {
+            showEndGame();
+            return;
+        }
+
         Player currentPlayer = players.get(currentPlayerIndex);
         Question currentQuestion = questions.get(currentQuestionIndex);
 
         mainContainer.cleanContainer();
         scoreContainer = new ScoreContainer();
         mainContainer.addChild(scoreContainer);
+        showPlayersScore();
 
-        Panel panel = new Panel(currentPlayer, currentQuestion);
-        Button answerButton = PanelBuilder.createAnswerButton(currentQuestion, currentPlayer, panel, this);
-        panel.addChild(answerButton);
-        pressedKeyEvent(currentQuestion, currentPlayer, panel);
-
+        Panel panel = new Panel(currentPlayer, currentQuestion, this);
         mainContainer.addChild(panel);
     }
 
-    public void pressedKeyEvent(Question currentQuestion, Player currentPlayer, Panel panel) {
-        panel.getAnswerTextField().setOnKeyPressed(event -> {
-            if (event.getCode() == KeyCode.ENTER) {
-                try {
-                    saveAnswerAndProceed(currentQuestion, currentPlayer, panel.isExclusivitySelected(), panel.isNullifierSelected(), panel.getAnswer(), panel.getFactor(), panel.isMultiplicatorSelected());
-                } catch (InvalidAnswerFormatException ex) {
-                    showErrorDialog(ex.getMessage());
-                }
-            }
-        });
-    }
-
-    public void saveAnswerAndProceed(Question question, Player player, boolean useExclusivity, boolean selectedNullifier, String answer, String factor, boolean selectedMultiplicator) {
+    public void saveAnswerAndProceed(Question question, Player player, boolean useExclusivity, boolean selectedNullifier, String answer, String factor, boolean selectedMultiplicator) throws InvalidAnswerFormatException {
         validateAnswerFormat(answer);
 
         MultiplicatorButtonHandler multiplicatorButtonHandler = new MultiplicatorButtonHandler(factor);
         multiplicatorButtonHandler.selectMultiplier(player, selectedMultiplicator);
 
-        boolean isCorrect = false;
-
-        int calculatedScore = question.calculateScore(player, player.setAnswers(question, answer));
-
-        if (calculatedScore > 0) {
-            isCorrect = true;
-            player.setAnsweredCorrectly();
-        }
-
-        playersScore[currentPlayerIndex] = calculatedScore;
+        playersScore[currentPlayerIndex] = question.calculateScore(player, player.setAnswers(question, answer));
 
         if (useExclusivity) {
-            chosenExclusivities.add(true);
+            numberOfPlayersWhoUsedExclusivity++;
             player.getExclusivity().decreaseNumber();
-        } else {
-            chosenExclusivities.add(false);
         }
 
         NullifierCheckBoxEventHandler nullifierHandler = new NullifierCheckBoxEventHandler();
         nullifierHandler.selectNullifier(player, players, selectedNullifier);
 
         currentPlayerIndex++;
-        if (currentPlayerIndex >= players.size()) {
-            calculateExclusivityScore();
-            updateScores(playersScore, chosenExclusivities);
+        if (currentPlayerIndex >= numberOfPlayers) {
+            if (question.getMode().isPenaltyMode()) {
+                for (int i = 0; i < numberOfPlayers; i++) {
+                    players.get(i).addToScore(playersScore[i]);
+                }
+            } else {
+                updatePlayersScoreWithExclusivity(playersScore, numberOfPlayersWhoUsedExclusivity);
+            }
 
-            game.deactivateNullifier();
-            playersScore = new int[numberOfPlayers];
-            chosenExclusivities = new ArrayList<>();
+            showPlayersScore();
             showCorrectAnswer();
 
             questionCount++;
-
             if (limitReached()) {
                 showEndGame();
                 return;
             }
-
             currentPlayerIndex = 0;
             currentQuestionIndex = getRandomQuestionIndex();
+            deactivatePowers(players);
+            numberOfPlayersWhoUsedExclusivity = 0;
         } else {
             showQuestionForPlayer();
         }
     }
 
-    private void calculateExclusivityScore() {
-        int exclusivityCount = 0;
-        for (Boolean chosenExclusivity : chosenExclusivities) {
-            if (chosenExclusivity) exclusivityCount++;
-        }
-
-        boolean anyCorrectAnswer = false;
-        boolean[] correctAnswers = new boolean[numberOfPlayers];
-
+    public void updatePlayersScoreWithExclusivity(int[] playersScore, int numberOfPlayersWhoUsedExclusivity) {
         for (int i = 0; i < numberOfPlayers; i++) {
-            Player player = players.get(i);
-            correctAnswers[i] = player.answeredCorrectly();
-            if (correctAnswers[i]) anyCorrectAnswer = true;
-        }
-
-        for (int i = 0; i < numberOfPlayers; i++) {
-            if (chosenExclusivities.get(i)) {
-                if (exclusivityCount == 1) {
-                    if (correctAnswers[i] && !anyCorrectAnswer) {
-                        playersScore[i] *= 2;
+            if (numberOfPlayersWhoUsedExclusivity > 0) {
+                if (playersScore[i] > 0) {
+                    if (game.checkIfOnlyOneCorrectAnswer(playersScore)) {
+                        players.get(i).addToScore(playersScore[i] * players.get(i).getExclusivity().getMultiplier() * numberOfPlayersWhoUsedExclusivity);
+                    } else if (game.checkIfAllAreCorrectAnswers(playersScore)) {
+                        // Nadie suma nada
                     } else {
-                        playersScore[i] = 0;
+                        players.get(i).addToScore(playersScore[i]);
                     }
                 } else {
-                    if (correctAnswers[i] && !anyCorrectAnswer) {
-                        playersScore[i] *= exclusivityCount;
-                    } else {
-                        playersScore[i] = 0;
-                    }
+                    players.get(i).addToScore(playersScore[i]);
                 }
+            } else {
+                players.get(i).addToScore(playersScore[i]);
             }
+        }
+    }
+
+    private void deactivatePowers(ArrayList<Player> players) {
+        for (Player player : players) {
+            player.disablePowers();
         }
     }
 
     private void showCorrectAnswer() {
         mainContainer.cleanContainer();
-        AnswerScreen answerScreen = new AnswerScreen(() -> showQuestionForPlayer(), questions.get(currentQuestionIndex).getContent().getAnswerText(), players);
+        AnswerScreen answerScreen = new AnswerScreen(this::showQuestionForPlayer, questions.get(currentQuestionIndex).getContent().getAnswerText(), players);
         answerScreen.getChildren().add(scoreContainer);
         mainContainer.addChild(answerScreen);
     }
 
-    private void updateScores(int[] playersScore, ArrayList<Boolean> chosenExclusivities) {
+    private void showPlayersScore() {
         scoreContainer.cleanContainer();
-
-        for (int i = 0; i < numberOfPlayers; i++) {
-            players.get(i).assignScore(playersScore[i]);
-
-            Label scoreLabel = new Label(players.get(i).getName() + ": " + players.get(i).getScore() + " puntos");
+        for (Player player : players) {
+            Label scoreLabel = new Label(player.getName() + ": " + player.getScore() + " puntos");
             scoreLabel.setStyle("-fx-font-size: 14px; -fx-font-weight: bold;");
-
             scoreContainer.addChild(scoreLabel);
         }
     }
@@ -219,7 +189,7 @@ public class App extends Application {
         VBox vbox = createVBoxWithPaddingAndAlignment(Pos.CENTER, 20, 20);
 
         Label endGameLabel = new Label("¡Fin del juego!");
-        endGameLabel.setStyle("-fx-font-size: 30px; -fx-font-weight: bold;");
+        endGameLabel.setStyle("-fx-font-size: 24px; -fx-font-weight: bold;");
         vbox.getChildren().add(endGameLabel);
 
         vbox.getChildren().add(scoreContainer);
@@ -244,7 +214,7 @@ public class App extends Application {
     public void init() throws Exception {
         super.init();
         questions = jsonParser.questionsParser("src/main/resources/preguntas.json");
-        game = new Game(players, questions, 100);
+        game = new Game(players, questions);
     }
 
     private VBox createVBoxWithPaddingAndAlignment(Pos alignment, double spacing, double padding) {
@@ -263,20 +233,31 @@ public class App extends Application {
         Random random = new Random();
         int numQuestions = questions.size();
         int randomIndex = random.nextInt(numQuestions);
-        while (selectedQuestionIndices.contains(randomIndex)) {
+        while (selectedQuestionIndices.contains(randomIndex) || checkIfRepeatedTheme(randomIndex)) {
             randomIndex = random.nextInt(numQuestions);
         }
+        selectedQuestionIndices.add(randomIndex);
+
         return randomIndex;
     }
 
-    private boolean limitReached() {
-        return questionLimitReached() | pointsLimitReached();
+    public boolean checkIfRepeatedTheme(int index) {
+        if ((selectedQuestionIndices.size()) == questions.size() - 1) {
+            return false;
+        }
+        String newTheme = questions.get(index).getContent().getTheme();
+        String currentTheme = questions.get(currentQuestionIndex).getContent().getTheme();
+        return newTheme.equals(currentTheme);
     }
 
-    private boolean pointsLimitReached() {
+    private boolean limitReached() {
+        return questionLimitReached() || scoreLimitReached();
+    }
+
+    private boolean scoreLimitReached() {
         boolean limitReached = false;
-        for (Player player: players) {
-            if (player.getScore() > pointsLimit) {
+        for (Player player : players) {
+            if (player.getScore() >= limitScore) {
                 limitReached = true;
             }
         }

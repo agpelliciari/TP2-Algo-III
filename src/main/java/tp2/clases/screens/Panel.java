@@ -1,29 +1,55 @@
 package tp2.clases.screens;
 
+import javafx.animation.ScaleTransition;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.util.Duration;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
-import tp2.clases.PenaltyMode;
+import tp2.clases.Choice;
 import tp2.clases.Player;
 import tp2.clases.Question;
 import javafx.scene.control.ScrollPane;
+import tp2.clases.App;
+import tp2.clases.exceptions.InvalidAnswerFormatException;
+
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 public class Panel extends ScrollPane {
-    private TextField answerTextField;
     private CheckBox exclusivityCheckBox;
     private CheckBox nullifierCheckBox;
     private CheckBox multiplicatorCheckBox;
     private TextField factorTextField;
     private VBox box;
+    private Map<Button, String> buttonAnswerMap = new HashMap<>();
+    private Set<String> selectedAnswers = new HashSet<>();
 
-    public Panel(Player currentPlayer, Question currentQuestion){
+    public Panel(Player currentPlayer, Question currentQuestion, App app) {
         box = new VBox(20);
         box.setAlignment(Pos.CENTER);
-        box.setPadding(new Insets(20,20,20,20));
+        box.setPadding(new Insets(20, 20, 20, 20));
+
+        ScaleTransition st = new ScaleTransition(Duration.millis(1000), box);
+        st.setFromX(0.5);
+        st.setFromY(0.5);
+        st.setToX(1.0);
+        st.setToY(1.0);
+        st.play();
+
+        BackgroundFill backgroundFill = new BackgroundFill(Color.web("#f0f0f0"), CornerRadii.EMPTY, Insets.EMPTY);
+        box.setBackground(new Background(backgroundFill));
 
         box.getChildren().addAll(
                 PanelBuilder.createLabel("Pregunta " + currentQuestion.getId(), 20, true),
@@ -32,13 +58,18 @@ public class Panel extends ScrollPane {
                 PanelBuilder.createLabel(currentQuestion.getContent().getPrompt(), 16, false)
         );
 
-        currentQuestion.getChoices().forEach(choice ->
-                box.getChildren().add(PanelBuilder.createLabel(choice.getId() + ") " + choice.getContent(), 14, false)));
-
-        box.getChildren().add(PanelBuilder.createLabel("Escriba la respuesta", 16, false));
-
-        answerTextField = (TextField) PanelBuilder.createTextField("Respuesta", 14);
-        box.getChildren().add(answerTextField);
+        for (Choice choice : currentQuestion.getChoices()) {
+            Button choiceButton = new Button(choice.getId() + ") " + choice.getContent());
+            choiceButton.setStyle("-fx-font-size: 14px;");
+            buttonAnswerMap.put(choiceButton, String.valueOf(choice.getId()));
+            choiceButton.setOnAction(event -> {
+                String choiceId = buttonAnswerMap.get(choiceButton);
+                selectedAnswers.add(choiceId);
+                choiceButton.setDisable(true);
+                updateSelectedAnswers();
+            });
+            box.getChildren().add(choiceButton);
+        }
 
         exclusivityCheckBox = new CheckBox("Usar exclusividad");
         multiplicatorCheckBox = new CheckBox("Usar multiplicador");
@@ -54,13 +85,40 @@ public class Panel extends ScrollPane {
         if (!currentPlayer.getNullifier().isUsed())
             box.getChildren().add(nullifierCheckBox);
 
+        Button answerButton = createAnswerButton(currentQuestion, currentPlayer, app);
+        box.getChildren().add(answerButton);
+
         this.setContent(box);
         this.setFitToWidth(true);
         this.setFitToHeight(true);
     }
 
-    public String getAnswer() {
-        return answerTextField.getText();
+    private Button createAnswerButton(Question currentQuestion, Player currentPlayer, App app) {
+        Button answerButton = new Button("Responder");
+        answerButton.setStyle("-fx-font-size: 14px; -fx-background-color: #ff6666; -fx-text-fill: white;");
+        answerButton.setOnAction(e -> {
+            try {
+                app.saveAnswerAndProceed(currentQuestion, currentPlayer, isExclusivitySelected(), isNullifierSelected(), getSelectedAnswers(), getFactor(), isMultiplicatorSelected());
+            } catch (InvalidAnswerFormatException ex) {
+                app.showErrorDialog(ex.getMessage());
+            }
+        });
+        return answerButton;
+    }
+
+    private void updateSelectedAnswers() {
+        // Optional: Perform any actions needed when the selected answers are updated.
+    }
+
+    public String getSelectedAnswers() {
+        StringBuilder answerBuilder = new StringBuilder();
+        for (String answer : selectedAnswers) {
+            if (answerBuilder.length() > 0) {
+                answerBuilder.append(",");
+            }
+            answerBuilder.append(answer);
+        }
+        return answerBuilder.toString();
     }
 
     public boolean isExclusivitySelected() {
@@ -77,10 +135,6 @@ public class Panel extends ScrollPane {
 
     public String getFactor() {
         return factorTextField.getText();
-    }
-
-    public TextField getAnswerTextField() {
-        return answerTextField;
     }
 
     public void addChild(Button answerButton) {

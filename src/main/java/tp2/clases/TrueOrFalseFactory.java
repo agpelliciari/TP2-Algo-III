@@ -3,6 +3,7 @@ package tp2.clases;
 import java.util.ArrayList;
 
 public class TrueOrFalseFactory implements QuestionFactory {
+
     private Mode mode;
 
     public TrueOrFalseFactory(Mode mode) {

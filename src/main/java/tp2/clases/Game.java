@@ -7,7 +7,6 @@ import tp2.clases.exceptions.InvalidNumberOfPlayersException;
 import tp2.clases.exceptions.UserNameAlreadyExistsException;
 
 public class Game {
-    private int maxScore;
     private ArrayList<Question> questions = new ArrayList<>();
     private ArrayList<Player> players = new ArrayList<>();
     private boolean aNullifierIsActivated = false;
@@ -16,18 +15,15 @@ public class Game {
         return num != 0;
     }
 
-    public Game(ArrayList<Player> players, ArrayList<Question> questions, int maxScore) {
+    public Game() {}
+
+    public Game(ArrayList<Player> players, ArrayList<Question> questions) {
         this.players = players;
         this.questions = questions;
     }
 
-    public Game(ArrayList<Question> questions, int maxScore) {
+    public Game(ArrayList<Question> questions) {
         this.questions = questions;
-        this.maxScore = maxScore;
-    }
-
-    public Game(int maxScore) {
-        this.maxScore = maxScore;
     }
 
     public void addPlayer(Player player) {
@@ -38,16 +34,8 @@ public class Game {
         questions.add(question);
     }
 
-    public int getMaxScore() {
-        return maxScore;
-    }
-
     public ArrayList<Player> getPlayers() {
         return players;
-    }
-
-    public ArrayList<Question> getQuestions() {
-        return questions;
     }
 
     public ArrayList<Player> selectPlayers(int numberOfPlayers) {
@@ -61,7 +49,6 @@ public class Game {
             Player player = new Player(userName, 0);
             registerUser(players, player);
         }
-
         return players;
     }
 
@@ -116,7 +103,7 @@ public class Game {
         return true;
     }
 
-    public void start(ArrayList<String[]> chosenChoices, ArrayList<boolean[]> chosenExclusivities) {
+    public void assignScoreWithExclusivity(ArrayList<String[]> chosenChoices, ArrayList<boolean[]> chosenExclusivities) {
         for (int i = 0; i < questions.size(); i++) {
             int numberOfExclusivities = 0;
             for (boolean[] bool : chosenExclusivities) {
@@ -160,17 +147,6 @@ public class Game {
                     player.aNullifierIsActivated();
                 }
             }
-        }
-    }
-
-    public void activateNullifier() {
-        aNullifierIsActivated = true;
-    }
-
-    public void deactivateNullifier() {
-        aNullifierIsActivated = false;
-        for (Player player: players) {
-            player.disableNullifier();
         }
     }
 }

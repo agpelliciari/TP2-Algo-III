@@ -104,7 +104,7 @@ public class Player {
         this.numberOfCorrectAnswers = numberOfCorrectAnswers;
     }
 
-    public void useMultiplicator(int factor) {
+    public void useMultiplicator(int factor) throws UsedPowerException {
         Multiplicator multiplicator = getMultiplicator(factor);
         if (!multiplicator.isActive() && !multiplicator.isUsed()) {
             multiplicator.activate();
