@@ -64,10 +64,6 @@ class GroupChoiceFactory {
 +createQuestion(questionId: String, questionString: QuestionString, choices: ArrayList<Choice>): Question
 }
 
-class QuestionFactoryProvider{
-+{static}getFactory(type: String): QuestionFactory
-}
-
 QuestionFactory <<Interface>>
 Question <<Abstract>>
 
@@ -82,13 +78,11 @@ TrueOrFalseFactory ..> TrueOrFalse: "<<creates>>"
 QuestionFactory <|.. MultipleChoiceFactory
 MultipleChoiceFactory ..> MultipleChoice: "<<creates>>"
 
-QuestionFactory <|.. OrderedChoiceFactory
+QuestionFactory <|. OrderedChoiceFactory
 OrderedChoiceFactory ..> OrderedChoice: "<<creates>>"
 
 QuestionFactory <|.. GroupChoiceFactory
 GroupChoiceFactory ..> GroupChoice: "<<creates>>"
 
-QuestionFactory .> Question: "<<creates>>"
-QuestionFactoryProvider ..> QuestionFactory: "<<creates>>"
 
 @enduml

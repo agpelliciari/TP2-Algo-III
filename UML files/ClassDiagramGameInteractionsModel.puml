@@ -41,16 +41,22 @@ class JsonParser{
 +questionsParser(fileName: String): ArrayList<Question>
 }
 
+class QuestionFactoryProvider{
++{static}getFactory(type: String): QuestionFactory
+}
+
 class QuestionFactory{
-+createQuestion(questionId: String, questionString: QuestionString, choices: ArrayList<Choice>): Question
++{static}createQuestion(questionId: String, questionString: QuestionString, choices: ArrayList<Choice>): Question
 }
 
 Game --> Question:1..*
 Game --> Player:2..*
 Game --> JsonParser:1
 
-JsonParser ..> QuestionFactory: <<uses>>
+JsonParser ..> QuestionFactoryProvider: <<uses>>
 QuestionFactory .> Question: "<<creates>>"
+
+QuestionFactoryProvider ..> QuestionFactory: "<<creates>>"
 
 Question <<Abstract>>
 QuestionFactory <<Interface>>
