@@ -81,7 +81,7 @@ public class App extends Application {
         showQuestionForPlayer();
     }
 
-    private void showQuestionForPlayer() {
+    public void showQuestionForPlayer() {
         if (currentQuestionIndex >= questions.size()) {
             showEndGame();
             return;
@@ -95,8 +95,15 @@ public class App extends Application {
         mainContainer.addChild(scoreContainer);
         showPlayersScore();
 
-        Panel panel = new Panel(currentPlayer, currentQuestion, this);
-        mainContainer.addChild(panel);
+
+        if (currentQuestion instanceof GroupChoice) {
+            PanelGroupChoice panel = new PanelGroupChoice(currentPlayer, currentQuestion, this);
+            mainContainer.addChild(panel);
+        }
+        else {
+            Panel panel = new Panel(currentPlayer, currentQuestion, this);
+            mainContainer.addChild(panel);
+        }
     }
 
     public void saveAnswerAndProceed(Question question, Player player, boolean useExclusivity, boolean selectedNullifier, String answer, String factor, boolean selectedMultiplicator) throws InvalidAnswerFormatException {
