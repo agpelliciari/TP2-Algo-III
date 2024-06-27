@@ -1,0 +1,37 @@
+@startuml
+
+actor User
+
+participant "game:App" as App
+participant "mainContainer:MainContainer" as MainContainer
+participant "startScreen:StartScreen" as StartScreen
+participant "scene:Scene" as Scene
+participant "primaryStage:Stage" as Stage
+
+User -> App: initialize(args)
+activate App
+App -> App: launch(args)
+App -> App: start(primaryStage)
+
+create MainContainer
+App -> MainContainer: new()
+
+create StartScreen
+App -> StartScreen: new(showNumberOfPlayersField)
+App -> MainContainer: addChild(startScreen)
+activate MainContainer
+MainContainer -> MainContainer: getChildren.add(startScreen)
+deactivate MainContainer
+
+
+App -> Stage: setTitle("Juego de preguntas y respuestas")
+activate Stage
+
+create Scene
+App -> Scene: new(mainContainer, 1000, 800)
+App -> Stage: setScene(scene)
+App -> Stage: show()
+deactivate Stage
+deactivate App
+
+@enduml
