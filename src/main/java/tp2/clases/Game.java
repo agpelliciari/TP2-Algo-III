@@ -137,7 +137,7 @@ public class Game {
                 }
             }
 
-            if (!(questions.get(i).getMode() instanceof PenaltyMode)) {
+            if (!questions.get(i).getMode().isPenaltyMode()) {
                 if (this.checkIfOnlyOneCorrectAnswer(playersCorrectAnswers)) {
                     Player onlyCorrectPlayer = playersWhoAnsweredCorrectly.get(0);
                     if (onlyCorrectPlayer.getExclusivity().isActive()) {
@@ -157,7 +157,7 @@ public class Game {
         if (aNullifierIsActivated) {
             for (Player player: players) {
                 if (!player.nullifierIsActive()) {
-                    player.aNullifierisActivated();
+                    player.aNullifierIsActivated();
                 }
             }
         }

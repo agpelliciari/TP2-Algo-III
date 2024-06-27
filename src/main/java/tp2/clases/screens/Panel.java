@@ -41,16 +41,18 @@ public class Panel extends ScrollPane {
         box.getChildren().add(answerTextField);
 
         exclusivityCheckBox = new CheckBox("Usar exclusividad");
-        if (!(currentQuestion.getMode() instanceof PenaltyMode) && currentPlayer.getExclusivity().getNumber() > 0) {
+        multiplicatorCheckBox = new CheckBox("Usar multiplicador");
+        factorTextField = (TextField) PanelBuilder.createTextField("Factor", 12);
+        nullifierCheckBox = new CheckBox("Usar anulador");
+
+        if (currentQuestion.getMode().isPenaltyMode()) {
+            box.getChildren().add(PanelBuilder.createMultiplicatorContainer(multiplicatorCheckBox, factorTextField));
+        } else if (currentPlayer.getExclusivity().getNumber() > 0) {
             box.getChildren().add(exclusivityCheckBox);
         }
 
-        multiplicatorCheckBox = new CheckBox("Usar multiplicador");
-        factorTextField = (TextField) PanelBuilder.createTextField("Factor", 12);
-        box.getChildren().add(PanelBuilder.createMultiplicatorContainer(multiplicatorCheckBox, factorTextField));
-
-        nullifierCheckBox = new CheckBox("Usar anulador");
-        box.getChildren().add(nullifierCheckBox);
+        if (!currentPlayer.getNullifier().isUsed())
+            box.getChildren().add(nullifierCheckBox);
 
         this.setContent(box);
         this.setFitToWidth(true);

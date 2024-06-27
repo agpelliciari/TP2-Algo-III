@@ -21,7 +21,7 @@ public class NullifierCheckBoxEventHandler {
 
     private void notifyNullifierIsActive(ArrayList<Player> players) {
         for (Player player: players) {
-            player.aNullifierisActivated();
+            player.aNullifierIsActivated();
         }
     }
 

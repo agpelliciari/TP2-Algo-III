@@ -6,5 +6,5 @@ public abstract class Correction {
 
     public abstract void assignScore(Score score, int modification);
 
-    public abstract int calculateScore(Score score, int modification);
+    public abstract int calculateScore(int modification);
 }

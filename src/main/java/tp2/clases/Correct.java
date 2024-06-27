@@ -10,8 +10,8 @@ public class Correct extends Correction {
     }
 
     @Override
-    public int calculateScore(Score score, int modification) {
-        return score.getScore() + modification;
+    public int calculateScore(int modification) {
+        return modification;
     }
 
     @Override

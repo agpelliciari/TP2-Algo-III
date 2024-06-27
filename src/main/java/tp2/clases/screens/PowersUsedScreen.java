@@ -37,7 +37,7 @@ public class PowersUsedScreen extends VBox {
             String powerUsed = getNamePower(power);
             Label powerUsedLabel = new Label();
             if (!powerUsed.isEmpty()) {
-                powerUsedLabel.setText("El jugador " + player.getName() + " usó " + powerUsed);
+                powerUsedLabel.setText(player.getName() + " usó " + powerUsed);
                 powerUsedLabel.setFont(Font.font("Arial", FontWeight.BOLD, 14));
                 getChildren().add(powerUsedLabel);
             }

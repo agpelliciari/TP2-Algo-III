@@ -43,6 +43,10 @@ public class Player {
         return score.getScore();
     }
 
+    public Nullifier getNullifier() {
+        return nullifier;
+    }
+
     public Exclusivity getExclusivity() {
         return exclusivity;
     }
@@ -81,7 +85,7 @@ public class Player {
         if(multiplicator != null) {
             factor = multiplicator.getFactor();
         }
-        return correction.calculateScore(score, modification * factor);
+        return correction.calculateScore(modification * factor);
     }
 
     public void addToScore(int number) {
@@ -136,7 +140,7 @@ public class Player {
         return nullifier.isActive();
     }
 
-    public void aNullifierisActivated() {
+    public void aNullifierIsActivated() {
         nullifier.cancel(score);
     }
 

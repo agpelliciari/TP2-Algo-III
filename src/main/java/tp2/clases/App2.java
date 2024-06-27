@@ -31,8 +31,8 @@ public class App2 extends Application {
     private JsonParser jsonParser = new JsonParser();
     private ArrayList<Question> questions;
     private Set<Integer> selectedQuestionIndices = new HashSet<>();
-    private TextField currentQuestionTheme;
-    //    private ArrayList<boolean[]> chosenExclusivities = new ArrayList<>();
+    int numberOfPlayersWhoUsedExclusivity = 0;
+    private int[] playersScore;
     private Game game;
 
     public void initialize(String[] args) {
@@ -42,13 +42,11 @@ public class App2 extends Application {
     @Override
     public void start(Stage primaryStage) {
         mainContainer = new MainContainer();
-
         StartScreen startScreen = new StartScreen(() -> showNumberOfPlayersField());
-
         mainContainer.addChild(startScreen);
 
         primaryStage.setTitle("Juego de preguntas y respuestas");
-        primaryStage.setScene(new Scene(mainContainer, 800, 700));
+        primaryStage.setScene(new Scene(mainContainer, 1000, 800));
         primaryStage.show();
     }
 
@@ -58,6 +56,7 @@ public class App2 extends Application {
     }
 
     private void setNumberOfPlayers(int numberOfPlayers) {
+        playersScore = new int[numberOfPlayers];
         this.numberOfPlayers = numberOfPlayers;
         showPlayerNameInputFields();
     }
@@ -75,12 +74,11 @@ public class App2 extends Application {
         updateMainContainer(playersNamesInputScreen);
     }
 
-
     private void setPlayersNames(ArrayList<String> playersNames) {
         for (String playerName : playersNames) {
             players.add(new Player(playerName, 0));
         }
-        this.currentQuestionIndex = getQuestionIndex();
+        this.currentQuestionIndex = getRandomQuestionIndex();
         showQuestionForPlayer();
     }
 
@@ -90,24 +88,17 @@ public class App2 extends Application {
             return;
         }
 
-        game.checkIfThereIsAScoreNullifierActivated();
         Player currentPlayer = players.get(currentPlayerIndex);
         Question currentQuestion = questions.get(currentQuestionIndex);
 
         mainContainer.cleanContainer();
-
         scoreContainer = new ScoreContainer();
-
-        updateScores();
-
         mainContainer.addChild(scoreContainer);
+        showPlayersScore();
 
         Panel panel = new Panel(currentPlayer, currentQuestion);
-
         Button answerButton = PanelBuilder2.createAnswerButton(currentQuestion, currentPlayer, panel, this);
-
         panel.addChild(answerButton);
-
         pressedKeyEvent(currentQuestion, currentPlayer, panel);
 
         mainContainer.addChild(panel);
@@ -128,39 +119,65 @@ public class App2 extends Application {
     public void saveAnswerAndProceed(Question question, Player player, boolean useExclusivity, boolean selectedNullifier, String answer, String factor, boolean selectedMultiplicator) throws InvalidAnswerFormatException {
         validateAnswerFormat(answer);
 
-        if (selectedMultiplicator && !question.getMode().isPenaltyMode()) {
-            showErrorDialog("El multiplicador solo se puede usar en preguntas de tipo penalidad.");
-            return;
-        }
         MultiplicatorButtonHandler multiplicatorButtonHandler = new MultiplicatorButtonHandler(factor);
         multiplicatorButtonHandler.selectMultiplier(player,selectedMultiplicator);
 
-        ArrayList<Choice> chosenAnswers = player.setAnswers(question, answer);
-        question.assignScore(player, chosenAnswers);
+        playersScore[currentPlayerIndex] = question.calculateScore(player, player.setAnswers(question, answer));
+
+        if (useExclusivity) {
+            numberOfPlayersWhoUsedExclusivity++;
+            player.getExclusivity().decreaseNumber();
+        }
 
         NullifierCheckBoxEventHandler nullifierHandler = new NullifierCheckBoxEventHandler();
         nullifierHandler.selectNullifier(player, players, selectedNullifier);
-//        chosenExclusivities.get(currentPlayerIndex)[currentQuestionIndex] = useExclusivity;
 
         currentPlayerIndex++;
-        if (currentPlayerIndex >= players.size()) {
-            updateScores();
+        if (currentPlayerIndex >= numberOfPlayers) {
+
+            if (question.getMode().isPenaltyMode()) {
+                for (int i = 0; i < numberOfPlayers; i++) {
+                    players.get(i).addToScore(playersScore[i]);
+                }
+            } else {
+                updatePlayersScoreWithExclusivity(playersScore, numberOfPlayersWhoUsedExclusivity);
+            }
+
+            showPlayersScore();
             showCorrectAnswer();
 
             questionCount++;
-
             if (limitReached()) {
                 showEndGame();
                 return;
             }
-
             currentPlayerIndex = 0;
-//            currentQuestionIndex++;
-            currentQuestionIndex = getQuestionIndex();
+            currentQuestionIndex = getRandomQuestionIndex();
             deactivatePowers(players);
+            numberOfPlayersWhoUsedExclusivity = 0;
         }
         else {
             showQuestionForPlayer();
+        }
+    }
+
+    public void updatePlayersScoreWithExclusivity(int[] playersScore, int numberOfPlayersWhoUsedExclusivity) {
+        for (int i = 0; i < numberOfPlayers; i++) {
+            if (numberOfPlayersWhoUsedExclusivity > 0) {
+                if (playersScore[i] > 0) {
+                    if (game.checkIfOnlyOneCorrectAnswer(playersScore)) {
+                        players.get(i).addToScore(playersScore[i] * players.get(i).getExclusivity().getMultiplier() * numberOfPlayersWhoUsedExclusivity);
+                    } else if (game.checkIfAllAreCorrectAnswers(playersScore)) {
+                        // Nadie suma nada
+                    } else {
+                        players.get(i).addToScore(playersScore[i]);
+                    }
+                } else {
+                    players.get(i).addToScore(playersScore[i]);
+                }
+            } else {
+                players.get(i).addToScore(playersScore[i]);
+            }
         }
     }
 
@@ -177,29 +194,24 @@ public class App2 extends Application {
         mainContainer.addChild(answerScreen);
     }
 
-    private void updateScores() {
+    private void showPlayersScore() {
         scoreContainer.cleanContainer();
-
         for (Player player : players) {
             Label scoreLabel = new Label(player.getName() + ": " + player.getScore() + " puntos");
             scoreLabel.setStyle("-fx-font-size: 14px; -fx-font-weight: bold;");
-
             scoreContainer.addChild(scoreLabel);
         }
     }
 
     private void showEndGame() {
         mainContainer.cleanContainer();
-
         VBox vbox = createVBoxWithPaddingAndAlignment(Pos.CENTER, 20, 20);
 
         Label endGameLabel = new Label("¡Fin del juego!");
         endGameLabel.setStyle("-fx-font-size: 24px; -fx-font-weight: bold;");
         vbox.getChildren().add(endGameLabel);
 
-        updateScores();
         vbox.getChildren().add(scoreContainer);
-
         mainContainer.addChild(vbox);
     }
 
@@ -236,7 +248,7 @@ public class App2 extends Application {
         mainContainer.addChild(newContent);
     }
 
-    public Integer getQuestionIndex() {
+    public Integer getRandomQuestionIndex() {
         Random random = new Random();
         int numQuestions = questions.size();
         int randomIndex = random.nextInt(numQuestions);
@@ -274,5 +286,4 @@ public class App2 extends Application {
     private boolean questionLimitReached() {
         return questionCount >= questionLimit;
     }
-
 }

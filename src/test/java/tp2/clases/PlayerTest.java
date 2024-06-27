@@ -90,7 +90,7 @@ public class PlayerTest {
         //Act
         player1.useNullifier();
         if(!player2.nullifierIsActive()) {
-            player2.aNullifierisActivated();
+            player2.aNullifierIsActivated();
         }
 
         ArrayList<Choice> choices = player2.setAnswers(questionMock, "");
