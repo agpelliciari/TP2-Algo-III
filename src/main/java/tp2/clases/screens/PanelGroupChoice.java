@@ -13,6 +13,9 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
 import tp2.clases.*;
+import tp2.clases.player.*;
+import tp2.clases.questions.types.*;
+import tp2.clases.questions.choice.*;
 import tp2.clases.exceptions.InvalidAnswerFormatException;
 
 import java.util.*;

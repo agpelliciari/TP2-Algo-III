@@ -10,6 +10,7 @@ import tp2.clases.exceptions.InvalidAnswerFormatException;
 import tp2.clases.handlers.MultiplicatorButtonHandler;
 import tp2.clases.handlers.NullifierCheckBoxEventHandler;
 import tp2.clases.player.Player;
+import tp2.clases.questions.types.GroupChoice;
 import tp2.clases.questions.types.Question;
 import tp2.clases.screens.*;
 import javafx.scene.layout.VBox;
