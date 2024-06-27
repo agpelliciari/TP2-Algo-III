@@ -157,10 +157,16 @@ public class App2 extends Application {
             currentPlayerIndex = 0;
 //            currentQuestionIndex++;
             currentQuestionIndex = getQuestionIndex();
-            nullifierHandler.deactivateNullifier(players);
+            deactivatePowers(players);
         }
         else {
             showQuestionForPlayer();
+        }
+    }
+
+    private void deactivatePowers(ArrayList<Player> players) {
+        for (Player player: players) {
+            player.disablePowers();
         }
     }
 
@@ -192,7 +198,6 @@ public class App2 extends Application {
         vbox.getChildren().add(endGameLabel);
 
         updateScores();
-
         vbox.getChildren().add(scoreContainer);
 
         mainContainer.addChild(vbox);

@@ -33,9 +33,9 @@ public class NullifierCheckBoxEventHandler {
         alert.showAndWait();
     }
 
-    public void deactivateNullifier(ArrayList<Player> players) {
+    /*public void deactivateNullifier(ArrayList<Player> players) {
         for (Player player: players) {
             player.disableNullifier();
         }
-    }
+    }*/
 }

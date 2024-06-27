@@ -67,7 +67,6 @@ public class Player {
         int factor = 1;
         if(multiplicator != null) {
             factor = multiplicator.getFactor();
-            multiplicator.deactivate();
         }
         correction.assignScore(score, modification * factor);
     }
@@ -81,7 +80,6 @@ public class Player {
         int factor = 1;
         if(multiplicator != null) {
             factor = multiplicator.getFactor();
-            multiplicator.deactivate();
         }
         return correction.calculateScore(score, modification * factor);
     }
@@ -140,6 +138,22 @@ public class Player {
 
     public void aNullifierisActivated() {
         nullifier.cancel(score);
+    }
+
+    public void disablePowers() {
+        disableMultiplicators();
+        disableExclusivity();
+        disableNullifier();
+    }
+
+    private void disableExclusivity() {
+        exclusivity.deactivate();
+    }
+
+    private void disableMultiplicators() {
+        for (Multiplicator multiplicator: multiplicators) {
+            multiplicator.deactivate();
+        }
     }
 
     public void disableNullifier() {
