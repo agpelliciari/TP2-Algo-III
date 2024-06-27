@@ -320,8 +320,8 @@ public class CasesOfUseTest {
     public void test13AClassicGroupChoiceQuestionReceivesAListOfAnswersOfAPlayerThatAnsweredCorrectlyAndAssignsTheScore() {
         // Arrange
         ArrayList<Group> groups = new ArrayList<>();
-        groups.add(new Group('A',"", new int[]{2,3,5}));
-        groups.add(new Group('B',"", new int[]{1,2,6}));
+        groups.add(new Group('A', "", new int[]{2, 3, 5}));
+        groups.add(new Group('B', "", new int[]{1, 2, 6}));
 
         ArrayList<Choice> choices = new ArrayList<>();
         choices.add(new Choice("Kawhi Leonard", "Correcta", 1));
@@ -341,35 +341,50 @@ public class CasesOfUseTest {
         ArrayList<Choice> chosenAnswersGroupA = player1.setAnswers(question, "2,3,5");
         ArrayList<Choice> chosenAnswersGroupB = player1.setAnswers(question, "1,2,6");
 
-        question.getGroups().get(0).assignScore(player1, chosenAnswersGroupA);
-        question.getGroups().get(1).assignScore(player1, chosenAnswersGroupB);
+        ArrayList<ArrayList<Choice>> groupChosenAnswers = new ArrayList<>();
+        groupChosenAnswers.add(chosenAnswersGroupA);
+        groupChosenAnswers.add(chosenAnswersGroupB);
+
+        int score = question.calculateTotalScore(groupChosenAnswers);
+
+        player1.addToScore(score);
 
         // Assert
         assertEquals(4, player1.getScore());
     }
 
-    @Test
-    public void test14AClassicGroupChoiceQuestionReceivesAListOfAnswersOfAPlayerThatAnsweredIncorrectlyAndAssignsTheScore() {
-        // Arrange
-        ArrayList<Choice> choices = new ArrayList<>();
-        choices.add(new Choice("Kawhi Leonard", "incorrecta", 1));
-        choices.add(new Choice("Lebron James", "Correcta", 2));
-        choices.add(new Choice("Tristan Thompson", "Correcta", 3));
-        choices.add(new Choice("Emanuel Ginobili", "Incorrecta", 4));
-        choices.add(new Choice("Kyrie Irving", "Correcta", 5));
-        choices.add(new Choice("Tony Parker", "Incorrecta", 6));
+        @Test
+        public void test14AClassicGroupChoiceQuestionReceivesAListOfAnswersOfAPlayerThatAnsweredIncorrectlyAndAssignsTheScore() {
+            // Arrange
+            ArrayList<Group> groups = new ArrayList<>();
+            groups.add(new Group('A', "", new int[]{2, 3, 5}));
+            groups.add(new Group('B', "", new int[]{1, 2, 6}));
 
-        Content content = new Content("Sports", "Match the players which played together", "");
-        GroupChoice question = new GroupChoice(1, content, new ClassicMode(), choices);
+            ArrayList<Choice> choices = new ArrayList<>();
+            choices.add(new Choice("Kawhi Leonard", "incorrecta", 1));
+            choices.add(new Choice("Lebron James", "Correcta", 2));
+            choices.add(new Choice("Tristan Thompson", "Correcta", 3));
+            choices.add(new Choice("Emanuel Ginobili", "Incorrecta", 4));
+            choices.add(new Choice("Kyrie Irving", "Correcta", 5));
+            choices.add(new Choice("Tony Parker", "Incorrecta", 6));
 
-        Player player1 = new Player("Manuel", 2);
+            Content content = new Content("Sports", "Match the players which played together", "");
+            GroupChoice question = new GroupChoice(1, content, new ClassicMode(), choices);
+            question.addGroups(groups);
 
-        // Act
-        ArrayList<Choice> chosenAnswers = player1.setAnswers(question, "1,2,3");
+            Player player2 = new Player("Manuel", 0);
 
-        question.assignScore(player1, chosenAnswers);
+            // Act
+            ArrayList<Choice> chosenAnswersGroupA = player2.setAnswers(question, "1,3,6");
+            ArrayList<Choice> chosenAnswersGroupB = player2.setAnswers(question, "2,4,5");
 
-        // Assert
-        assertEquals(2, player1.getScore());
-    }
+            ArrayList<ArrayList<Choice>> groupChosenAnswers = new ArrayList<>();
+            groupChosenAnswers.add(chosenAnswersGroupA);
+            groupChosenAnswers.add(chosenAnswersGroupB);
+
+            int score = question.calculateTotalScore(groupChosenAnswers);
+            player2.addToScore(score);
+
+            assertEquals(0, player2.getScore());
+        }
 }

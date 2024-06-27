@@ -9,7 +9,8 @@ import tp2.clases.questions.modes.Mode;
 import java.util.ArrayList;
 
 public class GroupChoice extends Question {
-    public final ArrayList<Group> groups = new ArrayList<>();
+
+    private final ArrayList<Group> groups = new ArrayList<>();
 
     public GroupChoice(int id, Content content, Mode mode, ArrayList<Choice> choices) {
         super(id, content, mode, choices);
@@ -23,11 +24,45 @@ public class GroupChoice extends Question {
         return groups;
     }
 
+    public int calculateTotalScore(ArrayList<ArrayList<Choice>> groupsOfChosenAnswers) {
+        int score = 0;
+
+        for (ArrayList<Choice> chosenAnswers : groupsOfChosenAnswers) {
+            boolean correctPlacement = false;
+
+            for (Group group : groups) {
+                if (group.containsSet(chosenAnswers)) {
+                    correctPlacement = true;
+                    break;
+                }
+            }
+
+            if (correctPlacement) {
+                score++;
+            }
+        }
+        return score;
+    }
+
     @Override
-    public void assignScore(Player player, ArrayList<Choice> chosenAnswers) {}
+    public void assignScore(Player player, ArrayList<Choice> chosenAnswers) {
+        Mode mode = getMode();
+
+        if (hasNoIncorrectAnswers(chosenAnswers)) {
+            mode.assignCorrectScore(player, getNumberOfCorrectAnswers(chosenAnswers));
+        } else {
+            mode.assignIncorrectScore(player, getNumberOfIncorrectAnswers(chosenAnswers));
+        }
+    }
 
     @Override
     public int calculateScore(Player player, ArrayList<Choice> chosenAnswers) {
-        return 0;
+        Mode mode = getMode();
+
+        if (hasNoIncorrectAnswers(chosenAnswers)) {
+            return mode.calculateCorrectScore(player, getNumberOfCorrectAnswers(chosenAnswers));
+        } else {
+            return mode.calculateIncorrectScore(player, getNumberOfIncorrectAnswers(chosenAnswers));
+        }
     }
 }

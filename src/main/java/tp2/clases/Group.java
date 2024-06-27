@@ -11,11 +11,11 @@ public class Group {
     private final String text;
     private final ArrayList<Choice> choices = new ArrayList<>();
 
-    public Group(char letter, String text, int[] choicesId) {
+    public Group(char letter, String text, int[] intChoices) {
         this.letter = letter;
         this.text = text;
-        for (int choiceId : choicesId) {
-            this.choices.add(new Choice("", "Correcta", choiceId));
+        for (int intChoice : intChoices) {
+            choices.add(new Choice("", "correcta", intChoice));
         }
     }
 
@@ -32,6 +32,10 @@ public class Group {
     }
 
     public boolean containsSet(ArrayList<Choice> chosenAnswers) {
+        if (choices.size() != chosenAnswers.size()) {
+            return false;
+        }
+
         for (Choice chosenAnswer : chosenAnswers) {
             boolean found = false;
             for (Choice choice : choices) {
@@ -45,11 +49,5 @@ public class Group {
             }
         }
         return true;
-    }
-
-    public void assignScore(Player player, ArrayList<Choice> chosenAnswers) {
-        if (containsSet(chosenAnswers)) {
-            player.addToScore(1);
-        }
     }
 }

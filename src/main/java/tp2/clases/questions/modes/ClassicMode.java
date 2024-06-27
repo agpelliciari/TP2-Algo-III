@@ -26,7 +26,7 @@ public class ClassicMode implements Mode {
         return player.calculateScore(new Incorrect(), 0);
     }
     @Override
-    public boolean isPenaltyMode(){
+    public boolean isPenaltyMode() {
         return false;
     }
 }

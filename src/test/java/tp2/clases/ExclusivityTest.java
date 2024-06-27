@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ExclusivityTest {
-    private Game game = new Game(10);
+    private Game game = new Game();
     Content content = new Content("", "", "");
 
     @Test
@@ -37,7 +37,7 @@ public class ExclusivityTest {
         chosenExclusivities.add(new boolean[]{false});
         chosenExclusivities.add(new boolean[]{false});
 
-        game.start(chosenChoices, chosenExclusivities);
+        game.assignScoreWithExclusivity(chosenChoices, chosenExclusivities);
 
         assertEquals(2, game.getPlayers().get(0).getScore());
     }
@@ -64,7 +64,7 @@ public class ExclusivityTest {
         chosenExclusivities.add(new boolean[]{false});
         chosenExclusivities.add(new boolean[]{false});
 
-        game.start(chosenChoices, chosenExclusivities);
+        game.assignScoreWithExclusivity(chosenChoices, chosenExclusivities);
 
        assertEquals(0, game.getPlayers().get(0).getScore());
        assertEquals(0, game.getPlayers().get(1).getScore());
@@ -100,7 +100,7 @@ public class ExclusivityTest {
         chosenExclusivities.add(new boolean[]{false, true});
         chosenExclusivities.add(new boolean[]{false, true});
 
-        game.start(chosenChoices, chosenExclusivities);
+        game.assignScoreWithExclusivity(chosenChoices, chosenExclusivities);
 
         assertEquals(0, game.getPlayers().get(0).getExclusivity().getNumber());
     }
@@ -127,7 +127,7 @@ public class ExclusivityTest {
         chosenExclusivities.add(new boolean[]{false});
         chosenExclusivities.add(new boolean[]{false});
 
-        game.start(chosenChoices, chosenExclusivities);
+        game.assignScoreWithExclusivity(chosenChoices, chosenExclusivities);
 
         int i = 0;
         for (Player player : game.getPlayers())
@@ -156,7 +156,7 @@ public class ExclusivityTest {
         chosenExclusivities.add(new boolean[]{true});
         chosenExclusivities.add(new boolean[]{false});
 
-        game.start(chosenChoices, chosenExclusivities);
+        game.assignScoreWithExclusivity(chosenChoices, chosenExclusivities);
 
         assertEquals(4, game.getPlayers().get(0).getScore());
     }
