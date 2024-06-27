@@ -1,6 +1,11 @@
 package tp2.clases;
 
 import org.junit.jupiter.api.Test;
+import tp2.clases.questions.choice.*;
+import tp2.clases.questions.Content;
+import tp2.clases.questions.modes.ClassicMode;
+import tp2.clases.questions.types.MultipleChoice;
+import tp2.clases.questions.types.TrueOrFalse;
 
 import java.util.ArrayList;
 

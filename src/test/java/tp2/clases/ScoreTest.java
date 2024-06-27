@@ -1,16 +1,10 @@
 package tp2.clases;
 
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.AfterEach;
+
 import static org.junit.jupiter.api.Assertions.*;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
-import static org.mockito.Mockito.*;
 
-
-import java.util.ArrayList;
+import tp2.clases.player.score.Score;
 
 public class ScoreTest {
     private Score score;

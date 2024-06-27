@@ -1,6 +1,17 @@
 package tp2.clases;
 
 import org.junit.jupiter.api.Test;
+import tp2.clases.player.Player;
+import tp2.clases.questions.choice.Choice;
+import tp2.clases.questions.Content;
+import tp2.clases.questions.modes.ClassicMode;
+import tp2.clases.questions.modes.PartialMode;
+import tp2.clases.questions.modes.PenaltyMode;
+import tp2.clases.questions.types.GroupChoice;
+import tp2.clases.questions.types.MultipleChoice;
+import tp2.clases.questions.types.OrderedChoice;
+import tp2.clases.questions.types.TrueOrFalse;
+
 import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 

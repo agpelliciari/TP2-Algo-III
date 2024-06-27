@@ -2,8 +2,12 @@ package tp2.clases;
 
 
 import org.junit.jupiter.api.Test;
+import tp2.clases.questions.choice.Choice;
 import tp2.clases.exceptions.InvalidNumberOfChosenChoicesException;
-import tp2.clases.exceptions.UserNameAlreadyExistsException;
+import tp2.clases.questions.Content;
+import tp2.clases.questions.modes.ClassicMode;
+import tp2.clases.questions.types.MultipleChoice;
+import tp2.clases.questions.types.TrueOrFalse;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;

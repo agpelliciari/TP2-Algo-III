@@ -9,4 +9,28 @@ module tp2.clases {
     opens tp2.clases.handlers to com.google.gson;
     exports tp2.clases.screens;
     opens tp2.clases.screens to com.google.gson;
+    exports tp2.clases.questions.modes;
+    opens tp2.clases.questions.modes to com.google.gson;
+    exports tp2.clases.player.powers;
+    opens tp2.clases.player.powers to com.google.gson;
+    exports tp2.clases.player.powers.power_states;
+    opens tp2.clases.player.powers.power_states to com.google.gson;
+    exports tp2.clases.player.score.score_states;
+    opens tp2.clases.player.score.score_states to com.google.gson;
+    exports tp2.clases.questions;
+    opens tp2.clases.questions to com.google.gson;
+    exports tp2.clases.questions.factories;
+    opens tp2.clases.questions.factories to com.google.gson;
+    exports tp2.clases.questions.types;
+    opens tp2.clases.questions.types to com.google.gson;
+    exports tp2.clases.questions.choice.corrections;
+    opens tp2.clases.questions.choice.corrections to com.google.gson;
+    exports tp2.clases.questions.choice.corrections.types;
+    opens tp2.clases.questions.choice.corrections.types to com.google.gson;
+    exports tp2.clases.questions.choice;
+    opens tp2.clases.questions.choice to com.google.gson;
+    exports tp2.clases.player;
+    opens tp2.clases.player to com.google.gson;
+    exports tp2.clases.player.score;
+    opens tp2.clases.player.score to com.google.gson;
 }

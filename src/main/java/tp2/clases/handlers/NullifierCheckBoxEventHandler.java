@@ -1,7 +1,7 @@
 package tp2.clases.handlers;
 
 import javafx.scene.control.Alert;
-import tp2.clases.Player;
+import tp2.clases.player.Player;
 import tp2.clases.exceptions.UsedPowerException;
 
 import java.util.ArrayList;

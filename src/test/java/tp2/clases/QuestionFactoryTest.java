@@ -1,6 +1,11 @@
 package tp2.clases;
 
 import org.junit.jupiter.api.Test;
+import tp2.clases.questions.choice.Choice;
+import tp2.clases.questions.factories.QuestionFactory;
+import tp2.clases.questions.factories.QuestionFactoryProvider;
+import tp2.clases.questions.types.*;
+
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;

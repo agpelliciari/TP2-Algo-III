@@ -6,8 +6,8 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
-import tp2.clases.Player;
-import tp2.clases.Power;
+import tp2.clases.player.Player;
+import tp2.clases.player.powers.Power;
 import java.util.ArrayList;
 
 public class PowersUsedScreen extends VBox {

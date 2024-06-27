@@ -1,5 +1,8 @@
 package tp2.clases;
 
+import tp2.clases.player.Player;
+import tp2.clases.questions.choice.Choice;
+
 import java.util.ArrayList;
 
 public class Group {

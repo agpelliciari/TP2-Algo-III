@@ -3,8 +3,13 @@ package tp2.clases;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+
+import tp2.clases.player.Player;
+import tp2.clases.questions.choice.corrections.types.Correct;
 import tp2.clases.exceptions.InvalidNumberOfPlayersException;
 import tp2.clases.exceptions.UserNameAlreadyExistsException;
+import tp2.clases.questions.modes.PenaltyMode;
+import tp2.clases.questions.types.Question;
 
 public class Game {
     private int maxScore;

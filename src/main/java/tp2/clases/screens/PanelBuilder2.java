@@ -8,8 +8,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import tp2.clases.App2;
-import tp2.clases.Player;
-import tp2.clases.Question;
+import tp2.clases.player.Player;
+import tp2.clases.questions.types.Question;
 import tp2.clases.exceptions.InvalidAnswerFormatException;
 
 public class PanelBuilder2 {

@@ -1,8 +1,10 @@
 package tp2.clases;
 
 import org.junit.jupiter.api.Test;
-
-import java.util.ArrayList;
+import tp2.clases.player.Player;
+import tp2.clases.questions.modes.ClassicMode;
+import tp2.clases.questions.modes.PartialMode;
+import tp2.clases.questions.modes.PenaltyMode;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 

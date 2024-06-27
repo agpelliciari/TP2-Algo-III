@@ -3,6 +3,11 @@ package tp2.clases;
 import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.reflect.TypeToken;
+import tp2.clases.questions.choice.Choice;
+import tp2.clases.choice.ChoicesFactory;
+import tp2.clases.questions.factories.QuestionFactory;
+import tp2.clases.questions.factories.QuestionFactoryProvider;
+import tp2.clases.questions.types.Question;
 
 import java.io.FileReader;
 import java.io.Reader;

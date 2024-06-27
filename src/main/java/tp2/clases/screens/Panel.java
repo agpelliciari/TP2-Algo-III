@@ -2,14 +2,13 @@ package tp2.clases.screens;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
-import tp2.clases.PenaltyMode;
-import tp2.clases.Player;
-import tp2.clases.Question;
+import tp2.clases.questions.modes.PenaltyMode;
+import tp2.clases.player.Player;
+import tp2.clases.questions.types.Question;
 import javafx.scene.control.ScrollPane;
 
 public class Panel extends ScrollPane {

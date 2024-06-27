@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 
 import tp2.clases.exceptions.InvalidNumberOfPlayersException;
 import tp2.clases.exceptions.UserNameAlreadyExistsException;
+import tp2.clases.player.Player;
 
 import java.util.ArrayList;
 import java.util.List;

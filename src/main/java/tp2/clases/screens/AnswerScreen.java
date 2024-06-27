@@ -7,7 +7,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
-import tp2.clases.Player;
+import tp2.clases.player.Player;
 import tp2.clases.handlers.ActionHandler;
 import tp2.clases.handlers.ContinueButtonEventHandler;
 

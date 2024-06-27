@@ -7,9 +7,12 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
+import tp2.clases.player.Player;
+import tp2.clases.questions.choice.Choice;
 import tp2.clases.exceptions.InvalidAnswerFormatException;
 import tp2.clases.handlers.MultiplicatorButtonHandler;
 import tp2.clases.handlers.NullifierCheckBoxEventHandler;
+import tp2.clases.questions.types.Question;
 import tp2.clases.screens.*;
 import javafx.scene.layout.VBox;
 
