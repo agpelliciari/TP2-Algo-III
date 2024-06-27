@@ -16,10 +16,6 @@ public class Exclusivity extends Power {
         multiplier = 2;
     }
 
-    public PowerState getState() {
-        return state;
-    }
-
     public void setState(PowerState state) {
         this.state = state;
     }

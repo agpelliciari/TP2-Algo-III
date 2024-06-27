@@ -109,7 +109,7 @@ public class Panel extends ScrollPane {
     }
 
     private void updateSelectedAnswers() {
-        // Optional: Perform any actions needed when the selected answers are updated.
+
     }
 
     public String getSelectedAnswers() {
@@ -139,7 +139,4 @@ public class Panel extends ScrollPane {
         return factorTextField.getText();
     }
 
-    public void addChild(Button answerButton) {
-        box.getChildren().add(answerButton);
-    }
 }

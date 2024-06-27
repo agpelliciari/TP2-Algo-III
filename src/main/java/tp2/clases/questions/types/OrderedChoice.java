@@ -53,8 +53,4 @@ public class OrderedChoice extends Question {
         }
         return true;
     }
-
-    public int[] getCorrectOrder() {
-        return correctOrder;
-    }
 }

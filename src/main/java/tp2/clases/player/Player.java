@@ -172,13 +172,6 @@ public class Player {
         nullifier.disable(score);
     }
 
-    public boolean answeredCorrectly() {
-        return answeredCorrectly;
-    }
-
-    public void setAnsweredCorrectly() {
-        answeredCorrectly = true;
-    }
 
     public ArrayList<Power> getPowers() {
         ArrayList<Power> powers = new ArrayList<>();

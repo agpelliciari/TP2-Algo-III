@@ -19,8 +19,6 @@ public class UsedState implements PowerState {
         throw new UsedPowerException();
     }
 
-    public void use(Power power) {}
-
     public boolean isActive() {
         return false;
     }

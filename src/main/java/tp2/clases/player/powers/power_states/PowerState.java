@@ -8,7 +8,6 @@ public interface PowerState {
 
     public abstract void deactivate(Power power);
 
-    public abstract void use(Power power);
 
     public abstract boolean isActive();
 
