@@ -4,10 +4,9 @@ skinparam monochrome true
 hide circle
 skinparam classAttributeIconSize 0
 
-title: Model of classes that interact with Game
+title: Model of classes that interact with App
 
-class Game{
--limits: Limit
+class App {
 +initialize(args: String[]): void
 +showQuestionForPlayer(): void
 +saveAnswerAndProceed(question: Question, player: Player, ...): void
@@ -49,9 +48,9 @@ class QuestionFactory{
 +{static}createQuestion(questionId: String, questionString: QuestionString, choices: ArrayList<Choice>): Question
 }
 
-Game --> Question:1..*
-Game --> Player:2..*
-Game --> JsonParser:1
+App --> Question:1..*
+App --> Player:2..*
+App --> JsonParser:1
 
 JsonParser ..> QuestionFactoryProvider: <<uses>>
 QuestionFactory .> Question: "<<creates>>"
