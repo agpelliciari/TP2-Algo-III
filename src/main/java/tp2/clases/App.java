@@ -32,7 +32,6 @@ public class App extends Application {
     private Set<Integer> selectedQuestionIndices = new HashSet<>();
     int numberOfPlayersWhoUsedExclusivity = 0;
     private int[] playersScore;
-    private Game game;
 
     public void initialize(String[] args) {
         launch(args);
@@ -153,9 +152,9 @@ public class App extends Application {
         for (int i = 0; i < numberOfPlayers; i++) {
             if (numberOfPlayersWhoUsedExclusivity > 0) {
                 if (playersScore[i] > 0) {
-                    if (game.checkIfOnlyOneCorrectAnswer(playersScore)) {
+                    if (checkIfOnlyOneCorrectAnswer(playersScore)) {
                         players.get(i).addToScore(playersScore[i] * players.get(i).getExclusivity().getMultiplier() * numberOfPlayersWhoUsedExclusivity);
-                    } else if (game.checkIfAllAreCorrectAnswers(playersScore)) {
+                    } else if (checkIfAllAreCorrectAnswers(playersScore)) {
                         // Nadie suma nada
                     } else {
                         players.get(i).addToScore(playersScore[i]);
@@ -221,7 +220,6 @@ public class App extends Application {
     public void init() throws Exception {
         super.init();
         questions = jsonParser.questionsParser("src/main/resources/preguntas.json");
-        game = new Game(players, questions);
     }
 
     private VBox createVBoxWithPaddingAndAlignment(Pos alignment, double spacing, double padding) {
@@ -273,5 +271,30 @@ public class App extends Application {
 
     private boolean questionLimitReached() {
         return questionCount >= questionLimit;
+    }
+
+    public boolean checkIfOnlyOneCorrectAnswer(int[] playersCorrectAnswers) {
+        int correctCount = 0;
+
+        for (int playerCorrectAnswers : playersCorrectAnswers) {
+            if (playerCorrectAnswers > 0) {
+                correctCount++;
+            }
+            if (correctCount > 1) {
+                return false;
+            }
+        }
+        return correctCount == 1;
+    }
+
+    public boolean checkIfAllAreCorrectAnswers(int[] playersCorrectAnswers) {
+        for (int playerCorrectAnswers : playersCorrectAnswers)
+            if (!intToBool(playerCorrectAnswers))
+                return false;
+        return true;
+    }
+
+    public static boolean intToBool(int num) {
+        return num != 0;
     }
 }
