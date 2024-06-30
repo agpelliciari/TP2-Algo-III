@@ -5,6 +5,8 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import tp2.clases.questions.types.Question;
 import tp2.clases.screens.MainContainer;
+import tp2.clases.screens.PlayersInputScreen;
+import tp2.clases.screens.PlayersNamesInputScreen;
 import tp2.clases.screens.StartScreen;
 
 import java.util.ArrayList;
@@ -20,15 +22,29 @@ public class GameApp extends Application {
 
         primaryStage.setTitle("Juego de preguntas y respuestas");
 
-        MainContainer mainContainer = new MainContainer();
-
         Game game = buildModel();
 
         // TODO implement logic of mvc
-        //StartScreen startScreen = new StartScreen(this::showNumberOfPlayersField);
-        //mainContainer.addChild(startScreen);
 
-        primaryStage.setScene(new Scene(mainContainer, 1000, 800));
+        //EndGameScreen endGameScreen = new EndGameScreen();
+        //Scene endGameScene = new Scene(endGameScreen);
+
+        //GameScreen gameScreen = new GameScreen(primaryStage, endGameScene, game);
+        //Scene gameScene = new Scene(gameScreen);
+
+        //PlayersNamesInputScreen namesInputScreen = new PlayersNamesInputScreen();
+        //Scene namesInputScene = new Scene(namesInputScreen);
+
+        PlayersInputScreen inputsScreen = new PlayersInputScreen(primaryStage, new Scene(new MainContainer()), game);  // en vez de main container iria namesInputScene cuando este funcionando
+        Scene playerInputScene = new Scene(inputsScreen);
+
+        StartScreen startScreen = new StartScreen(primaryStage, playerInputScene);
+        Scene startScene = new Scene(startScreen, 1000, 800);
+
+        primaryStage.setScene(startScene);
+
+        primaryStage.setFullScreen(true);
+
         primaryStage.show();
     }
 

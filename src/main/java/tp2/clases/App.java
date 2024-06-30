@@ -43,7 +43,7 @@ public class App extends Application {
     @Override
     public void start(Stage primaryStage) {
         mainContainer = new MainContainer();
-        StartScreen startScreen = new StartScreen(this::showNumberOfPlayersField);
+        StartScreen startScreen = new StartScreen(primaryStage, new Scene(mainContainer, 1000, 800));
         mainContainer.addChild(startScreen);
 
         primaryStage.setTitle("Juego de preguntas y respuestas");
@@ -53,7 +53,7 @@ public class App extends Application {
 
     public void showNumberOfPlayersField() {
         PlayersInputScreen playersInputScreen = new PlayersInputScreen(this::setNumberOfPlayers, this::setQuestionLimit, this::setLimitScore);
-        updateMainContainer(playersInputScreen);
+        //updateMainContainer(playersInputScreen);
     }
 
     private void setNumberOfPlayers(int numberOfPlayers) {
