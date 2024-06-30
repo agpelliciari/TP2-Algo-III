@@ -1,21 +1,31 @@
 package tp2.clases.screens;
 
+import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.control.*;
+import javafx.stage.Stage;
+import tp2.clases.Game;
 import tp2.clases.handlers.ConfirmButtonHandler;
 
 import java.util.function.Consumer;
 
 public class PlayersInputScreen extends VBox {
+    ComboBox<String> pointsCombo;
+    ComboBox<String> questionsCombo;
+    ComboBox<String> playersCombo;
     private TextField numberOfPlayersTextField;
     private TextField numberOfQuestionsTextField;
     private TextField numberOfPointsTextField;
+
+    Stage stage;
 
     public PlayersInputScreen(Consumer<Integer> numberOfPlayersConsumer, Consumer<Integer> numberOfQuestionsConsumer, Consumer<Integer> numberOfPointsConsumer) {
         super(20);
@@ -55,6 +65,48 @@ public class PlayersInputScreen extends VBox {
         });
 
         getChildren().addAll(label, numberOfPlayersTextField, questionsLabel, numberOfQuestionsTextField, pointsLabel, numberOfPointsTextField, confirmButton);
+    }
+
+    public PlayersInputScreen(Stage primaryStage, Scene namesInputScene, Game game) {
+        super(30);
+
+        this.stage = primaryStage;
+
+        setAlignment(Pos.CENTER);
+        setPadding(new Insets(20));
+
+        Image image = new Image("file:textura.png");
+        BackgroundImage backgroundImage = new BackgroundImage(image, BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
+        this.setBackground(new Background(backgroundImage));
+
+        Label label = labelCreator("Ingrese la cantidad de jugadores:");
+        playersCombo = new ComboBox<>(FXCollections.observableArrayList("2", "3", "4", "5", "6"));
+
+        Label questionsLabel = labelCreator("Ingrese el limite de preguntas:");
+        questionsCombo = new ComboBox<>(FXCollections.observableArrayList("5", "10", "15", "20", "25"));
+
+        Label pointsLabel = labelCreator("Ingrese el limite de puntos:");
+        pointsCombo = new ComboBox<>(FXCollections.observableArrayList("10", "20", "30", "40", "50"));
+
+        Button confirmButton = new Button();
+        confirmButton.setText("Comenzar");
+        ConfirmButtonHandler confirmButtonHandler = new ConfirmButtonHandler(game, this, namesInputScene, primaryStage);
+        confirmButton.setOnAction(confirmButtonHandler);
+
+        getChildren().addAll(label, playersCombo, questionsLabel, questionsCombo, pointsLabel, pointsCombo, confirmButton);
+
+    }
+
+    public int getNumberOfPlayersInput() {
+        return Integer.parseInt(playersCombo.getValue());
+    }
+
+    public int getQuestionLimitInput() {
+        return Integer.parseInt(questionsCombo.getValue());
+    }
+
+    public int getPointLimitInput() {
+        return Integer.parseInt(pointsCombo.getValue());
     }
 
     private Label labelCreator(String text) {
