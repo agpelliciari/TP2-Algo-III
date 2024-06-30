@@ -15,6 +15,9 @@ public class Game {
     private ArrayList<Player> players = new ArrayList<>();
     private boolean aNullifierIsActivated = false;
 
+    int numberOfPlayers;
+    Limit limit;
+
     public static boolean intToBool(int num) {
         return num != 0;
     }
@@ -28,6 +31,8 @@ public class Game {
 
     public Game(ArrayList<Question> questions) {
         this.questions = questions;
+        this.limit = new Limit();
+        this.numberOfPlayers = 0;
     }
 
     public void addPlayer(Player player) {
@@ -152,5 +157,17 @@ public class Game {
                 }
             }
         }
+    }
+
+    public void setNumberOfPlayers(int numberOfPlayersInput) {
+        this.numberOfPlayers = numberOfPlayersInput;
+    }
+
+    public void setQuestionLimit(int questionLimitInput) {
+        this.limit.setQuestionLimit(questionLimitInput);
+    }
+
+    public void setPointLimit(int pointLimitInput) {
+        this.limit.setPointsLimit(pointLimitInput);
     }
 }
