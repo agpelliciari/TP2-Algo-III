@@ -1,13 +1,13 @@
 package tp2.clases.screens;
 
 import javafx.animation.FadeTransition;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.CornerRadii;
+import javafx.scene.Scene;
+import javafx.scene.image.Image;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 import javafx.scene.control.Button;
-import javafx.scene.layout.VBox;
 import tp2.clases.handlers.ActionHandler;
 import tp2.clases.handlers.StartButtonEventHandler;
 import javafx.geometry.Insets;
@@ -18,7 +18,9 @@ import javafx.scene.text.FontWeight;
 
 public class StartScreen extends VBox {
 
-    public StartScreen(ActionHandler startHandler) {
+    Stage stage;
+
+    /*public StartScreen(ActionHandler startHandler) {
         this.setAlignment(Pos.CENTER);
         this.setSpacing(20);
         this.setPadding(new Insets(20));
@@ -41,5 +43,31 @@ public class StartScreen extends VBox {
 
         BackgroundFill backgroundFill = new BackgroundFill(Color.web("#b3e0ff"), CornerRadii.EMPTY, Insets.EMPTY);
         this.setBackground(new Background(backgroundFill));
+    }*/
+
+    public StartScreen(Stage primaryStage, Scene playerInputScene) {
+        super();
+
+        this.stage = primaryStage;
+
+        this.setAlignment(Pos.CENTER);
+        this.setSpacing(20);
+        this.setPadding(new Insets(20));
+
+        Image image = new Image("file:textura.png");
+        BackgroundImage backgroundImage = new BackgroundImage(image, BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
+        this.setBackground(new Background(backgroundImage));
+
+        Button startButton = new Button();
+        startButton.setText("Comenzar");
+
+        Label title = new Label();
+        title.setText("Juego de Preguntas y Respuestas");
+        title.setFont(Font.font("Arial", FontWeight.BOLD, 24));
+
+        StartButtonEventHandler startButtonEventHandler = new StartButtonEventHandler(primaryStage, playerInputScene);
+        startButton.setOnAction(startButtonEventHandler);
+
+        this.getChildren().addAll(title, startButton);
     }
 }
