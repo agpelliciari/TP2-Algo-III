@@ -3,6 +3,7 @@ package tp2.clases;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import org.kordamp.bootstrapfx.BootstrapFX;
 import tp2.clases.questions.types.Question;
 import tp2.clases.screens.MainContainer;
 import tp2.clases.screens.PlayersInputScreen;
@@ -37,6 +38,7 @@ public class GameApp extends Application {
 
         StartScreen startScreen = new StartScreen(primaryStage, playerInputScene);
         Scene startScene = new Scene(startScreen);
+        startScene.getStylesheets().add(BootstrapFX.bootstrapFXStylesheet());
 
         primaryStage.setScene(startScene);
 

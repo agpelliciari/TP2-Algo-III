@@ -10,7 +10,7 @@
          <children>
             <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="41.0" prefWidth="63.0" text="Hello">
                <styleClass>
-                  <String fx:value="lbl-primary" />
+                  <String fx:value="bg-primary" />
                   <String fx:value="lbl" />
                </styleClass></Label>
          </children>

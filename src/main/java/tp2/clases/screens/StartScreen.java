@@ -60,6 +60,7 @@ public class StartScreen extends VBox {
 
         Button startButton = new Button();
         startButton.setText("Comenzar");
+        startButton.getStyleClass().setAll("btn", "btn-primary");
 
         Label title = new Label();
         title.setText("Juego de Preguntas y Respuestas");
