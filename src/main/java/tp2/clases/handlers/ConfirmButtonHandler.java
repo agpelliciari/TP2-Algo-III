@@ -5,7 +5,9 @@ import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import tp2.clases.Game;
+import tp2.clases.screens.MainContainer;
 import tp2.clases.screens.PlayersInputScreen;
+import tp2.clases.screens.PlayersNamesInputScreen;
 
 import java.util.function.Consumer;
 
@@ -28,11 +30,11 @@ public class ConfirmButtonHandler implements EventHandler<ActionEvent> {
         this.numberOfPointsConsumer = numberOfPointsConsumer;
     }
 
-    public ConfirmButtonHandler(Game game, PlayersInputScreen playersInputScreen, Scene namesInputScene, Stage primaryStage) {
+    public ConfirmButtonHandler(Game game, PlayersInputScreen playersInputScreen, Scene gameScene, Stage primaryStage) {
         this.playersInputScreen = playersInputScreen;
-        this.game = game;
-        this.nextScene = namesInputScene;
         this.stage = primaryStage;
+        this.game = game;
+        this.nextScene = new Scene(new MainContainer()); //Tiene que ser la escena del flujo del juego principal
     }
 
     /*@Override
@@ -50,7 +52,10 @@ public class ConfirmButtonHandler implements EventHandler<ActionEvent> {
 
         game.setPointLimit(playersInputScreen.getPointLimitInput());
 
-        stage.setScene(nextScene);
+        PlayersNamesInputScreen namesInputScreen = new PlayersNamesInputScreen(stage, nextScene, game);
+        Scene namesInputScene = new Scene(namesInputScreen);
+
+        stage.setScene(namesInputScene);
 
         stage.setFullScreenExitHint("");
 
