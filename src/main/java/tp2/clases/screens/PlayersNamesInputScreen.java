@@ -63,26 +63,20 @@ public class PlayersNamesInputScreen extends VBox {
         this.setBackground(new Background(backgroundImage));
 
         this.playerNameTextFields = new ArrayList<>();
-        this.scrollPane = new ScrollPane();
-        this.contentVBox = new VBox(20);
 
         this.confirmButton = new Button("Confirmar");
         confirmButton.setDisable(true);
 
-        scrollPane.setContent(contentVBox);
-        scrollPane.setFitToWidth(true);
-        scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-
         setAlignment(Pos.CENTER);
         setPadding(new Insets(20));
-        setSpacing(20);
+        setSpacing(10);
 
         createPlayerNameInputFields();
 
         NamesInputButtonHandler inputButtonHandler = new NamesInputButtonHandler(game, gameScene, primaryStage, this);
         confirmButton.setOnAction(inputButtonHandler);
 
-        getChildren().addAll(scrollPane, confirmButton);
+        getChildren().addAll(confirmButton);
     }
 
     private void createPlayerNameInputFields() {
@@ -93,10 +87,10 @@ public class PlayersNamesInputScreen extends VBox {
 
     private void displayPlayerNameInputFields(int indexCurrentPlayer) {
         Label label = createPlayerNameInputLabel(indexCurrentPlayer);
-        contentVBox.getChildren().add(label);
+        this.getChildren().add(label);
 
         TextField playerNameTextField = createPlayerNameTextField();
-        contentVBox.getChildren().add(playerNameTextField);
+        this.getChildren().add(playerNameTextField);
         playerNameTextFields.add(playerNameTextField);
     }
 

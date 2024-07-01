@@ -26,6 +26,7 @@ public class PlayersInputScreen extends VBox {
     private TextField numberOfPointsTextField;
 
     Stage stage;
+    Button confirmButton;
 
     public PlayersInputScreen(Consumer<Integer> numberOfPlayersConsumer, Consumer<Integer> numberOfQuestionsConsumer, Consumer<Integer> numberOfPointsConsumer) {
         super(20);
@@ -81,19 +82,34 @@ public class PlayersInputScreen extends VBox {
 
         Label label = labelCreator("Ingrese la cantidad de jugadores:");
         playersCombo = new ComboBox<>(FXCollections.observableArrayList("2", "3", "4", "5", "6"));
+        addValidationListener(playersCombo);
 
         Label questionsLabel = labelCreator("Ingrese el limite de preguntas:");
         questionsCombo = new ComboBox<>(FXCollections.observableArrayList("5", "10", "15", "20", "25"));
+        addValidationListener(questionsCombo);
 
         Label pointsLabel = labelCreator("Ingrese el limite de puntos:");
         pointsCombo = new ComboBox<>(FXCollections.observableArrayList("10", "20", "30", "40", "50"));
+        addValidationListener(pointsCombo);
 
-        Button confirmButton = new Button();
+        confirmButton = new Button();
         confirmButton.setText("Comenzar");
         ConfirmButtonHandler confirmButtonHandler = new ConfirmButtonHandler(game, this, gameScene, primaryStage);
         confirmButton.setOnAction(confirmButtonHandler);
+        confirmButton.setDisable(true);
 
         getChildren().addAll(label, playersCombo, questionsLabel, questionsCombo, pointsLabel, pointsCombo, confirmButton);
+    }
+
+    private void addValidationListener(ComboBox<String> comboBox) {
+        comboBox.valueProperty().addListener((observable, oldValue, newValue) -> validateInputs());
+    }
+
+    private void validateInputs() {
+        boolean allValid = playersCombo.getValue() != null &&
+                questionsCombo.getValue() != null &&
+                pointsCombo.getValue() != null;
+        confirmButton.setDisable(!allValid);
     }
 
     public int getNumberOfPlayersInput() {
