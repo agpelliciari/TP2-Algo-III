@@ -32,14 +32,11 @@ public class GameApp extends Application {
         //GameScreen gameScreen = new GameScreen(primaryStage, endGameScene, game);
         //Scene gameScene = new Scene(gameScreen);
 
-        //PlayersNamesInputScreen namesInputScreen = new PlayersNamesInputScreen();
-        //Scene namesInputScene = new Scene(namesInputScreen);
-
-        PlayersInputScreen inputsScreen = new PlayersInputScreen(primaryStage, new Scene(new MainContainer()), game);  // en vez de main container iria namesInputScene cuando este funcionando
+        PlayersInputScreen inputsScreen = new PlayersInputScreen(primaryStage, new Scene(new MainContainer()), game);
         Scene playerInputScene = new Scene(inputsScreen);
 
         StartScreen startScreen = new StartScreen(primaryStage, playerInputScene);
-        Scene startScene = new Scene(startScreen, 1000, 800);
+        Scene startScene = new Scene(startScreen);
 
         primaryStage.setScene(startScene);
 

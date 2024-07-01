@@ -170,4 +170,14 @@ public class Game {
     public void setPointLimit(int pointLimitInput) {
         this.limit.setPointsLimit(pointLimitInput);
     }
+
+    public int getNumberOfPlayers() {
+        return this.numberOfPlayers;
+    }
+
+    public void registerUsers(ArrayList<String> playersNames) {
+        for (String playerName : playersNames) {
+            players.add(new Player(playerName, 0));
+        }
+    }
 }
