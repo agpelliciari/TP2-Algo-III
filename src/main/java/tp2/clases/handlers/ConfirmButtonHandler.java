@@ -36,7 +36,7 @@ public class ConfirmButtonHandler implements EventHandler<ActionEvent> {
         this.playersInputScreen = playersInputScreen;
         this.stage = primaryStage;
         this.game = game;
-        this.nextScene = new Scene(new MainContainer()); //Tiene que ser la escena del flujo del juego principal
+        this.nextScene = new Scene(new MainContainer(),800,600); //Tiene que ser la escena del flujo del juego principal
     }
 
     /*@Override
@@ -59,13 +59,13 @@ public class ConfirmButtonHandler implements EventHandler<ActionEvent> {
         game.setPointLimit(playersInputScreen.getPointLimitInput());
 
         PlayersNamesInputScreen namesInputScreen = new PlayersNamesInputScreen(stage, nextScene, game);
-        Scene namesInputScene = new Scene(namesInputScreen);
+        Scene namesInputScene = new Scene(namesInputScreen, 800, 600);
 
         stage.setScene(namesInputScene);
 
         stage.setFullScreenExitHint("");
 
-        stage.setFullScreen(true);
+        stage.setFullScreen(false);
     }
 }
 

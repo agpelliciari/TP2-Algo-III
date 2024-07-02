@@ -28,15 +28,15 @@ public class GameApp extends Application {
         //Scene endGameScene = new Scene(endGameScreen);
 
         PlayersInputScreen inputsScreen = new PlayersInputScreen(primaryStage, new Scene(new MainContainer()), game);
-        Scene playerInputScene = new Scene(inputsScreen);
+        Scene playerInputScene = new Scene(inputsScreen, 800, 600);
 
         StartScreen startScreen = new StartScreen(primaryStage, playerInputScene);
-        Scene startScene = new Scene(startScreen);
+        Scene startScene = new Scene(startScreen, 800, 600);
         startScene.getStylesheets().add(BootstrapFX.bootstrapFXStylesheet());
 
         primaryStage.setScene(startScene);
 
-        primaryStage.setFullScreen(true);
+        primaryStage.setFullScreen(false);
 
         primaryStage.show();
     }

@@ -135,7 +135,7 @@ public class App extends Application {
             }
 
             showPlayersScore();
-            showCorrectAnswer();
+//            showCorrectAnswer();
 
             questionCount++;
             if (limitReached()) {
@@ -177,12 +177,12 @@ public class App extends Application {
         }
     }
 
-    private void showCorrectAnswer() {
-        mainContainer.cleanContainer();
-        AnswerScreen answerScreen = new AnswerScreen(this::showQuestionForPlayer, questions.get(currentQuestionIndex).getContent().getAnswerText(), players);
-        answerScreen.getChildren().add(scoreContainer);
-        mainContainer.addChild(answerScreen);
-    }
+//    private void showCorrectAnswer() {
+//        mainContainer.cleanContainer();
+//        AnswerScreen answerScreen = new AnswerScreen(this::showQuestionForPlayer, questions.get(currentQuestionIndex).getContent().getAnswerText(), players);
+//        answerScreen.getChildren().add(scoreContainer);
+//        mainContainer.addChild(answerScreen);
+//    }
 
     private void showPlayersScore() {
         scoreContainer.cleanContainer();

@@ -39,6 +39,6 @@ public class StartButtonEventHandler implements EventHandler<ActionEvent> {
 
         stage.setFullScreenExitHint("");
 
-        stage.setFullScreen(true);
+        stage.setFullScreen(false);
     }
 }

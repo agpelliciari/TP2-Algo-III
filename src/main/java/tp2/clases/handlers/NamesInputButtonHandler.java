@@ -33,12 +33,14 @@ public class NamesInputButtonHandler implements EventHandler<ActionEvent> {
         int questionIndex = game.getRandomQuestionIndex();
 
         Panel gameScreen = new Panel(stage, new Scene(new MainContainer()), game, 0, questionIndex);
-        Scene gameScene = new Scene(gameScreen);
+        Scene gameScene = new Scene(gameScreen, 800, 600);
 
         stage.setScene(gameScene);
+        stage.setMinWidth(800);
+        stage.setMinHeight(600);
 
         stage.setFullScreenExitHint("");
 
-        stage.setFullScreen(true);
+        stage.setFullScreen(false);
     }
 }
