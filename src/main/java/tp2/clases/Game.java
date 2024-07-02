@@ -241,7 +241,7 @@ public class Game {
     public Question getCurrentQuestion() {
         int currentQuestionIndex;
         if (selectedQuestionIndexes.size() == 1){
-             currentQuestionIndex = 0;
+             currentQuestionIndex = selectedQuestionIndexes.get(0);
         }
         else {
             currentQuestionIndex = selectedQuestionIndexes.get(selectedQuestionIndexes.size() - 1);

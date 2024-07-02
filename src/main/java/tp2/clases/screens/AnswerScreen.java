@@ -4,6 +4,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.scene.text.Font;
@@ -31,6 +32,7 @@ public class AnswerScreen extends VBox {
     Question currentQuestion;
     FlowPane scores;
 
+
     public AnswerScreen(Stage primaryStage, Scene gameScene, Game game) {
         this.currentQuestion = game.getCurrentQuestion();
         stage = primaryStage;
@@ -39,7 +41,7 @@ public class AnswerScreen extends VBox {
         setPadding(new Insets(20));
         setSpacing(10);
 
-        Image image = new Image("file:textura.jpg");
+        Image image = new Image("file:textura.png");
         BackgroundImage backgroundImage = new BackgroundImage(image, BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
         this.setBackground(new Background(backgroundImage));
 
@@ -61,8 +63,11 @@ public class AnswerScreen extends VBox {
 
         showPlayersScore(game);
         scoreContainer.getChildren().add(scores);
-
         this.getChildren().add(scoreContainer);
+
+        ArrayList<Player> players = game.getPlayers();
+        PowersUsedScreen powersUsedScreen = new PowersUsedScreen(players);
+        this.getChildren().add(powersUsedScreen);
 
         continueButton = new Button("Continue");
         continueButton.setStyle("-fx-font-size: 14px; -fx-background-color: #090971; -fx-text-fill: white;");
@@ -82,11 +87,12 @@ public class AnswerScreen extends VBox {
 
     private Label createScoresLabel() {
         Label label = new Label("Puntajes");
-        label.setFont(Font.font("Arial", FontWeight.BOLD, 30));
+        label.setFont(Font.font("Arial", FontWeight.BOLD, 25));
         label.setPadding(new Insets(20));
         label.setStyle("-fx-text-fill: #333;");
         return label;
     }
+
 
     public void showPlayersScore(Game game) {
         scores.getChildren().clear();
@@ -115,7 +121,7 @@ public class AnswerScreen extends VBox {
             scoreBox.setStyle("-fx-background-color: " + color + "; -fx-border-color: black; -fx-border-width: 2px; -fx-border-radius: 3px; -fx-background-radius: 3px;");
 
             Label scoreLabel = new Label(player.getName() + ": " + player.getScore() + " puntos");
-            scoreLabel.setStyle("-fx-font-size: 30px; -fx-font-weight: bold; -fx-padding: 10px;");
+            scoreLabel.setStyle("-fx-font-size: 25px; -fx-font-weight: bold; -fx-padding: 10px;");
             scoreBox.getChildren().add(scoreLabel);
 
             scores.getChildren().add(scoreBox);
