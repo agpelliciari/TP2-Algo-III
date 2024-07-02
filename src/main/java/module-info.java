@@ -3,6 +3,7 @@ module tp2.clases {
     requires java.desktop;
     requires javafx.controls;
     requires javafx.graphics;
+    requires javafx.media;
     requires org.kordamp.bootstrapfx.core;
     opens tp2.clases to com.google.gson;
     exports tp2.clases;

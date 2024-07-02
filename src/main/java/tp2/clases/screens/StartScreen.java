@@ -4,6 +4,8 @@ import javafx.animation.FadeTransition;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -15,6 +17,8 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+
+import java.io.File;
 
 public class StartScreen extends VBox {
 
@@ -68,6 +72,12 @@ public class StartScreen extends VBox {
 
         StartButtonEventHandler startButtonEventHandler = new StartButtonEventHandler(primaryStage, playerInputScene);
         startButton.setOnAction(startButtonEventHandler);
+
+        String introSound = new File("src/main/resources/sounds/intro-sound.mp3").toURI().toString();
+        Media media = new Media(introSound);
+        MediaPlayer mediaPlayer = new MediaPlayer(media);
+        mediaPlayer.setAutoPlay(true);
+        mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
 
         this.getChildren().addAll(title, startButton);
     }
