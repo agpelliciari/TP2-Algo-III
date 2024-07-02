@@ -5,10 +5,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.kordamp.bootstrapfx.BootstrapFX;
 import tp2.clases.questions.types.Question;
-import tp2.clases.screens.MainContainer;
-import tp2.clases.screens.PlayersInputScreen;
-import tp2.clases.screens.PlayersNamesInputScreen;
-import tp2.clases.screens.StartScreen;
+import tp2.clases.screens.*;
 
 import java.util.ArrayList;
 
@@ -29,9 +26,6 @@ public class GameApp extends Application {
 
         //EndGameScreen endGameScreen = new EndGameScreen();
         //Scene endGameScene = new Scene(endGameScreen);
-
-        //GameScreen gameScreen = new GameScreen(primaryStage, endGameScene, game);
-        //Scene gameScene = new Scene(gameScreen);
 
         PlayersInputScreen inputsScreen = new PlayersInputScreen(primaryStage, new Scene(new MainContainer()), game);
         Scene playerInputScene = new Scene(inputsScreen);

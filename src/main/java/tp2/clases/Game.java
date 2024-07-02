@@ -1,8 +1,6 @@
 package tp2.clases;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 import tp2.clases.player.Player;
 import tp2.clases.questions.choice.corrections.types.Correct;
@@ -11,12 +9,16 @@ import tp2.clases.exceptions.UserNameAlreadyExistsException;
 import tp2.clases.questions.types.Question;
 
 public class Game {
+    int exclusivityCount;
     private ArrayList<Question> questions = new ArrayList<>();
     private ArrayList<Player> players = new ArrayList<>();
     private boolean aNullifierIsActivated = false;
 
     int numberOfPlayers;
     Limit limit;
+    ArrayList<Integer> selectedQuestionIndexes;
+    int questionCount;
+    int[] roundScores;
 
     public static boolean intToBool(int num) {
         return num != 0;
@@ -33,6 +35,9 @@ public class Game {
         this.questions = questions;
         this.limit = new Limit();
         this.numberOfPlayers = 0;
+        this.questionCount = 0;
+        this.exclusivityCount = 0;
+        this.selectedQuestionIndexes = new ArrayList<>();
     }
 
     public void addPlayer(Player player) {
@@ -161,6 +166,7 @@ public class Game {
 
     public void setNumberOfPlayers(int numberOfPlayersInput) {
         this.numberOfPlayers = numberOfPlayersInput;
+        this.roundScores = new int[numberOfPlayersInput];
     }
 
     public void setQuestionLimit(int questionLimitInput) {
@@ -178,6 +184,82 @@ public class Game {
     public void registerUsers(ArrayList<String> playersNames) {
         for (String playerName : playersNames) {
             players.add(new Player(playerName, 0));
+        }
+    }
+
+    public int getRandomQuestionIndex() {
+        Random random = new Random();
+        int numQuestions = questions.size();
+        int randomIndex = random.nextInt(numQuestions);
+        while (selectedQuestionIndexes.contains(randomIndex) || checkIfRepeatedTheme(randomIndex)) {
+            randomIndex = random.nextInt(numQuestions);
+        }
+        selectedQuestionIndexes.add(randomIndex);
+
+        questionCount++;
+
+        return randomIndex;
+    }
+
+    public boolean checkIfRepeatedTheme(int index) {
+        if (((selectedQuestionIndexes.size()) == questions.size() - 1) | (selectedQuestionIndexes.isEmpty())) {
+            return false;
+        }
+
+        String newTheme = questions.get(index).getContent().getTheme();
+
+        String currentTheme = questions.get(selectedQuestionIndexes.get(questionCount)).getContent().getTheme();
+
+        return newTheme.equals(currentTheme);
+    }
+
+    public Question getQuestion(int questionIndex) {
+        return questions.get(questionIndex);
+    }
+
+    public Player getPlayer(int playerIndex) {
+        return players.get(playerIndex);
+    }
+
+    public void setPlayerRoundScore(int lastPlayerIndex, int questionIndex, String selectedAnswers) {
+        Question question = questions.get(questionIndex);
+        Player player = players.get(lastPlayerIndex);
+
+        roundScores[lastPlayerIndex] = question.calculateScore(player, player.setAnswers(question, selectedAnswers));
+    }
+
+    public void registerUsedExclusivity() {
+        this.exclusivityCount++;
+    }
+
+    public void updateRoundScores() {
+        for (int i = 0; i < numberOfPlayers; i++) {
+            players.get(i).addToScore(roundScores[i]);
+        }
+    }
+
+    public void updatePlayersScoreWithExclusivity() {
+        for (int i = 0; i < numberOfPlayers; i++) {
+
+            if (exclusivityCount > 0) {
+
+                if (roundScores[i] > 0) {
+
+                    if (checkIfOnlyOneCorrectAnswer(roundScores)) {
+
+                        players.get(i).addToScore(roundScores[i] * players.get(i).getExclusivity().getMultiplier() * exclusivityCount);
+
+                    } else {
+                        players.get(i).addToScore(roundScores[i]);
+                    }
+
+                } else {
+                    players.get(i).addToScore(roundScores[i]);
+                }
+
+            } else {
+                players.get(i).addToScore(roundScores[i]);
+            }
         }
     }
 }
