@@ -1,4 +1,5 @@
 package tp2.clases.screens;
+import javafx.application.Platform;
 import tp2.clases.Game;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -64,6 +65,11 @@ public class EndGameScreen extends VBox {
         leaderboardContainer.setStyle("-fx-background-color: #266d99; -fx-padding: 10px; -fx-border-color: #ffffff; -fx-border-width: 1px;");
         leaderboardContainer.setAlignment(Pos.CENTER);
         leaderboardContainer.getChildren().add(leaderboard);
+
+        Button exitButton = new Button("Salir");
+        exitButton.setStyle("-fx-font-size: 14px; -fx-background-color: #090971; -fx-text-fill: white;");
+        exitButton.setOnAction(event -> Platform.exit());
+        this.getChildren().add(exitButton);
 
     }
 
