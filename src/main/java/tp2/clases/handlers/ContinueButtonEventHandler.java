@@ -7,6 +7,7 @@ import javafx.stage.Stage;
 import tp2.clases.Game;
 import tp2.clases.questions.types.Question;
 import tp2.clases.screens.MainContainer;
+import tp2.clases.screens.Panel;
 import tp2.clases.screens.PanelBuilder;
 import tp2.clases.screens.PlayersInputScreen;
 
@@ -24,7 +25,12 @@ public class ContinueButtonEventHandler implements EventHandler<ActionEvent> {
 
     @Override
     public void handle(ActionEvent event) {
-        stage.setScene(nextScene);
+
+        int questionIndex = game.getRandomQuestionIndex();
+        Panel gameScreen = new Panel(stage, nextScene, game, 0, questionIndex);
+        Scene gameScene = new Scene(gameScreen, 800, 600);
+
+        stage.setScene(gameScene);
 
         stage.setFullScreenExitHint("");
 

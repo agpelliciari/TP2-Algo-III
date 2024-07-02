@@ -208,7 +208,7 @@ public class Game {
 
         String newTheme = questions.get(index).getContent().getTheme();
 
-        String currentTheme = questions.get(selectedQuestionIndexes.get(questionCount)).getContent().getTheme();
+        String currentTheme = getCurrentQuestion().getContent().getTheme();
 
         return newTheme.equals(currentTheme);
     }
@@ -239,8 +239,16 @@ public class Game {
     }
 
     public Question getCurrentQuestion() {
-        int currentQuestionIndex = selectedQuestionIndexes.get(selectedQuestionIndexes.size() - 1);
+        int currentQuestionIndex;
+        if (selectedQuestionIndexes.size() == 1){
+             currentQuestionIndex = 0;
+        }
+        else {
+            currentQuestionIndex = selectedQuestionIndexes.get(selectedQuestionIndexes.size() - 1);
+        }
         return getQuestion(currentQuestionIndex);
+
+
     }
 
     public void updatePlayersScoreWithExclusivity() {
