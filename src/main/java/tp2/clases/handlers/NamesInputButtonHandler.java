@@ -5,6 +5,8 @@ import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import tp2.clases.Game;
+import tp2.clases.screens.MainContainer;
+import tp2.clases.screens.Panel;
 import tp2.clases.screens.PlayersNamesInputScreen;
 
 import java.util.ArrayList;
@@ -28,7 +30,12 @@ public class NamesInputButtonHandler implements EventHandler<ActionEvent> {
 
         game.registerUsers(namesInputScreen.getNames());
 
-        stage.setScene(nextScene);
+        int questionIndex = game.getRandomQuestionIndex();
+
+        Panel gameScreen = new Panel(stage, new Scene(new MainContainer()), game, 0, questionIndex);
+        Scene gameScene = new Scene(gameScreen);
+
+        stage.setScene(gameScene);
 
         stage.setFullScreenExitHint("");
 
