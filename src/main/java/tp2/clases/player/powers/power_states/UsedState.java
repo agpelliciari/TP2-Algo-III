@@ -16,7 +16,7 @@ public class UsedState implements PowerState {
     }
 
     public void deactivate(Power power) {
-        throw new UsedPowerException();
+//        throw new UsedPowerException();
     }
 
     public boolean isActive() {
