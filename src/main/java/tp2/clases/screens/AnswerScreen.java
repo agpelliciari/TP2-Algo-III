@@ -1,7 +1,7 @@
 package tp2.clases.screens;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Scene;
+import tp2.clases.Game;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -10,13 +10,13 @@ import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
-import tp2.clases.Game;
 import tp2.clases.player.Player;
 import tp2.clases.handlers.ContinueButtonEventHandler;
 import tp2.clases.questions.types.Question;
-
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 public class AnswerScreen extends VBox {
@@ -24,11 +24,13 @@ public class AnswerScreen extends VBox {
     Button continueButton;
     Question currentQuestion;
     FlowPane scores;
+    Game game;
 
 
     public AnswerScreen(Stage primaryStage, Game game) {
         this.currentQuestion = game.getCurrentQuestion();
         stage = primaryStage;
+        this.game = game;
 
         setAlignment(Pos.CENTER);
         setPadding(new Insets(20));
@@ -41,22 +43,19 @@ public class AnswerScreen extends VBox {
         Label answerTextLabel = createAnswerTextLabel();
         this.getChildren().add(answerTextLabel);
 
-        VBox scoreContainer = new VBox(10);
-        scoreContainer.setAlignment(Pos.CENTER);
-        scoreContainer.setPadding(new Insets(20));
-        scoreContainer.setStyle("-fx-background-color: lightgray; -fx-border-color: black; -fx-border-width: 2px; -fx-border-radius: 10px; -fx-background-radius: 10px;");
+        VBox leaderboard = createLeaderboard();
+        leaderboard.setStyle("-fx-background-color: #0d3e5a; -fx-padding: 10px; -fx-border-color: #ffffff; -fx-border-width: 1px;");
+        ScrollPane scrollPane = new ScrollPane();
+        scrollPane.setContent(leaderboard);
+        scrollPane.setFitToWidth(true);
+        scrollPane.setStyle("-fx-background: transparent; -fx-background-color: transparent;");
+        this.getChildren().add(scrollPane);
 
-        Label playersTextLabel = createScoresLabel();
-        scoreContainer.getChildren().add(playersTextLabel);
+        VBox leaderboardContainer = new VBox();
+        leaderboardContainer.setStyle("-fx-background-color: #266d99; -fx-padding: 10px; -fx-border-color: #ffffff; -fx-border-width: 1px;");
+        leaderboardContainer.setAlignment(Pos.CENTER);
+        leaderboardContainer.getChildren().add(leaderboard);
 
-        scores = new FlowPane();
-        scores.setHgap(20);
-        scores.setVgap(20);
-        scores.setAlignment(Pos.CENTER);
-
-        showPlayersScore(game);
-        scoreContainer.getChildren().add(scores);
-        this.getChildren().add(scoreContainer);
 
         ArrayList<Player> players = game.getPlayers();
         PowersUsedScreen powersUsedScreen = new PowersUsedScreen(players);
@@ -78,47 +77,79 @@ public class AnswerScreen extends VBox {
         return label;
     }
 
-    private Label createScoresLabel() {
-        Label label = new Label("Puntajes");
-        label.setFont(Font.font("Arial", FontWeight.BOLD, 25));
-        label.setPadding(new Insets(20));
-        label.setStyle("-fx-text-fill: #333;");
-        return label;
-    }
+
+    private VBox createLeaderboard() {
+        VBox leaderboard = new VBox();
+        leaderboard.setAlignment(Pos.CENTER);
+        leaderboard.setSpacing(10);
+        leaderboard.setPadding(new Insets(20));
+
+        List<Player> sortedPlayers = game.getPlayers().stream()
+                .sorted(Comparator.comparingInt(Player::getScore).reversed())
+                .collect(Collectors.toList());
 
 
-    public void showPlayersScore(Game game) {
-        scores.getChildren().clear();
+        GridPane headerGrid = new GridPane();
+        headerGrid.setHgap(50);
+        headerGrid.setPadding(new Insets(5));
+        headerGrid.setStyle("-fx-background-color: #0b4163; -fx-padding: 10px; -fx-border-width: 0 0 1px 0; -fx-border-color: #0b4163;");
 
-        List<String> colors = new ArrayList<>();
-        colors.add("#FFA07A"); // LightSalmon
-        colors.add("#F08080"); // LightCoral
-        colors.add("#FFB6C1"); // LightPink
-        colors.add("#FAFAD2"); // LightGoldenrodYellow
-        colors.add("#FFFFE0"); // LightYellow
-        colors.add("#90EE90"); // LightGreen
-        colors.add("#87CEFA"); // LightSkyBlue
-        colors.add("#ADD8E6"); // LightBlue
-        colors.add("#B0C4DE"); // LightSteelBlue
-        colors.add("#E0FFFF"); // LightCyan
-        colors.add("#778899"); // LightSlateGray
-        colors.add("#D3D3D3"); // LightGray
+        ColumnConstraints col1 = new ColumnConstraints();
+        col1.setPercentWidth(20);
+        ColumnConstraints col2 = new ColumnConstraints();
+        col2.setPercentWidth(60);
+        ColumnConstraints col3 = new ColumnConstraints();
+        col3.setPercentWidth(20);
+        headerGrid.getColumnConstraints().addAll(col1, col2, col3);
 
-        int colorIndex = 0;
+        Label posHeader = new Label("Posición");
+        posHeader.setFont(Font.font("Arial", FontWeight.BOLD, 18));
+        GridPane.setConstraints(posHeader, 0, 0);
 
-        for (Player player : game.getPlayers()) {
-            VBox scoreBox = new VBox(10);
-            scoreBox.setPadding(new Insets(20));
+        Label nameHeader = new Label("Nombre");
+        nameHeader.setFont(Font.font("Arial", FontWeight.BOLD, 18));
+        GridPane.setConstraints(nameHeader, 1, 0);
 
-            String color = colors.get(colorIndex % colors.size());
-            scoreBox.setStyle("-fx-background-color: " + color + "; -fx-border-color: black; -fx-border-width: 2px; -fx-border-radius: 3px; -fx-background-radius: 3px;");
+        Label scoreHeader = new Label("Puntaje");
+        scoreHeader.setFont(Font.font("Arial", FontWeight.BOLD, 18));
+        GridPane.setConstraints(scoreHeader, 2, 0);
 
-            Label scoreLabel = new Label(player.getName() + ": " + player.getScore() + " puntos");
-            scoreLabel.setStyle("-fx-font-size: 25px; -fx-font-weight: bold; -fx-padding: 10px;");
-            scoreBox.getChildren().add(scoreLabel);
+        headerGrid.getChildren().addAll(posHeader, nameHeader, scoreHeader);
+        leaderboard.getChildren().add(headerGrid);
 
-            scores.getChildren().add(scoreBox);
-            colorIndex++;
+        int rank = 1;
+        for (Player player : sortedPlayers) {
+
+
+            GridPane playerGrid = new GridPane();
+            playerGrid.setHgap(50);
+            playerGrid.setPadding(new Insets(5));
+            playerGrid.setStyle("-fx-background-color: #266d99; -fx-padding: 10px; -fx-border-width: 0 0 1px 0; -fx-border-color: #266d99;");
+            playerGrid.getColumnConstraints().addAll(col1, col2, col3);
+
+
+            Label rankLabel = new Label(String.valueOf(rank));
+            rankLabel.setFont(Font.font("Arial", FontWeight.BOLD, 18));
+
+            GridPane.setConstraints(rankLabel, 0, 0);
+
+            Label nameLabel = new Label(player.getName());
+            nameLabel.setFont(Font.font("Arial", FontWeight.BOLD, 18));
+            GridPane.setConstraints(nameLabel, 1, 0);
+
+            Label scoreLabel = new Label(String.valueOf(player.getScore()));
+            scoreLabel.setFont(Font.font("Arial", FontWeight.BOLD, 18));
+            GridPane.setConstraints(scoreLabel, 2, 0);
+
+            playerGrid.getChildren().addAll(rankLabel, nameLabel, scoreLabel);
+            leaderboard.getChildren().add(playerGrid);
+            rank++;
         }
+
+
+
+
+        return leaderboard;
     }
 }
+

@@ -19,7 +19,7 @@ public class PowersUsedScreen extends VBox {
         setSpacing(20);
         this.players = players;
 
-        Label title = new Label("Poderes usados en durante la partida");
+        Label title = new Label("Poderes usados en durante la partida:");
         title.setFont(Font.font("Arial", FontWeight.BOLD, 24));
         getChildren().add(title);
 
