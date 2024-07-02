@@ -48,6 +48,10 @@ public class Game {
         questions.add(question);
     }
 
+    public int getQuestionCount() {
+        return questionCount;
+    }
+
     public ArrayList<Player> getPlayers() {
         return players;
     }

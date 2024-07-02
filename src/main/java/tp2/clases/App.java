@@ -103,8 +103,8 @@ public class App extends Application {
             mainContainer.addChild(panel);
         }
         else {
-            Panel panel = new Panel(currentPlayer, currentQuestion, this);
-            mainContainer.addChild(panel);
+            //Panel panel = new Panel(currentPlayer, currentQuestion, this);
+            //mainContainer.addChild(panel);
         }
     }
 

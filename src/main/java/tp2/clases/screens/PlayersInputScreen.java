@@ -93,7 +93,8 @@ public class PlayersInputScreen extends VBox {
         addValidationListener(pointsCombo);
 
         confirmButton = new Button();
-        confirmButton.setText("Comenzar");
+        confirmButton.setText("Confirmar");
+        confirmButton.setStyle("-fx-font-size: 14px; -fx-background-color: #090971; -fx-text-fill: white;");
         ConfirmButtonHandler confirmButtonHandler = new ConfirmButtonHandler(game, this, primaryStage);
         confirmButton.setOnAction(confirmButtonHandler);
         confirmButton.setDisable(true);

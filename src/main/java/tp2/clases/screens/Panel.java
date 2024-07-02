@@ -27,6 +27,7 @@ import java.util.Set;
 public class Panel extends ScrollPane {
     ScoreContainer scores;
     Stage stage;
+    Button answerButton;
 
     private CheckBox exclusivityCheckBox;
     private CheckBox nullifierCheckBox;
@@ -36,7 +37,7 @@ public class Panel extends ScrollPane {
     private Map<Button, String> buttonAnswerMap = new HashMap<>();
     private Set<String> selectedAnswers = new HashSet<>();
 
-    public Panel(Player currentPlayer, Question currentQuestion, App app) {
+    /*public Panel(Player currentPlayer, Question currentQuestion, App app) {
         box = new VBox(20);
         box.setAlignment(Pos.CENTER);
         box.setPadding(new Insets(20, 20, 20, 20));
@@ -91,7 +92,7 @@ public class Panel extends ScrollPane {
         this.setContent(box);
         this.setFitToWidth(true);
         this.setFitToHeight(true);
-    }
+    }*/
 
     public Panel(Stage primaryStage, Game game, int playerIndex, int questionIndex) {
 
@@ -116,22 +117,34 @@ public class Panel extends ScrollPane {
         this.setBackground(new Background(backgroundImage));
         box.setBackground(new Background(backgroundImage));
 
+        this.scores = new ScoreContainer();
+        showPlayersScore(game);
+        box.getChildren().add(scores);
+
         box.getChildren().addAll(
-                PanelBuilder.createLabel("Pregunta " + currentQuestion.getId(), 20, true),
+                PanelBuilder.createLabel("Pregunta " + game.getQuestionCount(), 20, true),
                 PanelBuilder.createLabel(currentPlayer.getName(), 30, true, "#ff9900"),
                 PanelBuilder.createLabel(currentQuestion.getContent().getTheme(), 16, false),
                 PanelBuilder.createLabel(currentQuestion.getContent().getPrompt(), 16, false)
         );
 
         for (Choice choice : currentQuestion.getChoices()) {
-            Button choiceButton = new Button(choice.getId() + ") " + choice.getContent());
+            Button choiceButton = new Button(choice.getContent());
             choiceButton.setStyle("-fx-font-size: 14px;");
             buttonAnswerMap.put(choiceButton, String.valueOf(choice.getId()));
             choiceButton.setOnAction(event -> {
+
                 String choiceId = buttonAnswerMap.get(choiceButton);
-                selectedAnswers.add(choiceId);
-                choiceButton.setDisable(true);
+
+                if (selectedAnswers.contains(choiceId)) {
+                    selectedAnswers.remove(choiceId);
+                    choiceButton.setStyle("-fx-font-size: 14px;");
+                } else {
+                    selectedAnswers.add(choiceId);
+                    choiceButton.setStyle("-fx-font-size: 14px; -fx-background-color: lightblue;");
+                }
                 updateSelectedAnswers();
+                checkSelectedAnswers();
             });
             box.getChildren().add(choiceButton);
         }
@@ -147,14 +160,12 @@ public class Panel extends ScrollPane {
             box.getChildren().add(exclusivityCheckBox);
         }
 
-        this.scores = new ScoreContainer();
-        showPlayersScore(game);
-        box.getChildren().add(scores);
-
         if (!currentPlayer.getNullifier().isUsed())
             box.getChildren().add(nullifierCheckBox);
 
-        Button answerButton = new Button("Responder");
+        answerButton = new Button("Responder");
+        answerButton.setStyle("-fx-font-size: 14px; -fx-background-color: #090971; -fx-text-fill: white;");
+        answerButton.setDisable(true);
         AnswerButtonHandler answerButtonHandler = new AnswerButtonHandler(primaryStage, game, playerIndex, questionIndex, this);
         answerButton.setOnAction(answerButtonHandler);
 
@@ -163,6 +174,10 @@ public class Panel extends ScrollPane {
         this.setContent(box);
         this.setFitToWidth(true);
         this.setFitToHeight(true);
+    }
+
+    private void checkSelectedAnswers() {
+        answerButton.setDisable(selectedAnswers.isEmpty());
     }
 
     private void showPlayersScore(Game game) {

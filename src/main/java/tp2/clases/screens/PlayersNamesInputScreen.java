@@ -64,7 +64,8 @@ public class PlayersNamesInputScreen extends VBox {
 
         this.playerNameTextFields = new ArrayList<>();
 
-        this.confirmButton = new Button("Confirmar");
+        this.confirmButton = new Button("Comenzar Partida");
+        confirmButton.setStyle("-fx-font-size: 14px; -fx-background-color: #090971; -fx-text-fill: white;");
         confirmButton.setDisable(true);
 
         setAlignment(Pos.CENTER);
