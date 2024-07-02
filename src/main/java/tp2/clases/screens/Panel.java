@@ -111,7 +111,7 @@ public class Panel extends ScrollPane {
         st.setToY(1.0);
         st.play();
 
-        Image image = new Image("file:textura.png");
+        Image image = new Image("file:white-background.jpg");
         BackgroundImage backgroundImage = new BackgroundImage(image, BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
         this.setBackground(new Background(backgroundImage));
         box.setBackground(new Background(backgroundImage));

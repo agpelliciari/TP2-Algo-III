@@ -58,7 +58,7 @@ public class PlayersNamesInputScreen extends VBox {
         this.stage = primaryStage;
         this.game = game;
 
-        Image image = new Image("file:textura.png");
+        Image image = new Image("file:white-background.jpg");
         BackgroundImage backgroundImage = new BackgroundImage(image, BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
         this.setBackground(new Background(backgroundImage));
 

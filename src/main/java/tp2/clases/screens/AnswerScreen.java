@@ -34,7 +34,7 @@ public class AnswerScreen extends VBox {
         setPadding(new Insets(20));
         setSpacing(10);
 
-        Image image = new Image("file:textura.png");
+        Image image = new Image("file:white-background.jpg");
         BackgroundImage backgroundImage = new BackgroundImage(image, BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
         this.setBackground(new Background(backgroundImage));
 

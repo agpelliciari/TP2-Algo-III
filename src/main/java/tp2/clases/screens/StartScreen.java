@@ -58,7 +58,7 @@ public class StartScreen extends VBox {
         this.setSpacing(20);
         this.setPadding(new Insets(20));
 
-        Image image = new Image("file:textura.png");
+        Image image = new Image("file:white-background.jpg");
         BackgroundImage backgroundImage = new BackgroundImage(image, BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
         this.setBackground(new Background(backgroundImage));
 
