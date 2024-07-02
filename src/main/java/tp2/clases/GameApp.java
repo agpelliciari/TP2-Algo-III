@@ -22,11 +22,6 @@ public class GameApp extends Application {
 
         Game game = buildModel();
 
-        // TODO implement logic of mvc
-
-        //EndGameScreen endGameScreen = new EndGameScreen();
-        //Scene endGameScene = new Scene(endGameScreen);
-
         PlayersInputScreen inputsScreen = new PlayersInputScreen(primaryStage, new Scene(new MainContainer()), game);
         Scene playerInputScene = new Scene(inputsScreen, 800, 600);
 

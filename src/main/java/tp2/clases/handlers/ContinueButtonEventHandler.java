@@ -6,10 +6,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import tp2.clases.Game;
 import tp2.clases.questions.types.Question;
-import tp2.clases.screens.MainContainer;
-import tp2.clases.screens.Panel;
-import tp2.clases.screens.PanelBuilder;
-import tp2.clases.screens.PlayersInputScreen;
+import tp2.clases.screens.*;
 
 public class ContinueButtonEventHandler implements EventHandler<ActionEvent> {
     Game game;
@@ -20,32 +17,31 @@ public class ContinueButtonEventHandler implements EventHandler<ActionEvent> {
         this.stage = primaryStage;
         this.game = game;
         this.nextScene = new Scene(new MainContainer(), 800, 600);
-
     }
 
     @Override
     public void handle(ActionEvent event) {
 
-        int questionIndex = game.getRandomQuestionIndex();
-        Panel gameScreen = new Panel(stage, nextScene, game, 0, questionIndex);
-        Scene gameScene = new Scene(gameScreen, 800, 600);
+        if (game.isFinished()) {
 
-        stage.setScene(gameScene);
+            EndGameScreen endScreen = new EndGameScreen(stage, nextScene, game);
+            Scene endScene = new Scene(endScreen, 800, 600);
+
+            stage.setScene(endScene);
+
+        } else {
+
+            game.deactivatePowers();
+
+            int questionIndex = game.getRandomQuestionIndex();
+            Panel gameScreen = new Panel(stage, nextScene, game, 0, questionIndex);
+            Scene gameScene = new Scene(gameScreen, 800, 600);
+
+            stage.setScene(gameScene);
+        }
 
         stage.setFullScreenExitHint("");
 
         stage.setFullScreen(false);
     }
-//    private final ActionHandler continueHandler;
-//
-//    public ContinueButtonEventHandler(ActionHandler continueHandler) {
-//        this.continueHandler = continueHandler;
-//    }
-//
-//    @Override
-//    public void handle(ActionEvent event) {
-//        continueHandler.execute();
-//    }
-
-
 }

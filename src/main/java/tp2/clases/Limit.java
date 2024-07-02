@@ -16,4 +16,12 @@ public class Limit {
     public void setQuestionLimit(int limit) {
         this.questionLimit = limit;
     }
+
+    public boolean questionLimitReached(int questionCount) {
+        return questionLimit == questionCount;
+    }
+
+    public boolean pointsLimitReached(int maxScore) {
+        return pointsLimit == maxScore;
+    }
 }

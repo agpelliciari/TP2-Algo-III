@@ -275,4 +275,22 @@ public class Game {
             }
         }
     }
+
+
+    public boolean isFinished() {
+        return ((limit.questionLimitReached(questionCount)) | (limit.pointsLimitReached(getMaxScore())));
+    }
+
+    public int getMaxScore() {
+        return players.stream()
+                .mapToInt(Player::getScore)
+                .max()
+                .orElse(-9999);
+    }
+
+    public void deactivatePowers() {
+        for (Player player : players) {
+            player.disablePowers();
+        }
+    }
 }
