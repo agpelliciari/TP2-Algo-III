@@ -5,6 +5,7 @@ import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import tp2.clases.Game;
+import tp2.clases.screens.AnswerScreen;
 import tp2.clases.screens.MainContainer;
 import tp2.clases.screens.Panel;
 
@@ -20,7 +21,7 @@ public class AnswerButtonHandler implements EventHandler<ActionEvent> {
 
     public AnswerButtonHandler(Stage primaryStage, Scene scene, Game game, int playerIndex, int questionIndex, Panel lastPanel) {
         this.stage = primaryStage;
-        this.nextScene = scene;
+        this.nextScene = new Scene(new MainContainer(), 800, 600);;
         this.game = game;
         this.panel = lastPanel;
         this.lastPlayerIndex = playerIndex;
@@ -60,18 +61,22 @@ public class AnswerButtonHandler implements EventHandler<ActionEvent> {
 
             }
             //Mostrar escena que muestra las respuestas
-            stage.setScene(nextScene);
+            AnswerScreen answerScreen = new AnswerScreen(stage, nextScene, game);
+            Scene answerScene = new Scene(answerScreen, 800,600);
+            stage.setScene(answerScene);
+            stage.setFullScreen(false);
         }
         else {
             //Mostrar la misma pregunta para el jugador de indice +1
             Panel gameScreen = new Panel(stage, new Scene(new MainContainer()), game, lastPlayerIndex, questionIndex);
-            Scene gameScene = new Scene(gameScreen);
+            Scene gameScene = new Scene(gameScreen, 800,600);
             stage.setScene(gameScene);
+            stage.setFullScreen(false);
         }
 
         stage.setFullScreenExitHint("");
 
-        stage.setFullScreen(true);
+        stage.setFullScreen(false);
 
     }
 }

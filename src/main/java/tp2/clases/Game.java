@@ -238,6 +238,11 @@ public class Game {
         }
     }
 
+    public Question getCurrentQuestion() {
+        int currentQuestionIndex = selectedQuestionIndexes.get(selectedQuestionIndexes.size() - 1);
+        return getQuestion(currentQuestionIndex);
+    }
+
     public void updatePlayersScoreWithExclusivity() {
         for (int i = 0; i < numberOfPlayers; i++) {
 
