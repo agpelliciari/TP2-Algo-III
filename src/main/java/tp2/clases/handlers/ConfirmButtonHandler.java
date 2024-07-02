@@ -16,7 +16,6 @@ import java.util.function.Consumer;
 public class ConfirmButtonHandler implements EventHandler<ActionEvent> {
 
     Game game;
-    Scene nextScene;
     Stage stage;
 
     PlayersInputScreen playersInputScreen;
@@ -32,11 +31,10 @@ public class ConfirmButtonHandler implements EventHandler<ActionEvent> {
         this.numberOfPointsConsumer = numberOfPointsConsumer;
     }
 
-    public ConfirmButtonHandler(Game game, PlayersInputScreen playersInputScreen, Scene gameScene, Stage primaryStage) {
+    public ConfirmButtonHandler(Game game, PlayersInputScreen playersInputScreen, Stage primaryStage) {
         this.playersInputScreen = playersInputScreen;
         this.stage = primaryStage;
         this.game = game;
-        this.nextScene = new Scene(new MainContainer(),800,600); //Tiene que ser la escena del flujo del juego principal
     }
 
     /*@Override
@@ -58,7 +56,7 @@ public class ConfirmButtonHandler implements EventHandler<ActionEvent> {
 
         game.setPointLimit(playersInputScreen.getPointLimitInput());
 
-        PlayersNamesInputScreen namesInputScreen = new PlayersNamesInputScreen(stage, nextScene, game);
+        PlayersNamesInputScreen namesInputScreen = new PlayersNamesInputScreen(stage, game);
         Scene namesInputScene = new Scene(namesInputScreen, 800, 600);
 
         stage.setScene(namesInputScene);

@@ -68,7 +68,7 @@ public class PlayersInputScreen extends VBox {
         getChildren().addAll(label, numberOfPlayersTextField, questionsLabel, numberOfQuestionsTextField, pointsLabel, numberOfPointsTextField, confirmButton);
     }
 
-    public PlayersInputScreen(Stage primaryStage, Scene gameScene, Game game) {
+    public PlayersInputScreen(Stage primaryStage, Game game) {
         super(30);
 
         this.stage = primaryStage;
@@ -94,7 +94,7 @@ public class PlayersInputScreen extends VBox {
 
         confirmButton = new Button();
         confirmButton.setText("Comenzar");
-        ConfirmButtonHandler confirmButtonHandler = new ConfirmButtonHandler(game, this, gameScene, primaryStage);
+        ConfirmButtonHandler confirmButtonHandler = new ConfirmButtonHandler(game, this, primaryStage);
         confirmButton.setOnAction(confirmButtonHandler);
         confirmButton.setDisable(true);
 

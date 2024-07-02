@@ -13,10 +13,9 @@ public class ContinueButtonEventHandler implements EventHandler<ActionEvent> {
     Scene nextScene;
     Stage stage;
 
-    public ContinueButtonEventHandler(Game game, Scene gameScene, Stage primaryStage) {
+    public ContinueButtonEventHandler(Game game, Stage primaryStage) {
         this.stage = primaryStage;
         this.game = game;
-        this.nextScene = new Scene(new MainContainer(), 800, 600);
     }
 
     @Override
@@ -24,7 +23,7 @@ public class ContinueButtonEventHandler implements EventHandler<ActionEvent> {
 
         if (game.isFinished()) {
 
-            EndGameScreen endScreen = new EndGameScreen(stage, nextScene, game);
+            EndGameScreen endScreen = new EndGameScreen(stage, game);
             Scene endScene = new Scene(endScreen, 800, 600);
 
             stage.setScene(endScene);
@@ -34,7 +33,7 @@ public class ContinueButtonEventHandler implements EventHandler<ActionEvent> {
             game.deactivatePowers();
 
             int questionIndex = game.getRandomQuestionIndex();
-            Panel gameScreen = new Panel(stage, nextScene, game, 0, questionIndex);
+            Panel gameScreen = new Panel(stage, game, 0, questionIndex);
             Scene gameScene = new Scene(gameScreen, 800, 600);
 
             stage.setScene(gameScene);

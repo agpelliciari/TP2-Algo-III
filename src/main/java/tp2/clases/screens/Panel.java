@@ -93,7 +93,7 @@ public class Panel extends ScrollPane {
         this.setFitToHeight(true);
     }
 
-    public Panel(Stage primaryStage, Scene scene, Game game, int playerIndex, int questionIndex) {
+    public Panel(Stage primaryStage, Game game, int playerIndex, int questionIndex) {
 
         this.stage = primaryStage;
 
@@ -155,7 +155,7 @@ public class Panel extends ScrollPane {
             box.getChildren().add(nullifierCheckBox);
 
         Button answerButton = new Button("Responder");
-        AnswerButtonHandler answerButtonHandler = new AnswerButtonHandler(primaryStage, scene, game, playerIndex, questionIndex, this);
+        AnswerButtonHandler answerButtonHandler = new AnswerButtonHandler(primaryStage, game, playerIndex, questionIndex, this);
         answerButton.setOnAction(answerButtonHandler);
 
         box.getChildren().add(answerButton);

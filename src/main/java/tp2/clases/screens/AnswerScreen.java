@@ -26,7 +26,7 @@ public class AnswerScreen extends VBox {
     FlowPane scores;
 
 
-    public AnswerScreen(Stage primaryStage, Scene gameScene, Game game) {
+    public AnswerScreen(Stage primaryStage, Game game) {
         this.currentQuestion = game.getCurrentQuestion();
         stage = primaryStage;
 
@@ -64,7 +64,7 @@ public class AnswerScreen extends VBox {
 
         continueButton = new Button("Continue");
         continueButton.setStyle("-fx-font-size: 14px; -fx-background-color: #090971; -fx-text-fill: white;");
-        ContinueButtonEventHandler continueButtonEventHandler = new ContinueButtonEventHandler(game, gameScene, primaryStage);
+        ContinueButtonEventHandler continueButtonEventHandler = new ContinueButtonEventHandler(game, primaryStage);
         continueButton.setOnAction(continueButtonEventHandler);
         this.getChildren().add(continueButton);
     }

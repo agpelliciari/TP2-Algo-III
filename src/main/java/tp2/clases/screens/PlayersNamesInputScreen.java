@@ -52,7 +52,7 @@ public class PlayersNamesInputScreen extends VBox {
         getChildren().addAll(scrollPane, confirmButton);
     }
 
-    public PlayersNamesInputScreen(Stage primaryStage, Scene gameScene, Game game) {
+    public PlayersNamesInputScreen(Stage primaryStage, Game game) {
         super();
 
         this.stage = primaryStage;
@@ -73,7 +73,7 @@ public class PlayersNamesInputScreen extends VBox {
 
         createPlayerNameInputFields();
 
-        NamesInputButtonHandler inputButtonHandler = new NamesInputButtonHandler(game, gameScene, primaryStage, this);
+        NamesInputButtonHandler inputButtonHandler = new NamesInputButtonHandler(game, primaryStage, this);
         confirmButton.setOnAction(inputButtonHandler);
 
         getChildren().addAll(confirmButton);

@@ -22,7 +22,7 @@ public class GameApp extends Application {
 
         Game game = buildModel();
 
-        PlayersInputScreen inputsScreen = new PlayersInputScreen(primaryStage, new Scene(new MainContainer()), game);
+        PlayersInputScreen inputsScreen = new PlayersInputScreen(primaryStage, game);
         Scene playerInputScene = new Scene(inputsScreen, 800, 600);
 
         StartScreen startScreen = new StartScreen(primaryStage, playerInputScene);

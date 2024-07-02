@@ -17,12 +17,10 @@ public class NamesInputButtonHandler implements EventHandler<ActionEvent> {
 
     PlayersNamesInputScreen namesInputScreen;
     Game game;
-    Scene nextScene;
     Stage stage;
 
-    public NamesInputButtonHandler(Game game, Scene scene, Stage stage, PlayersNamesInputScreen playersNamesInputScreen) {
+    public NamesInputButtonHandler(Game game, Stage stage, PlayersNamesInputScreen playersNamesInputScreen) {
         this.game = game;
-        this.nextScene = scene;
         this.stage = stage;
         this.namesInputScreen = playersNamesInputScreen;
     }
@@ -37,7 +35,7 @@ public class NamesInputButtonHandler implements EventHandler<ActionEvent> {
 
         int questionIndex = game.getRandomQuestionIndex();
 
-        Panel gameScreen = new Panel(stage, new Scene(new MainContainer()), game, 0, questionIndex);
+        Panel gameScreen = new Panel(stage, game, 0, questionIndex);
         Scene gameScene = new Scene(gameScreen, 800, 600);
 
         stage.setScene(gameScene);

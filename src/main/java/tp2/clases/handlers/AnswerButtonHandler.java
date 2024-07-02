@@ -12,16 +12,14 @@ import tp2.clases.screens.Panel;
 public class AnswerButtonHandler implements EventHandler<ActionEvent> {
 
     Stage stage;
-    Scene nextScene;
     Game game;
     Panel panel;
     int lastPlayerIndex;
     int questionIndex;
 
 
-    public AnswerButtonHandler(Stage primaryStage, Scene scene, Game game, int playerIndex, int questionIndex, Panel lastPanel) {
+    public AnswerButtonHandler(Stage primaryStage, Game game, int playerIndex, int questionIndex, Panel lastPanel) {
         this.stage = primaryStage;
-        this.nextScene = new Scene(new MainContainer(), 800, 600);;
         this.game = game;
         this.panel = lastPanel;
         this.lastPlayerIndex = playerIndex;
@@ -61,14 +59,14 @@ public class AnswerButtonHandler implements EventHandler<ActionEvent> {
 
             }
             //Mostrar escena que muestra las respuestas
-            AnswerScreen answerScreen = new AnswerScreen(stage, nextScene, game);
+            AnswerScreen answerScreen = new AnswerScreen(stage, game);
             Scene answerScene = new Scene(answerScreen, 800,600);
             stage.setScene(answerScene);
             stage.setFullScreen(false);
         }
         else {
             //Mostrar la misma pregunta para el jugador de indice +1
-            Panel gameScreen = new Panel(stage, new Scene(new MainContainer()), game, lastPlayerIndex, questionIndex);
+            Panel gameScreen = new Panel(stage, game, lastPlayerIndex, questionIndex);
             Scene gameScene = new Scene(gameScreen, 800,600);
             stage.setScene(gameScene);
             stage.setFullScreen(false);

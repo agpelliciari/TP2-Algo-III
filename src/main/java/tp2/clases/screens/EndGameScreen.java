@@ -23,7 +23,7 @@ public class EndGameScreen extends VBox {
     Button continueButton;
     Game game;
 
-    public EndGameScreen(Stage primaryStage, Scene gameScene, Game game) {
+    public EndGameScreen(Stage primaryStage, Game game) {
         this.game = game;
         stage = primaryStage;
 
