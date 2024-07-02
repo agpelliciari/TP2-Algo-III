@@ -10,10 +10,7 @@ import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
-import tp2.clases.App;
 import tp2.clases.Game;
-import tp2.clases.exceptions.InvalidAnswerFormatException;
-import tp2.clases.handlers.ConfirmButtonHandler;
 import tp2.clases.player.Player;
 import tp2.clases.handlers.ContinueButtonEventHandler;
 import tp2.clases.questions.types.Question;
@@ -21,10 +18,6 @@ import tp2.clases.questions.types.Question;
 import java.util.ArrayList;
 import java.util.List;
 
-
-import java.util.List;
-import java.util.ArrayList;
-import java.util.function.Consumer;
 
 public class AnswerScreen extends VBox {
     Stage stage;
