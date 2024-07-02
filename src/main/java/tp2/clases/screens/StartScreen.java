@@ -70,14 +70,14 @@ public class StartScreen extends VBox {
         title.setText("Juego de Preguntas y Respuestas");
         title.setFont(Font.font("Arial", FontWeight.BOLD, 24));
 
-        StartButtonEventHandler startButtonEventHandler = new StartButtonEventHandler(primaryStage, playerInputScene);
-        startButton.setOnAction(startButtonEventHandler);
-
         String introSound = new File("src/main/resources/sounds/intro-sound.mp3").toURI().toString();
         Media media = new Media(introSound);
         MediaPlayer mediaPlayer = new MediaPlayer(media);
         mediaPlayer.setAutoPlay(true);
         mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
+
+        StartButtonEventHandler startButtonEventHandler = new StartButtonEventHandler(primaryStage, playerInputScene, mediaPlayer);
+        startButton.setOnAction(startButtonEventHandler);
 
         this.getChildren().addAll(title, startButton);
     }
