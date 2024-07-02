@@ -3,12 +3,14 @@ package tp2.clases.handlers;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
+import javafx.scene.media.AudioClip;
 import javafx.stage.Stage;
 import tp2.clases.Game;
 import tp2.clases.screens.MainContainer;
 import tp2.clases.screens.Panel;
 import tp2.clases.screens.PlayersNamesInputScreen;
 
+import java.io.File;
 import java.util.ArrayList;
 
 public class NamesInputButtonHandler implements EventHandler<ActionEvent> {
@@ -27,6 +29,9 @@ public class NamesInputButtonHandler implements EventHandler<ActionEvent> {
 
     @Override
     public void handle(ActionEvent actionEvent) {
+        String buttonPressedSound = new File("src/main/resources/sounds/button-pressed.mp3").toURI().toString();
+        AudioClip audio = new AudioClip(buttonPressedSound);
+        audio.play();
 
         game.registerUsers(namesInputScreen.getNames());
 
