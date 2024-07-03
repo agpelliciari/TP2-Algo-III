@@ -2,79 +2,62 @@ package tp2.clases.handlers;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
+import javafx.scene.layout.StackPane;
+
 import tp2.clases.Game;
 import tp2.clases.screens.AnswerScreen;
-import tp2.clases.screens.MainContainer;
 import tp2.clases.screens.Panel;
 
 public class AnswerButtonHandler implements EventHandler<ActionEvent> {
 
-    Stage stage;
-    Game game;
-    Panel panel;
-    int lastPlayerIndex;
-    int questionIndex;
+    private StackPane root;
+    private Game game;
+    private Panel panel;
+    private int playerIndex;
+    private int questionIndex;
 
-
-    public AnswerButtonHandler(Stage primaryStage, Game game, int playerIndex, int questionIndex, Panel lastPanel) {
-        this.stage = primaryStage;
+    public AnswerButtonHandler(StackPane root, Game game, int playerIndex, int questionIndex, Panel lastPanel) {
+        this.root = root;
         this.game = game;
         this.panel = lastPanel;
-        this.lastPlayerIndex = playerIndex;
+        this.playerIndex = playerIndex;
         this.questionIndex = questionIndex;
     }
 
     @Override
     public void handle(ActionEvent actionEvent) {
+        ActionHandler.actionSound();
 
-        MultiplicatorButtonHandler multiplicatorButtonHandler = new MultiplicatorButtonHandler(panel.getFactor());
-        multiplicatorButtonHandler.selectMultiplier(game.getPlayer(lastPlayerIndex), panel.isMultiplicatorSelected());
+        for (int i = 0; i < panel.getMultipliersFactor(game.getPlayer(playerIndex)).size(); i++) {
+            MultiplierButtonHandler multiplicatorButtonHandler = new MultiplierButtonHandler(panel.getMultipliersFactor(game.getPlayer(playerIndex)).get(i));
+            multiplicatorButtonHandler.selectMultiplier(game.getPlayer(playerIndex), panel.isMultiplierSelected(i));
+        }
 
         NullifierCheckBoxEventHandler nullifierHandler = new NullifierCheckBoxEventHandler();
-        nullifierHandler.selectNullifier(game.getPlayer(lastPlayerIndex), game.getPlayers(), panel.isNullifierSelected());
+        nullifierHandler.selectNullifier(game.getPlayer(playerIndex), game.getPlayers(), panel.isNullifierSelected());
 
-        game.setPlayerRoundScore(lastPlayerIndex, questionIndex, panel.getSelectedAnswers());
+        game.setPlayersScoreWithoutExclusivity(playerIndex, questionIndex, panel.getSelectedAnswers());
+        game.registerUsedExclusivity(panel.isExclusivitySelected());
+        game.assignExclusivity(playerIndex, panel.isExclusivitySelected());
 
-        //Logica de exclusividad se deberia parecer a los otros poderes y manejarse con handlers
-        if (panel.isExclusivitySelected()) {
-
-            game.registerUsedExclusivity();
-
-            game.getPlayer(lastPlayerIndex).getExclusivity().decreaseNumber();
-        }
-
-        lastPlayerIndex++;
-
-        if (lastPlayerIndex >= game.getNumberOfPlayers()) {
-
+        playerIndex++;
+        if (playerIndex >= game.getNumberOfPlayers()) {
             if (game.getQuestion(questionIndex).getMode().isPenaltyMode()) {
-
-                game.updateRoundScores();
-
+                game.updatePlayersScoreWithoutExclusivity();
             } else {
-
                 game.updatePlayersScoreWithExclusivity();
-
             }
-            //Mostrar escena que muestra las respuestas
-            AnswerScreen answerScreen = new AnswerScreen(stage, game);
-            Scene answerScene = new Scene(answerScreen, 800,600);
-            stage.setScene(answerScene);
-            stage.setFullScreen(false);
+
+            game.resetExclusivityCount();
+            AnswerScreen answerScreen = new AnswerScreen(root, game);
+            root.getChildren().forEach(node -> node.setVisible(false));
+            answerScreen.setVisible(true);
+            root.getChildren().add(answerScreen);
+        } else {
+            Panel gameScreen = new Panel(root, game, playerIndex, questionIndex);
+            root.getChildren().forEach(node -> node.setVisible(false));
+            gameScreen.setVisible(true);
+            root.getChildren().add(gameScreen);
         }
-        else {
-            //Mostrar la misma pregunta para el jugador de indice +1
-            Panel gameScreen = new Panel(stage, game, lastPlayerIndex, questionIndex);
-            Scene gameScene = new Scene(gameScreen, 800,600);
-            stage.setScene(gameScene);
-            stage.setFullScreen(false);
-        }
-
-        stage.setFullScreenExitHint("");
-
-        stage.setFullScreen(false);
-
     }
 }
