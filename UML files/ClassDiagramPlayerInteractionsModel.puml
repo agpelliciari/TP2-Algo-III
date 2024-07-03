@@ -9,7 +9,7 @@ skinparam classAttributeIconSize 0
 class Player{
 -name: String
 +{static}Player(name: String, initialScore: int)
-+useMultiplicator(factor: int): void
++useMultiplier(factor: int): void
 +useNullifier(): void
 +assignExclusivity(bool boolean): void
 }
@@ -30,10 +30,10 @@ class Nullifier{
 +disable(score: Score): void
 }
 
-class Multiplicator{
+class Multiplier{
 -used: boolean
 - factor: int
-+{static}Multiplicator(factor: int)
++{static}Multiplier(factor: int)
 +activate(): void
 }
 
@@ -100,7 +100,7 @@ Player -->"*" Power
 
 Power <|-- Exclusivity
 Power <|-- Nullifier
-Power <|-- Multiplicator
+Power <|-- Multiplier
 
 Player -->"1" Score
 

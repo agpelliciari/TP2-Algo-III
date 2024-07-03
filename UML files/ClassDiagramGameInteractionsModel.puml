@@ -27,7 +27,7 @@ abstract class Question{
 
 class Player{
 -score: Score
--multiplicators: ArrayList<Multiplicator>
+-multiplicators: ArrayList<Multiplier>
 -exclusivity: Exclusivity
 -nullifier: Nullifier
 +{static}Player(name: String, initialScore: int)
@@ -45,7 +45,7 @@ class QuestionFactoryProvider{
 }
 
 class QuestionFactory{
-+{static}createQuestion(questionId: String, questionString: QuestionString, choices: ArrayList<Choice>): Question
++{static}createQuestion(questionString: QuestionString, choices: ArrayList<Choice>): Question
 }
 
 App --> Question:1..*
