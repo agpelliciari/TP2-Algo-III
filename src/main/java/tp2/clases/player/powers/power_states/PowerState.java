@@ -4,12 +4,11 @@ import tp2.clases.player.powers.Power;
 
 public interface PowerState {
 
-    public abstract void activate(Power power);
+    void activate(Power power);
 
-    public abstract void deactivate(Power power);
+    void deactivate(Power power);
 
+    boolean isActive();
 
-    public abstract boolean isActive();
-
-    public abstract boolean isUsed();
+    boolean isUsed();
 }

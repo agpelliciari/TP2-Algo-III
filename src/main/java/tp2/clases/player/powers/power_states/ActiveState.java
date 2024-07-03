@@ -11,7 +11,9 @@ public class ActiveState implements PowerState {
     }
 
     @Override
-    public void activate(Power power) { power.setState(new ActiveState(power)); }
+    public void activate(Power power) {
+        power.setState(new ActiveState(power));
+    }
 
     @Override
     public void deactivate(Power power) {

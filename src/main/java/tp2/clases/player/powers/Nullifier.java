@@ -17,7 +17,7 @@ public class Nullifier extends Power {
     }
 
     public void apply(Score score) {
-        if(!isUsed()) {
+        if (!isUsed()) {
             score.cancelScore();
             state = new ActiveState(this);
         }
@@ -42,9 +42,7 @@ public class Nullifier extends Power {
 
     public void disable(Score score) {
         score.restoreScore();
-
-        if (isActive()) {
+        if (isActive())
             state = new UsedState(this);
-        }
     }
 }
