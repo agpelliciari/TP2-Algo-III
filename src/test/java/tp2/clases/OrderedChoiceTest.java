@@ -24,7 +24,7 @@ class OrderedChoiceTest {
         choices.add(new Choice("Answer2", "correcta", 2));
         choices.add(new Choice("Answer3", "correcta", 3));
         choices.add(new Choice("Answer4", "correcta", 4));
-        OrderedChoice question = new OrderedChoice(1, content, new ClassicMode(), choices, new int[]{1, 3, 2, 4});
+        OrderedChoice question = new OrderedChoice(1, content, new ClassicMode(), choices, new int[] {1, 3, 2, 4});
 
         ArrayList<Choice> chosenAnswers = player.setAnswers(question, "1,3,2,4");
         question.assignScore(player, chosenAnswers);
@@ -41,7 +41,7 @@ class OrderedChoiceTest {
         choices.add(new Choice("Answer2", "correcta", 2));
         choices.add(new Choice("Answer3", "correcta", 3));
         choices.add(new Choice("Answer4", "correcta", 4));
-        OrderedChoice question = new OrderedChoice(1, content, new ClassicMode(), choices, new int[]{1, 3, 2, 4});
+        OrderedChoice question = new OrderedChoice(1, content, new ClassicMode(), choices, new int[] {1, 3, 2, 4});
 
         ArrayList<Choice> chosenAnswers = player.setAnswers(question, "1,2,3,4");
         question.assignScore(player, chosenAnswers);
