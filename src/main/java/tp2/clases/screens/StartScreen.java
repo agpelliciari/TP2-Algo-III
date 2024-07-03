@@ -3,6 +3,7 @@ package tp2.clases.screens;
 import javafx.animation.FadeTransition;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -66,21 +67,19 @@ public class StartScreen extends VBox {
         BackgroundImage backgroundImage = new BackgroundImage(image, BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
         this.setBackground(new Background(backgroundImage));
 
+        ImageView logo = new ImageView(new Image("file:algohoot_logo.png"));
+        logo.setFitWidth(300);
+        logo.setFitHeight(350);
+
         Button startButton = new Button();
         startButton.setText("Comenzar");
         startButton.getStyleClass().setAll("btn", "btn-primary");
 
-        Label title = new Label("AlgoHoot: Juego de Preguntas y Respuestas");
-        title.setFont(Font.font("Comic Sans MS", FontWeight.BOLD, FontPosture.REGULAR, 34));
-        title.setTextFill(Color.LIGHTBLUE);
-        title.setStyle("-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.75), 10, 0.5, 2, 2);");
-        title.setAlignment(Pos.CENTER);
-        title.setWrapText(true);
+        startButton.setStyle("-fx-background-color: #007bff; -fx-text-fill: white; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.75), 10, 0.5, 2, 2);");
 
-        FadeTransition fadeTransition = new FadeTransition(Duration.millis(2000), title);
-        fadeTransition.setFromValue(0.0);
-        fadeTransition.setToValue(1.0);
-        fadeTransition.play();
+        Label subtitle = new Label("Testea tu conocimiento con nuestra emocionante trivia de preguntas!");
+        subtitle.setTextFill(Color.GRAY);
+
 
         TranslateTransition translateTransition = new TranslateTransition(Duration.millis(1500), startButton);
         translateTransition.setFromY(50);
@@ -96,6 +95,6 @@ public class StartScreen extends VBox {
         StartButtonEventHandler startButtonEventHandler = new StartButtonEventHandler(primaryStage, playerInputScene, mediaPlayer);
         startButton.setOnAction(startButtonEventHandler);
 
-        this.getChildren().addAll(title, startButton);
+        this.getChildren().addAll(logo, subtitle, startButton);
     }
 }
