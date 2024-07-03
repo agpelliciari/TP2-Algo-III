@@ -24,9 +24,9 @@ public class PlayersInputScreen extends VBox {
     private TextField numberOfPlayersTextField;
     private TextField numberOfQuestionsTextField;
     private TextField numberOfPointsTextField;
-    private List<String> playerQuantityOptions = Arrays.stream("2, 3, 4, 5, 6".split(",")).toList();
-    private List<String> questionLimitOptions = Arrays.stream("5, 10, 15, 20, 25".split(",")).toList();
-    private List<String> scoreLimitOptions = Arrays.stream("10, 20, 30, 40, 50".split(",")).toList();
+    private List<String> playerQuantityOptions = Arrays.stream("2,3,4,5,6".split(",")).toList();
+    private List<String> questionLimitOptions = Arrays.stream("5,10,15,20,25".split(",")).toList();
+    private List<String> scoreLimitOptions = Arrays.stream("10,20,30,40,50".split(",")).toList();
     ToggleGroup toggleGroupPlayerQuantity;
     ToggleGroup toggleGroupQuestionLimit;
     ToggleGroup toggleGroupScoreLimit;
@@ -91,6 +91,13 @@ public class PlayersInputScreen extends VBox {
         Image image = new Image("file:white-background.jpg");
         BackgroundImage backgroundImage = new BackgroundImage(image, BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
         this.setBackground(new Background(backgroundImage));
+
+        confirmButton = new Button();
+        confirmButton.setText("Confirmar");
+        confirmButton.setStyle("-fx-font-size: 20px; -fx-background-color: #007bff; -fx-text-fill: white; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.75), 10, 0.5, 2, 2);");
+        ConfirmButtonHandler confirmButtonHandler = new ConfirmButtonHandler(game, this, root);
+        confirmButton.setOnAction(confirmButtonHandler);
+        confirmButton.setDisable(true);
 
         displayPlayerOptionsToggleGroup();
 /*
@@ -157,19 +164,13 @@ public class PlayersInputScreen extends VBox {
             radioButton.selectedProperty().addListener((observable, oldValue, newValue) -> {
                 if (!newValue.equals("")) {
                     selectedToggleScoreLimit = (RadioButton) toggleGroupScoreLimit.getSelectedToggle();
-                    confirmButton = new Button();
-                    confirmButton.setText("Confirmar");
-                    confirmButton.setStyle("-fx-font-size: 20px; -fx-background-color: #007bff; -fx-text-fill: white; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.75), 10, 0.5, 2, 2);");
-                    ConfirmButtonHandler confirmButtonHandler = new ConfirmButtonHandler(game, this, root);
-                    confirmButton.setOnAction(confirmButtonHandler);
                     confirmButton.setDisable(false);
-                    getChildren().add(confirmButton);
                 }
             });
             getChildren().add(radioButton);
         }
 
-
+        getChildren().add(confirmButton);
     }
 
     private void addValidationListener(ComboBox<String> comboBox) {
@@ -208,7 +209,7 @@ public class PlayersInputScreen extends VBox {
         RadioButton radioButton = new RadioButton(text);
         radioButton.setToggleGroup(toggleGroup);
         radioButton.setSelected(false);
-        radioButton.setStyle("-fx-background-radius: 15px; -fx-padding: 8px; -fx-border-width: 1px; -fx-font-size: 20px; -fx-stroke-width: 2px;");
+        radioButton.setStyle("-fx-background-radius: 15px; -fx-padding: 8px; -fx-border-width: 1px; -fx-font-size: 15px; -fx-stroke-width: 2px;");
 
         return radioButton;
     }
