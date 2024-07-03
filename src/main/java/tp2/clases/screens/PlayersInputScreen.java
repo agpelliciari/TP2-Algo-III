@@ -157,18 +157,19 @@ public class PlayersInputScreen extends VBox {
             radioButton.selectedProperty().addListener((observable, oldValue, newValue) -> {
                 if (!newValue.equals("")) {
                     selectedToggleScoreLimit = (RadioButton) toggleGroupScoreLimit.getSelectedToggle();
+                    confirmButton = new Button();
+                    confirmButton.setText("Confirmar");
+                    confirmButton.setStyle("-fx-font-size: 20px; -fx-background-color: #007bff; -fx-text-fill: white; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.75), 10, 0.5, 2, 2);");
+                    ConfirmButtonHandler confirmButtonHandler = new ConfirmButtonHandler(game, this, root);
+                    confirmButton.setOnAction(confirmButtonHandler);
+                    confirmButton.setDisable(false);
+                    getChildren().add(confirmButton);
                 }
             });
             getChildren().add(radioButton);
         }
 
-        confirmButton = new Button();
-        confirmButton.setText("Confirmar");
-        confirmButton.setStyle("-fx-background-color: #007bff; -fx-text-fill: white; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.75), 10, 0.5, 2, 2);");
-        ConfirmButtonHandler confirmButtonHandler = new ConfirmButtonHandler(game, this, root);
-        confirmButton.setOnAction(confirmButtonHandler);
-        confirmButton.setDisable(false);
-        getChildren().add(confirmButton);
+
     }
 
     private void addValidationListener(ComboBox<String> comboBox) {
