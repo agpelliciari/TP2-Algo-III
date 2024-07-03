@@ -67,7 +67,7 @@ public class EndGameScreen extends VBox {
         leaderboardContainer.getChildren().add(leaderboard);
 
         Button exitButton = new Button("Salir");
-        exitButton.setStyle("-fx-font-size: 14px; -fx-background-color: #090971; -fx-text-fill: white;");
+        exitButton.setStyle("-fx-background-color: #007bff; -fx-text-fill: white; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.75), 10, 0.5, 2, 2);");
         exitButton.setOnAction(event -> Platform.exit());
         this.getChildren().add(exitButton);
 

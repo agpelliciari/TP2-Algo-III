@@ -166,7 +166,7 @@ public class Panel extends ScrollPane {
 
     private void setAnswerButton(Stage primaryStage, Game game, int playerIndex, int questionIndex) {
         answerButton = new Button("Responder");
-        answerButton.setStyle("-fx-font-size: 14px; -fx-background-color: #090971; -fx-text-fill: white;");
+        answerButton.setStyle("-fx-background-color: #007bff; -fx-text-fill: white; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.75), 10, 0.5, 2, 2);");
         answerButton.setDisable(true);
         AnswerButtonHandler answerButtonHandler = new AnswerButtonHandler(primaryStage, game, playerIndex, questionIndex, this);
         answerButton.setOnAction(answerButtonHandler);

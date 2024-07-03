@@ -62,7 +62,7 @@ public class AnswerScreen extends VBox {
         this.getChildren().add(powersUsedScreen);
 
         continueButton = new Button("Continuar");
-        continueButton.setStyle("-fx-font-size: 14px; -fx-background-color: #090971; -fx-text-fill: white;");
+        continueButton.setStyle("-fx-background-color: #007bff; -fx-text-fill: white; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.75), 10, 0.5, 2, 2);");
         ContinueButtonEventHandler continueButtonEventHandler = new ContinueButtonEventHandler(game, primaryStage);
         continueButton.setOnAction(continueButtonEventHandler);
         this.getChildren().add(continueButton);

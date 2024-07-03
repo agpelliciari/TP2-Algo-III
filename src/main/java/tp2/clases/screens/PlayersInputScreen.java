@@ -8,6 +8,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
 import javafx.scene.control.*;
@@ -94,7 +95,7 @@ public class PlayersInputScreen extends VBox {
 
         confirmButton = new Button();
         confirmButton.setText("Confirmar");
-        confirmButton.setStyle("-fx-font-size: 14px; -fx-background-color: #090971; -fx-text-fill: white;");
+        confirmButton.setStyle("-fx-background-color: #007bff; -fx-text-fill: white; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.75), 10, 0.5, 2, 2);");
         ConfirmButtonHandler confirmButtonHandler = new ConfirmButtonHandler(game, this, primaryStage);
         confirmButton.setOnAction(confirmButtonHandler);
         confirmButton.setDisable(true);
