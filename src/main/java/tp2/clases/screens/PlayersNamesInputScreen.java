@@ -1,17 +1,14 @@
 package tp2.clases.screens;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 
 import java.util.ArrayList;
 import java.util.function.Consumer;
-import javafx.scene.control.ScrollPane;
+
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import tp2.clases.Game;
 import tp2.clases.handlers.NamesInputButtonHandler;
@@ -65,7 +62,7 @@ public class PlayersNamesInputScreen extends VBox {
         this.playerNameTextFields = new ArrayList<>();
 
         this.confirmButton = new Button("Comenzar Partida");
-        confirmButton.setStyle("-fx-font-size: 14px; -fx-background-color: #090971; -fx-text-fill: white;");
+        confirmButton.setStyle("-fx-background-color: #007bff; -fx-text-fill: white; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.75), 10, 0.5, 2, 2);");
         confirmButton.setDisable(true);
 
         setAlignment(Pos.CENTER);
@@ -99,7 +96,7 @@ public class PlayersNamesInputScreen extends VBox {
         Label label = new Label("Ingrese el nombre del jugador " + indexCurrentPlayer + ":");
         label.setStyle("-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #333;");
 
-        VBox.setMargin(label, new Insets(0, 0, 5, 0)); // Márgenes en la parte inferior
+        VBox.setMargin(label, new Insets(0, 0, 5, 0));
 
         return label;
     }
@@ -118,10 +115,17 @@ public class PlayersNamesInputScreen extends VBox {
 
     private void addValidationListener(TextField textField) {
         textField.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (isValidName(newValue)) {
-                textField.setStyle("-fx-border-color: green; -fx-border-width: 1px;");
+            if (isValidName(newValue) && !isRepeatedName(getNames(), newValue)) {
+                textField.setStyle("-fx-border-color: green; -fx-border-width: 1px; -fx-background-color: #C6F7D0;");
+                textField.setTooltip(null);
             } else {
-                textField.setStyle("-fx-border-color: red; -fx-border-width: 1px;");
+                textField.setStyle("-fx-border-color: red; -fx-border-width: 1px; -fx-background-color: #FFC5C5;");
+
+                if (!isValidName(newValue)) {
+                    textField.setTooltip(new Tooltip("Nombre invalido. Porfavor ingrese un nombre valido."));
+                } else if (isRepeatedName(getNames(), newValue)) {
+                    textField.setTooltip(new Tooltip("El nombre ya esta en uso. Porfavor ingrese otro nombre."));
+                }
             }
             validateInputs();
         });
@@ -129,12 +133,18 @@ public class PlayersNamesInputScreen extends VBox {
 
     private void validateInputs() {
         boolean allValid = true;
+        ArrayList<String> playersNames = getNames();
         for (TextField textField : playerNameTextFields) {
-            if (!isValidName(textField.getText())) {
+            String playerName = textField.getText();
+            if (!isValidName(playerName) || isRepeatedName(playersNames, playerName)) {
                 allValid = false;
             }
         }
         confirmButton.setDisable(!allValid);
+    }
+
+    private boolean isRepeatedName(ArrayList<String> playersNames, String name) {
+        return playersNames.indexOf(name) != playersNames.lastIndexOf(name);
     }
 
     private boolean isValidName(String name) {
