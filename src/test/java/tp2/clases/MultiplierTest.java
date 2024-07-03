@@ -14,7 +14,7 @@ import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class MultiplicatorTest {
+public class MultiplierTest {
 
     Content content = new Content("", "", "");
 
@@ -29,7 +29,7 @@ public class MultiplicatorTest {
         TrueOrFalse question = new TrueOrFalse(1, content, new ClassicMode(), choices);
 
         // Act
-        player.useMultiplicator(2);
+        player.useMultiplier(2);
         ArrayList<Choice> chosenAnswers = player.setAnswers(question, "1");
 
         question.assignScore(player, chosenAnswers);
@@ -49,7 +49,7 @@ public class MultiplicatorTest {
         TrueOrFalse question = new TrueOrFalse(1, content, new PenaltyMode(), choices);
 
         // Act
-        player.useMultiplicator(2);
+        player.useMultiplier(2);
         ArrayList<Choice> chosenAnswers = player.setAnswers(question, "2");
 
         question.assignScore(player, chosenAnswers);
@@ -59,7 +59,7 @@ public class MultiplicatorTest {
     }
 
     @Test
-    public void test03PlayerChoosesAllOptionsCorrectUsingx3Multiplicator() {
+    public void test03PlayerChoosesAllOptionsCorrectUsingx3Multiplier() {
         // Arrange
         Player player = new Player("Player1", 0);
 
@@ -71,7 +71,7 @@ public class MultiplicatorTest {
         MultipleChoice question = new MultipleChoice(1, content, new PartialMode(), choices);
 
         // Act
-        player.useMultiplicator(3);
+        player.useMultiplier(3);
         ArrayList<Choice> chosenAnswers = player.setAnswers(question, "1,2");
 
         question.assignScore(player, chosenAnswers);
