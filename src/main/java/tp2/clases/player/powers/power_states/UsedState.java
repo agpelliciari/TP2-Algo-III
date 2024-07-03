@@ -1,6 +1,5 @@
 package tp2.clases.player.powers.power_states;
 
-import tp2.clases.exceptions.UsedPowerException;
 import tp2.clases.player.powers.Power;
 
 public class UsedState implements PowerState {
@@ -11,14 +10,15 @@ public class UsedState implements PowerState {
         this.power = power;
     }
 
+    @Override
     public void activate(Power power) {
-        throw new UsedPowerException();
+        power.setState(new ActiveState(power));
     }
 
-    public void deactivate(Power power) {
-//        throw new UsedPowerException();
-    }
+    @Override
+    public void deactivate(Power power) {}
 
+    @Override
     public boolean isActive() {
         return false;
     }

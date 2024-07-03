@@ -1,11 +1,14 @@
 package tp2.clases.screens;
 
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
+import javafx.scene.text.TextFlow;
 
 public class PanelBuilder {
 
@@ -20,18 +23,21 @@ public class PanelBuilder {
         return label;
     }
 
-    public static Node createTextField(String promptText, int fontSize) {
-        TextField textField = new TextField();
-        textField.setPromptText(promptText);
-        textField.setStyle("-fx-font-size: " + fontSize + "px;");
-        return textField;
-    }
-
-    public static Node createMultiplicatorContainer(CheckBox multiplicatorCheckBox, TextField factorTextField) {
+    public static Node createMultiplierContainer(CheckBox multiplicatorCheckBox) {
         HBox multiplicatorContainer = new HBox(10);
         multiplicatorContainer.setAlignment(Pos.CENTER);
-        factorTextField.setPrefWidth(50);
-        multiplicatorContainer.getChildren().addAll(multiplicatorCheckBox, factorTextField);
+        multiplicatorContainer.getChildren().addAll(multiplicatorCheckBox);
         return multiplicatorContainer;
+    }
+
+    public static TextFlow createText(String content, int fontSize) {
+        Text text = new Text(content);
+        text.setStyle("-fx-font-size: " + fontSize + "px;");
+        text.setWrappingWidth(780);
+
+        TextFlow textFlow = new TextFlow(text);
+        textFlow.setTextAlignment(TextAlignment.CENTER);
+        textFlow.setPadding(new Insets(10));
+        return textFlow;
     }
 }

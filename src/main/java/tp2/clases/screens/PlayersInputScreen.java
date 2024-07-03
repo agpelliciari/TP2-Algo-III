@@ -3,24 +3,21 @@ package tp2.clases.screens;
 import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
-import javafx.scene.control.*;
-import javafx.stage.Stage;
+import javafx.scene.media.MediaPlayer;
 import tp2.clases.Game;
 import tp2.clases.handlers.ConfirmButtonHandler;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Consumer;
 
+
 public class PlayersInputScreen extends VBox {
+
     ComboBox<String> pointsCombo;
     ComboBox<String> questionsCombo;
     ComboBox<String> playersCombo;
@@ -38,8 +35,9 @@ public class PlayersInputScreen extends VBox {
     RadioButton selectedToggleScoreLimit;
 
     private Game game;
-    private Stage stage;
+    private StackPane root;
     Button confirmButton;
+    private MediaPlayer mediaPlayer;
 
     public PlayersInputScreen(Consumer<Integer> numberOfPlayersConsumer, Consumer<Integer> numberOfQuestionsConsumer, Consumer<Integer> numberOfPointsConsumer) {
         super(20);
@@ -81,10 +79,10 @@ public class PlayersInputScreen extends VBox {
         getChildren().addAll(label, numberOfPlayersTextField, questionsLabel, numberOfQuestionsTextField, pointsLabel, numberOfPointsTextField, confirmButton);
     }
 
-    public PlayersInputScreen(Stage primaryStage, Game game) {
+    public PlayersInputScreen(StackPane root, Game game, MediaPlayer mediaPlayer) {
         super(30);
-
-        this.stage = primaryStage;
+        this.root = root;
+        this.mediaPlayer = mediaPlayer;
         this.game = game;
 
         setAlignment(Pos.CENTER);
@@ -166,8 +164,8 @@ public class PlayersInputScreen extends VBox {
 
         confirmButton = new Button();
         confirmButton.setText("Confirmar");
-        confirmButton.setStyle("-fx-font-size: 14px; -fx-background-color: #090971; -fx-text-fill: white;");
-        ConfirmButtonHandler confirmButtonHandler = new ConfirmButtonHandler(game, this, stage);
+        confirmButton.setStyle("-fx-background-color: #007bff; -fx-text-fill: white; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.75), 10, 0.5, 2, 2);");
+        ConfirmButtonHandler confirmButtonHandler = new ConfirmButtonHandler(game, this, root);
         confirmButton.setOnAction(confirmButtonHandler);
         confirmButton.setDisable(false);
         getChildren().add(confirmButton);
@@ -229,18 +227,6 @@ public class PlayersInputScreen extends VBox {
         confirmButton.setOnMouseExited(e -> confirmButton.setStyle("-fx-font-size: 14px; -fx-padding: 10px 20px; -fx-background-color: #266d99; -fx-text-fill: white; -fx-border-radius: 5px; -fx-background-radius: 5px;"));
         confirmButton.setOnAction(confirmButtonHandler);
         return confirmButton;
-    }
-
-    public TextField getNumberOfPlayersTextField() {
-        return numberOfPlayersTextField;
-    }
-
-    public TextField getNumberOfQuestionsTextField() {
-        return numberOfQuestionsTextField;
-    }
-
-    public TextField getNumberOfPointsTextField() {
-        return numberOfPointsTextField;
     }
 
     public void confirmNumber(TextField textField, Consumer<Integer> consumer, int minValue) {

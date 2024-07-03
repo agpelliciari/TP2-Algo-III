@@ -1,193 +1,118 @@
 package tp2.clases.screens;
 
-import javafx.animation.ScaleTransition;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.CornerRadii;
+import javafx.scene.control.Label;
+import javafx.scene.input.ClipboardContent;
+import javafx.scene.input.Dragboard;
+import javafx.scene.input.TransferMode;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.util.Duration;
-import tp2.clases.*;
-import tp2.clases.player.*;
-import tp2.clases.questions.types.*;
-import tp2.clases.questions.choice.*;
-import tp2.clases.exceptions.InvalidAnswerFormatException;
+import javafx.stage.Stage;
+import tp2.clases.Game;
 
-import java.util.*;
+public class PanelGroupChoice {
 
-public class PanelGroupChoice extends VBox {
-    private int currentGroup = 0;
-    private CheckBox exclusivityCheckBox;
-    private CheckBox nullifierCheckBox;
-    private CheckBox multiplicatorCheckBox;
-    private TextField factorTextField;
-    private VBox box;
-    private Map<Button, String> buttonAnswerMap = new HashMap<>();
-    private List<String> selectedChoicesGroup1 = new ArrayList<>();
-    private List<String> selectedChoicesGroup2 = new ArrayList<>();
-    private List<String> currentChoices;
-    private boolean firstGroupSelected = false;
-    private Group selectedGroup;
-    private Button confirmButton;
-    private App app;
-    private Player currentPlayer;
-    private Question currentQuestion;
+    Stage stage;
 
-    public PanelGroupChoice(Player currentPlayer, Question currentQuestion, App app) {
-        this.app = app;
-        this.currentPlayer = currentPlayer;
-        this.currentQuestion = currentQuestion;
+    public PanelGroupChoice(Stage primaryStage, Game game, int playerIndex, int questionIndex) {
+        stage = primaryStage;
 
-        box = new VBox(20);
-        box.setAlignment(Pos.CENTER);
-        box.setPadding(new Insets(20, 20, 20, 20));
+        VBox groupA = new VBox();
+        groupA.setSpacing(10);
+        groupA.setStyle("-fx-border-color: black; -fx-padding: 10;");
+        Label groupALabel = new Label("Grupo A");
+        groupA.getChildren().add(groupALabel);
 
-        ScaleTransition st = new ScaleTransition(Duration.millis(1000), box);
-        st.setFromX(0.5);
-        st.setFromY(0.5);
-        st.setToX(1.0);
-        st.setToY(1.0);
-        st.play();
+        VBox groupB = new VBox();
+        groupB.setSpacing(10);
+        groupB.setStyle("-fx-border-color: black; -fx-padding: 10;");
+        Label groupBLabel = new Label("Grupo B");
+        groupB.getChildren().add(groupBLabel);
 
-        BackgroundFill backgroundFill = new BackgroundFill(Color.web("#f0f0f0"), CornerRadii.EMPTY, Insets.EMPTY);
-        box.setBackground(new Background(backgroundFill));
+        VBox buttonsBox = new VBox();
+        buttonsBox.setSpacing(10);
+        buttonsBox.setStyle("-fx-border-color: black; -fx-padding: 10;");
+        Button button1 = new Button("Button 1");
+        Button button2 = new Button("Button 2");
+        buttonsBox.getChildren().addAll(button1, button2);
 
-        box.getChildren().addAll(
-                PanelBuilder.createLabel("Pregunta " + currentQuestion.getId(), 20, true),
-                PanelBuilder.createLabel(currentPlayer.getName(), 30, true, "#ff9900"),
-                PanelBuilder.createLabel(currentQuestion.getContent().getTheme(), 16, false),
-                PanelBuilder.createLabel(currentQuestion.getContent().getPrompt(), 16, false)
-        );
-
-        GroupChoice groupChoice = (GroupChoice) currentQuestion;
-        ArrayList<Group> groups = groupChoice.getGroups();
-        for (Group group : groups) {
-            Button groupButton = new Button(group.getText());
-            groupButton.setStyle("-fx-font-size: 14px;");
-            box.getChildren().add(groupButton);
-
-            groupButton.setOnAction(event -> {
-                if (firstGroupSelected) {
-                    selectedGroup = group;
-                    enableChoices(currentQuestion.getChoices(), selectedChoicesGroup1);
-                    currentChoices = selectedChoicesGroup2;
-                } else {
-                    selectedGroup = group;
-                    enableChoices(currentQuestion.getChoices(), new ArrayList<>());
-                    currentChoices = selectedChoicesGroup1;
-                    firstGroupSelected = true;
-                }
-                box.getChildren().remove(groupButton);
-                addConfirmButton();
-            });
-        }
-
-        exclusivityCheckBox = new CheckBox("Usar exclusividad");
-        multiplicatorCheckBox = new CheckBox("Usar multiplicador");
-        factorTextField = (TextField) PanelBuilder.createTextField("Factor", 12);
-        nullifierCheckBox = new CheckBox("Usar anulador");
-
-        if (currentQuestion.getMode().isPenaltyMode()) {
-            box.getChildren().add(PanelBuilder.createMultiplicatorContainer(multiplicatorCheckBox, factorTextField));
-        } else if (currentPlayer.getExclusivity().getNumber() > 0) {
-            box.getChildren().add(exclusivityCheckBox);
-        }
-
-        if (!currentPlayer.getNullifier().isUsed())
-            box.getChildren().add(nullifierCheckBox);
-
-        Button answerButton = createAnswerButton(currentQuestion, currentPlayer, app);
-        box.getChildren().add(answerButton);
-
-        this.getChildren().add(box);
-    }
-
-    private Button createAnswerButton(Question currentQuestion, Player currentPlayer, App app) {
-        Button answerButton = new Button("Responder");
-        answerButton.setStyle("-fx-font-size: 14px; -fx-background-color: #ff6666; -fx-text-fill: white;");
-        answerButton.setOnAction(e -> {
-            try {
-                app.saveAnswerAndProceed(currentQuestion, currentPlayer, isExclusivitySelected(), isNullifierSelected(), getSelectedAnswers(), getFactor(), isMultiplicatorSelected());
-            } catch (InvalidAnswerFormatException ex) {
-                app.showErrorDialog(ex.getMessage());
-            }
+        // Configurar los orígenes del arrastre
+        button1.setOnDragDetected(event -> {
+            Dragboard db = button1.startDragAndDrop(TransferMode.MOVE);
+            ClipboardContent content = new ClipboardContent();
+            content.putString(button1.getText());
+            db.setContent(content);
+            event.consume();
         });
-        return answerButton;
-    }
 
-    private void enableChoices(List<Choice> choices, List<String> alreadySelected) {
-        box.getChildren().removeIf(node -> node instanceof Button && !buttonAnswerMap.containsKey((Button) node));
-        for (Choice choice : choices) {
-            if (!alreadySelected.contains(String.valueOf(choice.getId()))) {
-                Button choiceButton = new Button(choice.getId() + ") " + choice.getContent());
-                choiceButton.setStyle("-fx-font-size: 14px;");
-                buttonAnswerMap.put(choiceButton, String.valueOf(choice.getId()));
-                choiceButton.setOnAction(event -> {
-                    String choiceId = buttonAnswerMap.get(choiceButton);
-                    currentChoices.add(choiceId);
-                    choiceButton.setDisable(true);
-                    updateSelectedAnswers();
-                    confirmButton.setDisable(false); // Habilitar el botón de confirmación al seleccionar una opción
+        button2.setOnDragDetected(event -> {
+            Dragboard db = button2.startDragAndDrop(TransferMode.MOVE);
+            ClipboardContent content = new ClipboardContent();
+            content.putString(button2.getText());
+            db.setContent(content);
+            event.consume();
+        });
+
+        // Configurar el destino del arrastre para Grupo A
+        groupA.setOnDragOver(event -> {
+            if (event.getGestureSource() != groupA && event.getDragboard().hasString()) {
+                event.acceptTransferModes(TransferMode.MOVE);
+            }
+            event.consume();
+        });
+
+        groupA.setOnDragDropped(event -> {
+            Dragboard db = event.getDragboard();
+            boolean success = false;
+            if (db.hasString()) {
+                Button draggedButton = new Button(db.getString());
+                draggedButton.setOnDragDetected(dragEvent -> {
+                    Dragboard db2 = draggedButton.startDragAndDrop(TransferMode.MOVE);
+                    ClipboardContent content = new ClipboardContent();
+                    content.putString(draggedButton.getText());
+                    db2.setContent(content);
+                    dragEvent.consume();
                 });
-                box.getChildren().add(choiceButton);
+                groupA.getChildren().add(draggedButton);
+                success = true;
             }
-        }
-    }
-
-    private void updateSelectedAnswers() {
-        // Opcional: Realizar acciones necesarias cuando se actualizan las respuestas seleccionadas.
-    }
-
-    private void addConfirmButton() {
-        confirmButton = new Button("Confirmar elección");
-        confirmButton.setStyle("-fx-font-size: 14px;");
-        confirmButton.setDisable(true); // Deshabilitado inicialmente hasta que se haga una elección
-        confirmButton.setOnAction(event -> {
-            handleConfirmation();
+            event.setDropCompleted(success);
+            event.consume();
         });
-        box.getChildren().add(confirmButton);
-    }
 
-    private void handleConfirmation() {
-        System.out.println("Elección confirmada: " + getSelectedAnswers());
-        confirmButton.setDisable(true);
-
-        currentGroup++;
-        if ((currentGroup >= 2) || (firstGroupSelected && !selectedChoicesGroup2.isEmpty())) {
-            currentGroup = 0;
-            app.showQuestionForPlayer();
-        }
-    }
-
-    public String getSelectedAnswers() {
-        StringBuilder answerBuilder = new StringBuilder();
-        for (String answer : currentChoices) {
-            if (answerBuilder.length() > 0) {
-                answerBuilder.append(",");
+        // Configurar el destino del arrastre para Grupo B
+        groupB.setOnDragOver(event -> {
+            if (event.getGestureSource() != groupB && event.getDragboard().hasString()) {
+                event.acceptTransferModes(TransferMode.MOVE);
             }
-            answerBuilder.append(answer);
-        }
-        return answerBuilder.toString();
-    }
+            event.consume();
+        });
 
-    public boolean isExclusivitySelected() {
-        return exclusivityCheckBox.isSelected();
-    }
+        groupB.setOnDragDropped(event -> {
+            Dragboard db = event.getDragboard();
+            boolean success = false;
+            if (db.hasString()) {
+                Button draggedButton = new Button(db.getString());
+                draggedButton.setOnDragDetected(dragEvent -> {
+                    Dragboard db2 = draggedButton.startDragAndDrop(TransferMode.MOVE);
+                    ClipboardContent content = new ClipboardContent();
+                    content.putString(draggedButton.getText());
+                    db2.setContent(content);
+                    dragEvent.consume();
+                });
+                groupB.getChildren().add(draggedButton);
+                success = true;
+            }
+            event.setDropCompleted(success);
+            event.consume();
+        });
 
-    public boolean isNullifierSelected() {
-        return nullifierCheckBox.isSelected();
-    }
+        VBox root = new VBox(buttonsBox, groupA, groupB);
+        root.setSpacing(20);
 
-    public boolean isMultiplicatorSelected() {
-        return multiplicatorCheckBox.isSelected();
-    }
-
-    public String getFactor() {
-        return factorTextField.getText();
+        Scene scene = new Scene(root, 400, 400);
+        primaryStage.setScene(scene);
+        primaryStage.setTitle("Drag and Drop Example with Buttons");
+        primaryStage.show();
     }
 }

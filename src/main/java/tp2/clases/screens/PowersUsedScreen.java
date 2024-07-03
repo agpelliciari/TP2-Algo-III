@@ -3,7 +3,6 @@ package tp2.clases.screens;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -12,16 +11,14 @@ import tp2.clases.player.powers.Power;
 import java.util.ArrayList;
 
 public class PowersUsedScreen extends VBox {
+
     private ArrayList<Player> players;
+
     public PowersUsedScreen (ArrayList<Player> players) {
         setAlignment(Pos.CENTER);
         setPadding(new Insets(20));
         setSpacing(20);
         this.players = players;
-
-        Label title = new Label("Poderes usados en durante la partida:");
-        title.setFont(Font.font("Arial", FontWeight.BOLD, 24));
-        getChildren().add(title);
 
         displayPlayersWhoUsedPowers();
     }
@@ -46,7 +43,8 @@ public class PowersUsedScreen extends VBox {
     }
 
     private String getNamePower(Power power) {
-        if (power.isActive()) { return power.getName(); }
+        if (power.isActive())
+            return power.getName();
         return "";
     }
 }

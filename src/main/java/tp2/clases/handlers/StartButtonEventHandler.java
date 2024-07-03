@@ -4,48 +4,32 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.media.AudioClip;
-import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
-import javafx.stage.Stage;
 
 import java.io.File;
 
 public class StartButtonEventHandler implements EventHandler<ActionEvent> {
 
-    //private final ActionHandler startHandler;
+    String buttonPressedSound = new File("src/main/resources/sounds/button-pressed.mp3").toURI().toString();
+    AudioClip audio = new AudioClip(buttonPressedSound);
 
-    Stage stage;
-    Scene nextScene;
-    private MediaPlayer mediaPlayer;
+    private final Scene nextScene;
+    private final MediaPlayer mediaPlayer;
 
-    /*public StartButtonEventHandler(ActionHandler startHandler) {
-        this.startHandler = startHandler;
-    }
-
-    @Override
-    public void handle(ActionEvent event) {
-        startHandler.execute();
-    }*/
-
-    public StartButtonEventHandler(Stage primaryStage, Scene playerInputScene, MediaPlayer mediaPlayer) {
-
-        this.stage = primaryStage;
-        this.nextScene = playerInputScene;
+    public StartButtonEventHandler(Scene nextScene, MediaPlayer mediaPlayer) {
+        this.nextScene = nextScene;
         this.mediaPlayer = mediaPlayer;
     }
 
     @Override
     public void handle(ActionEvent event) {
-        String buttonPressedSound = new File("src/main/resources/sounds/button-pressed.mp3").toURI().toString();
-        AudioClip audio = new AudioClip(buttonPressedSound);
-        audio.play();
-
+        ActionHandler.actionSound();
         mediaPlayer.setVolume(0.5);
 
-        stage.setScene(nextScene);
-
-        stage.setFullScreenExitHint("");
-
-        stage.setFullScreen(false);
+        if (nextScene != null) {
+            nextScene.getWindow().sizeToScene();
+            nextScene.getWindow().centerOnScreen();
+            nextScene.getWindow().requestFocus();
+        }
     }
 }

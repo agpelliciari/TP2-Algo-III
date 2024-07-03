@@ -16,9 +16,7 @@ public class InactiveState implements PowerState {
     }
 
     @Override
-    public void deactivate(Power power) {
-    }
-
+    public void deactivate(Power power) {}
 
     @Override
     public boolean isActive() {

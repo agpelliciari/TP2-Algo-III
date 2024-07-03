@@ -3,15 +3,15 @@ package tp2.clases.player.powers;
 import tp2.clases.player.powers.power_states.InactiveState;
 import tp2.clases.player.powers.power_states.PowerState;
 
-public class Multiplicator extends Power {
+public class Multiplier extends Power {
 
     private PowerState state;
     private final int factor;
 
-    public Multiplicator(Integer factor) {
+    public Multiplier(Integer factor) {
         this.factor = factor;
         this.state = new InactiveState(this);
-        this.name = "Multiplicador X" + factor.toString();
+        this.name = "Multiplicador X" + factor;
     }
 
     public int getFactor() {

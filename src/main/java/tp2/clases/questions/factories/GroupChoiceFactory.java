@@ -12,7 +12,7 @@ import java.util.ArrayList;
 public class GroupChoiceFactory implements QuestionFactory {
 
     @Override
-    public Question createQuestion(String questionId, JsonParser.QuestionString questionString, ArrayList<Choice> choices) {
+    public Question createQuestion(JsonParser.QuestionString questionString, ArrayList<Choice> choices) {
         int questionIdToInt = (int) Double.parseDouble(questionString.getId());
 
         GroupChoice groupChoice = new GroupChoice(questionIdToInt, new Content(questionString.getTheme(), questionString.getQuestion(), questionString.getAnswerText()), new ClassicMode(), choices);
@@ -22,7 +22,7 @@ public class GroupChoiceFactory implements QuestionFactory {
                     questionString.getGroupAText(),
                     questionString.getGroupBText()
             };
-            ArrayList<Group> groups = new ArrayList<>();
+            ArrayList<GroupChoice.Group> groups = new ArrayList<>();
             String answerString = questionString.getAnswer().replaceAll("\\s", "");
             String[] answerParts = answerString.split(";");
             int i = 0;
@@ -32,7 +32,7 @@ public class GroupChoiceFactory implements QuestionFactory {
                 int[] numbers = new int[numbersString.length];
                 for (int j = 0; j < numbersString.length; j++)
                     numbers[j] = (int) Double.parseDouble(numbersString[j]);
-                groups.add(new Group(data[0].charAt(0), groupsString[i++], numbers));
+                groups.add(GroupChoice.createGroup(data[0].charAt(0), groupsString[i++], numbers));
             }
             groupChoice.addGroups(groups);
         }

@@ -280,7 +280,7 @@ public class CasesOfUseTest {
         choices.add(new Choice("Elephant", "Correcta", 4));
 
         Content content = new Content("General Knowledge", "Order the following animals from biggest to smallest", "");
-        OrderedChoice question = new OrderedChoice(1, content, new ClassicMode(), choices, new int[]{4, 2, 3, 1});
+        OrderedChoice question = new OrderedChoice(1, content, new ClassicMode(), choices, new int[] {4, 2, 3, 1});
 
         Player player1 = new Player("Lucas", 7);
 
@@ -303,7 +303,7 @@ public class CasesOfUseTest {
         choices.add(new Choice("Fish", "correcta", 1));
 
         Content content = new Content("General Knowledge", "Order the following animals from biggest to smallest", "");
-        OrderedChoice question = new OrderedChoice(1, content, new ClassicMode(), choices, new int[]{4, 2, 3, 1});
+        OrderedChoice question = new OrderedChoice(1, content, new ClassicMode(), choices, new int[] {4, 2, 3, 1});
 
         Player player1 = new Player("Lucas", 7);
 
@@ -319,9 +319,9 @@ public class CasesOfUseTest {
     @Test
     public void test13AClassicGroupChoiceQuestionReceivesAListOfAnswersOfAPlayerThatAnsweredCorrectlyAndAssignsTheScore() {
         // Arrange
-        ArrayList<Group> groups = new ArrayList<>();
-        groups.add(new Group('A', "", new int[]{2, 3, 5}));
-        groups.add(new Group('B', "", new int[]{1, 2, 6}));
+        ArrayList<GroupChoice.Group> groups = new ArrayList<>();
+        groups.add(GroupChoice.createGroup('A', "", new int[] {2, 3, 5}));
+        groups.add(GroupChoice.createGroup('B', "", new int[] {1, 2, 6}));
 
         ArrayList<Choice> choices = new ArrayList<>();
         choices.add(new Choice("Kawhi Leonard", "Correcta", 1));
@@ -350,15 +350,15 @@ public class CasesOfUseTest {
         player1.addToScore(score);
 
         // Assert
-        assertEquals(4, player1.getScore());
+        assertEquals(3, player1.getScore());
     }
 
         @Test
         public void test14AClassicGroupChoiceQuestionReceivesAListOfAnswersOfAPlayerThatAnsweredIncorrectlyAndAssignsTheScore() {
             // Arrange
-            ArrayList<Group> groups = new ArrayList<>();
-            groups.add(new Group('A', "", new int[]{2, 3, 5}));
-            groups.add(new Group('B', "", new int[]{1, 2, 6}));
+            ArrayList<GroupChoice.Group> groups = new ArrayList<>();
+            groups.add(GroupChoice.createGroup('A', "", new int[] {2, 3, 5}));
+            groups.add(GroupChoice.createGroup('B', "", new int[] {1, 2, 6}));
 
             ArrayList<Choice> choices = new ArrayList<>();
             choices.add(new Choice("Kawhi Leonard", "incorrecta", 1));

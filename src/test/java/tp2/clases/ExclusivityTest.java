@@ -28,14 +28,14 @@ public class ExclusivityTest {
         game.addQuestion(new TrueOrFalse(3, content, new ClassicMode(), choices));
 
         ArrayList<String[]> chosenChoices = new ArrayList<>();
-        chosenChoices.add(new String[]{"1"});
-        chosenChoices.add(new String[]{"2"});
-        chosenChoices.add(new String[]{"2"});
+        chosenChoices.add(new String[] {"1"});
+        chosenChoices.add(new String[] {"2"});
+        chosenChoices.add(new String[] {"2"});
 
         ArrayList<boolean[]> chosenExclusivities = new ArrayList<>();
-        chosenExclusivities.add(new boolean[]{true});
-        chosenExclusivities.add(new boolean[]{false});
-        chosenExclusivities.add(new boolean[]{false});
+        chosenExclusivities.add(new boolean[] {true});
+        chosenExclusivities.add(new boolean[] {false});
+        chosenExclusivities.add(new boolean[] {false});
 
         game.assignScoreWithExclusivity(chosenChoices, chosenExclusivities);
 
@@ -55,14 +55,14 @@ public class ExclusivityTest {
         game.addQuestion(new TrueOrFalse(3, content, new ClassicMode(), choices));
 
         ArrayList<String[]> chosenChoices = new ArrayList<>();
-        chosenChoices.add(new String[]{"1"});
-        chosenChoices.add(new String[]{"1"});
-        chosenChoices.add(new String[]{"2"});
+        chosenChoices.add(new String[] {"1"});
+        chosenChoices.add(new String[] {"1"});
+        chosenChoices.add(new String[] {"2"});
 
         ArrayList<boolean[]> chosenExclusivities = new ArrayList<>();
-        chosenExclusivities.add(new boolean[]{true});
-        chosenExclusivities.add(new boolean[]{false});
-        chosenExclusivities.add(new boolean[]{false});
+        chosenExclusivities.add(new boolean[] {true});
+        chosenExclusivities.add(new boolean[] {false});
+        chosenExclusivities.add(new boolean[] {false});
 
         game.assignScoreWithExclusivity(chosenChoices, chosenExclusivities);
 
@@ -91,14 +91,14 @@ public class ExclusivityTest {
         game.addQuestion(new MultipleChoice(2, content, new ClassicMode(), choices2));
 
         ArrayList<String[]> chosenChoices = new ArrayList<>();
-        chosenChoices.add(new String[]{"1", "1,2"});
-        chosenChoices.add(new String[]{"2", "1,3"});
-        chosenChoices.add(new String[]{"2", "1,3"});
+        chosenChoices.add(new String[] {"1", "1,2"});
+        chosenChoices.add(new String[] {"2", "1,3"});
+        chosenChoices.add(new String[] {"2", "1,3"});
 
         ArrayList<boolean[]> chosenExclusivities = new ArrayList<>();
-        chosenExclusivities.add(new boolean[]{true, true});
-        chosenExclusivities.add(new boolean[]{false, true});
-        chosenExclusivities.add(new boolean[]{false, true});
+        chosenExclusivities.add(new boolean[] {true, true});
+        chosenExclusivities.add(new boolean[] {false, true});
+        chosenExclusivities.add(new boolean[] {false, true});
 
         game.assignScoreWithExclusivity(chosenChoices, chosenExclusivities);
 
@@ -118,14 +118,14 @@ public class ExclusivityTest {
         game.addQuestion(new TrueOrFalse(1, content, new ClassicMode(), choices));
 
         ArrayList<String[]> chosenChoices = new ArrayList<>();
-        chosenChoices.add(new String[]{"2"});
-        chosenChoices.add(new String[]{"2"});
-        chosenChoices.add(new String[]{"2"});
+        chosenChoices.add(new String[] {"2"});
+        chosenChoices.add(new String[] {"2"});
+        chosenChoices.add(new String[] {"2"});
 
         ArrayList<boolean[]> chosenExclusivities = new ArrayList<>();
-        chosenExclusivities.add(new boolean[]{true});
-        chosenExclusivities.add(new boolean[]{false});
-        chosenExclusivities.add(new boolean[]{false});
+        chosenExclusivities.add(new boolean[] {true});
+        chosenExclusivities.add(new boolean[] {false});
+        chosenExclusivities.add(new boolean[] {false});
 
         game.assignScoreWithExclusivity(chosenChoices, chosenExclusivities);
 
@@ -147,14 +147,14 @@ public class ExclusivityTest {
         game.addQuestion(new TrueOrFalse(1, content, new ClassicMode(), choices));
 
         ArrayList<String[]> chosenChoices = new ArrayList<>();
-        chosenChoices.add(new String[]{"1"});
-        chosenChoices.add(new String[]{"2"});
-        chosenChoices.add(new String[]{"2"});
+        chosenChoices.add(new String[] {"1"});
+        chosenChoices.add(new String[] {"2"});
+        chosenChoices.add(new String[] {"2"});
 
         ArrayList<boolean[]> chosenExclusivities = new ArrayList<>();
-        chosenExclusivities.add(new boolean[]{true});
-        chosenExclusivities.add(new boolean[]{true});
-        chosenExclusivities.add(new boolean[]{false});
+        chosenExclusivities.add(new boolean[] {true});
+        chosenExclusivities.add(new boolean[] {true});
+        chosenExclusivities.add(new boolean[] {false});
 
         game.assignScoreWithExclusivity(chosenChoices, chosenExclusivities);
 

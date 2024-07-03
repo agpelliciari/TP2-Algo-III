@@ -44,7 +44,6 @@ public class OrderedChoice extends Question {
         }
 
         for (int i = 0; i < playerAnswers.size(); i++) {
-            // correctOrder[i] is 1-based, so we need to convert to 0-based by subtracting 1
             int correctChoiceIndex = correctOrder[i] - 1;
             int correctChoiceId = correctChoices.get(correctChoiceIndex).getId();
             if (playerAnswers.get(i).getId() != correctChoiceId) {

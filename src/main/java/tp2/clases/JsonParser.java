@@ -110,7 +110,7 @@ public class JsonParser {
 
     public JsonParser() {}
 
-    public ArrayList<QuestionString> questionsStringParser(String fileName) {
+    public static ArrayList<QuestionString> questionsStringParser(String fileName) {
         Gson gson = new Gson();
         try (Reader reader = new FileReader(fileName)) {
             TypeToken<ArrayList<QuestionString>> questionListType = new TypeToken<ArrayList<QuestionString>>() {
@@ -122,7 +122,7 @@ public class JsonParser {
         return null;
     }
    
-    public ArrayList<Question> questionsParser(String fileName) {
+    public static ArrayList<Question> questionsParser(String fileName) {
         ArrayList<Question> questions = new ArrayList<>();
 
         for (QuestionString questionString : questionsStringParser(fileName)) {
@@ -134,14 +134,10 @@ public class JsonParser {
                     questionString.getChoice5(),
                     questionString.getChoice6()
             };
-
             String[] validChoicesString = Arrays.stream(choicesString).filter(choice -> choice != null && !choice.isEmpty()).toArray(String[]::new);
-
             ArrayList<Choice> choices = ChoicesFactory.createChoices(questionString, validChoicesString);
-
             QuestionFactory factory = QuestionFactoryProvider.getFactory(questionString.getType());
-
-            questions.add(factory.createQuestion(questionString.getId(), questionString, choices));
+            questions.add(factory.createQuestion(questionString, choices));
         }
 
         return questions;

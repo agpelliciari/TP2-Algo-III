@@ -5,7 +5,7 @@ import tp2.clases.questions.choice.Choice;
 import tp2.clases.questions.choice.corrections.types.Correction;
 import tp2.clases.exceptions.UsedPowerException;
 import tp2.clases.player.powers.Exclusivity;
-import tp2.clases.player.powers.Multiplicator;
+import tp2.clases.player.powers.Multiplier;
 import tp2.clases.player.powers.Nullifier;
 import tp2.clases.player.powers.Power;
 import tp2.clases.questions.types.Question;
@@ -14,20 +14,19 @@ import java.util.ArrayList;
 
 public class Player {
 
-    private ArrayList<Multiplicator> multiplicators = new ArrayList<>();
+    private ArrayList<Multiplier> multiplicators = new ArrayList<>();
     private final String name;
     private final Score score;
     private Exclusivity exclusivity;
     private Nullifier nullifier;
     private int numberOfCorrectAnswers;
     private ArrayList<String> answers = new ArrayList<>();
-    private Boolean answeredCorrectly = false;
 
     public Player(String name, int score) {
         this.name = name;
         this.score = new Score(score);
-        multiplicators.add(new Multiplicator(2));
-        multiplicators.add(new Multiplicator(3));
+        multiplicators.add(new Multiplier(2));
+        multiplicators.add(new Multiplier(3));
         this.exclusivity = new Exclusivity();
         this.nullifier = new Nullifier();
         this.numberOfCorrectAnswers = 0;
@@ -36,8 +35,8 @@ public class Player {
     public Player(String name, Score score) {
         this.name = name;
         this.score = score;
-        multiplicators.add(new Multiplicator(2));
-        multiplicators.add(new Multiplicator(3));
+        multiplicators.add(new Multiplier(2));
+        multiplicators.add(new Multiplier(3));
         this.exclusivity = new Exclusivity();
         this.nullifier = new Nullifier();
         this.numberOfCorrectAnswers = 0;
@@ -61,25 +60,23 @@ public class Player {
 
     public ArrayList<Choice> setAnswers(Question question, String chosenChoice) {
         ArrayList<Choice> chosenAnswers = question.createAnswers(chosenChoice);
-
         answers.add(chosenChoice);
 
         return chosenAnswers;
     }
 
-    public void assignExclusivity(boolean bool) {
-        if (bool)
+    public void assignExclusivity(boolean isAssigned) {
+        if (isAssigned) {
             exclusivity.decreaseNumber();
-        exclusivity.activate();
+            exclusivity.activate();
+        }
     }
 
     public void assignScore(Correction correction, int modification) {
-
-        Multiplicator multiplicator = getActiveMultiplicator();
+        Multiplier multiplier = getActiveMultiplier();
         int factor = 1;
-        if(multiplicator != null) {
-            factor = multiplicator.getFactor();
-        }
+        if (multiplier != null)
+            factor = multiplier.getFactor();
         correction.assignScore(score, modification * factor);
     }
 
@@ -88,11 +85,10 @@ public class Player {
     }
 
     public int calculateScore(Correction correction, int modification) {
-        Multiplicator multiplicator = getActiveMultiplicator();
+        Multiplier multiplier = getActiveMultiplier();
         int factor = 1;
-        if(multiplicator != null) {
-            factor = multiplicator.getFactor();
-        }
+        if (multiplier != null)
+            factor = multiplier.getFactor();
         return correction.calculateScore(modification * factor);
     }
 
@@ -112,31 +108,31 @@ public class Player {
         this.numberOfCorrectAnswers = numberOfCorrectAnswers;
     }
 
-    public void useMultiplicator(int factor) throws UsedPowerException {
-        Multiplicator multiplicator = getMultiplicator(factor);
-        if (!multiplicator.isActive() && !multiplicator.isUsed()) {
-            multiplicator.activate();
+    public void useMultiplier(int factor) throws UsedPowerException {
+        Multiplier multiplier = getMultiplier(factor);
+        if (!multiplier.isActive() && !multiplier.isUsed()) {
+            multiplier.activate();
         }
         else {
             throw new UsedPowerException();
         }
     }
 
-    public Multiplicator getMultiplicator(int factor) {
-        for (Multiplicator multiplicator : multiplicators) {
-            if (multiplicator.getFactor() == factor) {
-                return multiplicator;
-            }
-        }
+    public Multiplier getMultiplier(int factor) {
+        for (Multiplier multiplier : multiplicators)
+            if (multiplier.getFactor() == factor)
+                return multiplier;
         return null;
     }
 
-    public Multiplicator getActiveMultiplicator() {
-        for (Multiplicator multiplicator : multiplicators) {
-            if (multiplicator.isActive()) {
-                return multiplicator;
-            }
-        }
+    public ArrayList<Multiplier> getMultipliers() {
+        return multiplicators;
+    }
+
+    public Multiplier getActiveMultiplier() {
+        for (Multiplier multiplier : multiplicators)
+            if (multiplier.isActive())
+                return multiplier;
         return null;
     }
 
@@ -153,7 +149,7 @@ public class Player {
     }
 
     public void disablePowers() {
-        disableMultiplicators();
+        disableMultipliers();
         disableExclusivity();
         disableNullifier();
     }
@@ -162,9 +158,9 @@ public class Player {
         exclusivity.deactivate();
     }
 
-    private void disableMultiplicators() {
-        for (Multiplicator multiplicator: multiplicators) {
-            multiplicator.deactivate();
+    private void disableMultipliers() {
+        for (Multiplier multiplier: multiplicators) {
+            multiplier.deactivate();
         }
     }
 
@@ -172,11 +168,12 @@ public class Player {
         nullifier.disable(score);
     }
 
-
     public ArrayList<Power> getPowers() {
         ArrayList<Power> powers = new ArrayList<>();
-        powers.add(getMultiplicator(2));
-        powers.add(getMultiplicator(3));
+
+        powers.add(getMultiplier(2));
+        powers.add(getMultiplier(3));
+
         powers.add(exclusivity);
         powers.add(nullifier);
 

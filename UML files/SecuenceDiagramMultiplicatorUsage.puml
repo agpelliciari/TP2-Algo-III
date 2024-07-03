@@ -1,8 +1,8 @@
-Jugador activa el poder multiplicator en 
+Jugador activa el poder multiplier en
 una pregunta de verdadero o falso con penalidad
 
 @startuml Diag rama de Secuencia
-title Sequence Diagram: Player uses Multiplicator on True or False with penalty question
+title Sequence Diagram: Player uses Multiplier on True or False with penalty question
 
 
 hide footbox
@@ -10,19 +10,19 @@ hide footbox
 participant "testCase02" as actor
 participant "aPlayer:Player" as player
 participant "question:TrueOrFalse" as question
-participant "power:Multiplicator" as power
+participant "power:Multiplier" as power
 participant "state:Inactive" as state
 
 
 
 
-actor -> player: useMultiplicator(2)
+actor -> player: useMultiplier(2)
 note left
     Misma secuencia para el guardado de respuestas 
     que en "SecuenceDiagramCaseOfUseFivePartOne"
 end note
 activate player
-player -> power: getMultiplicator(2)
+player -> power: getMultiplier(2)
 activate power
 power -> power: isInactive()
 note left: true
@@ -30,9 +30,9 @@ power -> state: activate()
 activate state
 
 player -> player: disablePowers()
-player -> power: disableMultiplicators()
+player -> power: disableMultipliers()
 deactivate player
-loop for each Multiplicator
+loop for each Multiplier
 power -> state: deactivate()
 state -> state: deactivate()
 end loop
