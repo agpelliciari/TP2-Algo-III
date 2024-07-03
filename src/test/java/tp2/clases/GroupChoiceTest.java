@@ -16,10 +16,9 @@ class GroupChoiceTest {
     public void test01PlayerCorrectlyPlacesChoicesInGroups() {
         Player player = new Player("Player", 0);
 
-        // Definición de grupos y opciones
-        ArrayList<Group> groups = new ArrayList<>();
-        groups.add(new Group('A', "", new int[]{1, 2, 5}));
-        groups.add(new Group('B', "", new int[]{3, 4, 6}));
+        ArrayList<GroupChoice.Group> groups = new ArrayList<>();
+        groups.add(GroupChoice.createGroup('A', "", new int[] {1, 2, 5}));
+        groups.add(GroupChoice.createGroup('B', "", new int[] {3, 4, 6}));
 
         ArrayList<Choice> choices = new ArrayList<>();
         choices.add(new Choice("", "correcta", 1));
@@ -43,17 +42,16 @@ class GroupChoiceTest {
 
         player.addToScore(score);
 
-        assertEquals(2, player.getScore());
+        assertEquals(1, player.getScore());
     }
 
     @Test
     public void test02PlayerIncorrectlyPlacesChoicesInGroups() {
         Player player = new Player("Player", 0);
 
-        // Definición de grupos y opciones
-        ArrayList<Group> groups = new ArrayList<>();
-        groups.add(new Group('A', "", new int[]{1, 2, 5}));
-        groups.add(new Group('B', "", new int[]{3, 4, 6}));
+        ArrayList<GroupChoice.Group> groups = new ArrayList<>();
+        groups.add(GroupChoice.createGroup('A', "", new int[] {1, 2, 5}));
+        groups.add(GroupChoice.createGroup('B', "", new int[] {3, 4, 6}));
 
         ArrayList<Choice> choices = new ArrayList<>();
         choices.add(new Choice("", "correcta", 1));

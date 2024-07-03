@@ -1,9 +1,9 @@
 package tp2.clases.screens;
+
 import javafx.application.Platform;
 import tp2.clases.Game;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -11,22 +11,21 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
-import javafx.stage.Stage;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.paint.Color;
 import tp2.clases.player.Player;
+
 import java.util.Comparator;
-import java.util.List;
+import java.util.ArrayList;
 import java.util.stream.Collectors;
 
 public class EndGameScreen extends VBox {
-    Stage stage;
-    Button continueButton;
-    Game game;
+    private StackPane stackPane;
+    private Game game;
 
-    public EndGameScreen(Stage primaryStage, Game game) {
+    public EndGameScreen(StackPane stackPane, Game game) {
+        this.stackPane = stackPane;
         this.game = game;
-        stage = primaryStage;
 
         setAlignment(Pos.CENTER);
         setPadding(new Insets(20));
@@ -47,11 +46,16 @@ public class EndGameScreen extends VBox {
         titleLabel.setEffect(dropShadow);
         this.getChildren().add(titleLabel);
 
-        Player winner = getWinner();
-        Label winnerLabel = new Label("GANADOR : " + winner.getName() + " con " + winner.getScore() + " puntos 🏆");
+        ArrayList<Player> winners = getWinners();
+        String winnerTitle = winners.size() > 1 ? "GANADORES: " : "GANADOR: ";
+        String winnersNames = winners.stream()
+                .map(Player::getName)
+                .collect(Collectors.joining(" y "));
+        int winnerScore = winners.get(0).getScore();
+        String winnersText = winnerTitle + winnersNames + " con " + winnerScore + " puntos 🏆";
+        Label winnerLabel = new Label(winnersText);
         winnerLabel.setFont(Font.font("Arial", FontWeight.BOLD, 28));
         this.getChildren().add(winnerLabel);
-
 
         VBox leaderboard = createLeaderboard();
         leaderboard.setStyle("-fx-background-color: #0d3e5a; -fx-padding: 10px; -fx-border-color: #ffffff; -fx-border-width: 1px;");
@@ -70,13 +74,21 @@ public class EndGameScreen extends VBox {
         exitButton.setStyle("-fx-background-color: #007bff; -fx-text-fill: white; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.75), 10, 0.5, 2, 2);");
         exitButton.setOnAction(event -> Platform.exit());
         this.getChildren().add(exitButton);
-
     }
 
-    private Player getWinner() {
-        return game.getPlayers().stream()
+    private ArrayList<Player> getWinners() {
+        ArrayList<Player> winners = new ArrayList<>();
+        int maxScore = game.getPlayers().stream()
                 .max(Comparator.comparingInt(Player::getScore))
-                .orElseThrow(() -> new IllegalArgumentException("No players in the game"));
+                .map(Player::getScore)
+                .orElse(0);
+
+        for (Player player : game.getPlayers()) {
+            if (player.getScore() == maxScore) {
+                winners.add(player);
+            }
+        }
+        return winners;
     }
 
     private VBox createLeaderboard() {
@@ -85,10 +97,9 @@ public class EndGameScreen extends VBox {
         leaderboard.setSpacing(10);
         leaderboard.setPadding(new Insets(20));
 
-        List<Player> sortedPlayers = game.getPlayers().stream()
+        ArrayList<Player> sortedPlayers = game.getPlayers().stream()
                 .sorted(Comparator.comparingInt(Player::getScore).reversed())
-                .collect(Collectors.toList());
-
+                .collect(Collectors.toCollection(ArrayList::new));
 
         GridPane headerGrid = new GridPane();
         headerGrid.setHgap(50);
@@ -120,18 +131,14 @@ public class EndGameScreen extends VBox {
 
         int rank = 1;
         for (Player player : sortedPlayers) {
-
-
             GridPane playerGrid = new GridPane();
             playerGrid.setHgap(50);
             playerGrid.setPadding(new Insets(5));
             playerGrid.setStyle("-fx-background-color: #266d99; -fx-padding: 10px; -fx-border-width: 0 0 1px 0; -fx-border-color: #266d99;");
             playerGrid.getColumnConstraints().addAll(col1, col2, col3);
 
-
             Label rankLabel = new Label(String.valueOf(rank));
             rankLabel.setFont(Font.font("Arial", FontWeight.BOLD, 18));
-
             GridPane.setConstraints(rankLabel, 0, 0);
 
             Label nameLabel = new Label(player.getName());
@@ -147,10 +154,6 @@ public class EndGameScreen extends VBox {
             rank++;
         }
 
-
-
-
         return leaderboard;
     }
 }
-

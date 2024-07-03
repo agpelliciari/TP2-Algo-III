@@ -18,7 +18,7 @@ public class TrueOrFalseFactory implements QuestionFactory {
     }
 
     @Override
-    public Question createQuestion(String questionId, JsonParser.QuestionString questionString, ArrayList<Choice> choices) {
+    public Question createQuestion(JsonParser.QuestionString questionString, ArrayList<Choice> choices) {
         int questionIdToInt = (int) Double.parseDouble(questionString.getId());
         return new TrueOrFalse(questionIdToInt, new Content(questionString.getTheme(), questionString.getQuestion() ,questionString.getAnswerText()), mode, choices);
     }
