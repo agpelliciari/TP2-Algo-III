@@ -148,10 +148,16 @@ public class Panel extends ScrollPane {
 
     private void setAnswerButton(Game game, int playerIndex, int questionIndex) {
         answerButton = new Button("Responder");
-        answerButton.setStyle("-fx-background-color: #007bff; -fx-text-fill: white; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.75), 10, 0.5, 2, 2);");
+        answerButton.setStyle("-fx-font-size: 19px; -fx-padding: 10px 20px; -fx-background-color: #007bff; -fx-text-fill: white; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.75), 10, 0.5, 2, 2);");
         answerButton.setDisable(true);
         AnswerButtonHandler answerButtonHandler = new AnswerButtonHandler(root, game, playerIndex, questionIndex, this);
         answerButton.setOnAction(answerButtonHandler);
+
+        double width = 150;
+        double height = 45;
+        answerButton.setMinSize(width, height);
+        answerButton.setPrefSize(width, height);
+        answerButton.setMaxSize(width, height);
 
         box.getChildren().add(answerButton);
     }
