@@ -41,7 +41,6 @@ public class PlayersNamesInputScreen extends VBox {
         setAlignment(Pos.CENTER);
         setPadding(new Insets(20));
         setSpacing(20);
-
         setStyle("-fx-background-color: #f0f0f0;");
 
         //createPlayerNameInputFields(game);
@@ -104,7 +103,7 @@ public class PlayersNamesInputScreen extends VBox {
         TextField playerNameTextField = new TextField();
         playerNameTextField.setPromptText("Nombre del jugador");
         playerNameTextField.setStyle("-fx-font-size: 14px; -fx-padding: 10px; -fx-border-color: #ccc; -fx-border-radius: 5px; -fx-background-radius: 5px;");
-
+        playerNameTextField.setMaxWidth(300);
         addValidationListener(playerNameTextField);
 
         VBox.setMargin(playerNameTextField, new Insets(0, 0, 10, 0));
