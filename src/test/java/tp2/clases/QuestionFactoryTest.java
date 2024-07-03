@@ -12,8 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class QuestionFactoryTest {
     ArrayList<Choice> choices = new ArrayList<Choice>();
-    JsonParser jsonParser = new JsonParser();
-    ArrayList<JsonParser.QuestionString> questionsString = jsonParser.questionsStringParser("src/main/resources/preguntas.json");
+    ArrayList<JsonParser.QuestionString> questionsString = JsonParser.questionsStringParser("src/main/resources/preguntas.json");
 
     @Test
     public void test01AQuestionFactoryCreatesATrueOrFalseQuestion() {
@@ -21,7 +20,7 @@ public class QuestionFactoryTest {
         QuestionFactory factory = QuestionFactoryProvider.getFactory("Verdadero Falso");
 
         //Act
-        Question question = factory.createQuestion("", questionsString.get(0), choices);
+        Question question = factory.createQuestion(questionsString.get(0), choices);
 
         //Assert
         assertInstanceOf(TrueOrFalse.class, question);
@@ -33,7 +32,7 @@ public class QuestionFactoryTest {
         QuestionFactory factory = QuestionFactoryProvider.getFactory("Multiple Choice Simple");
 
         //Act
-        Question question = factory.createQuestion("", questionsString.get(0), choices);
+        Question question = factory.createQuestion(questionsString.get(0), choices);
 
         //Assert
         assertInstanceOf(MultipleChoice.class, question);
@@ -45,7 +44,7 @@ public class QuestionFactoryTest {
         QuestionFactory factory = QuestionFactoryProvider.getFactory("Ordered Choice");
 
         //Act
-        Question question = factory.createQuestion("", questionsString.get(0), choices);
+        Question question = factory.createQuestion(questionsString.get(0), choices);
 
         //Assert
         assertInstanceOf(OrderedChoice.class, question);
@@ -57,7 +56,7 @@ public class QuestionFactoryTest {
         QuestionFactory factory = QuestionFactoryProvider.getFactory("Group Choice");
 
         //Act
-        Question question = factory.createQuestion("", questionsString.get(0), choices);
+        Question question = factory.createQuestion(questionsString.get(0), choices);
 
         //Assert
         assertInstanceOf(GroupChoice.class, question);

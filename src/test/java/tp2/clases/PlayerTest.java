@@ -94,7 +94,7 @@ public class PlayerTest {
 
         //Act
         player1.useNullifier();
-        if(!player2.nullifierIsActive()) {
+        if (!player2.nullifierIsActive()) {
             player2.aNullifierIsActivated();
         }
 

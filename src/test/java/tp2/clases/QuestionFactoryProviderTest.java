@@ -56,6 +56,6 @@ public class QuestionFactoryProviderTest {
     @Test
     public void test05TheProviderThrowsAnExceptionIfTheTypeIsInvalid() {
         //Assert
-        assertThrows(IllegalStateException.class, () -> {QuestionFactoryProvider.getFactory("Unknown Factory");});
+        assertThrows(IllegalStateException.class, () -> {QuestionFactoryProvider.getFactory("Unknown question type");});
     }
 }

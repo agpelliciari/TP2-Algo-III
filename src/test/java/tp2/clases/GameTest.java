@@ -17,7 +17,7 @@ public class GameTest {
     public void test01SelectedNumberOfPlayersEqualsFour() {
         int expectedValue = 4;
         Game game = new Game(new ArrayList<>());
-        List<String> names = new ArrayList<>();
+        ArrayList<String> names = new ArrayList<>();
         names.add("mateo");
         names.add("julian");
         names.add("matias");
@@ -31,7 +31,7 @@ public class GameTest {
     public void test02SelectedNumberOfPlayersThrowsAnException() {
         Game game = new Game(new ArrayList<>());
 
-        assertThrows(InvalidNumberOfPlayersException.class, () -> {game.selectPlayers(1);});
+        assertThrows(InvalidNumberOfPlayersException.class, () -> {game.selectPlayers(1, new ArrayList<>());});
     }
 
     @Test
