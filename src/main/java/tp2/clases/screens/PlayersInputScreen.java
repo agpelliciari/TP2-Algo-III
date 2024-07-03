@@ -3,22 +3,19 @@ package tp2.clases.screens;
 import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
-import javafx.scene.control.*;
-import javafx.stage.Stage;
+import javafx.scene.media.MediaPlayer;
 import tp2.clases.Game;
 import tp2.clases.handlers.ConfirmButtonHandler;
 
 import java.util.function.Consumer;
 
+
 public class PlayersInputScreen extends VBox {
+
     ComboBox<String> pointsCombo;
     ComboBox<String> questionsCombo;
     ComboBox<String> playersCombo;
@@ -26,8 +23,9 @@ public class PlayersInputScreen extends VBox {
     private TextField numberOfQuestionsTextField;
     private TextField numberOfPointsTextField;
 
-    Stage stage;
+    private StackPane root;
     Button confirmButton;
+    private MediaPlayer mediaPlayer;
 
     public PlayersInputScreen(Consumer<Integer> numberOfPlayersConsumer, Consumer<Integer> numberOfQuestionsConsumer, Consumer<Integer> numberOfPointsConsumer) {
         super(20);
@@ -69,10 +67,10 @@ public class PlayersInputScreen extends VBox {
         getChildren().addAll(label, numberOfPlayersTextField, questionsLabel, numberOfQuestionsTextField, pointsLabel, numberOfPointsTextField, confirmButton);
     }
 
-    public PlayersInputScreen(Stage primaryStage, Game game) {
+    public PlayersInputScreen(StackPane root, Game game, MediaPlayer mediaPlayer) {
         super(30);
-
-        this.stage = primaryStage;
+        this.root = root;
+        this.mediaPlayer = mediaPlayer;
 
         setAlignment(Pos.CENTER);
         setPadding(new Insets(20));
@@ -96,11 +94,49 @@ public class PlayersInputScreen extends VBox {
         confirmButton = new Button();
         confirmButton.setText("Confirmar");
         confirmButton.setStyle("-fx-background-color: #007bff; -fx-text-fill: white; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.75), 10, 0.5, 2, 2);");
-        ConfirmButtonHandler confirmButtonHandler = new ConfirmButtonHandler(game, this, primaryStage);
+        ConfirmButtonHandler confirmButtonHandler = new ConfirmButtonHandler(game, this, root);
         confirmButton.setOnAction(confirmButtonHandler);
         confirmButton.setDisable(true);
 
         getChildren().addAll(label, playersCombo, questionsLabel, questionsCombo, pointsLabel, pointsCombo, confirmButton);
+    }
+
+    private TextField textFieldCreator(String promptText) {
+        TextField textField = new TextField();
+        textField.setPromptText(promptText);
+        textField.setStyle("-fx-font-size: 14px; -fx-padding: 10px; -fx-border-color: #ccc; -fx-border-radius: 5px; -fx-background-radius: 5px;");
+        return textField;
+    }
+
+    private Button getButton(Consumer<Integer> numberOfPlayersConsumer, Consumer<Integer> numberOfQuestionsConsumer, Consumer<Integer> numberOfPointsConsumer) {
+        Button confirmButton = new Button("Confirmar");
+        ConfirmButtonHandler confirmButtonHandler = new ConfirmButtonHandler(this, numberOfPlayersConsumer, numberOfQuestionsConsumer, numberOfPointsConsumer);
+        confirmButton.setStyle("-fx-font-size: 14px; -fx-padding: 10px 20px; -fx-background-color: #266d99; -fx-text-fill: white; -fx-border-radius: 5px; -fx-background-radius: 5px;");
+        confirmButton.setOnMouseEntered(e -> confirmButton.setStyle("-fx-font-size: 14px; -fx-padding: 10px 20px; -fx-background-color: #0b4163; -fx-text-fill: white; -fx-border-radius: 5px; -fx-background-radius: 5px;"));
+        confirmButton.setOnMouseExited(e -> confirmButton.setStyle("-fx-font-size: 14px; -fx-padding: 10px 20px; -fx-background-color: #266d99; -fx-text-fill: white; -fx-border-radius: 5px; -fx-background-radius: 5px;"));
+        confirmButton.setOnAction(confirmButtonHandler);
+        return confirmButton;
+    }
+
+    public void confirmNumber(TextField textField, Consumer<Integer> consumer, int minValue) {
+        try {
+            int value = Integer.parseInt(textField.getText());
+            if (value > minValue) {
+                consumer.accept(value);
+            } else {
+                showErrorDialog("Ingrese un número válido (> 1).");
+            }
+        } catch (NumberFormatException e) {
+            showErrorDialog("Ingrese un número válido.");
+        }
+    }
+
+    private void showErrorDialog(String errorMessage) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setHeaderText(null);
+        alert.setContentText(errorMessage);
+        alert.showAndWait();
     }
 
     private void addValidationListener(ComboBox<String> comboBox) {
@@ -130,55 +166,5 @@ public class PlayersInputScreen extends VBox {
         Label label = new Label(text);
         label.setStyle("-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #333;");
         return label;
-    }
-
-    private TextField textFieldCreator(String promptText) {
-        TextField textField = new TextField();
-        textField.setPromptText(promptText);
-        textField.setStyle("-fx-font-size: 14px; -fx-padding: 10px; -fx-border-color: #ccc; -fx-border-radius: 5px; -fx-background-radius: 5px;");
-        return textField;
-    }
-
-    private Button getButton(Consumer<Integer> numberOfPlayersConsumer, Consumer<Integer> numberOfQuestionsConsumer, Consumer<Integer> numberOfPointsConsumer) {
-        Button confirmButton = new Button("Confirmar");
-        ConfirmButtonHandler confirmButtonHandler = new ConfirmButtonHandler(this, numberOfPlayersConsumer, numberOfQuestionsConsumer, numberOfPointsConsumer);
-        confirmButton.setStyle("-fx-font-size: 14px; -fx-padding: 10px 20px; -fx-background-color: #266d99; -fx-text-fill: white; -fx-border-radius: 5px; -fx-background-radius: 5px;");
-        confirmButton.setOnMouseEntered(e -> confirmButton.setStyle("-fx-font-size: 14px; -fx-padding: 10px 20px; -fx-background-color: #0b4163; -fx-text-fill: white; -fx-border-radius: 5px; -fx-background-radius: 5px;"));
-        confirmButton.setOnMouseExited(e -> confirmButton.setStyle("-fx-font-size: 14px; -fx-padding: 10px 20px; -fx-background-color: #266d99; -fx-text-fill: white; -fx-border-radius: 5px; -fx-background-radius: 5px;"));
-        confirmButton.setOnAction(confirmButtonHandler);
-        return confirmButton;
-    }
-
-    public TextField getNumberOfPlayersTextField() {
-        return numberOfPlayersTextField;
-    }
-
-    public TextField getNumberOfQuestionsTextField() {
-        return numberOfQuestionsTextField;
-    }
-
-    public TextField getNumberOfPointsTextField() {
-        return numberOfPointsTextField;
-    }
-
-    public void confirmNumber(TextField textField, Consumer<Integer> consumer, int minValue) {
-        try {
-            int value = Integer.parseInt(textField.getText());
-            if (value > minValue) {
-                consumer.accept(value);
-            } else {
-                showErrorDialog("Ingrese un número válido (> 1).");
-            }
-        } catch (NumberFormatException e) {
-            showErrorDialog("Ingrese un número válido.");
-        }
-    }
-
-    private void showErrorDialog(String errorMessage) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Error");
-        alert.setHeaderText(null);
-        alert.setContentText(errorMessage);
-        alert.showAndWait();
     }
 }

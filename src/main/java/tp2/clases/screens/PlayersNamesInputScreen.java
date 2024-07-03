@@ -8,8 +8,7 @@ import javafx.scene.layout.*;
 import java.util.ArrayList;
 import java.util.function.Consumer;
 
-import javafx.scene.paint.Color;
-import javafx.stage.Stage;
+import javafx.stage.Window;
 import tp2.clases.Game;
 import tp2.clases.handlers.NamesInputButtonHandler;
 
@@ -17,7 +16,7 @@ import tp2.clases.handlers.NamesInputButtonHandler;
 public class PlayersNamesInputScreen extends VBox {
 
     Game game;
-    Stage stage;
+    StackPane root;
 
     private int numberOfPlayers;
     private ArrayList<TextField> playerNameTextFields;
@@ -49,10 +48,10 @@ public class PlayersNamesInputScreen extends VBox {
         getChildren().addAll(scrollPane, confirmButton);
     }
 
-    public PlayersNamesInputScreen(Stage primaryStage, Game game) {
+    public PlayersNamesInputScreen(StackPane root, Game game) {
         super();
 
-        this.stage = primaryStage;
+        this.root = root;
         this.game = game;
 
         Image image = new Image("file:white-background.jpg");
@@ -71,7 +70,7 @@ public class PlayersNamesInputScreen extends VBox {
 
         createPlayerNameInputFields();
 
-        NamesInputButtonHandler inputButtonHandler = new NamesInputButtonHandler(game, primaryStage, this);
+        NamesInputButtonHandler inputButtonHandler = new NamesInputButtonHandler(game, root, this);
         confirmButton.setOnAction(inputButtonHandler);
 
         getChildren().addAll(confirmButton);

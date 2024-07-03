@@ -4,60 +4,49 @@ import javafx.animation.ScaleTransition;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
-import javafx.stage.Stage;
 import javafx.util.Duration;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.layout.VBox;
+
 import tp2.clases.Game;
 import tp2.clases.handlers.AnswerButtonHandler;
 import tp2.clases.player.Player;
 import tp2.clases.questions.types.Question;
 import tp2.clases.questions.choice.Choice;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.ArrayList;
 
 public class Panel extends ScrollPane {
+
     ScoreContainer scores;
-    Stage stage;
+    StackPane root;
     Button answerButton;
 
     private CheckBox exclusivityCheckBox;
     private CheckBox nullifierCheckBox;
-    private CheckBox multiplicatorCheckBox;
-    private TextField factorTextField;
+    private ArrayList<CheckBox> multiplicatorCheckBoxes = new ArrayList<>();
     private VBox box;
-    private Map<Button, String> buttonAnswerMap = new HashMap<>();
-    private Set<String> selectedAnswers = new HashSet<>();
+    private ArrayList<Button> buttons = new ArrayList<>();
+    private ArrayList<String> buttonAnswerList = new ArrayList<>();
+    private ArrayList<String> selectedAnswers = new ArrayList<>();
 
-    public Panel(Stage primaryStage, Game game, int playerIndex, int questionIndex) {
-
-        this.stage = primaryStage;
-
+    public Panel(StackPane root, Game game, int playerIndex, int questionIndex) {
+        this.root = root;
         setUI(game, playerIndex, questionIndex);
     }
 
     private void setUI(Game game, int playerIndex, int questionIndex) {
-
         Question currentQuestion = game.getQuestion(questionIndex);
         Player currentPlayer = game.getPlayer(playerIndex);
 
         setVBox();
-
         setBackground();
-
         setPlayerScores(game, currentPlayer);
-
-        setQuestionAndPlayerInfo(currentQuestion, currentPlayer, game);
-
+        setQuestionAndPlayerInfo(currentQuestion, game);
         setChoiceButtons(currentQuestion);
-
         setPowers(currentQuestion, currentPlayer);
-
-        setAnswerButton(stage, game, playerIndex, questionIndex);
+        setAnswerButton(game, playerIndex, questionIndex);
 
         this.setContent(box);
         this.setFitToWidth(true);
@@ -93,25 +82,21 @@ public class Panel extends ScrollPane {
     private void showPlayersScore(Game game, Player currentPlayer) {
         scores.cleanContainer();
         for (Player player : game.getPlayers()) {
-
             Label scoreLabel = new Label(player.getName() + ": " + player.getScore() + " puntos");
-
             if (player.getName().equals(currentPlayer.getName())) {
                 scoreLabel.setStyle("-fx-font-size: 14px; -fx-font-weight: bold;");
             } else {
                 scoreLabel.setStyle("-fx-font-size: 14px;");
             }
-
             scores.addChild(scoreLabel);
         }
     }
 
-    private void setQuestionAndPlayerInfo(Question currentQuestion, Player currentPlayer, Game game) {
+    private void setQuestionAndPlayerInfo(Question currentQuestion, Game game) {
         box.getChildren().addAll(
                 PanelBuilder.createLabel("Pregunta " + game.getQuestionCount(), 20, true),
-                //PanelBuilder.createLabel(currentPlayer.getName(), 30, true, "#090971"),
                 PanelBuilder.createLabel(currentQuestion.getContent().getTheme(), 16, false),
-                PanelBuilder.createLabel(currentQuestion.getContent().getPrompt(), 16, true)
+                PanelBuilder.createText(currentQuestion.getContent().getPrompt(), 16)
         );
     }
 
@@ -119,14 +104,16 @@ public class Panel extends ScrollPane {
         for (Choice choice : currentQuestion.getChoices()) {
             Button choiceButton = new Button(choice.getContent());
             choiceButton.setStyle("-fx-font-size: 14px;");
-            buttonAnswerMap.put(choiceButton, String.valueOf(choice.getId()));
+            buttons.add(choiceButton);
+            buttonAnswerList.add(String.valueOf(choice.getId()));
             choiceButton.setOnAction(event -> handleChoiceButton(choiceButton));
             box.getChildren().add(choiceButton);
         }
     }
 
     private void handleChoiceButton(Button choiceButton) {
-        String choiceId = buttonAnswerMap.get(choiceButton);
+        int index = buttons.indexOf(choiceButton);
+        String choiceId = buttonAnswerList.get(index);
 
         if (selectedAnswers.contains(choiceId)) {
             selectedAnswers.remove(choiceId);
@@ -135,7 +122,6 @@ public class Panel extends ScrollPane {
             selectedAnswers.add(choiceId);
             choiceButton.setStyle("-fx-font-size: 14px; -fx-background-color: lightblue;");
         }
-        updateSelectedAnswers();
         checkSelectedAnswers();
     }
 
@@ -143,32 +129,28 @@ public class Panel extends ScrollPane {
         answerButton.setDisable(selectedAnswers.isEmpty());
     }
 
-    private void updateSelectedAnswers() {
-
-    }
-
     private void setPowers(Question currentQuestion, Player currentPlayer) {
-        exclusivityCheckBox = new CheckBox("Usar exclusividad");
-        multiplicatorCheckBox = new CheckBox("Usar multiplicador");
-        factorTextField = (TextField) PanelBuilder.createTextField("Factor", 12);
+        exclusivityCheckBox = new CheckBox("Usar exclusividad (" + currentPlayer.getExclusivity().getNumber() + (currentPlayer.getExclusivity().getNumber() == 1 ? " restante)" : " restantes)"));
+        for (int i = 0; i < currentPlayer.getMultipliers().size(); i++)
+            multiplicatorCheckBoxes.add(new CheckBox("Usar multiplicador x" + currentPlayer.getMultipliers().get(i).getFactor()));
         nullifierCheckBox = new CheckBox("Usar anulador");
 
         if (currentQuestion.getMode().isPenaltyMode()) {
-            box.getChildren().add(PanelBuilder.createMultiplicatorContainer(multiplicatorCheckBox, factorTextField));
+            for (int i = 0; i < multiplicatorCheckBoxes.size(); i++)
+                    if (!currentPlayer.getMultipliers().get(i).isUsed())
+                        box.getChildren().add(PanelBuilder.createMultiplierContainer(multiplicatorCheckBoxes.get(i)));
         } else if (currentPlayer.getExclusivity().getNumber() > 0) {
             box.getChildren().add(exclusivityCheckBox);
         }
-
-        if (!currentPlayer.getNullifier().isUsed()) {
+        if (!currentPlayer.getNullifier().isUsed())
             box.getChildren().add(nullifierCheckBox);
-        }
     }
 
-    private void setAnswerButton(Stage primaryStage, Game game, int playerIndex, int questionIndex) {
+    private void setAnswerButton(Game game, int playerIndex, int questionIndex) {
         answerButton = new Button("Responder");
         answerButton.setStyle("-fx-background-color: #007bff; -fx-text-fill: white; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.75), 10, 0.5, 2, 2);");
         answerButton.setDisable(true);
-        AnswerButtonHandler answerButtonHandler = new AnswerButtonHandler(primaryStage, game, playerIndex, questionIndex, this);
+        AnswerButtonHandler answerButtonHandler = new AnswerButtonHandler(root, game, playerIndex, questionIndex, this);
         answerButton.setOnAction(answerButtonHandler);
 
         box.getChildren().add(answerButton);
@@ -193,81 +175,14 @@ public class Panel extends ScrollPane {
         return nullifierCheckBox.isSelected();
     }
 
-    public boolean isMultiplicatorSelected() {
-        return multiplicatorCheckBox.isSelected();
+    public boolean isMultiplierSelected(int multiplicatorIndex) {
+        return multiplicatorCheckBoxes.get(multiplicatorIndex).isSelected();
     }
 
-    public String getFactor() {
-        return factorTextField.getText();
+    public ArrayList<String> getMultipliersFactor(Player player) {
+        ArrayList<String> multiplicatorsFactor = new ArrayList<>();
+        for (int i = 0; i < player.getMultipliers().size(); i++)
+            multiplicatorsFactor.add(String.valueOf(player.getMultipliers().get(i).getFactor()));
+        return multiplicatorsFactor;
     }
 }
-
-/*public Panel(Player currentPlayer, Question currentQuestion, App app) {
-        box = new VBox(20);
-        box.setAlignment(Pos.CENTER);
-        box.setPadding(new Insets(20, 20, 20, 20));
-
-        ScaleTransition st = new ScaleTransition(Duration.millis(1000), box);
-        st.setFromX(0.5);
-        st.setFromY(0.5);
-        st.setToX(1.0);
-        st.setToY(1.0);
-        st.play();
-
-        BackgroundFill backgroundFill = new BackgroundFill(Color.web("#f0f0f0"), CornerRadii.EMPTY, Insets.EMPTY);
-        box.setBackground(new Background(backgroundFill));
-
-        box.getChildren().addAll(
-                PanelBuilder.createLabel("Pregunta " + currentQuestion.getId(), 20, true),
-                PanelBuilder.createLabel(currentPlayer.getName(), 30, true, "#ff9900"),
-                PanelBuilder.createLabel(currentQuestion.getContent().getTheme(), 16, false),
-                PanelBuilder.createLabel(currentQuestion.getContent().getPrompt(), 16, false)
-        );
-
-        for (Choice choice : currentQuestion.getChoices()) {
-            Button choiceButton = new Button(choice.getId() + ") " + choice.getContent());
-            choiceButton.setStyle("-fx-font-size: 14px;");
-            buttonAnswerMap.put(choiceButton, String.valueOf(choice.getId()));
-            choiceButton.setOnAction(event -> {
-                String choiceId = buttonAnswerMap.get(choiceButton);
-                selectedAnswers.add(choiceId);
-                choiceButton.setDisable(true);
-                updateSelectedAnswers();
-            });
-            box.getChildren().add(choiceButton);
-        }
-
-        exclusivityCheckBox = new CheckBox("Usar exclusividad");
-        multiplicatorCheckBox = new CheckBox("Usar multiplicador");
-        factorTextField = (TextField) PanelBuilder.createTextField("Factor", 12);
-        nullifierCheckBox = new CheckBox("Usar anulador");
-
-        if (currentQuestion.getMode().isPenaltyMode()) {
-            box.getChildren().add(PanelBuilder.createMultiplicatorContainer(multiplicatorCheckBox, factorTextField));
-        } else if (currentPlayer.getExclusivity().getNumber() > 0) {
-            box.getChildren().add(exclusivityCheckBox);
-        }
-
-        if (!currentPlayer.getNullifier().isUsed())
-            box.getChildren().add(nullifierCheckBox);
-
-        Button answerButton = createAnswerButton(currentQuestion, currentPlayer, app);
-        box.getChildren().add(answerButton);
-
-        this.setContent(box);
-        this.setFitToWidth(true);
-        this.setFitToHeight(true);
-    }*/
-
-    /*private Button createAnswerButton(Question currentQuestion, Player currentPlayer, App app) {
-        Button answerButton = new Button("Responder");
-        answerButton.setStyle("-fx-font-size: 14px; -fx-background-color: #ff6666; -fx-text-fill: white;");
-        answerButton.setOnAction(e -> {
-            try {
-                app.saveAnswerAndProceed(currentQuestion, currentPlayer, isExclusivitySelected(), isNullifierSelected(), getSelectedAnswers(), getFactor(), isMultiplicatorSelected());
-            } catch (InvalidAnswerFormatException ex) {
-                app.showErrorDialog(ex.getMessage());
-            }
-        });
-        return answerButton;
-    }*/
