@@ -2,11 +2,11 @@ package tp2.clases.handlers;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.Scene;
 import javafx.scene.media.AudioClip;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+
 import tp2.clases.Game;
-import tp2.clases.screens.MainContainer;
 import tp2.clases.screens.PlayersInputScreen;
 import tp2.clases.screens.PlayersNamesInputScreen;
 
@@ -15,11 +15,9 @@ import java.util.function.Consumer;
 
 public class ConfirmButtonHandler implements EventHandler<ActionEvent> {
 
-    Game game;
-    Stage stage;
-
-    PlayersInputScreen playersInputScreen;
-
+    private Game game;
+    private StackPane stackPane;
+    private PlayersInputScreen playersInputScreen;
     private Consumer<Integer> numberOfPlayersConsumer;
     private Consumer<Integer> numberOfQuestionsConsumer;
     private Consumer<Integer> numberOfPointsConsumer;
@@ -31,39 +29,26 @@ public class ConfirmButtonHandler implements EventHandler<ActionEvent> {
         this.numberOfPointsConsumer = numberOfPointsConsumer;
     }
 
-    public ConfirmButtonHandler(Game game, PlayersInputScreen playersInputScreen, Stage primaryStage) {
+    public ConfirmButtonHandler(Game game, PlayersInputScreen playersInputScreen, StackPane stackPane) {
         this.playersInputScreen = playersInputScreen;
-        this.stage = primaryStage;
+        this.stackPane = stackPane;
         this.game = game;
     }
 
-    /*@Override
-    public void handle(ActionEvent event) {
-        playersInputScreen.confirmNumber(playersInputScreen.getNumberOfPlayersTextField(), numberOfPlayersConsumer, 1);
-        playersInputScreen.confirmNumber(playersInputScreen.getNumberOfQuestionsTextField(), numberOfQuestionsConsumer, 1);
-        playersInputScreen.confirmNumber(playersInputScreen.getNumberOfPointsTextField(), numberOfPointsConsumer, 1);
-    }*/
-
     @Override
     public void handle(ActionEvent event) {
-        String buttonPressedSound = new File("src/main/resources/sounds/button-pressed.mp3").toURI().toString();
-        AudioClip audio = new AudioClip(buttonPressedSound);
-        audio.play();
+        ActionHandler.actionSound();
 
         game.setNumberOfPlayers(playersInputScreen.getNumberOfPlayersInput());
-
         game.setQuestionLimit(playersInputScreen.getQuestionLimitInput());
-
         game.setPointLimit(playersInputScreen.getPointLimitInput());
 
-        PlayersNamesInputScreen namesInputScreen = new PlayersNamesInputScreen(stage, game);
-        Scene namesInputScene = new Scene(namesInputScreen, 800, 600);
+        PlayersNamesInputScreen namesInputScreen = new PlayersNamesInputScreen(stackPane, game);
+        stackPane.getChildren().clear();
+        stackPane.getChildren().add(namesInputScreen);
 
-        stage.setScene(namesInputScene);
-
+        Stage stage = (Stage) stackPane.getScene().getWindow();
         stage.setFullScreenExitHint("");
-
         stage.setFullScreen(false);
     }
 }
-

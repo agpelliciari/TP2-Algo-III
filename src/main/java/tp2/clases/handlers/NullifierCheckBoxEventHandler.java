@@ -1,6 +1,7 @@
 package tp2.clases.handlers;
 
 import javafx.scene.control.Alert;
+
 import tp2.clases.player.Player;
 import tp2.clases.exceptions.UsedPowerException;
 
@@ -32,10 +33,4 @@ public class NullifierCheckBoxEventHandler {
         alert.setContentText(errorMessage);
         alert.showAndWait();
     }
-
-    /*public void deactivateNullifier(ArrayList<Player> players) {
-        for (Player player: players) {
-            player.disableNullifier();
-        }
-    }*/
 }

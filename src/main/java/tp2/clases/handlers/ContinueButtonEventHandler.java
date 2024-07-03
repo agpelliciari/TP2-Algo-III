@@ -2,45 +2,38 @@ package tp2.clases.handlers;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
+
 import tp2.clases.Game;
-import tp2.clases.questions.types.Question;
-import tp2.clases.screens.*;
+import tp2.clases.screens.EndGameScreen;
+import tp2.clases.screens.Panel;
 
 public class ContinueButtonEventHandler implements EventHandler<ActionEvent> {
-    Game game;
-    Scene nextScene;
-    Stage stage;
 
-    public ContinueButtonEventHandler(Game game, Stage primaryStage) {
-        this.stage = primaryStage;
+    private Game game;
+    private StackPane root;
+
+    public ContinueButtonEventHandler(Game game, StackPane root) {
         this.game = game;
+        this.root = root;
     }
 
     @Override
     public void handle(ActionEvent event) {
+        ActionHandler.actionSound();
 
         if (game.isFinished()) {
-
-            EndGameScreen endScreen = new EndGameScreen(stage, game);
-            Scene endScene = new Scene(endScreen, 800, 600);
-
-            stage.setScene(endScene);
-
+            VBox endScreen = new EndGameScreen(root, game);
+            root.getChildren().clear();
+            root.getChildren().add(endScreen);
         } else {
-
             game.deactivatePowers();
-
             int questionIndex = game.getRandomQuestionIndex();
-            Panel gameScreen = new Panel(stage, game, 0, questionIndex);
-            Scene gameScene = new Scene(gameScreen, 800, 600);
-
-            stage.setScene(gameScene);
+            ScrollPane gameScreen = new Panel(root, game, 0, questionIndex);
+            root.getChildren().clear();
+            root.getChildren().add(gameScreen);
         }
-
-        stage.setFullScreenExitHint("");
-
-        stage.setFullScreen(false);
     }
 }
