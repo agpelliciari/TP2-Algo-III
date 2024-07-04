@@ -18,13 +18,13 @@ import static tp2.clases.ConstantsPaths.LOGO_IMAGE_PATH;
 
 public class StartScreen extends VBox {
 
-    private StackPane root;
+    private StackPane stackPane;
     private PlayersInputScreen inputsScreen;
     private MediaPlayer mediaPlayer;
 
-    public StartScreen(StackPane root, PlayersInputScreen inputsScreen, MediaPlayer mediaPlayer) {
+    public StartScreen(StackPane stackPane, PlayersInputScreen inputsScreen, MediaPlayer mediaPlayer) {
         super();
-        this.root = root;
+        this.stackPane = stackPane;
         this.inputsScreen = inputsScreen;
         this.mediaPlayer = mediaPlayer;
 

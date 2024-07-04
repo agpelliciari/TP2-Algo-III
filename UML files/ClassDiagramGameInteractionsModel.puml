@@ -27,7 +27,7 @@ abstract class Question{
 
 class Player{
 -score: Score
--multiplicators: ArrayList<Multiplier>
+-multipliers: ArrayList<Multiplier>
 -exclusivity: Exclusivity
 -nullifier: Nullifier
 +{static}Player(name: String, initialScore: int)

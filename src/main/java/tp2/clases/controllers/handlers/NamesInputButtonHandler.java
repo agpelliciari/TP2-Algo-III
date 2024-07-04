@@ -5,7 +5,9 @@ import javafx.event.EventHandler;
 import javafx.scene.layout.StackPane;
 
 import tp2.clases.model.Game;
-import tp2.clases.view.screens.Panel;
+import tp2.clases.model.questions.types.GroupChoice;
+import tp2.clases.view.screens.GroupChoiceScreen;
+import tp2.clases.view.screens.QuestionScreen;
 import tp2.clases.view.screens.PlayersNamesInputScreen;
 
 public class NamesInputButtonHandler implements EventHandler<ActionEvent> {
@@ -27,9 +29,14 @@ public class NamesInputButtonHandler implements EventHandler<ActionEvent> {
         game.registerUsers(namesInputScreen.getNames());
         int questionIndex = game.getRandomQuestionIndex();
 
-        Panel gameScreen = new Panel(stackPane, game, 0, questionIndex);
-
-        stackPane.getChildren().clear();
-        stackPane.getChildren().add(gameScreen);
+        if (game.getQuestion(questionIndex) instanceof GroupChoice) {
+            GroupChoiceScreen gameScreen = new GroupChoiceScreen(stackPane, game, 0, questionIndex);
+            stackPane.getChildren().clear();
+            stackPane.getChildren().add(gameScreen);
+        } else {
+            QuestionScreen gameScreen = new QuestionScreen(stackPane, game, 0, questionIndex);
+            stackPane.getChildren().clear();
+            stackPane.getChildren().add(gameScreen);
+        }
     }
 }

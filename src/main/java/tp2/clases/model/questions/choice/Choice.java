@@ -7,7 +7,11 @@ public class Choice {
 
     public String content;
     public Correction correction;
-    private final int id;
+    private int id;
+
+    public Choice(int id) {
+        this.id = id;
+    }
 
     public Choice(String content, String correction, int id) {
         this.content = content;

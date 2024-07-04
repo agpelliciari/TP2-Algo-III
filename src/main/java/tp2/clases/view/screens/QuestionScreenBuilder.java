@@ -10,7 +10,7 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.scene.text.TextFlow;
 
-public class PanelBuilder {
+public class QuestionScreenBuilder {
 
     public static Node createLabel(String text, int fontSize, boolean bold) {
         return createLabel(text, fontSize, bold, null);
@@ -23,11 +23,11 @@ public class PanelBuilder {
         return label;
     }
 
-    public static Node createMultiplierContainer(CheckBox multiplicatorCheckBox) {
-        HBox multiplicatorContainer = new HBox(10);
-        multiplicatorContainer.setAlignment(Pos.CENTER);
-        multiplicatorContainer.getChildren().addAll(multiplicatorCheckBox);
-        return multiplicatorContainer;
+    public static Node createMultiplierContainer(CheckBox multiplierCheckBox) {
+        HBox multiplierContainer = new HBox(10);
+        multiplierContainer.setAlignment(Pos.CENTER);
+        multiplierContainer.getChildren().addAll(multiplierCheckBox);
+        return multiplierContainer;
     }
 
     public static TextFlow createText(String content, int fontSize) {

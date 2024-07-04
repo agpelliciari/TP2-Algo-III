@@ -49,6 +49,10 @@ public class GroupChoice extends Question {
             }
             return true;
         }
+
+        public char getLetter() {
+            return letter;
+        }
     }
 
     private final ArrayList<Group> groups = new ArrayList<>();
@@ -70,9 +74,11 @@ public class GroupChoice extends Question {
     }
 
     public int calculateTotalScore(ArrayList<ArrayList<Choice>> groupsOfChosenAnswers) {
-        for (int i = 0; i < groupsOfChosenAnswers.size(); i++)
-            if (!groups.get(i).containsSet(groupsOfChosenAnswers.get(i)))
+        for (int i = 0; i < groupsOfChosenAnswers.size(); i++) {
+            if (!groups.get(i).containsSet(groupsOfChosenAnswers.get(i))) {
                 return 0;
+            }
+        }
         return 1;
     }
 

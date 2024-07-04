@@ -22,13 +22,13 @@ import java.util.stream.Collectors;
 import static tp2.clases.ConstantsPaths.BACKGROUND_IMAGE_PATH;
 
 public class AnswerScreen extends VBox {
-    private StackPane root;
+    private StackPane stackPane;
     private Button continueButton;
     private Question currentQuestion;
     private Game game;
 
-    public AnswerScreen(StackPane root, Game game) {
-        this.root = root;
+    public AnswerScreen(StackPane stackPane, Game game) {
+        this.stackPane = stackPane;
         this.game = game;
         this.currentQuestion = game.getCurrentQuestion();
 
@@ -54,7 +54,7 @@ public class AnswerScreen extends VBox {
     }
 
     private void addAnswerText() {
-        TextFlow answerText = PanelBuilder.createText(currentQuestion.getContent().getAnswerText(), 20);
+        TextFlow answerText = QuestionScreenBuilder.createText(currentQuestion.getContent().getAnswerText(), 20);
         this.getChildren().add(answerText);
     }
 
@@ -84,7 +84,7 @@ public class AnswerScreen extends VBox {
         continueButton = new Button("Continuar");
         continueButton.setStyle("-fx-background-color: #007bff; -fx-text-fill: white; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.75), 10, 0.5, 2, 2);");
 
-        ContinueButtonEventHandler continueButtonEventHandler = new ContinueButtonEventHandler(game, root);
+        ContinueButtonEventHandler continueButtonEventHandler = new ContinueButtonEventHandler(game, stackPane);
         continueButton.setOnAction(continueButtonEventHandler);
 
         this.getChildren().add(continueButton);
