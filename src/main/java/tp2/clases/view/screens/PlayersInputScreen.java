@@ -14,6 +14,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.function.Consumer;
 
+import static tp2.clases.ConstantsPaths.BACKGROUND_IMAGE_PATH;
+
 
 public class PlayersInputScreen extends VBox {
 
@@ -87,7 +89,7 @@ public class PlayersInputScreen extends VBox {
         setAlignment(Pos.CENTER);
         setPadding(new Insets(20));
 
-        Image image = new Image("file:src/main/resources/images/white-background.jpg");
+        Image image = new Image(BACKGROUND_IMAGE_PATH);
         BackgroundImage backgroundImage = new BackgroundImage(image, BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
         this.setBackground(new Background(backgroundImage));
 

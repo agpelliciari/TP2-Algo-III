@@ -19,6 +19,8 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.stream.Collectors;
 
+import static tp2.clases.ConstantsPaths.BACKGROUND_IMAGE_PATH;
+
 public class AnswerScreen extends VBox {
     private StackPane root;
     private Button continueButton;
@@ -46,7 +48,7 @@ public class AnswerScreen extends VBox {
     }
 
     private void setupBackground() {
-        Image image = new Image("file:src/main/resources/images/white-background.jpg");
+        Image image = new Image(BACKGROUND_IMAGE_PATH);
         BackgroundImage backgroundImage = new BackgroundImage(image, BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
         this.setBackground(new Background(backgroundImage));
     }

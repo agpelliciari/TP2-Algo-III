@@ -11,6 +11,8 @@ import java.util.function.Consumer;
 import tp2.clases.model.Game;
 import tp2.clases.controllers.handlers.NamesInputButtonHandler;
 
+import static tp2.clases.ConstantsPaths.BACKGROUND_IMAGE_PATH;
+
 
 public class PlayersNamesInputScreen extends VBox {
 
@@ -52,7 +54,7 @@ public class PlayersNamesInputScreen extends VBox {
         this.root = root;
         this.game = game;
 
-        Image image = new Image("file:src/main/resources/images/white-background.jpg");
+        Image image = new Image(BACKGROUND_IMAGE_PATH);
         BackgroundImage backgroundImage = new BackgroundImage(image, BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
         this.setBackground(new Background(backgroundImage));
 

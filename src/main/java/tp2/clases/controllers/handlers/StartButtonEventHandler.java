@@ -8,9 +8,11 @@ import javafx.scene.media.MediaPlayer;
 
 import java.io.File;
 
+import static tp2.clases.ConstantsPaths.BUTTON_PRESSED_SOUND_PATH;
+
 public class StartButtonEventHandler implements EventHandler<ActionEvent> {
 
-    String buttonPressedSound = new File("src/main/resources/sounds/button-pressed.mp3").toURI().toString();
+    String buttonPressedSound = new File(BUTTON_PRESSED_SOUND_PATH).toURI().toString();
     AudioClip audio = new AudioClip(buttonPressedSound);
 
     private final Scene nextScene;

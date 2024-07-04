@@ -19,7 +19,10 @@ import java.util.Comparator;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 
+import static tp2.clases.ConstantsPaths.BACKGROUND_IMAGE_PATH;
+
 public class EndGameScreen extends VBox {
+
     private StackPane stackPane;
     private Game game;
 
@@ -31,7 +34,7 @@ public class EndGameScreen extends VBox {
         setPadding(new Insets(20));
         setSpacing(10);
 
-        Image image = new Image("file:src/main/resources/images/white-background.jpg");
+        Image image = new Image(BACKGROUND_IMAGE_PATH);
         BackgroundImage backgroundImage = new BackgroundImage(image, BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
         this.setBackground(new Background(backgroundImage));
 

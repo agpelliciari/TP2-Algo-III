@@ -19,6 +19,9 @@ import tp2.clases.view.screens.StartScreen;
 import java.io.File;
 import java.util.ArrayList;
 
+import static tp2.clases.ConstantsPaths.INTRO_SOUND_PATH;
+import static tp2.clases.ConstantsPaths.QUESTIONS_FILE_PATH;
+
 public class GameApp extends Application {
 
     private MediaPlayer mediaPlayer;
@@ -33,7 +36,7 @@ public class GameApp extends Application {
         StackPane root = new StackPane();
         Game game = buildModel();
 
-        String introSound = new File("src/main/resources/sounds/intro-sound.mp3").toURI().toString();
+        String introSound = new File(INTRO_SOUND_PATH).toURI().toString();
         Media media = new Media(introSound);
         mediaPlayer = new MediaPlayer(media);
         mediaPlayer.setAutoPlay(true);
@@ -56,7 +59,7 @@ public class GameApp extends Application {
     }
 
     private Game buildModel() {
-        ArrayList<Question> questions = JsonParser.questionsParser("src/main/resources/preguntas.json");
+        ArrayList<Question> questions = JsonParser.questionsParser(QUESTIONS_FILE_PATH);
         //ArrayList<Question> questions = JsonParser.questionsParser("src/main/resources/groupChoice.json");
 
         return new Game(questions);

@@ -13,6 +13,9 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import tp2.clases.controllers.handlers.ActionHandler;
 
+import static tp2.clases.ConstantsPaths.BACKGROUND_IMAGE_PATH;
+import static tp2.clases.ConstantsPaths.LOGO_IMAGE_PATH;
+
 public class StartScreen extends VBox {
 
     private StackPane root;
@@ -30,11 +33,11 @@ public class StartScreen extends VBox {
         this.setPadding(new Insets(20));
         this.setPrefSize(800, 600);
 
-        Image image = new Image("file:src/main/resources/images/white-background.jpg");
+        Image image = new Image(BACKGROUND_IMAGE_PATH);
         BackgroundImage backgroundImage = new BackgroundImage(image, BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
         this.setBackground(new Background(backgroundImage));
 
-        ImageView logo = new ImageView(new Image("file:src/main/resources/images/algohoot_logo.png"));
+        ImageView logo = new ImageView(new Image(LOGO_IMAGE_PATH));
         logo.setFitWidth(300);
         logo.setFitHeight(350);
 
