@@ -4,13 +4,10 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.layout.StackPane;
 import tp2.clases.model.Game;
-import tp2.clases.model.questions.choice.Choice;
 import tp2.clases.model.questions.types.GroupChoice;
 import tp2.clases.view.screens.AnswerScreen;
 import tp2.clases.view.screens.GroupChoiceScreen;
 import tp2.clases.view.screens.QuestionScreen;
-
-import java.util.ArrayList;
 
 public class AnswerButtonHandler implements EventHandler<ActionEvent> {
 
@@ -18,8 +15,7 @@ public class AnswerButtonHandler implements EventHandler<ActionEvent> {
     private Game game;
     private QuestionScreen questionScreen;
     private GroupChoiceScreen groupChoiceScreen;
-    private int playerIndex;
-    private int questionIndex;
+    private int playerIndex, questionIndex;
 
     public AnswerButtonHandler(StackPane stackPane, Game game, int playerIndex, int questionIndex, QuestionScreen lastQuestionScreen) {
         this.stackPane = stackPane;
@@ -40,7 +36,6 @@ public class AnswerButtonHandler implements EventHandler<ActionEvent> {
     @Override
     public void handle(ActionEvent actionEvent) {
         ActionHandler.actionSound();
-
         if (game.getQuestion(questionIndex) instanceof GroupChoice groupChoice) {
 
             NullifierCheckBoxEventHandler nullifierHandler = new NullifierCheckBoxEventHandler();

@@ -19,7 +19,7 @@ public class Player {
     private final Score score;
     private Exclusivity exclusivity;
     private Nullifier nullifier;
-    private int numberOfCorrectAnswers;
+    private int numberOfCorrectAnswers = 0, previousScore = 0, scoreChange = 0;
     private ArrayList<String> answers = new ArrayList<>();
 
     public Player(String name, int score) {
@@ -29,7 +29,6 @@ public class Player {
         multipliers.add(new Multiplier(3));
         this.exclusivity = new Exclusivity();
         this.nullifier = new Nullifier();
-        this.numberOfCorrectAnswers = 0;
     }
 
     public Player(String name, Score score) {
@@ -39,7 +38,6 @@ public class Player {
         multipliers.add(new Multiplier(3));
         this.exclusivity = new Exclusivity();
         this.nullifier = new Nullifier();
-        this.numberOfCorrectAnswers = 0;
     }
 
     public String getName() {
@@ -92,8 +90,9 @@ public class Player {
         return correction.calculateScore(modification * factor);
     }
 
-    public void addToScore(int number) {
+    public int addToScore(int number) {
         score.addScore(number);
+        return number;
     }
 
     public boolean equals(Player aPlayer) {
@@ -178,5 +177,21 @@ public class Player {
         powers.add(nullifier);
 
         return powers;
+    }
+
+    public void setPreviousScore(int score) {
+        previousScore = score;
+    }
+
+    public int getPreviousScore() {
+        return previousScore;
+    }
+
+    public void setScoreChange(int score) {
+        scoreChange = score;
+    }
+
+    public int getScoreChange() {
+        return scoreChange;
     }
 }
