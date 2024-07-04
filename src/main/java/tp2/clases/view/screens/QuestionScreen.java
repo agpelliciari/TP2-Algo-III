@@ -146,10 +146,10 @@ public class QuestionScreen extends ScrollPane {
     }
 
     private void setPowers(Question currentQuestion, Player currentPlayer) {
-        exclusivityCheckBox = new CheckBox("Usar exclusividad (" + currentPlayer.getExclusivity().getNumber() + (currentPlayer.getExclusivity().getNumber() == 1 ? " restante)" : " restantes)"));
+        exclusivityCheckBox = new CheckBox("Exclusividad (" + currentPlayer.getExclusivity().getNumber() + (currentPlayer.getExclusivity().getNumber() == 1 ? " restante)" : " restantes)"));
         for (int i = 0; i < currentPlayer.getMultipliers().size(); i++)
-            multiplierCheckBoxes.add(new CheckBox("Usar multiplicador x" + currentPlayer.getMultipliers().get(i).getFactor()));
-        nullifierCheckBox = new CheckBox("Usar anulador");
+            multiplierCheckBoxes.add(new CheckBox("Multiplicador x" + currentPlayer.getMultipliers().get(i).getFactor()));
+        nullifierCheckBox = new CheckBox("Anulador");
 
         if (currentQuestion.getMode().isPenaltyMode()) {
             for (int i = 0; i < multiplierCheckBoxes.size(); i++)

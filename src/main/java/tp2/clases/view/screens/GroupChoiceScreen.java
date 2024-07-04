@@ -152,8 +152,8 @@ public class GroupChoiceScreen extends VBox {
     }
 
     private void setPowers(Player currentPlayer) {
-        exclusivityCheckBox = new CheckBox("Usar exclusividad (" + currentPlayer.getExclusivity().getNumber() + (currentPlayer.getExclusivity().getNumber() == 1 ? " restante)" : " restantes)"));
-        nullifierCheckBox = new CheckBox("Usar anulador");
+        exclusivityCheckBox = new CheckBox("Exclusividad (" + currentPlayer.getExclusivity().getNumber() + (currentPlayer.getExclusivity().getNumber() == 1 ? " restante)" : " restantes)"));
+        nullifierCheckBox = new CheckBox("Anulador");
 
         if (currentPlayer.getExclusivity().getNumber() > 0) {
             choicesBox.getChildren().add(exclusivityCheckBox);
