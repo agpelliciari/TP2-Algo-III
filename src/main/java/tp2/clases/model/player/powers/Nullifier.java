@@ -18,7 +18,6 @@ public class Nullifier extends Power {
 
     public void apply(Score score) {
         if (!isUsed()) {
-            score.cancelScore();
             state = new ActiveState(this);
         }
         else {
