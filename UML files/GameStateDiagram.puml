@@ -1,24 +1,23 @@
  @startuml
-'https://plantuml.com/state-diagram
+hide empty description
 
-scale 350 width
-[*] --> NotShooting
+title General state of the game
 
-state NotShooting {
-  [*] --> Idle
-  Idle --> Configuring : EvConfig
-  Configuring --> Idle : EvConfig
-}
+[*] -> Initializing: press start button
+Initializing: do / request number of players
+Initializing: do / request limit of questions
+Initializing: do / request point limit
+Initializing: do / ask name of each player
+Initializing --> Playing: press confirm button
 
-state Configuring {
-  [*] --> NewValueSelection
-  NewValueSelection --> NewValuePreview : EvNewValue
-  NewValuePreview --> NewValueSelection : EvNewValueRejected
-  NewValuePreview --> NewValueSelection : EvNewValueSaved
+Playing: do / show current question to each player
+Playing: do / show the current score of each player
+Playing: do / show the powers used in the game
+Playing: do / check if the question limit or points limit has been reached
+Playing -> Finished: one of the established limits was reached
 
-  state NewValuePreview {
-     State1 -> State2
-  }
+Finished: do / show the winner of the game
+Finished: do / show final scores of all players
+Finished --> [*]: press the exit button
 
-}
 @enduml
