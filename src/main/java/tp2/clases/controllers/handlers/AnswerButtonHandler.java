@@ -4,10 +4,13 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.layout.StackPane;
 import tp2.clases.model.Game;
+import tp2.clases.model.questions.choice.Choice;
 import tp2.clases.model.questions.types.GroupChoice;
 import tp2.clases.view.screens.AnswerScreen;
 import tp2.clases.view.screens.GroupChoiceScreen;
 import tp2.clases.view.screens.QuestionScreen;
+
+import java.util.ArrayList;
 
 public class AnswerButtonHandler implements EventHandler<ActionEvent> {
 
@@ -38,30 +41,20 @@ public class AnswerButtonHandler implements EventHandler<ActionEvent> {
     public void handle(ActionEvent actionEvent) {
         ActionHandler.actionSound();
 
-        if (game.getQuestion(questionIndex) instanceof GroupChoice) {
-            GroupChoice groupChoice = (GroupChoice) game.getQuestion(questionIndex);
-            for (int i = 0; i < groupChoiceScreen.getMultipliersFactor(game.getPlayer(playerIndex)).size(); i++) {
-                MultiplierButtonHandler multiplierButtonHandler = new MultiplierButtonHandler(groupChoiceScreen.getMultipliersFactor(game.getPlayer(playerIndex)).get(i));
-                multiplierButtonHandler.selectMultiplier(game.getPlayer(playerIndex), groupChoiceScreen.isMultiplierSelected(i));
-            }
+        if (game.getQuestion(questionIndex) instanceof GroupChoice groupChoice) {
 
             NullifierCheckBoxEventHandler nullifierHandler = new NullifierCheckBoxEventHandler();
-            nullifierHandler.selectNullifier(game.getPlayer(playerIndex), game.getPlayers(), GroupChoiceScreen.isNullifierSelected());
+            nullifierHandler.selectNullifier(game.getPlayer(playerIndex), game.getPlayers(), groupChoiceScreen.isNullifierSelected());
 
-            int score = groupChoice.calculateTotalScore(groupChoiceScreen.getSelectedAnswers());
-            game.setPlayersScoreWithoutExclusivity(playerIndex, score);
+            game.setPlayersScoreWithoutExclusivity(playerIndex, groupChoice.calculateTotalScore(groupChoiceScreen.getSelectedAnswers()));
             game.registerUsedExclusivity(groupChoiceScreen.isExclusivitySelected());
             game.assignExclusivity(playerIndex, groupChoiceScreen.isExclusivitySelected());
 
             playerIndex++;
             if (playerIndex >= game.getNumberOfPlayers()) {
-                if (game.getQuestion(questionIndex).getMode().isPenaltyMode()) {
-                    game.updatePlayersScoreWithoutExclusivity();
-                } else {
-                    game.updatePlayersScoreWithExclusivity();
-                }
-
+                game.updatePlayersScoreWithExclusivity();
                 game.resetExclusivityCount();
+
                 AnswerScreen answerScreen = new AnswerScreen(stackPane, game);
                 stackPane.getChildren().forEach(node -> node.setVisible(false));
                 answerScreen.setVisible(true);

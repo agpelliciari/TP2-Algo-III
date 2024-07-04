@@ -33,8 +33,7 @@ public class NamesInputButtonHandler implements EventHandler<ActionEvent> {
             GroupChoiceScreen gameScreen = new GroupChoiceScreen(stackPane, game, 0, questionIndex);
             stackPane.getChildren().clear();
             stackPane.getChildren().add(gameScreen);
-        }
-        else {
+        } else {
             QuestionScreen gameScreen = new QuestionScreen(stackPane, game, 0, questionIndex);
             stackPane.getChildren().clear();
             stackPane.getChildren().add(gameScreen);

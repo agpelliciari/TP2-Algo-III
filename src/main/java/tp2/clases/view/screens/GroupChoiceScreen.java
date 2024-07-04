@@ -33,7 +33,6 @@ public class GroupChoiceScreen extends VBox {
     private ArrayList<VBox> groupBoxes = new ArrayList<>();
     private static CheckBox exclusivityCheckBox;
     private static CheckBox nullifierCheckBox;
-    private static ArrayList<CheckBox> multiplierCheckBoxes = new ArrayList<>();
     private ArrayList<Button> choiceButtons = new ArrayList<>();
     private ArrayList<Integer> buttonAnswerIds = new ArrayList<>();
     private static ArrayList<Integer> selectedAnswersA = new ArrayList<>();
@@ -149,19 +148,14 @@ public class GroupChoiceScreen extends VBox {
 
     private void setPowers(Question currentQuestion, Player currentPlayer) {
         exclusivityCheckBox = new CheckBox("Usar exclusividad (" + currentPlayer.getExclusivity().getNumber() + (currentPlayer.getExclusivity().getNumber() == 1 ? " restante)" : " restantes)"));
-        for (int i = 0; i < currentPlayer.getMultipliers().size(); i++)
-            multiplierCheckBoxes.add(new CheckBox("Usar multiplicador x" + currentPlayer.getMultipliers().get(i).getFactor()));
         nullifierCheckBox = new CheckBox("Usar anulador");
 
-        if (currentQuestion.getMode().isPenaltyMode()) {
-            for (int i = 0; i < multiplierCheckBoxes.size(); i++)
-                if (!currentPlayer.getMultipliers().get(i).isUsed())
-                    choicesBox.getChildren().add(QuestionScreenBuilder.createMultiplierContainer(multiplierCheckBoxes.get(i)));
-        } else if (currentPlayer.getExclusivity().getNumber() > 0) {
+        if (currentPlayer.getExclusivity().getNumber() > 0) {
             choicesBox.getChildren().add(exclusivityCheckBox);
         }
-        if (!currentPlayer.getNullifier().isUsed())
+        if (!currentPlayer.getNullifier().isUsed()) {
             choicesBox.getChildren().add(nullifierCheckBox);
+        }
     }
 
     private void setAnswerButton(Game game, int playerIndex, int questionIndex) {
@@ -208,17 +202,6 @@ public class GroupChoiceScreen extends VBox {
         return nullifierCheckBox.isSelected();
     }
 
-    public boolean isMultiplierSelected(int multiplierIndex) {
-        return multiplierCheckBoxes.get(multiplierIndex).isSelected();
-    }
-
-    public static ArrayList<String> getMultipliersFactor(Player player) {
-        ArrayList<String> multipliersFactor = new ArrayList<>();
-        for (int i = 0; i < player.getMultipliers().size(); i++)
-            multipliersFactor.add(String.valueOf(player.getMultipliers().get(i).getFactor()));
-        return multipliersFactor;
-    }
-
     private void configureDragSource(Button button) {
         button.setOnDragDetected(event -> {
             Dragboard db = button.startDragAndDrop(TransferMode.MOVE);
@@ -237,6 +220,8 @@ public class GroupChoiceScreen extends VBox {
             event.consume();
         });
 
+        selectedAnswersA = new ArrayList<>();
+        selectedAnswersB = new ArrayList<>();
         targetBox.setOnDragDropped(event -> {
             Dragboard db = event.getDragboard();
             boolean success = false;
