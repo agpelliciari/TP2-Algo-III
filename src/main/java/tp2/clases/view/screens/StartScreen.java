@@ -30,11 +30,11 @@ public class StartScreen extends VBox {
         this.setPadding(new Insets(20));
         this.setPrefSize(800, 600);
 
-        Image image = new Image("file:white-background.jpg");
+        Image image = new Image("file:src/main/resources/images/white-background.jpg");
         BackgroundImage backgroundImage = new BackgroundImage(image, BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
         this.setBackground(new Background(backgroundImage));
 
-        ImageView logo = new ImageView(new Image("file:algohoot_logo.png"));
+        ImageView logo = new ImageView(new Image("file:src/main/resources/images/algohoot_logo.png"));
         logo.setFitWidth(300);
         logo.setFitHeight(350);
 
