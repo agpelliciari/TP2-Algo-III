@@ -1,6 +1,7 @@
 package tp2.clases;
 
 import javafx.application.Application;
+import tp2.clases.view.GameApp;
 
 public class Main {
 

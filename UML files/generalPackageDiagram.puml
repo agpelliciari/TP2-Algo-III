@@ -1,47 +1,40 @@
 @startuml
-title: General relationships of the packages used in the model
 
-package questions {
-    package choice {}
-    package factories {}
-    package modes {}
-    package types {}
-    class Content {}
+skinparam monochrome true
+hide circle
+skinparam classAttributeIconSize 0
+
+title: General relationships of the packages used in the project
+
+package model {
+    package player {}
+    package questions {}
+    class Game
+    class JsonParser
+    class Limit
 }
 
-package player {
-    package powers {}
-    package score {}
-    class Player
+package view {
+    package screens {}
+    class GameApp
+}
+
+package controllers {
+    package handlers {}
 }
 
 package exceptions {}
 
-package handlers {}
+view -> model: <<uses>>
+view <--> controllers: <<access>>
+view --> exceptions: <<uses>>
+controllers --> exceptions: <<uses>>
+controllers -> model: <<access>>
+model -> exceptions: <<uses>>
 
-package screens {}
-
-class JsonParser {}
-
-class App {}
-
-player <..> questions: <<access>>
-player .> exceptions: <<access>>
-
-questions ..> exceptions: <<access>>
-
-JsonParser ..> questions.choice: <<access>>
-JsonParser ..> questions.factories: <<access>>
-JsonParser ..> questions.types: <<access>>
-
-handlers <..> screens: <<access>>
-handlers ..> player: <<access>>
-handlers ..> exceptions: <<access>>
-
-screens ...> player: <<access>>
-screens ..> questions: <<access>>
-screens .> App: <<uses>>
-screens ...> exceptions: <<access>>
-
+Game <<class>>
+JsonParser <<class>>
+Limit <<class>>
+GameApp <<class>>
 
 @enduml

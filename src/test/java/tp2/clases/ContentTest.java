@@ -1,7 +1,7 @@
 package tp2.clases;
 
 import org.junit.jupiter.api.Test;
-import tp2.clases.questions.Content;
+import tp2.clases.model.questions.Content;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 

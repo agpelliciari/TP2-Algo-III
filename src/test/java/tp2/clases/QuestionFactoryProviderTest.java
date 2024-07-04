@@ -1,7 +1,7 @@
 package tp2.clases;
 
 import org.junit.jupiter.api.Test;
-import tp2.clases.questions.factories.*;
+import tp2.clases.model.questions.factories.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 

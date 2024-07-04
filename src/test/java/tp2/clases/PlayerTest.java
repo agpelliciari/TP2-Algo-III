@@ -7,13 +7,13 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import tp2.clases.player.Player;
-import tp2.clases.questions.choice.Choice;
-import tp2.clases.questions.choice.corrections.types.Correct;
-import tp2.clases.questions.choice.corrections.types.Incorrect;
+import tp2.clases.model.player.Player;
+import tp2.clases.model.questions.choice.Choice;
+import tp2.clases.model.questions.choice.corrections.types.Correct;
+import tp2.clases.model.questions.choice.corrections.types.Incorrect;
 import tp2.clases.exceptions.InvalidNumberOfChosenChoicesException;
 import tp2.clases.exceptions.InvalidChoiceIndexException;
-import tp2.clases.questions.types.Question;
+import tp2.clases.model.questions.types.Question;
 
 import static org.mockito.Mockito.*;
 

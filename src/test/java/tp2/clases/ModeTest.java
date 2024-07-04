@@ -1,10 +1,10 @@
 package tp2.clases;
 
 import org.junit.jupiter.api.Test;
-import tp2.clases.player.Player;
-import tp2.clases.questions.modes.ClassicMode;
-import tp2.clases.questions.modes.PartialMode;
-import tp2.clases.questions.modes.PenaltyMode;
+import tp2.clases.model.player.Player;
+import tp2.clases.model.questions.modes.ClassicMode;
+import tp2.clases.model.questions.modes.PartialMode;
+import tp2.clases.model.questions.modes.PenaltyMode;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
