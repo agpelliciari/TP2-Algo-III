@@ -57,6 +57,20 @@ public class QuestionScreen extends ScrollPane {
         box.setAlignment(Pos.CENTER);
         box.setPadding(new Insets(20, 20, 20, 20));
 
+        GridPane gridPane = new GridPane();
+        gridPane.setHgap(20);
+        gridPane.setVgap(20);
+        gridPane.setAlignment(Pos.CENTER);
+
+        for (int i = 0; i < buttons.size(); i++) {
+            Button button = buttons.get(i);
+            int row = i / 2;
+            int col = i % 2;
+            gridPane.add(button, col, row);
+        }
+
+        box.getChildren().add(gridPane);
+
         ScaleTransition st = new ScaleTransition(Duration.millis(1000), box);
         st.setFromX(0.5);
         st.setFromY(0.5);
@@ -83,7 +97,7 @@ public class QuestionScreen extends ScrollPane {
         for (Player player : game.getPlayers()) {
             Label scoreLabel = new Label(player.getName() + ": " + player.getScore() + " puntos");
             if (player.getName().equals(currentPlayer.getName())) {
-                scoreLabel.setStyle("-fx-font-size: 14px; -fx-font-weight: bold;");
+                scoreLabel.setStyle("-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: green;");
             } else {
                 scoreLabel.setStyle("-fx-font-size: 14px;");
             }
@@ -100,9 +114,12 @@ public class QuestionScreen extends ScrollPane {
     }
 
     private void setChoiceButtons(ArrayList<Choice> choices) {
-        for (Choice choice : choices) {
-            Button choiceButton = new Button(choice.getContent());
-            choiceButton.setStyle("-fx-font-size: 14px;");
+        for (int i = 0; i < choices.size(); i++) {
+            Choice choice = choices.get(i);
+            String[] unicodeNumbers = {"①", "②", "③", "④", "⑤", "⑥", "⑦", "⑧", "⑨", "⑩"};
+            String unicodeNumber = (i < unicodeNumbers.length) ? unicodeNumbers[i] : String.valueOf(i + 1);
+            Button choiceButton = new Button(unicodeNumber + " " + choice.getContent());
+            choiceButton.setStyle("-fx-font-size: 14px; -fx-background-color: #ebf3fb; -fx-border-color: #000000; -fx-border-radius: 5; -fx-background-radius: 5;"); // Verde pastel claro y negrita
             buttons.add(choiceButton);
             buttonAnswerList.add(String.valueOf(choice.getId()));
             choiceButton.setOnAction(event -> handleChoiceButton(choiceButton));

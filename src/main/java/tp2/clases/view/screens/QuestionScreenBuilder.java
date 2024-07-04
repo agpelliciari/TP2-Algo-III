@@ -40,6 +40,4 @@ public class QuestionScreenBuilder {
         textFlow.setPadding(new Insets(10));
         return textFlow;
     }
-
-
 }

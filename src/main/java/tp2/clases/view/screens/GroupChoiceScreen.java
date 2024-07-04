@@ -24,19 +24,18 @@ import java.util.ArrayList;
 public class GroupChoiceScreen extends VBox {
 
     private StackPane stackPane;
-
-    ScoreContainer scores;
-    Button answerButton;
-
+    private ScoreContainer scores;
+    private Button answerButton;
     private VBox choicesBox;
     private HBox groupsBox;
     private ArrayList<VBox> groupBoxes = new ArrayList<>();
+    private ArrayList<Button> draggedButtons = new ArrayList<>();
     private static CheckBox exclusivityCheckBox;
     private static CheckBox nullifierCheckBox;
     private ArrayList<Button> choiceButtons = new ArrayList<>();
     private ArrayList<Integer> buttonAnswerIds = new ArrayList<>();
-    private static ArrayList<Integer> selectedAnswersA = new ArrayList<>();
-    private static ArrayList<Integer> selectedAnswersB = new ArrayList<>();
+    private static ArrayList<Integer> selectedAnswersA;
+    private static ArrayList<Integer> selectedAnswersB;
 
     public GroupChoiceScreen(StackPane stackPane, Game game, int playerIndex, int questionIndex) {
         this.stackPane = stackPane;
@@ -62,9 +61,9 @@ public class GroupChoiceScreen extends VBox {
 
         this.setSpacing(20);
         this.setAlignment(Pos.CENTER);
-        this.getChildren().addAll(choicesBox, groupsBox);
+        this.getChildren().addAll(choicesBox);
 
-        setPowers(groupChoice, currentPlayer);
+        setPowers(currentPlayer);
         setAnswerButton(game, playerIndex, questionIndex);
     }
 
@@ -99,7 +98,7 @@ public class GroupChoiceScreen extends VBox {
         for (Player player : game.getPlayers()) {
             Label scoreLabel = new Label(player.getName() + ": " + player.getScore() + " puntos");
             if (player.getName().equals(currentPlayer.getName())) {
-                scoreLabel.setStyle("-fx-font-size: 14px; -fx-font-weight: bold;");
+                scoreLabel.setStyle("-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: green;");
             } else {
                 scoreLabel.setStyle("-fx-font-size: 14px;");
             }
@@ -116,10 +115,13 @@ public class GroupChoiceScreen extends VBox {
     }
 
     private void setChoiceButtons(ArrayList<Choice> choices) {
-        for (Choice choice : choices) {
-            Button choiceButton = new Button(choice.getContent());
-            choiceButton.setStyle("-fx-font-size: 14px;");
-            choiceButton.setUserData(choice.getId()); // Guardar ID en UserData
+        for (int i = 0; i < choices.size(); i++) {
+            Choice choice = choices.get(i);
+            String[] unicodeNumbers = {"①", "②", "③", "④", "⑤", "⑥", "⑦", "⑧", "⑨", "⑩"};
+            String unicodeNumber = (i < unicodeNumbers.length) ? unicodeNumbers[i] : String.valueOf(i + 1);
+            Button choiceButton = new Button(unicodeNumber + " " + choice.getContent());
+            choiceButton.setStyle("-fx-font-size: 14px; -fx-background-color: #ebf3fb; -fx-border-color: #000000; -fx-border-radius: 5; -fx-background-radius: 5;");
+            choiceButton.setUserData(choice.getId());
             choiceButtons.add(choiceButton);
             buttonAnswerIds.add(choice.getId());
             choicesBox.getChildren().add(choiceButton);
@@ -130,9 +132,10 @@ public class GroupChoiceScreen extends VBox {
         for (GroupChoice.Group group : groups) {
             VBox groupBox = new VBox();
             groupBox.setSpacing(10);
-            groupBox.setStyle("-fx-border-color: black; -fx-padding: 10; -fx-background-color: lightgray; -fx-border-radius: 10; -fx-background-radius: 10;");
+            groupBox.setStyle("-fx-border-color: black; -fx-padding: 10; -fx-background-color: lightblue; -fx-border-radius: 10; -fx-background-radius: 10;");
             groupBox.setAlignment(Pos.CENTER);
             Label groupBoxLabel = new Label("Grupo " + group.getLetter() + ": " + group.getText());
+            groupBoxLabel.setStyle("-fx-font-weight: bold;");
             groupBox.getChildren().add(groupBoxLabel);
 
             groupBoxes.add(groupBox);
@@ -144,9 +147,11 @@ public class GroupChoiceScreen extends VBox {
 
         for (VBox groupBox : groupBoxes)
             groupsBox.getChildren().add(groupBox);
+
+        choicesBox.getChildren().add(groupsBox);
     }
 
-    private void setPowers(Question currentQuestion, Player currentPlayer) {
+    private void setPowers(Player currentPlayer) {
         exclusivityCheckBox = new CheckBox("Usar exclusividad (" + currentPlayer.getExclusivity().getNumber() + (currentPlayer.getExclusivity().getNumber() == 1 ? " restante)" : " restantes)"));
         nullifierCheckBox = new CheckBox("Usar anulador");
 
@@ -176,8 +181,8 @@ public class GroupChoiceScreen extends VBox {
 
     public ArrayList<ArrayList<Choice>> getSelectedAnswers() {
         ArrayList<ArrayList<Choice>> groupsChosenAnswers = new ArrayList<>();
-
         ArrayList<Choice> groupA = new ArrayList<>();
+
         for (Integer id : selectedAnswersA) {
             Choice choice = new Choice(id);
             groupA.add(choice);
@@ -207,6 +212,7 @@ public class GroupChoiceScreen extends VBox {
             Dragboard db = button.startDragAndDrop(TransferMode.MOVE);
             ClipboardContent content = new ClipboardContent();
             content.putString(button.getText());
+            db.setDragView(button.snapshot(null, null));
             db.setContent(content);
             event.consume();
         });
@@ -226,19 +232,27 @@ public class GroupChoiceScreen extends VBox {
             Dragboard db = event.getDragboard();
             boolean success = false;
             if (db.hasString()) {
-                Button draggedButton = new Button(db.getString());
-                draggedButton.setUserData(getButtonId(db.getString()));
-                configureDragSource(draggedButton);
-                targetBox.getChildren().add(draggedButton);
+                String buttonText = db.getString();
+                Integer buttonId = getButtonId(buttonText);
 
-                if (groupsBox.getChildren().indexOf(targetBox) == 0) {
-                    selectedAnswersA.add((Integer) draggedButton.getUserData());
-                } else {
-                    selectedAnswersB.add((Integer) draggedButton.getUserData());
+                if (buttonId != null) {
+                    Button originalButton = findButtonById(buttonId);
+                    if (originalButton != null) {
+                        targetBox.getChildren().add(originalButton);  // Mueve el botón original al targetBox
+
+                        choicesBox.getChildren().remove(originalButton);
+                        choiceButtons.remove(originalButton);
+
+                        if (groupsBox.getChildren().indexOf(targetBox) == 0) {
+                            selectedAnswersA.add(buttonId);
+                        } else {
+                            selectedAnswersB.add(buttonId);
+                        }
+
+                        success = true;
+                        answerButton.setDisable(false);
+                    }
                 }
-
-                success = true;
-                answerButton.setDisable(false);
             }
             event.setDropCompleted(success);
             event.consume();
@@ -249,6 +263,15 @@ public class GroupChoiceScreen extends VBox {
         for (Button button : choiceButtons) {
             if (button.getText().equals(buttonText)) {
                 return (Integer) button.getUserData();
+            }
+        }
+        return null;
+    }
+
+    private Button findButtonById(Integer buttonId) {
+        for (Button button : choiceButtons) {
+            if (button.getUserData().equals(buttonId)) {
+                return button;
             }
         }
         return null;
