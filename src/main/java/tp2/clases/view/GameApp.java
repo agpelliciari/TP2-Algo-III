@@ -30,7 +30,7 @@ public class GameApp extends Application {
     @Override
     public void start(Stage primaryStage) {
         primaryStage.setTitle("Juego de preguntas y respuestas");
-        StackPane root = new StackPane();
+        StackPane stackPane = new StackPane();
         Game game = buildModel();
 
         String introSound = new File("src/main/resources/sounds/intro-sound.mp3").toURI().toString();
@@ -40,13 +40,13 @@ public class GameApp extends Application {
         mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
         mediaPlayer.setOnEndOfMedia(() -> mediaPlayer.seek(Duration.ZERO));
 
-        PlayersInputScreen inputsScreen = new PlayersInputScreen(root, game, mediaPlayer);
-        StartScreen startScreen = new StartScreen(root, inputsScreen, mediaPlayer);
+        PlayersInputScreen inputsScreen = new PlayersInputScreen(stackPane, game, mediaPlayer);
+        StartScreen startScreen = new StartScreen(stackPane, inputsScreen, mediaPlayer);
 
-        root.getChildren().addAll(startScreen, inputsScreen);
+        stackPane.getChildren().addAll(startScreen, inputsScreen);
         inputsScreen.setVisible(false);
 
-        Scene mainScene = new Scene(root, 800, 700);
+        Scene mainScene = new Scene(stackPane, 800, 700);
         mainScene.getStylesheets().add(BootstrapFX.bootstrapFXStylesheet());
 
         primaryStage.setScene(mainScene);
@@ -57,7 +57,6 @@ public class GameApp extends Application {
 
     private Game buildModel() {
         ArrayList<Question> questions = JsonParser.questionsParser("src/main/resources/preguntas.json");
-        //ArrayList<Question> questions = JsonParser.questionsParser("src/main/resources/groupChoice.json");
 
         return new Game(questions);
     }

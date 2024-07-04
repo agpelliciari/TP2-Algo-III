@@ -15,7 +15,7 @@ import tp2.clases.controllers.handlers.NamesInputButtonHandler;
 public class PlayersNamesInputScreen extends VBox {
 
     Game game;
-    StackPane root;
+    StackPane stackPane;
 
     private int numberOfPlayers;
     private ArrayList<TextField> playerNameTextFields;
@@ -46,10 +46,10 @@ public class PlayersNamesInputScreen extends VBox {
         getChildren().addAll(scrollPane, confirmButton);
     }
 
-    public PlayersNamesInputScreen(StackPane root, Game game) {
+    public PlayersNamesInputScreen(StackPane stackPane, Game game) {
         super();
 
-        this.root = root;
+        this.stackPane = stackPane;
         this.game = game;
 
         Image image = new Image("file:src/main/resources/images/white-background.jpg");
@@ -68,7 +68,7 @@ public class PlayersNamesInputScreen extends VBox {
 
         createPlayerNameInputFields();
 
-        NamesInputButtonHandler inputButtonHandler = new NamesInputButtonHandler(game, root, this);
+        NamesInputButtonHandler inputButtonHandler = new NamesInputButtonHandler(game, stackPane, this);
         confirmButton.setOnAction(inputButtonHandler);
 
         getChildren().addAll(confirmButton);

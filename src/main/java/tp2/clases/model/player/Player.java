@@ -14,7 +14,7 @@ import java.util.ArrayList;
 
 public class Player {
 
-    private ArrayList<Multiplier> multiplicators = new ArrayList<>();
+    private ArrayList<Multiplier> multipliers = new ArrayList<>();
     private final String name;
     private final Score score;
     private Exclusivity exclusivity;
@@ -25,8 +25,8 @@ public class Player {
     public Player(String name, int score) {
         this.name = name;
         this.score = new Score(score);
-        multiplicators.add(new Multiplier(2));
-        multiplicators.add(new Multiplier(3));
+        multipliers.add(new Multiplier(2));
+        multipliers.add(new Multiplier(3));
         this.exclusivity = new Exclusivity();
         this.nullifier = new Nullifier();
         this.numberOfCorrectAnswers = 0;
@@ -35,8 +35,8 @@ public class Player {
     public Player(String name, Score score) {
         this.name = name;
         this.score = score;
-        multiplicators.add(new Multiplier(2));
-        multiplicators.add(new Multiplier(3));
+        multipliers.add(new Multiplier(2));
+        multipliers.add(new Multiplier(3));
         this.exclusivity = new Exclusivity();
         this.nullifier = new Nullifier();
         this.numberOfCorrectAnswers = 0;
@@ -119,18 +119,18 @@ public class Player {
     }
 
     public Multiplier getMultiplier(int factor) {
-        for (Multiplier multiplier : multiplicators)
+        for (Multiplier multiplier : multipliers)
             if (multiplier.getFactor() == factor)
                 return multiplier;
         return null;
     }
 
     public ArrayList<Multiplier> getMultipliers() {
-        return multiplicators;
+        return multipliers;
     }
 
     public Multiplier getActiveMultiplier() {
-        for (Multiplier multiplier : multiplicators)
+        for (Multiplier multiplier : multipliers)
             if (multiplier.isActive())
                 return multiplier;
         return null;
@@ -159,7 +159,7 @@ public class Player {
     }
 
     private void disableMultipliers() {
-        for (Multiplier multiplier: multiplicators) {
+        for (Multiplier multiplier: multipliers) {
             multiplier.deactivate();
         }
     }

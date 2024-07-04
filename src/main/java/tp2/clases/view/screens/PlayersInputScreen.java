@@ -34,7 +34,7 @@ public class PlayersInputScreen extends VBox {
     RadioButton selectedToggleScoreLimit;
 
     private Game game;
-    private StackPane root;
+    private StackPane stackPane;
     Button confirmButton;
     private MediaPlayer mediaPlayer;
 
@@ -78,9 +78,9 @@ public class PlayersInputScreen extends VBox {
         getChildren().addAll(label, numberOfPlayersTextField, questionsLabel, numberOfQuestionsTextField, pointsLabel, numberOfPointsTextField, confirmButton);
     }
 
-    public PlayersInputScreen(StackPane root, Game game, MediaPlayer mediaPlayer) {
+    public PlayersInputScreen(StackPane stackPane, Game game, MediaPlayer mediaPlayer) {
         super(30);
-        this.root = root;
+        this.stackPane = stackPane;
         this.mediaPlayer = mediaPlayer;
         this.game = game;
 
@@ -94,7 +94,7 @@ public class PlayersInputScreen extends VBox {
         confirmButton = new Button();
         confirmButton.setText("Confirmar");
         confirmButton.setStyle("-fx-font-size: 20px; -fx-background-color: #007bff; -fx-text-fill: white; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.75), 10, 0.5, 2, 2);");
-        ConfirmButtonHandler confirmButtonHandler = new ConfirmButtonHandler(game, this, root);
+        ConfirmButtonHandler confirmButtonHandler = new ConfirmButtonHandler(game, this, stackPane);
         confirmButton.setOnAction(confirmButtonHandler);
         confirmButton.setDisable(true);
 

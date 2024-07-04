@@ -208,6 +208,10 @@ public class Game {
         playersScoreWithoutExclusivity[playerIndex] = question.calculateScore(player, player.setAnswers(question, selectedAnswers));
     }
 
+    public void setPlayersScoreWithoutExclusivity(int playerIndex, int score) {
+        playersScoreWithoutExclusivity[playerIndex] = score;
+    }
+
     public void registerUsedExclusivity(boolean isSelected) {
         if (isSelected)
             exclusivityCount++;
