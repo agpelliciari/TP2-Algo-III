@@ -133,7 +133,7 @@ public class QuestionScreen extends ScrollPane {
 
         if (selectedAnswers.contains(choiceId)) {
             selectedAnswers.remove(choiceId);
-            choiceButton.setStyle("-fx-font-size: 14px;");
+            choiceButton.setStyle("-fx-font-size: 14px; -fx-background-color: #ebf3fb; -fx-border-color: #000000; -fx-border-radius: 5; -fx-background-radius: 5;"); // Verde pastel claro y negrita
         } else {
             selectedAnswers.add(choiceId);
             choiceButton.setStyle("-fx-font-size: 14px; -fx-background-color: lightblue;");
