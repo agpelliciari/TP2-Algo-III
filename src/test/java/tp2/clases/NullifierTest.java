@@ -24,7 +24,7 @@ public class NullifierTest {
         nullifier = new Nullifier();
 
         //Act
-        nullifier.apply(score);
+        nullifier.cancel(score);
 
         //another player answered a question correctly
         otherPlayer.assignScore(correct, 1);

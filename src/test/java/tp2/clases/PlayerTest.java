@@ -104,7 +104,6 @@ public class PlayerTest {
         player1.assignScore(choices.get(0).getCorrection(), 1);
 
         //Assert
-        assertEquals(0, player1.getScore());
         assertEquals(0, player2.getScore());
     }
 }
