@@ -9,6 +9,7 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import tp2.clases.model.Game;
 import tp2.clases.controllers.handlers.ContinueButtonEventHandler;
@@ -22,6 +23,7 @@ import java.util.stream.Collectors;
 import static tp2.clases.ConstantsPaths.BACKGROUND_IMAGE_PATH;
 
 public class AnswerScreen extends VBox {
+
     private StackPane stackPane;
     private Button continueButton;
     private Question currentQuestion;
@@ -60,7 +62,7 @@ public class AnswerScreen extends VBox {
 
     private void addLeaderboard() {
         VBox leaderboard = createLeaderboard();
-        leaderboard.setStyle("-fx-background-color: #0d3e5a; -fx-padding: 10px; -fx-border-color: #ffffff; -fx-border-width: 1px;");
+        leaderboard.setStyle("-fx-background-color: #7b96a3; -fx-padding: 10px; -fx-border-color: #000000; -fx-border-width: 1px;");
 
         ScrollPane scrollPane = new ScrollPane();
         scrollPane.setContent(leaderboard);
@@ -70,7 +72,7 @@ public class AnswerScreen extends VBox {
         this.getChildren().add(scrollPane);
 
         VBox leaderboardContainer = new VBox();
-        leaderboardContainer.setStyle("-fx-background-color: #266d99; -fx-padding: 10px; -fx-border-color: #ffffff; -fx-border-width: 1px;");
+        leaderboardContainer.setStyle("-fx-background-color: #3a4d60; -fx-padding: 10px; -fx-border-color: #000000; -fx-border-width: 1px;");
         leaderboardContainer.setAlignment(Pos.CENTER);
         leaderboardContainer.getChildren().add(leaderboard);
     }
@@ -111,15 +113,17 @@ public class AnswerScreen extends VBox {
         GridPane headerGrid = new GridPane();
         headerGrid.setHgap(50);
         headerGrid.setPadding(new Insets(5));
-        headerGrid.setStyle("-fx-background-color: #0b4163; -fx-padding: 10px; -fx-border-width: 0 0 1px 0; -fx-border-color: #0b4163;");
+        headerGrid.setStyle("-fx-background-color: #373737; -fx-padding: 10px; -fx-border-width: 0 0 1px 0; -fx-border-color: #000000;");
 
         ColumnConstraints col1 = new ColumnConstraints();
-        col1.setPercentWidth(20);
+        col1.setPercentWidth(15);
         ColumnConstraints col2 = new ColumnConstraints();
-        col2.setPercentWidth(60);
+        col2.setPercentWidth(45);
         ColumnConstraints col3 = new ColumnConstraints();
         col3.setPercentWidth(20);
-        headerGrid.getColumnConstraints().addAll(col1, col2, col3);
+        ColumnConstraints col4 = new ColumnConstraints();
+        col4.setPercentWidth(20);
+        headerGrid.getColumnConstraints().addAll(col1, col2, col3, col4);
 
         Label posHeader = new Label("Posición");
         posHeader.setFont(Font.font("Arial", FontWeight.BOLD, 18));
@@ -133,7 +137,11 @@ public class AnswerScreen extends VBox {
         scoreHeader.setFont(Font.font("Arial", FontWeight.BOLD, 18));
         GridPane.setConstraints(scoreHeader, 2, 0);
 
-        headerGrid.getChildren().addAll(posHeader, nameHeader, scoreHeader);
+        Label scoreChangeHeader = new Label("Cambio");
+        scoreChangeHeader.setFont(Font.font("Arial", FontWeight.BOLD, 18));
+        GridPane.setConstraints(scoreChangeHeader, 3, 0);
+
+        headerGrid.getChildren().addAll(posHeader, nameHeader, scoreHeader, scoreChangeHeader);
         return headerGrid;
     }
 
@@ -155,7 +163,20 @@ public class AnswerScreen extends VBox {
             scoreLabel.setFont(Font.font("Arial", FontWeight.BOLD, 18));
             GridPane.setConstraints(scoreLabel, 2, 0);
 
-            playerGrid.getChildren().addAll(rankLabel, nameLabel, scoreLabel);
+            String scoreChangeText = player.getPreviousScore() + (player.getScoreChange() >= 0 ? "+" : "") + player.getScoreChange();
+            Label scoreChangeLabel = new Label(scoreChangeText);
+            scoreChangeLabel.setFont(Font.font("Arial", FontWeight.BOLD, 18));
+            GridPane.setConstraints(scoreChangeLabel, 3, 0);
+
+            if (player.getScoreChange() > 0) {
+                playerGrid.setStyle("-fx-background-color: #348348; -fx-padding: 10px; -fx-border-width: 0 0 1px 0; -fx-border-color: #000000;");
+            } else if (player.getScoreChange() < 0) {
+                playerGrid.setStyle("-fx-background-color: #d33a3a; -fx-padding: 10px; -fx-border-width: 0 0 1px 0; -fx-border-color: #000000;");
+            } else {
+                playerGrid.setStyle("-fx-background-color: #288bdd; -fx-padding: 10px; -fx-border-width: 0 0 1px 0; -fx-border-color: #000000;");
+            }
+
+            playerGrid.getChildren().addAll(rankLabel, nameLabel, scoreLabel, scoreChangeLabel);
             leaderboard.getChildren().add(playerGrid);
             rank++;
         }
@@ -165,15 +186,17 @@ public class AnswerScreen extends VBox {
         GridPane playerGrid = new GridPane();
         playerGrid.setHgap(50);
         playerGrid.setPadding(new Insets(5));
-        playerGrid.setStyle("-fx-background-color: #266d99; -fx-padding: 10px; -fx-border-width: 0 0 1px 0; -fx-border-color: #266d99;");
+        playerGrid.setStyle("-fx-background-color: #45607c; -fx-padding: 10px; -fx-border-width: 0 0 1px 0; -fx-border-color: #000000;");
 
         ColumnConstraints col1 = new ColumnConstraints();
-        col1.setPercentWidth(20);
+        col1.setPercentWidth(15);
         ColumnConstraints col2 = new ColumnConstraints();
-        col2.setPercentWidth(60);
+        col2.setPercentWidth(45);
         ColumnConstraints col3 = new ColumnConstraints();
         col3.setPercentWidth(20);
-        playerGrid.getColumnConstraints().addAll(col1, col2, col3);
+        ColumnConstraints col4 = new ColumnConstraints();
+        col4.setPercentWidth(20);
+        playerGrid.getColumnConstraints().addAll(col1, col2, col3, col4);
 
         return playerGrid;
     }

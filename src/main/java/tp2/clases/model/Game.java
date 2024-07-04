@@ -205,10 +205,13 @@ public class Game {
     public void setPlayersScoreWithoutExclusivity(int playerIndex, int questionIndex, String selectedAnswers) {
         Question question = questions.get(questionIndex);
         Player player = players.get(playerIndex);
+        player.setPreviousScore(player.getScore());
         playersScoreWithoutExclusivity[playerIndex] = question.calculateScore(player, player.setAnswers(question, selectedAnswers));
     }
 
     public void setPlayersScoreWithoutExclusivity(int playerIndex, int score) {
+        Player player = players.get(playerIndex);
+        player.setPreviousScore(player.getScore());
         playersScoreWithoutExclusivity[playerIndex] = score;
     }
 
@@ -219,7 +222,7 @@ public class Game {
 
     public void updatePlayersScoreWithoutExclusivity() {
         for (int i = 0; i < numberOfPlayers; i++)
-            players.get(i).addToScore(playersScoreWithoutExclusivity[i]);
+            players.get(i).setScoreChange(players.get(i).addToScore(playersScoreWithoutExclusivity[i]));
     }
 
     public Question getCurrentQuestion() {
@@ -238,16 +241,16 @@ public class Game {
             if (exclusivityCount > 0) {
                 if (playersScoreWithoutExclusivity[i] > 0) {
                     if (checkIfOnlyOneCorrectAnswer(playersScoreWithoutExclusivity)) {
-                        players.get(i).addToScore(playersScoreWithoutExclusivity[i] * players.get(i).getExclusivity().getFactor() * exclusivityCount);
+                        players.get(i).setScoreChange(players.get(i).addToScore(playersScoreWithoutExclusivity[i] * players.get(i).getExclusivity().getFactor() * exclusivityCount));
                     } else if (checkIfAllAreCorrectAnswers(playersScoreWithoutExclusivity)) {
                     } else {
-                        players.get(i).addToScore(playersScoreWithoutExclusivity[i]);
+                        players.get(i).setScoreChange(players.get(i).addToScore(playersScoreWithoutExclusivity[i]));
                     }
                 } else {
-                    players.get(i).addToScore(playersScoreWithoutExclusivity[i]);
+                    players.get(i).setScoreChange(players.get(i).addToScore(playersScoreWithoutExclusivity[i]));
                 }
             } else {
-                players.get(i).addToScore(playersScoreWithoutExclusivity[i]);
+                players.get(i).setScoreChange(players.get(i).addToScore(playersScoreWithoutExclusivity[i]));
             }
         }
     }
