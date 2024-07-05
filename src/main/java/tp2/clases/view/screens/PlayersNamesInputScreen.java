@@ -19,34 +19,9 @@ public class PlayersNamesInputScreen extends VBox {
     Game game;
     StackPane stackPane;
 
-    private int numberOfPlayers;
     private ArrayList<TextField> playerNameTextFields;
     private Consumer<ArrayList<String>> playersNamesConsumer;
-    private ScrollPane scrollPane;
-    private VBox contentVBox;
     private Button confirmButton;
-
-    public PlayersNamesInputScreen(int numberOfPlayers, Consumer<ArrayList<String>> playersNamesConsumer) {
-        super();
-        this.numberOfPlayers = numberOfPlayers;
-        this.playersNamesConsumer = playersNamesConsumer;
-        this.playerNameTextFields = new ArrayList<>();
-        this.scrollPane = new ScrollPane();
-        this.contentVBox = new VBox(10);
-        //this.confirmButton = createConfirmButton(inputButtonHandler);
-
-        scrollPane.setContent(contentVBox);
-        scrollPane.setFitToWidth(true);
-        scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-
-        setAlignment(Pos.CENTER);
-        setPadding(new Insets(20));
-        setSpacing(20);
-        setStyle("-fx-background-color: #f0f0f0;");
-
-        //createPlayerNameInputFields(game);
-        getChildren().addAll(scrollPane, confirmButton);
-    }
 
     public PlayersNamesInputScreen(StackPane stackPane, Game game) {
         super();
@@ -159,62 +134,5 @@ public class PlayersNamesInputScreen extends VBox {
 
         return playersNames;
     }
-
-   /* private Button createConfirmButton(NamesInputButtonHandler inputButtonHandler) {
-        Button confirmButton = new Button("Confirmar");
-        confirmButton.setStyle("-fx-font-size: 14px; -fx-padding: 10px 20px; -fx-background-color: #266d99; -fx-text-fill: white; -fx-border-radius: 5px; -fx-background-radius: 5px;");
-        confirmButton.setOnMouseEntered(e -> confirmButton.setStyle("-fx-font-size: 14px; -fx-padding: 10px 20px; -fx-background-color: #0b4163; -fx-text-fill: white; -fx-border-radius: 5px; -fx-background-radius: 5px;"));
-        confirmButton.setOnMouseExited(e -> confirmButton.setStyle("-fx-font-size: 14px; -fx-padding: 10px 20px; -fx-background-color: #266d99; -fx-text-fill: white; -fx-border-radius: 5px; -fx-background-radius: 5px;"));
-        confirmButton.setOnAction(e -> {
-            //handleConfirmButton();
-            inputButtonHandler.handle(e);
-        });
-
-        VBox.setMargin(confirmButton, new Insets(20, 0, 0, 0));
-
-        return confirmButton;
-    }
-
-    public ArrayList<String> handleConfirmButton() {
-        ArrayList<String> playersNames = new ArrayList<>();
-        ArrayList<String> invalidPlayersNames = new ArrayList<>();
-        boolean allNamesValid = true;
-        for (int i = 0; i < playerNameTextFields.size(); i++) {
-            TextField textField = playerNameTextFields.get(i);
-            String playerName = textField.getText();
-            if (!isValidName(playerName)) {
-                invalidPlayersNames.add(String.valueOf(i+1));
-                allNamesValid = false;
-//                break;
-            }
-            playersNames.add(playerName);
-            //names.add(playerName);
-        }
-
-        if (!allNamesValid) {
-            String invalidPlayers = String.join(",", invalidPlayersNames);
-            showErrorDialog("Por favor jugador/es número " + invalidPlayers + " ingrese/n un nombre de jugador válido.");
-        }
-
-        if (allNamesValid) {
-            //playersNamesConsumer.accept(playersNames);
-            this.game.registerUsers(playersNames);
-        }
-        else{
-            String invalidPlayers = String.join(",", invalidPlayersNames);
-            showErrorDialog("Por favor jugador/es número " + invalidPlayers + " ingrese/n un nombre de jugador válido.");
-        }
-        return playersNames;
-    }
-
-    private void showErrorDialog(String errorMessage) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Error");
-        alert.setHeaderText(null);
-        alert.setContentText(errorMessage);
-        alert.showAndWait();
-     }
-
-    */
 }
 

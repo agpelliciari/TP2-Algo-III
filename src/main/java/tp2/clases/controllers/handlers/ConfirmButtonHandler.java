@@ -9,23 +9,11 @@ import tp2.clases.model.Game;
 import tp2.clases.view.screens.PlayersInputScreen;
 import tp2.clases.view.screens.PlayersNamesInputScreen;
 
-import java.util.function.Consumer;
-
 public class ConfirmButtonHandler implements EventHandler<ActionEvent> {
 
     private Game game;
     private StackPane stackPane;
     private PlayersInputScreen playersInputScreen;
-    private Consumer<Integer> numberOfPlayersConsumer;
-    private Consumer<Integer> numberOfQuestionsConsumer;
-    private Consumer<Integer> numberOfPointsConsumer;
-
-    public ConfirmButtonHandler(PlayersInputScreen playersInputScreen, Consumer<Integer> numberOfPlayersConsumer, Consumer<Integer> numberOfQuestionsConsumer, Consumer<Integer> numberOfPointsConsumer) {
-        this.playersInputScreen = playersInputScreen;
-        this.numberOfPlayersConsumer = numberOfPlayersConsumer;
-        this.numberOfQuestionsConsumer = numberOfQuestionsConsumer;
-        this.numberOfPointsConsumer = numberOfPointsConsumer;
-    }
 
     public ConfirmButtonHandler(Game game, PlayersInputScreen playersInputScreen, StackPane stackPane) {
         this.playersInputScreen = playersInputScreen;

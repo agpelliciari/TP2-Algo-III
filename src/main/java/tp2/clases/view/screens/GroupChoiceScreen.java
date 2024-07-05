@@ -21,6 +21,8 @@ import tp2.clases.model.questions.types.Question;
 
 import java.util.ArrayList;
 
+import static tp2.clases.ConstantsPaths.BACKGROUND_IMAGE_PATH;
+
 public class GroupChoiceScreen extends VBox {
 
     private StackPane stackPane;
@@ -81,7 +83,7 @@ public class GroupChoiceScreen extends VBox {
     }
 
     private void setBackground() {
-        Image image = new Image("file:src/main/resources/images/white-background.jpg");
+        Image image = new Image(BACKGROUND_IMAGE_PATH);
         BackgroundImage backgroundImage = new BackgroundImage(image, BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
         this.setBackground(new Background(backgroundImage));
         choicesBox.setBackground(new Background(backgroundImage));
