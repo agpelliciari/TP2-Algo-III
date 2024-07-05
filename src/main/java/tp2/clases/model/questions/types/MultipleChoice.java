@@ -27,6 +27,9 @@ public class MultipleChoice extends Question {
     public int calculateScore(Player player, ArrayList<Choice> chosenAnswers) {
         Mode mode = getMode();
 
+        if (mode.isPenaltyMode()){
+            return mode.calculateCorrectScore(player, getNumberOfCorrectAnswers(chosenAnswers)) + mode.calculateIncorrectScore(player, getNumberOfIncorrectAnswers(chosenAnswers));
+        }
         if (hasNoIncorrectAnswers(chosenAnswers)) {
             return mode.calculateCorrectScore(player, getNumberOfCorrectAnswers(chosenAnswers));
         } else {
