@@ -136,7 +136,7 @@ public class GroupChoiceScreen extends VBox {
             groupBox.setSpacing(10);
             groupBox.setStyle("-fx-border-color: black; -fx-padding: 10; -fx-background-color: lightblue; -fx-border-radius: 10; -fx-background-radius: 10;");
             groupBox.setAlignment(Pos.CENTER);
-            Label groupBoxLabel = new Label("Grupo " + group.getLetter() + ": " + group.getText());
+            Label groupBoxLabel = new Label(group.getText());
             groupBoxLabel.setStyle("-fx-font-weight: bold;");
             groupBox.getChildren().add(groupBoxLabel);
 
