@@ -2,6 +2,7 @@ package tp2.clases;
 
 import org.junit.jupiter.api.Test;
 import tp2.clases.model.player.Player;
+import tp2.clases.model.player.score.Score;
 import tp2.clases.model.questions.choice.Choice;
 import tp2.clases.model.questions.Content;
 import tp2.clases.model.questions.modes.ClassicMode;
@@ -17,7 +18,7 @@ class TrueOrFalseTest {
 
     @Test
     public void test01TrueOrFalseQuestionAssignsScoreCorrectly() {
-        Player player = new Player("Player1", 0);
+        Player player = new Player("Player1", new Score(0));
 
         ArrayList<Choice> choices = new ArrayList<>();
         choices.add(new Choice("Answer1", "correcta", 1));
@@ -32,7 +33,7 @@ class TrueOrFalseTest {
 
     @Test
     public void test02TrueOrFalseQuestionWronglyAnsweredAssignsScoreCorrectly() {
-        Player player = new Player("Player1", 0);
+        Player player = new Player("Player1", new Score(0));
 
         ArrayList<Choice> choices = new ArrayList<>();
         choices.add(new Choice("Answer1", "incorrecta", 1));
@@ -47,8 +48,8 @@ class TrueOrFalseTest {
 
     @Test
     public void test03MultiplePlayers() {
-        Player player1 = new Player("Player1", 0);
-        Player player2 = new Player("Player2", 0);
+        Player player1 = new Player("Player1", new Score(0));
+        Player player2 = new Player("Player2", new Score(0));
 
         ArrayList<Choice> choices = new ArrayList<>();
         choices.add(new Choice("Answer1", "incorrecta", 1));

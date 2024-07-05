@@ -2,6 +2,7 @@ package tp2.clases;
 
 import org.junit.jupiter.api.Test;
 import tp2.clases.model.player.Player;
+import tp2.clases.model.player.score.Score;
 import tp2.clases.model.questions.choice.Choice;
 import tp2.clases.model.questions.Content;
 import tp2.clases.model.questions.modes.PartialMode;
@@ -18,7 +19,7 @@ class PartialModeTest {
     @Test
     public void test01PlayerChoosesAllPossibleCorrectChoicesAndNoneIncorrect() {
         // Arrange
-        Player player = new Player("Player1", 0);
+        Player player = new Player("Player1", new Score(0));
 
         ArrayList<Choice> choices = new ArrayList<>();
         choices.add(new Choice("Answer1", "correcta", 1));
@@ -39,7 +40,7 @@ class PartialModeTest {
     @Test
     public void test02PlayerChoosesAllPossibleCorrectChoicesAndOneIncorrectObtainsZeroPoints() {
         // Arrange
-        Player player = new Player("Player1", 0);
+        Player player = new Player("Player1", new Score(0));
 
         ArrayList<Choice> choices = new ArrayList<>();
         choices.add(new Choice("Answer1", "correcta", 1));
@@ -60,7 +61,7 @@ class PartialModeTest {
     @Test
     public void test03PlayerChooses2OutOf3CorrectChoicesAndNoneIncorrectObtains2Points() {
         // Arrange
-        Player player = new Player("Player1", 0);
+        Player player = new Player("Player1", new Score(0));
 
         ArrayList<Choice> choices = new ArrayList<>();
         choices.add(new Choice("Answer1", "correcta", 1));

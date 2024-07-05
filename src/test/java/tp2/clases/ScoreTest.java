@@ -27,33 +27,33 @@ public class ScoreTest {
 */
     @Test
     public void test01AddingPointsToTheCurrentScoreIncreasesTheTotalScore() {
-        //Arrange
+        // Arrange
 //        when(correctMock.assignScore(1)).thenReturn(1);
 
         int expectedScore = 10;
         score = new Score(9);
 
-        //Act
+        // Act
         score.addScore(1);
         int scoreObtained = score.getScore();
 
-        //Assert
+        // Assert
         assertEquals(expectedScore, scoreObtained);
     }
 
     @Test
     public void test02SubtractingPointsFromTheCurrentScoreDecreasesTheTotalScore() {
-        //Arrange
+        // Arrange
 //        when(incorrectMock.assignScore(1)).thenReturn(-1);
 
         int expectedScore = 0;
         score = new Score(1);
 
-        //Act
+        // Act
         score.subtractScore(1);
         int scoreObtained = score.getScore();
 
-        //Assert
+        // Assert
         assertEquals(expectedScore, scoreObtained);
     }
 }

@@ -6,6 +6,7 @@ import tp2.clases.exceptions.InvalidNumberOfPlayersException;
 import tp2.clases.exceptions.UserNameAlreadyExistsException;
 import tp2.clases.model.Game;
 import tp2.clases.model.player.Player;
+import tp2.clases.model.player.score.Score;
 
 import java.util.ArrayList;
 
@@ -40,7 +41,7 @@ public class GameTest {
         Game game = new Game(new ArrayList<>());
         ArrayList<Player> players = new ArrayList<>();
 
-        game.registerUser(players, new Player("mateo", 0));
+        game.registerUser(players, new Player("mateo", new Score(0)));
         Player player = players.get(0);
 
         assertEquals(expectedValue, player.getName());
@@ -51,9 +52,9 @@ public class GameTest {
         Game game = new Game(new ArrayList<>());
         ArrayList<Player> players = new ArrayList<>();
 
-        game.registerUser(players, new Player("mateo", 0));
-        game.registerUser(players, new Player("julian", 0));
+        game.registerUser(players, new Player("mateo", new Score(0)));
+        game.registerUser(players, new Player("julian", new Score(0)));
 
-        assertThrows(UserNameAlreadyExistsException.class, () -> {game.registerUser(players, new Player("mateo", 0));});
+        assertThrows(UserNameAlreadyExistsException.class, () -> {game.registerUser(players, new Player("mateo", new Score(0)));});
     }
 }

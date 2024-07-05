@@ -2,6 +2,7 @@ package tp2.clases;
 
 import org.junit.jupiter.api.Test;
 import tp2.clases.model.player.Player;
+import tp2.clases.model.player.score.Score;
 import tp2.clases.model.questions.choice.Choice;
 import tp2.clases.model.questions.Content;
 import tp2.clases.model.questions.modes.ClassicMode;
@@ -13,8 +14,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class GroupChoiceTest {
 
     @Test
+    // El jugador coloca bien las opciones en ambos grupos y no se le asigna puntaje
     public void test01PlayerCorrectlyPlacesChoicesInGroups() {
-        Player player = new Player("Player", 0);
+        // Arrange
+        Player player = new Player("Player", new Score(0));
 
         ArrayList<GroupChoice.Group> groups = new ArrayList<>();
         groups.add(GroupChoice.createGroup('A', "", new int[] {1, 2, 5}));
@@ -31,6 +34,7 @@ class GroupChoiceTest {
         GroupChoice groupChoice = new GroupChoice(1, content, new ClassicMode(), choices);
         groupChoice.addGroups(groups);
 
+        // Act
         ArrayList<Choice> chosenAnswersGroupA = player.setAnswers(groupChoice, "1,2,5");
         ArrayList<Choice> chosenAnswersGroupB = player.setAnswers(groupChoice, "3,4,6");
 
@@ -39,15 +43,17 @@ class GroupChoiceTest {
         groupsChosenAnswers.add(chosenAnswersGroupB);
 
         int score = groupChoice.calculateTotalScore(groupsChosenAnswers);
-
         player.addToScore(score);
 
+        // Assert
         assertEquals(1, player.getScore());
     }
 
     @Test
+    // El jugador
     public void test02PlayerIncorrectlyPlacesChoicesInGroups() {
-        Player player = new Player("Player", 0);
+        // Arrange
+        Player player = new Player("Player", new Score(0));
 
         ArrayList<GroupChoice.Group> groups = new ArrayList<>();
         groups.add(GroupChoice.createGroup('A', "", new int[] {1, 2, 5}));
@@ -64,6 +70,7 @@ class GroupChoiceTest {
         GroupChoice groupChoice = new GroupChoice(1, content, new ClassicMode(), choices);
         groupChoice.addGroups(groups);
 
+        // Act
         ArrayList<Choice> chosenAnswersGroupA = player.setAnswers(groupChoice, "1,3,6");
         ArrayList<Choice> chosenAnswersGroupB = player.setAnswers(groupChoice, "2,4,5");
 
@@ -72,9 +79,9 @@ class GroupChoiceTest {
         groupsChosenAnswers.add(chosenAnswersGroupB);
 
         int score = groupChoice.calculateTotalScore(groupsChosenAnswers);
-
         player.addToScore(score);
 
+        // Assert
         assertEquals(0, player.getScore());
     }
 }
