@@ -1,6 +1,6 @@
 package tp2.clases.model.questions.choice;
 
-import tp2.clases.model.questions.choice.corrections.CorrectionFactory;
+import tp2.clases.model.questions.choice.corrections.types.CorrectionFactory;
 import tp2.clases.model.questions.choice.corrections.types.Correction;
 
 public class Choice {

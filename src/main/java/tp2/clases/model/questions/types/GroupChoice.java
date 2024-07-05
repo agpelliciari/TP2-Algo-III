@@ -10,12 +10,10 @@ import java.util.ArrayList;
 public class GroupChoice extends Question {
 
     public static class Group {
-        private final char letter;
         private final String text;
         private final ArrayList<Choice> choices = new ArrayList<>();
 
-        public Group(char letter, String text, int[] intChoices) {
-            this.letter = letter;
+        public Group(String text, int[] intChoices) {
             this.text = text;
             for (int intChoice : intChoices) {
                 choices.add(new Choice("", "correcta", intChoice));
@@ -49,10 +47,6 @@ public class GroupChoice extends Question {
             }
             return true;
         }
-
-        public char getLetter() {
-            return letter;
-        }
     }
 
     private final ArrayList<Group> groups = new ArrayList<>();
@@ -61,8 +55,8 @@ public class GroupChoice extends Question {
         super(id, content, mode, choices);
     }
 
-    public static Group createGroup(char letter, String text, int[] intChoices) {
-        return new Group(letter, text, intChoices);
+    public static Group createGroup(String text, int[] intChoices) {
+        return new Group(text, intChoices);
     }
 
     public void addGroups(ArrayList<Group> groups) {

@@ -17,6 +17,7 @@ class OrderedChoiceTest {
     Content content = new Content("", "", "");
 
     @Test
+    // El jugador que recibe
     public void test01PlayerGetsOrderCorrectReceivesOnePoint() {
         Player player = new Player("Player1", new Score(0));
 

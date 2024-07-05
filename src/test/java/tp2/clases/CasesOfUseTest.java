@@ -274,8 +274,8 @@ public class CasesOfUseTest {
     public void test11AClassicGroupChoiceQuestionReceivesAListOfAnswersOfAPlayerThatAnsweredCorrectlyAndAssignsTheScore() {
         // Arrange
         ArrayList<GroupChoice.Group> groups = new ArrayList<>();
-        groups.add(GroupChoice.createGroup('A', "", new int[] {2, 3, 5}));
-        groups.add(GroupChoice.createGroup('B', "", new int[] {1, 2, 6}));
+        groups.add(GroupChoice.createGroup("", new int[] {2, 3, 5}));
+        groups.add(GroupChoice.createGroup("", new int[] {1, 2, 6}));
 
         ArrayList<Choice> choices = new ArrayList<>();
         choices.add(new Choice("Kawhi Leonard", "Correcta", 1));
@@ -312,8 +312,8 @@ public class CasesOfUseTest {
         public void test12AGroupChoiceQuestionReceivesAListOfAnswersOfAPlayerThatAnsweredIncorrectlyAndAssignsTheScore() {
             // Arrange
             ArrayList<GroupChoice.Group> groups = new ArrayList<>();
-            groups.add(GroupChoice.createGroup('A', "", new int[] {2, 3, 5}));
-            groups.add(GroupChoice.createGroup('B', "", new int[] {1, 2, 6}));
+            groups.add(GroupChoice.createGroup("", new int[] {2, 3, 5}));
+            groups.add(GroupChoice.createGroup("", new int[] {1, 2, 6}));
 
             ArrayList<Choice> choices = new ArrayList<>();
             choices.add(new Choice("Kawhi Leonard", "incorrecta", 1));
