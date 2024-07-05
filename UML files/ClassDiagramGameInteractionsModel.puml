@@ -6,11 +6,39 @@ skinparam classAttributeIconSize 0
 
 title: Model of classes that interact with App
 
-class App {
-+initialize(args: String[]): void
-+showQuestionForPlayer(): void
-+saveAnswerAndProceed(question: Question, player: Player, ...): void
-+showEndGame(): void
+class Game {
+- exclusivityCount: int
+- aNullifierIsActivated: boolean
+- playersScoreWithoutExclusivity: int[]
+- selectedQuestionIndexes: ArrayList<Integer>
+- questionCount: int
++ Game(players: ArrayList<Player>, questions: ArrayList<Question>)
++ addPlayer(player: Player)
++ addQuestion(questions: ArrayList<Question>)
++ selectPlayers(numberOfPlayers: int, playerNames: ArrayList<String> playersNames): ArrayList<Player>
++ registerUser(players: ArrayList<Player>, aPlayer: Player)
++ checkIfOnlyOneCorrectAnswer(playersCorrectAnswers: int[]): boolean
++ checkIfAllAreCorrectAnswers(playersCorrectAnswers: int[]): boolean
++ assignScoreWithExclusivity(chosenChoices: ArrayList<String[]>, chosenExclusivities: ArrayList<boolean[]>)
++ checkIfThereIsAScoreNullifierActivated()
++ registerUsers(playersNames: ArrayList<String>)
++ boolean checkIfRepeatedTheme(int index)
++ Question getQuestion(int questionIndex)
++ registerUsedExclusivity(isSelected: boolean)
++ updatePlayersScoreWithoutExclusivity()
++ updatePlayersScoreWithExclusivity()
++ isFinished(): boolean
++ deactivatePowers()
++ resetExclusivityCount()
++ powerWereUsed(): boolean
++ assignExclusivity(playerIndex: int, exclusivitySelected: boolean)
+}
+
+class Limit {
+- pointsLimit: int
+- questionLimit: int
++ questionLimitReached(questionCount: int): boolean
++ pointsLimitReached(maxScore: int): boolean
 }
 
 abstract class Question{
@@ -48,9 +76,10 @@ class QuestionFactory{
 +{static}createQuestion(questionString: QuestionString, choices: ArrayList<Choice>): Question
 }
 
-App --> Question:1..*
-App --> Player:2..*
-App --> JsonParser:1
+Game --> Question:1..*
+Game --> Player:2..*
+Game --> JsonParser:1
+Game -> Limit:1
 
 JsonParser ..> QuestionFactoryProvider: <<uses>>
 QuestionFactory .> Question: "<<creates>>"
