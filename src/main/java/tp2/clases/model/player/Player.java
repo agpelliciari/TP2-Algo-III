@@ -22,15 +22,6 @@ public class Player {
     private int numberOfCorrectAnswers = 0, previousScore = 0, scoreChange = 0;
     private ArrayList<String> answers = new ArrayList<>();
 
-    public Player(String name, int score) {
-        this.name = name;
-        this.score = new Score(score);
-        multipliers.add(new Multiplier(2));
-        multipliers.add(new Multiplier(3));
-        this.exclusivity = new Exclusivity();
-        this.nullifier = new Nullifier();
-    }
-
     public Player(String name, Score score) {
         this.name = name;
         this.score = score;

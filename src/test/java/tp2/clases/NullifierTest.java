@@ -15,7 +15,7 @@ public class NullifierTest {
 
     @Test
     public void test01IfAPlayerReceivesTheScoreCancelerIfHeAnswersAQuestionCorrectlyHeDoesNotReceivePoints() {
-        //Arrange
+        // Arrange
         score = new Score(0);
         correct = new Correct();
         Player otherPlayer = new Player("Pedro", score);
@@ -23,14 +23,14 @@ public class NullifierTest {
         int expectedScore = 0;
         nullifier = new Nullifier();
 
-        //Act
+        // Act
         nullifier.cancel(score);
 
-        //another player answered a question correctly
+        // Another player answered a question correctly
         otherPlayer.assignScore(correct, 1);
         int scoreObtained = otherPlayer.getScore();
 
-        //Assert
+        // Assert
         assertEquals(expectedScore, scoreObtained);
     }
 }

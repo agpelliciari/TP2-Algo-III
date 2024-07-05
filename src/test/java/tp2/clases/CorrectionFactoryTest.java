@@ -10,7 +10,9 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.*;
 
+// Prubas de la fábrica de correcciones
 public class CorrectionFactoryTest {
+
     @Test
     public void test01AssignCorrectCorrection() {
         Correction correction = CorrectionFactory.assignCorrection("Correcta");

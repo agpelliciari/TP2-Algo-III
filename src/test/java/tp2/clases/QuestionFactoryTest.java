@@ -17,49 +17,49 @@ public class QuestionFactoryTest {
 
     @Test
     public void test01AQuestionFactoryCreatesATrueOrFalseQuestion() {
-        //Arrange
+        // Arrange
         QuestionFactory factory = QuestionFactoryProvider.getFactory("Verdadero Falso");
 
-        //Act
+        // Act
         Question question = factory.createQuestion(questionsString.get(0), choices);
 
-        //Assert
+        // Assert
         assertInstanceOf(TrueOrFalse.class, question);
     }
 
     @Test
     public void test02AQuestionFactoryCreatesAMultipleChoiceQuestion() {
-        //Arrange
+        // Arrange
         QuestionFactory factory = QuestionFactoryProvider.getFactory("Multiple Choice Simple");
 
-        //Act
+        // Act
         Question question = factory.createQuestion(questionsString.get(0), choices);
 
-        //Assert
+        // Assert
         assertInstanceOf(MultipleChoice.class, question);
     }
 
     @Test
     public void test03AQuestionFactoryCreatesAOrderedChoiceQuestion() {
-        //Arrange
+        // Arrange
         QuestionFactory factory = QuestionFactoryProvider.getFactory("Ordered Choice");
 
-        //Act
+        // Act
         Question question = factory.createQuestion(questionsString.get(0), choices);
 
-        //Assert
+        // Assert
         assertInstanceOf(OrderedChoice.class, question);
     }
 
     @Test
     public void test04AQuestionFactoryCreatesAGroupChoiceQuestion() {
-        //Arrange
+        // Arrange
         QuestionFactory factory = QuestionFactoryProvider.getFactory("Group Choice");
 
-        //Act
+        // Act
         Question question = factory.createQuestion(questionsString.get(0), choices);
 
-        //Assert
+        // Assert
         assertInstanceOf(GroupChoice.class, question);
     }
 }

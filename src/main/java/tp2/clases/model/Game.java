@@ -4,6 +4,7 @@ import java.util.*;
 
 import tp2.clases.model.player.Player;
 import tp2.clases.model.player.powers.Power;
+import tp2.clases.model.player.score.Score;
 import tp2.clases.model.questions.choice.corrections.types.Correct;
 import tp2.clases.exceptions.InvalidNumberOfPlayersException;
 import tp2.clases.exceptions.UserNameAlreadyExistsException;
@@ -14,10 +15,9 @@ public class Game {
     int exclusivityCount;
     private ArrayList<Question> questions = new ArrayList<>();
     private ArrayList<Player> players = new ArrayList<>();
-    private boolean aNullifierIsActivated = false;
 
     private int[] playersScoreWithoutExclusivity;
-    int numberOfPlayers;
+    int numberOfPlayers = 0;
     Limit limit;
     ArrayList<Integer> selectedQuestionIndexes;
     int questionCount;
@@ -42,12 +42,13 @@ public class Game {
         this.selectedQuestionIndexes = new ArrayList<>();
     }
 
-    public void addPlayer(Player player) {
-        players.add(player);
+    public void setExclusivityCount(int exclusivityCount) {
+        this.exclusivityCount = exclusivityCount;
     }
 
-    public void addQuestion(Question question) {
-        questions.add(question);
+    public void addPlayer(Player player) {
+        players.add(player);
+        numberOfPlayers++;
     }
 
     public int getQuestionCount() {
@@ -65,7 +66,7 @@ public class Game {
         ArrayList<Player> players = new ArrayList<>();
 
         for (int i = 0; i < numberOfPlayers; i++) {
-            Player player = new Player(playerNames.get(i), 0);
+            Player player = new Player(playerNames.get(i), new Score(0));
             registerUser(players, player);
         }
         return players;
@@ -94,57 +95,13 @@ public class Game {
     }
 
     public boolean checkIfAllAreCorrectAnswers(int[] playersCorrectAnswers) {
-        for (int playerCorrectAnswers : playersCorrectAnswers)
-            if (!intToBool(playerCorrectAnswers))
+
+        for (int playerCorrectAnswers : playersCorrectAnswers) {
+            if (!intToBool(playerCorrectAnswers)) {
                 return false;
+            }
+        }
         return true;
-    }
-
-    public void assignScoreWithExclusivity(ArrayList<String[]> chosenChoices, ArrayList<boolean[]> chosenExclusivities) {
-        for (int i = 0; i < questions.size(); i++) {
-            int numberOfExclusivities = 0;
-            for (boolean[] bool : chosenExclusivities) {
-                if (bool[i]) numberOfExclusivities++;
-            }
-
-            int[] playersCorrectAnswers = new int[players.size()];
-            ArrayList<Player> playersWhoAnsweredCorrectly = new ArrayList<>();
-
-            checkIfThereIsAScoreNullifierActivated();
-
-            for (int j = 0; j < players.size(); j++) {
-                players.get(j).assignExclusivity(chosenExclusivities.get(j)[i]);
-                playersCorrectAnswers[j] = questions.get(i).getNumberOfCorrectAnswers(players.get(j).setAnswers(questions.get(i), chosenChoices.get(j)[i]));
-                if (playersCorrectAnswers[j] > 0) {
-                     playersWhoAnsweredCorrectly.add(players.get(j));
-                    players.get(j).setNumberOfCorrectAnswers(playersCorrectAnswers[j]);
-                }
-            }
-
-            if (!questions.get(i).getMode().isPenaltyMode()) {
-                if (this.checkIfOnlyOneCorrectAnswer(playersCorrectAnswers)) {
-                    Player onlyCorrectPlayer = playersWhoAnsweredCorrectly.get(0);
-                    if (onlyCorrectPlayer.getExclusivity().isActive()) {
-                        onlyCorrectPlayer.assignScore(new Correct(), onlyCorrectPlayer.getNumberOfCorrectAnswers() * onlyCorrectPlayer.getExclusivity().getFactor() * numberOfExclusivities);
-                    }
-                } else if (this.checkIfAllAreCorrectAnswers(playersCorrectAnswers)) {
-                }
-            } else {
-                for (Player playerWhoAnsweredCorrectly : playersWhoAnsweredCorrectly) {
-                    playerWhoAnsweredCorrectly.assignScore(new Correct(), playerWhoAnsweredCorrectly.getNumberOfCorrectAnswers());
-                }
-            }
-        }
-    }
-
-    public void checkIfThereIsAScoreNullifierActivated() {
-        if (aNullifierIsActivated) {
-            for (Player player: players) {
-                if (!player.nullifierIsActive()) {
-                    player.aNullifierIsActivated();
-                }
-            }
-        }
     }
 
     public void setNumberOfPlayers(int numberOfPlayersInput) {
@@ -166,7 +123,7 @@ public class Game {
 
     public void registerUsers(ArrayList<String> playersNames) {
         for (String playerName : playersNames) {
-            players.add(new Player(playerName, 0));
+            players.add(new Player(playerName, new Score(0)));
         }
     }
 
@@ -202,13 +159,6 @@ public class Game {
         return players.get(playerIndex);
     }
 
-    public void setPlayersScoreWithoutExclusivity(int playerIndex, int questionIndex, String selectedAnswers) {
-        Question question = questions.get(questionIndex);
-        Player player = players.get(playerIndex);
-        player.setPreviousScore(player.getScore());
-        playersScoreWithoutExclusivity[playerIndex] = question.calculateScore(player, player.setAnswers(question, selectedAnswers));
-    }
-
     public void setPlayersScoreWithoutExclusivity(int playerIndex, int score) {
         Player player = players.get(playerIndex);
         player.setPreviousScore(player.getScore());
@@ -221,7 +171,7 @@ public class Game {
     }
 
     public void updatePlayersScoreWithoutExclusivity() {
-        for (int i = 0; i < numberOfPlayers; i++)
+        for (int i = 0; i < players.size(); i++)
             players.get(i).setScoreChange(players.get(i).addToScore(playersScoreWithoutExclusivity[i]));
     }
 
@@ -237,14 +187,14 @@ public class Game {
     }
 
     public void updatePlayersScoreWithExclusivity() {
-        for (int i = 0; i < numberOfPlayers; i++) {
+        for (int i = 0; i < players.size(); i++) {
             if (exclusivityCount > 0) {
                 if (playersScoreWithoutExclusivity[i] > 0) {
                     if (checkIfOnlyOneCorrectAnswer(playersScoreWithoutExclusivity)) {
                         players.get(i).setScoreChange(players.get(i).addToScore(playersScoreWithoutExclusivity[i] * players.get(i).getExclusivity().getFactor() * exclusivityCount));
                     } else if (checkIfAllAreCorrectAnswers(playersScoreWithoutExclusivity)) {
                     } else {
-                        players.get(i).setScoreChange(players.get(i).addToScore(playersScoreWithoutExclusivity[i]));
+                        players.get(i).setScoreChange(players.get(i).addToScore(playersScoreWithoutExclusivity[i] * players.get(i).getExclusivity().getFactor()));
                     }
                 } else {
                     players.get(i).setScoreChange(players.get(i).addToScore(playersScoreWithoutExclusivity[i]));

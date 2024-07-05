@@ -10,13 +10,15 @@ import static org.junit.jupiter.api.Assertions.*;
 public class CorrectTest {
 
     @Test
+    // Correcta instanciación de la clase Correct
     public void test01CreateInstanceOfCorrectAndCheckIfItIsCorrectlyInstanciated() {
         Correction correction = new Correct();
         assertTrue(correction instanceof Correct);
     }
 
     @Test
-    public void test02CreateInstanceOfCorrectAndCheckIfItIsCorrectlyInstanciated() {
+    // Correcta instanciación de la clase Correct mediante el método isCorrect
+    public void test02CreateInstanceOfCorrectAndCheckIfItIsCorrectlyInstanciatedWithMethod() {
         Correction correction = new Correct();
         assertEquals(true, correction.isCorrect());
     }

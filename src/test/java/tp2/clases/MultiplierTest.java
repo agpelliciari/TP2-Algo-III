@@ -2,6 +2,7 @@ package tp2.clases;
 
 import org.junit.jupiter.api.Test;
 import tp2.clases.model.player.Player;
+import tp2.clases.model.player.score.Score;
 import tp2.clases.model.questions.choice.Choice;
 import tp2.clases.model.questions.Content;
 import tp2.clases.model.questions.modes.ClassicMode;
@@ -21,7 +22,7 @@ public class MultiplierTest {
     @Test
     public void test01TrueOrFalseQuestionAssignsScoreCorrectly() {
         // Arrange
-        Player player = new Player("Player1", 0);
+        Player player = new Player("Player1", new Score(0));
 
         ArrayList<Choice> choices = new ArrayList<>();
         choices.add(new Choice("Answer1", "correcta", 1));
@@ -41,7 +42,7 @@ public class MultiplierTest {
     @Test
     public void test02TrueOrFalseQuestionAssignsScoreCorrectly() {
         // Arrange
-        Player player = new Player("Player1", 4);
+        Player player = new Player("Player1", new Score(4));
 
         ArrayList<Choice> choices = new ArrayList<>();
         choices.add(new Choice("Answer1", "correcta", 1));
@@ -61,7 +62,7 @@ public class MultiplierTest {
     @Test
     public void test03PlayerChoosesAllOptionsCorrectUsingx3Multiplier() {
         // Arrange
-        Player player = new Player("Player1", 0);
+        Player player = new Player("Player1", new Score(0));
 
         ArrayList<Choice> choices = new ArrayList<>();
         choices.add(new Choice("Answer1", "correcta", 1));

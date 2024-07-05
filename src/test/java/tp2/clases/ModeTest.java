@@ -2,9 +2,12 @@ package tp2.clases;
 
 import org.junit.jupiter.api.Test;
 import tp2.clases.model.player.Player;
+import tp2.clases.model.player.score.Score;
 import tp2.clases.model.questions.modes.ClassicMode;
 import tp2.clases.model.questions.modes.PartialMode;
 import tp2.clases.model.questions.modes.PenaltyMode;
+
+import java.util.SortedMap;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -12,97 +15,97 @@ public class ModeTest {
 
     @Test
     public void test01ClassicModeAssignScoreToAPlayerThatAnsweredCorrectly() {
-        //Arrange
+        // Arrange
         int expectedValue = 4;
 
         ClassicMode mode = new ClassicMode();
 
-        Player player = new Player("Juan", 3);
+        Player player = new Player("Juan", new Score(3));
 
-        //Act
+        // Act
         mode.assignCorrectScore(player, 3);
 
-        //Assert
+        // Assert
         assertEquals(expectedValue, player.getScore());
     }
 
     @Test
     public void test02ClassicModeAssignScoreToAPlayerThatAnsweredIncorrectly() {
-        //Arrange
+        // Arrange
         int expectedValue = 3;
 
         ClassicMode mode = new ClassicMode();
 
-        Player player = new Player("Juan", 3);
+        Player player = new Player("Juan", new Score(3));
 
-        //Act
+        // Act
         mode.assignIncorrectScore(player, 3);
 
-        //Assert
+        // Assert
         assertEquals(expectedValue, player.getScore());
     }
 
     @Test
     public void test03PenaltyModeAssignScoreToAPlayerThatAnsweredCorrectly() {
-        //Arrange
+        // Arrange
         int expectedValue = 6;
 
         PenaltyMode mode = new PenaltyMode();
 
-        Player player = new Player("Juan", 3);
+        Player player = new Player("Juan", new Score(3));
 
-        //Act
+        // Act
         mode.assignCorrectScore(player, 3);
 
-        //Assert
+        // Assert
         assertEquals(expectedValue, player.getScore());
     }
 
     @Test
     public void test04PenaltyModeAssignScoreToAPlayerThatAnsweredIncorrectly() {
-        //Arrange
+        // Arrange
         int expectedValue = 0;
 
         PenaltyMode mode = new PenaltyMode();
 
-        Player player = new Player("Juan", 3);
+        Player player = new Player("Juan", new Score(3));
 
-        //Act
+        // Act
         mode.assignIncorrectScore(player, 3);
 
-        //Assert
+        // Assert
         assertEquals(expectedValue, player.getScore());
     }
 
     @Test
     public void test05PartialModeAssignScoreToAPlayerThatAnsweredCorrectly() {
-        //Arrange
+        // Arrange
         int expectedValue = 6;
 
         PartialMode mode = new PartialMode();
 
-        Player player = new Player("Juan", 3);
+        Player player = new Player("Juan", new Score(3));
 
-        //Act
+        // Act
         mode.assignCorrectScore(player, 3);
 
-        //Assert
+        // Assert
         assertEquals(expectedValue, player.getScore());
     }
 
     @Test
     public void test06PartialModeAssignScoreToAPlayerThatAnsweredIncorrectly() {
-        //Arrange
+        // Arrange
         int expectedValue = 3;
 
         PartialMode mode = new PartialMode();
 
-        Player player = new Player("Juan", 3);
+        Player player = new Player("Juan", new Score(3));
 
-        //Act
+        // Act
         mode.assignIncorrectScore(player, 3);
 
-        //Assert
+        // Assert
         assertEquals(expectedValue, player.getScore());
     }
 

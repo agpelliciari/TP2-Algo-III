@@ -35,13 +35,15 @@ public class AnswerButtonHandler implements EventHandler<ActionEvent> {
 
     @Override
     public void handle(ActionEvent actionEvent) {
+        int playerScoreWithoutExclusivity;
         ActionHandler.actionSound();
         if (game.getQuestion(questionIndex) instanceof GroupChoice groupChoice) {
 
             NullifierCheckBoxEventHandler nullifierHandler = new NullifierCheckBoxEventHandler();
             nullifierHandler.selectNullifier(game.getPlayer(playerIndex), game.getPlayers(), groupChoiceScreen.isNullifierSelected());
 
-            game.setPlayersScoreWithoutExclusivity(playerIndex, groupChoice.calculateTotalScore(groupChoiceScreen.getSelectedAnswers()));
+            playerScoreWithoutExclusivity = groupChoice.calculateTotalScore(groupChoiceScreen.getSelectedAnswers());
+            game.setPlayersScoreWithoutExclusivity(playerIndex, playerScoreWithoutExclusivity);
             game.registerUsedExclusivity(groupChoiceScreen.isExclusivitySelected());
             game.assignExclusivity(playerIndex, groupChoiceScreen.isExclusivitySelected());
 
@@ -69,7 +71,8 @@ public class AnswerButtonHandler implements EventHandler<ActionEvent> {
             NullifierCheckBoxEventHandler nullifierHandler = new NullifierCheckBoxEventHandler();
             nullifierHandler.selectNullifier(game.getPlayer(playerIndex), game.getPlayers(), questionScreen.isNullifierSelected());
 
-            game.setPlayersScoreWithoutExclusivity(playerIndex, questionIndex, questionScreen.getSelectedAnswers());
+            playerScoreWithoutExclusivity = game.getQuestion(questionIndex).calculateScore(game.getPlayer(playerIndex), game.getPlayer(playerIndex).setAnswers(game.getQuestion(questionIndex), questionScreen.getSelectedAnswers()));
+            game.setPlayersScoreWithoutExclusivity(playerIndex, playerScoreWithoutExclusivity);
             game.registerUsedExclusivity(questionScreen.isExclusivitySelected());
             game.assignExclusivity(playerIndex, questionScreen.isExclusivitySelected());
 
