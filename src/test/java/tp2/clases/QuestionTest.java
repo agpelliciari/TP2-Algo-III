@@ -19,6 +19,7 @@ public class QuestionTest {
     Content content = new Content("", "","");
 
     @Test
+    // Una pregunta de verdadero o falso tiene 1 respuesta correcta
     public void test01ATrueOrFalseQuestionHasOneCorrectAnswer() {
         // Arrange
         int expectedValue = 1;
@@ -37,6 +38,7 @@ public class QuestionTest {
     }
 
     @Test
+    // Una pregunta de multiple choice tiene 3 respuesta correctas
     public void test02AMultipleChoiceQuestionHasThreeCorrectAnswers() {
         // Arrange
         int expectedValue = 3;
@@ -57,6 +59,7 @@ public class QuestionTest {
     }
 
     @Test
+    // Una pregunta de verdadero o falso devuelve las opciones elegidas
     public void test03ATrueOrFalseQuestionReturnsTheChosenChoices() {
         // Arrange
         ArrayList<Choice> expectedValue = new ArrayList<>();
@@ -78,6 +81,7 @@ public class QuestionTest {
     }
 
     @Test
+    // Una pregunta de multiple choice devuelve las opciones elegidas
     public void test04AMultipleChoiceQuestionReturnsTheChosenChoices() {
         // Arrange
         ArrayList<Choice> expectedValue = new ArrayList<>();
@@ -104,6 +108,7 @@ public class QuestionTest {
     }
 
     @Test
+    // Una pregunta de verdadero o falso lanza una excepcion cuando un jugador elije dos opciones
     public void test05ATrueOrFalseQuestionThrowsAnExceptionWhenAnUserChoosesTwoAnswersInAQuestionWithTwoChoices() {
         // Arrange
         ArrayList<Choice> choices = new ArrayList<>();
@@ -118,6 +123,7 @@ public class QuestionTest {
     }
 
     @Test
+    // Una pregunta de multiple choice lanza una excepcion cuando un jugador elije dos opciones
     public void test05AMultipleChoiceQuestionThrowsAnExceptionWhenAnUserChoosesFourAnswersInAQuestionWithFourChoices() {
         // Arrange
         ArrayList<Choice> choices = new ArrayList<>();

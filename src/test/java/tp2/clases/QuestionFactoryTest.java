@@ -16,6 +16,7 @@ public class QuestionFactoryTest {
     ArrayList<JsonParser.QuestionString> questionsString = JsonParser.questionsStringParser("src/main/resources/preguntas.json");
 
     @Test
+    // La fabrica de preguntas devuelve una pregunta de verdadero o falso
     public void test01AQuestionFactoryCreatesATrueOrFalseQuestion() {
         // Arrange
         QuestionFactory factory = QuestionFactoryProvider.getFactory("Verdadero Falso");
@@ -28,6 +29,7 @@ public class QuestionFactoryTest {
     }
 
     @Test
+    // La fabrica de preguntas devuelve una pregunta de multiple choice
     public void test02AQuestionFactoryCreatesAMultipleChoiceQuestion() {
         // Arrange
         QuestionFactory factory = QuestionFactoryProvider.getFactory("Multiple Choice Simple");
@@ -40,6 +42,7 @@ public class QuestionFactoryTest {
     }
 
     @Test
+    // La fabrica de preguntas devuelve una pregunta de ordered choice
     public void test03AQuestionFactoryCreatesAOrderedChoiceQuestion() {
         // Arrange
         QuestionFactory factory = QuestionFactoryProvider.getFactory("Ordered Choice");
@@ -52,6 +55,7 @@ public class QuestionFactoryTest {
     }
 
     @Test
+    // La fabrica de preguntas devuelve una pregunta de group choice
     public void test04AQuestionFactoryCreatesAGroupChoiceQuestion() {
         // Arrange
         QuestionFactory factory = QuestionFactoryProvider.getFactory("Group Choice");

@@ -8,27 +8,11 @@ import tp2.clases.model.player.score.Score;
 
 public class ScoreTest {
     private Score score;
-/*    @Mock private Correct correctMock;
-    @Mock private Incorrect incorrectMock;
 
-    private AutoCloseable closeable;
-
-    //mocks are initialized
-    @BeforeEach
-    public void beforeEach() {
-        closeable = MockitoAnnotations.openMocks(this);
-        Mockito.reset(correctMock, incorrectMock);
-    }
-
-    @AfterEach
-    public void releaseMocks() throws Exception {
-        closeable.close();
-    }
-*/
     @Test
+    // Se le incrementa el valor al puntaje correctamente
     public void test01AddingPointsToTheCurrentScoreIncreasesTheTotalScore() {
         // Arrange
-//        when(correctMock.assignScore(1)).thenReturn(1);
 
         int expectedScore = 10;
         score = new Score(9);
@@ -42,9 +26,9 @@ public class ScoreTest {
     }
 
     @Test
+    // Se le decrementa el valor al puntaje correctamente
     public void test02SubtractingPointsFromTheCurrentScoreDecreasesTheTotalScore() {
         // Arrange
-//        when(incorrectMock.assignScore(1)).thenReturn(-1);
 
         int expectedScore = 0;
         score = new Score(1);

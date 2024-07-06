@@ -17,6 +17,7 @@ class PartialModeTest {
     Content content = new Content("", "", "");
 
     @Test
+    // El modo asigna el puntaje a un jugador que responde correctamente
     public void test01PlayerChoosesAllPossibleCorrectChoicesAndNoneIncorrect() {
         // Arrange
         Player player = new Player("Player1", new Score(0));
@@ -38,6 +39,7 @@ class PartialModeTest {
     }
 
     @Test
+    // El modo asigna el puntaje a un jugador que responde incorrectamente
     public void test02PlayerChoosesAllPossibleCorrectChoicesAndOneIncorrectObtainsZeroPoints() {
         // Arrange
         Player player = new Player("Player1", new Score(0));
@@ -59,6 +61,7 @@ class PartialModeTest {
     }
 
     @Test
+    // El modo asigna el puntaje a un jugador que responde parcialmente correcto
     public void test03PlayerChooses2OutOf3CorrectChoicesAndNoneIncorrectObtains2Points() {
         // Arrange
         Player player = new Player("Player1", new Score(0));

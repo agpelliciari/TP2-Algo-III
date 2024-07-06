@@ -17,8 +17,9 @@ class OrderedChoiceTest {
     Content content = new Content("", "", "");
 
     @Test
-    // El jugador que recibe
+    // La pregunta asigna el puntaje a un jugador que responde correctamente
     public void test01PlayerGetsOrderCorrectReceivesOnePoint() {
+        // Arrange
         Player player = new Player("Player1", new Score(0));
 
         ArrayList<Choice> choices = new ArrayList<>();
@@ -28,14 +29,18 @@ class OrderedChoiceTest {
         choices.add(new Choice("Answer4", "correcta", 4));
         OrderedChoice question = new OrderedChoice(1, content, new ClassicMode(), choices, new int[] {1, 3, 2, 4});
 
+        // Act
         ArrayList<Choice> chosenAnswers = player.setAnswers(question, "1,3,2,4");
         question.assignScore(player, chosenAnswers);
 
+        // Assert
         assertEquals(1, player.getScore());
     }
 
     @Test
+    // La pregunta asigna el puntaje a un jugador que responde incorrectamente
     public void test02PlayerGetsOrderIncorrectReceivesZeroPoints() {
+        // Arrange
         Player player = new Player("Player1", new Score(0));
 
         ArrayList<Choice> choices = new ArrayList<>();
@@ -45,9 +50,11 @@ class OrderedChoiceTest {
         choices.add(new Choice("Answer4", "correcta", 4));
         OrderedChoice question = new OrderedChoice(1, content, new ClassicMode(), choices, new int[] {1, 3, 2, 4});
 
+        // Act
         ArrayList<Choice> chosenAnswers = player.setAnswers(question, "1,2,3,4");
         question.assignScore(player, chosenAnswers);
 
+        // Assert
         assertEquals(0, player.getScore());
     }
 }
