@@ -14,6 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class ModeTest {
 
     @Test
+    // Validacion de asignacion de puntaje del modo clasico a los jugadores que contestaron correctamente
     public void test01ClassicModeAssignScoreToAPlayerThatAnsweredCorrectly() {
         // Arrange
         int expectedValue = 4;
@@ -30,6 +31,7 @@ public class ModeTest {
     }
 
     @Test
+    // Validacion de asignacion de puntaje del modo clasico a los jugadores que contestaron incorrectamente
     public void test02ClassicModeAssignScoreToAPlayerThatAnsweredIncorrectly() {
         // Arrange
         int expectedValue = 3;
@@ -46,6 +48,7 @@ public class ModeTest {
     }
 
     @Test
+    // Validacion de asignacion de puntaje del modo con penalidad a los jugadores que contestaron correctamente
     public void test03PenaltyModeAssignScoreToAPlayerThatAnsweredCorrectly() {
         // Arrange
         int expectedValue = 6;
@@ -62,6 +65,7 @@ public class ModeTest {
     }
 
     @Test
+    // Validacion de asignacion de puntaje del modo con penalidad a los jugadores que contestaron incorrectamente
     public void test04PenaltyModeAssignScoreToAPlayerThatAnsweredIncorrectly() {
         // Arrange
         int expectedValue = 0;
@@ -78,6 +82,7 @@ public class ModeTest {
     }
 
     @Test
+    // Validacion de asignacion de puntaje del modo parcial a los jugadores que contestaron correctamente
     public void test05PartialModeAssignScoreToAPlayerThatAnsweredCorrectly() {
         // Arrange
         int expectedValue = 6;
@@ -94,6 +99,7 @@ public class ModeTest {
     }
 
     @Test
+    // Validacion de asignacion de puntaje del modo parcial a los jugadores que contestaron incorrectamente
     public void test06PartialModeAssignScoreToAPlayerThatAnsweredIncorrectly() {
         // Arrange
         int expectedValue = 3;

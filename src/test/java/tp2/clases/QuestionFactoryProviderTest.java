@@ -8,6 +8,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class QuestionFactoryProviderTest {
 
     @Test
+    // El proveedor de fabricas devuelve todas las ocurrencias de verdadero o falso
     public void test01TheProviderReturnsATrueOrFalseFactory() {
         // Arrange
         QuestionFactory factoryOne = QuestionFactoryProvider.getFactory("Verdadero Falso");
@@ -21,6 +22,7 @@ public class QuestionFactoryProviderTest {
     }
 
     @Test
+    // El proveedor de fabricas devuelve todas las ocurrencias de multiple choice
     public void test02TheProviderReturnsAMultipleChoiceFactory() {
         // Arrange
         QuestionFactory factoryOne = QuestionFactoryProvider.getFactory("Multiple Choice Simple");
@@ -34,6 +36,7 @@ public class QuestionFactoryProviderTest {
     }
 
     @Test
+    // El proveedor de fabricas devuelve todas las ocurrencias de ordered choice
     public void test03TheProviderReturnsAOrderedChoiceFactory() {
         // Arrange
         QuestionFactory factoryOne = QuestionFactoryProvider.getFactory("Ordered choice");
@@ -45,6 +48,7 @@ public class QuestionFactoryProviderTest {
     }
 
     @Test
+    // El proveedor de fabricas devuelve una pregunta de group choice
     public void test04TheProviderReturnsAGroupChoiceFactory() {
         // Arrange
         QuestionFactory factory = QuestionFactoryProvider.getFactory("Group Choice");
@@ -54,6 +58,7 @@ public class QuestionFactoryProviderTest {
     }
 
     @Test
+    // El proveedor de fabricas lanza una excepcion si recibe una cadena invalida
     public void test05TheProviderThrowsAnExceptionIfTheTypeIsInvalid() {
         // Assert
         assertThrows(IllegalStateException.class, () -> {QuestionFactoryProvider.getFactory("Unknown question type");});

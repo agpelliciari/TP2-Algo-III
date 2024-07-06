@@ -17,7 +17,9 @@ class MultipleChoiceTest {
     Content content = new Content("", "", "");
 
     @Test
+    // Un jugador tiene una respuesta incorrecta y no se le asigna el puntaje
     public void test01PlayerChoosesOneIncorrectChoiceAndDoesntReceivePoints() {
+        // Arrange
         Player player = new Player("Player1", new Score(0));
 
         ArrayList<Choice> choices = new ArrayList<>();
@@ -27,14 +29,18 @@ class MultipleChoiceTest {
         choices.add(new Choice("Answer4", "incorrecta", 4));
         MultipleChoice question = new MultipleChoice(1, content, new ClassicMode(), choices);
 
+        // Act
         ArrayList<Choice> chosenAnswers = player.setAnswers(question, "1,2,3");
         question.assignScore(player, chosenAnswers);
 
+        // Assert
         assertEquals(0, player.getScore());
     }
 
     @Test
+    // Un jugador tiene todas las respuestas correctas y se le asigna el puntaje
     public void test02PlayerChoosesAllChoicesCorrect() {
+        // Arrange
         Player player = new Player("Player1", new Score(0));
 
         ArrayList<Choice> choices = new ArrayList<>();
@@ -44,14 +50,18 @@ class MultipleChoiceTest {
         choices.add(new Choice("Answer4", "incorrecta", 4));
         MultipleChoice question = new MultipleChoice(1, content, new ClassicMode(), choices);
 
+        // Act
         ArrayList<Choice> chosenAnswers = player.setAnswers(question, "1,2");
         question.assignScore(player, chosenAnswers);
 
+        // Assert
         assertEquals(1, player.getScore());
     }
 
     @Test
+    // Un jugador tiene todas las respuestas incorrectas y no se le asigna el puntaje
     public void test03PlayerChoosesAllChoicesIncorrect() {
+        // Arrange
         Player player = new Player("Player1", new Score(0));
 
         ArrayList<Choice> choices = new ArrayList<>();
@@ -61,9 +71,11 @@ class MultipleChoiceTest {
         choices.add(new Choice("Answer4", "incorrecta", 4));
         MultipleChoice question = new MultipleChoice(1, content, new ClassicMode(), choices);
 
+        // Act
         ArrayList<Choice> chosenAnswers = player.setAnswers(question, "3,4");
         question.assignScore(player, chosenAnswers);
 
+        // Assert
         assertEquals(0, player.getScore());
     }
 }

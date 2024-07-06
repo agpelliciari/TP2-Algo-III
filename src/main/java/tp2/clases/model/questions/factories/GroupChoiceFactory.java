@@ -32,7 +32,7 @@ public class GroupChoiceFactory implements QuestionFactory {
                 int[] numbers = new int[numbersString.length];
                 for (int j = 0; j < numbersString.length; j++)
                     numbers[j] = (int) Double.parseDouble(numbersString[j]);
-                groups.add(GroupChoice.createGroup(data[0].charAt(0), groupsString[i++], numbers));
+                groups.add(GroupChoice.createGroup(groupsString[i++], numbers));
             }
             groupChoice.addGroups(groups);
         }

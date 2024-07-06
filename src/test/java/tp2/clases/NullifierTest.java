@@ -14,6 +14,7 @@ public class NullifierTest {
     private Correct correct;
 
     @Test
+    // Un jugador no recibe puntos cuando otro jugador utiliza el anulador
     public void test01IfAPlayerReceivesTheScoreCancelerIfHeAnswersAQuestionCorrectlyHeDoesNotReceivePoints() {
         // Arrange
         score = new Score(0);

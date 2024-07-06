@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ExclusivityTest {
+
     private Game game = new Game();
 
     // Método que inicializa tres jugadores con puntaje cero dos exclusividades de puntaje cada uno para los tests

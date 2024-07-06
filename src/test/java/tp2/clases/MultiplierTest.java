@@ -20,6 +20,7 @@ public class MultiplierTest {
     Content content = new Content("", "", "");
 
     @Test
+    // Una pregunta de verdadero falso asigna el puntaje correctamente luego de que un jugador utiliza el multiplicador
     public void test01TrueOrFalseQuestionAssignsScoreCorrectly() {
         // Arrange
         Player player = new Player("Player1", new Score(0));
@@ -40,7 +41,8 @@ public class MultiplierTest {
     }
 
     @Test
-    public void test02TrueOrFalseQuestionAssignsScoreCorrectly() {
+    // Una pregunta de verdadero falso con penalidad asigna el puntaje correctamente luego de que un jugador utiliza el multiplicador
+    public void test02TrueOrFalseQuestionWithPenaltyAssignsScoreCorrectly() {
         // Arrange
         Player player = new Player("Player1", new Score(4));
 
@@ -60,6 +62,7 @@ public class MultiplierTest {
     }
 
     @Test
+    // Una pregunta de multiple choice con puntaje parcial asigna el puntaje correctamente luego de que un jugador utiliza el multiplicador
     public void test03PlayerChoosesAllOptionsCorrectUsingx3Multiplier() {
         // Arrange
         Player player = new Player("Player1", new Score(0));

@@ -48,6 +48,7 @@ public class PlayerTest {
     }
     
     @Test
+    // Un jugador contesta una pregunta correctamente e incrementa su puntaje
     public void test01AnsweringAQuestionCorrectlyIncreasesTheScore() {
         // Arrange
         correct = new Correct();
@@ -67,6 +68,7 @@ public class PlayerTest {
     }
 
     @Test
+    // Un jugador contesta una pregunta incorrectamente e decrementa su puntaje
     public void test02AnsweringAQuestionIncorrectlyDecreasesTheScore() {
         // Arrange
         incorrect = new Incorrect();
@@ -85,6 +87,7 @@ public class PlayerTest {
     }
 
     @Test
+    // Un jugador contesta una pregunta correctamente pero no recibe puntos ya que otro jugador activo el anulador
     public void test03IfThereIsAnActiveNullifierIfAnotherPlayerAnswersCorrectlyNoneOfThemReceivePoints() {
         // Arrange
         correct = new Correct();

@@ -13,15 +13,15 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class GroupChoiceTest {
 
-    @Test
-    // El jugador coloca bien las opciones en ambos grupos y no se le asigna puntaje
-    public void test01PlayerCorrectlyPlacesChoicesInGroups() {
-        // Arrange
-        Player player = new Player("Player", new Score(0));
+    private Player player;
+    private GroupChoice groupChoice;
+
+    public void initializeGroupChoiceTest() {
+        player = new Player("Player", new Score(0));
 
         ArrayList<GroupChoice.Group> groups = new ArrayList<>();
-        groups.add(GroupChoice.createGroup('A', "", new int[] {1, 2, 5}));
-        groups.add(GroupChoice.createGroup('B', "", new int[] {3, 4, 6}));
+        groups.add(GroupChoice.createGroup("", new int[] {1, 2, 5}));
+        groups.add(GroupChoice.createGroup("", new int[] {3, 4, 6}));
 
         ArrayList<Choice> choices = new ArrayList<>();
         choices.add(new Choice("", "correcta", 1));
@@ -30,9 +30,17 @@ class GroupChoiceTest {
         choices.add(new Choice("", "correcta", 4));
         choices.add(new Choice("", "correcta", 5));
         choices.add(new Choice("", "correcta", 6));
+
         Content content = new Content("", "", "");
-        GroupChoice groupChoice = new GroupChoice(1, content, new ClassicMode(), choices);
+        groupChoice = new GroupChoice(1, content, new ClassicMode(), choices);
         groupChoice.addGroups(groups);
+    }
+
+    @Test
+    // El jugador coloca bien las opciones en ambos grupos y no se le asigna puntaje
+    public void test01PlayerWhoCorrectlyPlacesChoicesInGroupsScores() {
+        // Arrange
+        initializeGroupChoiceTest();
 
         // Act
         ArrayList<Choice> chosenAnswersGroupA = player.setAnswers(groupChoice, "1,2,5");
@@ -50,25 +58,10 @@ class GroupChoiceTest {
     }
 
     @Test
-    // El jugador
+    // El jugador se equivoca al colocar las opciones en los grupos
     public void test02PlayerIncorrectlyPlacesChoicesInGroups() {
         // Arrange
-        Player player = new Player("Player", new Score(0));
-
-        ArrayList<GroupChoice.Group> groups = new ArrayList<>();
-        groups.add(GroupChoice.createGroup('A', "", new int[] {1, 2, 5}));
-        groups.add(GroupChoice.createGroup('B', "", new int[] {3, 4, 6}));
-
-        ArrayList<Choice> choices = new ArrayList<>();
-        choices.add(new Choice("", "correcta", 1));
-        choices.add(new Choice("", "correcta", 2));
-        choices.add(new Choice("", "correcta", 3));
-        choices.add(new Choice("", "correcta", 4));
-        choices.add(new Choice("", "correcta", 5));
-        choices.add(new Choice("", "correcta", 6));
-        Content content = new Content("", "", "");
-        GroupChoice groupChoice = new GroupChoice(1, content, new ClassicMode(), choices);
-        groupChoice.addGroups(groups);
+        initializeGroupChoiceTest();
 
         // Act
         ArrayList<Choice> chosenAnswersGroupA = player.setAnswers(groupChoice, "1,3,6");

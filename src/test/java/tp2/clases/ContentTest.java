@@ -6,6 +6,7 @@ import tp2.clases.model.questions.Content;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class ContentTest {
+
     private Content aContent;
     private Content otherContent;
 
