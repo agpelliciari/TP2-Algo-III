@@ -21,14 +21,13 @@ import static org.mockito.Mockito.*;
 import java.util.ArrayList;
 
 public class PlayerTest {
-    private Player player;
     @Mock private Question questionMock;
     @Mock private Choice answerMock;
+
+    private Player player;
     private Correct correct;
     private Incorrect incorrect;
-
     private AutoCloseable closeable;
-
     private ArrayList<Choice> chosenAnswers;
 
     @BeforeEach

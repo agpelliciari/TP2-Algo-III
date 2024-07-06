@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import tp2.clases.model.player.score.Score;
 
 public class ScoreTest {
+
     private Score score;
 
     @Test

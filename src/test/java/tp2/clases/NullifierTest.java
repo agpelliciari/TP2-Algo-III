@@ -9,6 +9,7 @@ import tp2.clases.model.player.powers.Nullifier;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class NullifierTest {
+
     private Nullifier nullifier;
     private Score score;
     private Correct correct;
@@ -27,7 +28,6 @@ public class NullifierTest {
         // Act
         nullifier.cancel(score);
 
-        // Another player answered a question correctly
         otherPlayer.assignScore(correct, 1);
         int scoreObtained = otherPlayer.getScore();
 

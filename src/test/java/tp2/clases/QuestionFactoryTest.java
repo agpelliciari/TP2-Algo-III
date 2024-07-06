@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class QuestionFactoryTest {
+
     ArrayList<Choice> choices = new ArrayList<Choice>();
     ArrayList<JsonParser.QuestionString> questionsString = JsonParser.questionsStringParser("src/main/resources/preguntas.json");
 

@@ -15,23 +15,27 @@ import static org.junit.jupiter.api.Assertions.*;
 class OrderedChoiceTest {
 
     Content content = new Content("", "", "");
+    Player player = new Player("Player1", new Score(0));
+    OrderedChoice orderedChoice;
 
-    @Test
-    // La pregunta asigna el puntaje a un jugador que responde correctamente
-    public void test01PlayerGetsOrderCorrectReceivesOnePoint() {
-        // Arrange
-        Player player = new Player("Player1", new Score(0));
-
+    public void initializeOrderedChoiceTest() {
         ArrayList<Choice> choices = new ArrayList<>();
         choices.add(new Choice("Answer1", "correcta", 1));
         choices.add(new Choice("Answer2", "correcta", 2));
         choices.add(new Choice("Answer3", "correcta", 3));
         choices.add(new Choice("Answer4", "correcta", 4));
-        OrderedChoice question = new OrderedChoice(1, content, new ClassicMode(), choices, new int[] {1, 3, 2, 4});
+        orderedChoice = new OrderedChoice(1, content, new ClassicMode(), choices, new int[] {1, 3, 2, 4});
+    }
+
+    @Test
+    // La pregunta asigna el puntaje a un jugador que responde correctamente
+    public void test01PlayerGetsOrderCorrectReceivesOnePoint() {
+        // Arrange
+        initializeOrderedChoiceTest();
 
         // Act
-        ArrayList<Choice> chosenAnswers = player.setAnswers(question, "1,3,2,4");
-        question.assignScore(player, chosenAnswers);
+        ArrayList<Choice> chosenAnswers = player.setAnswers(orderedChoice, "1,3,2,4");
+        orderedChoice.assignScore(player, chosenAnswers);
 
         // Assert
         assertEquals(1, player.getScore());
@@ -41,18 +45,11 @@ class OrderedChoiceTest {
     // La pregunta asigna el puntaje a un jugador que responde incorrectamente
     public void test02PlayerGetsOrderIncorrectReceivesZeroPoints() {
         // Arrange
-        Player player = new Player("Player1", new Score(0));
-
-        ArrayList<Choice> choices = new ArrayList<>();
-        choices.add(new Choice("Answer1", "correcta", 1));
-        choices.add(new Choice("Answer2", "correcta", 2));
-        choices.add(new Choice("Answer3", "correcta", 3));
-        choices.add(new Choice("Answer4", "correcta", 4));
-        OrderedChoice question = new OrderedChoice(1, content, new ClassicMode(), choices, new int[] {1, 3, 2, 4});
+        initializeOrderedChoiceTest();
 
         // Act
-        ArrayList<Choice> chosenAnswers = player.setAnswers(question, "1,2,3,4");
-        question.assignScore(player, chosenAnswers);
+        ArrayList<Choice> chosenAnswers = player.setAnswers(orderedChoice, "1,2,3,4");
+        orderedChoice.assignScore(player, chosenAnswers);
 
         // Assert
         assertEquals(0, player.getScore());

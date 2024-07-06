@@ -16,6 +16,7 @@ class GroupChoiceTest {
     private Player player;
     private GroupChoice groupChoice;
 
+    // Se inicializa un jugador y una pregunta Group Choice para los tests
     public void initializeGroupChoiceTest() {
         player = new Player("Player", new Score(0));
 

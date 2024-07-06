@@ -11,9 +11,14 @@ public class QuestionFactoryProviderTest {
     // El proveedor de fabricas devuelve todas las ocurrencias de verdadero o falso
     public void test01TheProviderReturnsATrueOrFalseFactory() {
         // Arrange
-        QuestionFactory factoryOne = QuestionFactoryProvider.getFactory("Verdadero Falso");
-        QuestionFactory factoryTwo = QuestionFactoryProvider.getFactory("Verdadero Falso Simple");
-        QuestionFactory factoryThree = QuestionFactoryProvider.getFactory("Verdadero Falso Penalidad");
+        QuestionFactory factoryOne;
+        QuestionFactory factoryTwo;
+        QuestionFactory factoryThree;
+
+        // Act
+        factoryOne = QuestionFactoryProvider.getFactory("Verdadero Falso");
+        factoryTwo = QuestionFactoryProvider.getFactory("Verdadero Falso Simple");
+        factoryThree = QuestionFactoryProvider.getFactory("Verdadero Falso Penalidad");
 
         // Assert
         assertInstanceOf(TrueOrFalseFactory.class, factoryOne);
@@ -25,9 +30,14 @@ public class QuestionFactoryProviderTest {
     // El proveedor de fabricas devuelve todas las ocurrencias de multiple choice
     public void test02TheProviderReturnsAMultipleChoiceFactory() {
         // Arrange
-        QuestionFactory factoryOne = QuestionFactoryProvider.getFactory("Multiple Choice Simple");
-        QuestionFactory factoryTwo = QuestionFactoryProvider.getFactory("Multiple Choice Puntaje Parcial");
-        QuestionFactory factoryThree = QuestionFactoryProvider.getFactory("Multiple Choice Penalidad");
+        QuestionFactory factoryOne;
+        QuestionFactory factoryTwo;
+        QuestionFactory factoryThree;
+
+        // Act
+        factoryOne = QuestionFactoryProvider.getFactory("Multiple Choice Simple");
+        factoryTwo = QuestionFactoryProvider.getFactory("Multiple Choice Puntaje Parcial");
+        factoryThree = QuestionFactoryProvider.getFactory("Multiple Choice Penalidad");
 
         // Assert
         assertInstanceOf(MultipleChoiceFactory.class, factoryOne);
@@ -39,8 +49,12 @@ public class QuestionFactoryProviderTest {
     // El proveedor de fabricas devuelve todas las ocurrencias de ordered choice
     public void test03TheProviderReturnsAOrderedChoiceFactory() {
         // Arrange
-        QuestionFactory factoryOne = QuestionFactoryProvider.getFactory("Ordered choice");
-        QuestionFactory factoryTwo = QuestionFactoryProvider.getFactory("Ordered Choice");
+        QuestionFactory factoryOne;
+        QuestionFactory factoryTwo;
+
+        // Act
+        factoryOne = QuestionFactoryProvider.getFactory("Ordered choice");
+        factoryTwo = QuestionFactoryProvider.getFactory("Ordered Choice");
 
         // Assert
         assertInstanceOf(OrderedChoiceFactory.class, factoryOne);
@@ -51,7 +65,10 @@ public class QuestionFactoryProviderTest {
     // El proveedor de fabricas devuelve una pregunta de group choice
     public void test04TheProviderReturnsAGroupChoiceFactory() {
         // Arrange
-        QuestionFactory factory = QuestionFactoryProvider.getFactory("Group Choice");
+        QuestionFactory factory;
+
+        // Act
+        factory = QuestionFactoryProvider.getFactory("Group Choice");
 
         // Assert
         assertInstanceOf(GroupChoiceFactory.class, factory);

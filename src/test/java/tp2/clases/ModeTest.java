@@ -13,15 +13,14 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ModeTest {
 
+    Player player = new Player("Juan", new Score(3));
+
     @Test
-    // Validacion de asignacion de puntaje del modo clasico a los jugadores que contestaron correctamente
+    // Validación de asignación de puntaje del modo clásico a los jugadores que contestaron correctamente
     public void test01ClassicModeAssignScoreToAPlayerThatAnsweredCorrectly() {
         // Arrange
         int expectedValue = 4;
-
         ClassicMode mode = new ClassicMode();
-
-        Player player = new Player("Juan", new Score(3));
 
         // Act
         mode.assignCorrectScore(player, 3);
@@ -31,14 +30,11 @@ public class ModeTest {
     }
 
     @Test
-    // Validacion de asignacion de puntaje del modo clasico a los jugadores que contestaron incorrectamente
+    // Validación de asignación de puntaje del modo clásico a los jugadores que contestaron incorrectamente
     public void test02ClassicModeAssignScoreToAPlayerThatAnsweredIncorrectly() {
         // Arrange
         int expectedValue = 3;
-
         ClassicMode mode = new ClassicMode();
-
-        Player player = new Player("Juan", new Score(3));
 
         // Act
         mode.assignIncorrectScore(player, 3);
@@ -48,14 +44,11 @@ public class ModeTest {
     }
 
     @Test
-    // Validacion de asignacion de puntaje del modo con penalidad a los jugadores que contestaron correctamente
+    // Validación de asignación de puntaje del modo con penalidad a los jugadores que contestaron correctamente
     public void test03PenaltyModeAssignScoreToAPlayerThatAnsweredCorrectly() {
         // Arrange
         int expectedValue = 6;
-
         PenaltyMode mode = new PenaltyMode();
-
-        Player player = new Player("Juan", new Score(3));
 
         // Act
         mode.assignCorrectScore(player, 3);
@@ -65,13 +58,11 @@ public class ModeTest {
     }
 
     @Test
-    // Validacion de asignacion de puntaje del modo con penalidad a los jugadores que contestaron incorrectamente
+    // Validación de asignación de puntaje del modo con penalidad a los jugadores que contestaron incorrectamente
     public void test04PenaltyModeAssignScoreToAPlayerThatAnsweredIncorrectly() {
         // Arrange
         int expectedValue = 0;
-
         PenaltyMode mode = new PenaltyMode();
-
         Player player = new Player("Juan", new Score(3));
 
         // Act
@@ -82,13 +73,11 @@ public class ModeTest {
     }
 
     @Test
-    // Validacion de asignacion de puntaje del modo parcial a los jugadores que contestaron correctamente
+    // Validación de asignación de puntaje del modo parcial a los jugadores que contestaron correctamente
     public void test05PartialModeAssignScoreToAPlayerThatAnsweredCorrectly() {
         // Arrange
         int expectedValue = 6;
-
         PartialMode mode = new PartialMode();
-
         Player player = new Player("Juan", new Score(3));
 
         // Act
@@ -103,10 +92,7 @@ public class ModeTest {
     public void test06PartialModeAssignScoreToAPlayerThatAnsweredIncorrectly() {
         // Arrange
         int expectedValue = 3;
-
         PartialMode mode = new PartialMode();
-
-        Player player = new Player("Juan", new Score(3));
 
         // Act
         mode.assignIncorrectScore(player, 3);
