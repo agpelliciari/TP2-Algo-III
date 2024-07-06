@@ -40,28 +40,28 @@ class GroupChoice {
 }
 
 class QuestionFactory{
-+createQuestion(questionId: String, questionString: QuestionString, choices: ArrayList<Choice>): Question
++createQuestion(questionString: QuestionString, choices: ArrayList<Choice>): Question
 }
 
 class TrueOrFalseFactory {
 -mode: Mode
 +{static}TrueOrFalseFactory(mode: Mode)
-+createQuestion(questionId: String, questionString: QuestionString, choices: ArrayList<Choice>): Question
++createQuestion(questionString: QuestionString, choices: ArrayList<Choice>): Question
 }
 
 class MultipleChoiceFactory {
 -mode: Mode
 +{static}MultipleChoiceFactory(mode: Mode)
-+createQuestion(questionId: String, questionString: QuestionString, choices: ArrayList<Choice>): Question
++createQuestion(questionString: QuestionString, choices: ArrayList<Choice>): Question
 }
 
 class OrderedChoiceFactory {
-+createQuestion(questionId: String, questionString: QuestionString, choices: ArrayList<Choice>): Question
++createQuestion(questionString: QuestionString, choices: ArrayList<Choice>): Question
 +getIntArrayFromString(choice: String): int[]
 }
 
 class GroupChoiceFactory {
-+createQuestion(questionId: String, questionString: QuestionString, choices: ArrayList<Choice>): Question
++createQuestion(questionString: QuestionString, choices: ArrayList<Choice>): Question
 }
 
 QuestionFactory <<Interface>>

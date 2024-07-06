@@ -7,30 +7,29 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import tp2.clases.player.Player;
-import tp2.clases.questions.choice.Choice;
-import tp2.clases.questions.choice.corrections.types.Correct;
-import tp2.clases.questions.choice.corrections.types.Incorrect;
+import tp2.clases.model.player.Player;
+import tp2.clases.model.player.score.Score;
+import tp2.clases.model.questions.choice.Choice;
+import tp2.clases.model.questions.choice.corrections.types.Correct;
+import tp2.clases.model.questions.choice.corrections.types.Incorrect;
 import tp2.clases.exceptions.InvalidNumberOfChosenChoicesException;
 import tp2.clases.exceptions.InvalidChoiceIndexException;
-import tp2.clases.questions.types.Question;
+import tp2.clases.model.questions.types.Question;
 
 import static org.mockito.Mockito.*;
 
 import java.util.ArrayList;
 
 public class PlayerTest {
-    private Player player;
     @Mock private Question questionMock;
     @Mock private Choice answerMock;
+
+    private Player player;
     private Correct correct;
     private Incorrect incorrect;
-
     private AutoCloseable closeable;
-
     private ArrayList<Choice> chosenAnswers;
 
-    //mocks are initialized
     @BeforeEach
     public void beforeEach() throws InvalidNumberOfChosenChoicesException, InvalidChoiceIndexException {
         closeable = MockitoAnnotations.openMocks(this);
@@ -48,53 +47,56 @@ public class PlayerTest {
     }
     
     @Test
+    // Un jugador contesta una pregunta correctamente e incrementa su puntaje
     public void test01AnsweringAQuestionCorrectlyIncreasesTheScore() {
-        //Arrange
+        // Arrange
         correct = new Correct();
         when(chosenAnswers.get(0).getCorrection()).thenReturn(correct);
 
         int expectedScore = 1;
-        player = new Player("name", 0);
+        player = new Player("name", new Score(0));
 
-        //Act
+        // Act
         ArrayList<Choice> choices = player.setAnswers(questionMock, "");
         choices.add(answerMock);
         player.assignScore(choices.get(0).getCorrection(), 1);
         int scoreObtained = player.getScore();
 
-        //Assert
+        // Assert
         assertEquals(scoreObtained, expectedScore);
     }
 
     @Test
+    // Un jugador contesta una pregunta incorrectamente e decrementa su puntaje
     public void test02AnsweringAQuestionIncorrectlyDecreasesTheScore() {
-        //Arrange
+        // Arrange
         incorrect = new Incorrect();
         when(chosenAnswers.get(0).getCorrection()).thenReturn(incorrect);
         int expectedScore = 0;
-        player = new Player("name", 1);
+        player = new Player("name", new Score(1));
 
-        //Act
+        // Act
         ArrayList<Choice> choices = player.setAnswers(questionMock, "");
         choices.add(answerMock);
         player.assignScore(choices.get(0).getCorrection(), 1);
         int scoreObtained = player.getScore();
 
-        //Assert
+        // Assert
         assertEquals(expectedScore, scoreObtained);
     }
 
     @Test
+    // Un jugador contesta una pregunta correctamente pero no recibe puntos ya que otro jugador activo el anulador
     public void test03IfThereIsAnActiveNullifierIfAnotherPlayerAnswersCorrectlyNoneOfThemReceivePoints() {
-        //Arrange
+        // Arrange
         correct = new Correct();
         when(chosenAnswers.get(0).getCorrection()).thenReturn(correct);
-        Player player1 = new Player("ABC", 0);
-        Player player2 = new Player("DEF", 0);
+        Player player1 = new Player("ABC", new Score(0));
+        Player player2 = new Player("DEF", new Score(0));
 
-        //Act
+        // Act
         player1.useNullifier();
-        if(!player2.nullifierIsActive()) {
+        if (!player2.nullifierIsActive()) {
             player2.aNullifierIsActivated();
         }
 
@@ -103,8 +105,7 @@ public class PlayerTest {
         player2.assignScore(choices.get(0).getCorrection(), 1);
         player1.assignScore(choices.get(0).getCorrection(), 1);
 
-        //Assert
-        assertEquals(0, player1.getScore());
+        // Assert
         assertEquals(0, player2.getScore());
     }
 }

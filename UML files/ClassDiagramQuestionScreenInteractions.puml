@@ -1,0 +1,93 @@
+@startuml
+
+skinparam monochrome true
+hide circle
+skinparam classAttributeIconSize 0
+
+title relationships of classes that interact with QuestionScreen
+
+package view {
+    class QuestionScreen {
+    - scores: ScoreContainer
+    - stackPane: StackPane
+    - answerButton: Button
+    - exclusivityCheckBox: CheckBox
+    - nullifierCheckBox: CheckBox
+    - multiplierCheckBoxes: ArrayList<CheckBox>
+    - box: Vbox
+    - buttons: ArrayList<Button>
+    - buttonAnswerList: ArrayList<String>
+    - selectedAnswers: ArrayList<String>
+    + QuestionScreen(stackPane: StackPane, game: Game, playerIndex: int, questionIndex: int)
+    - showPlayersScore(game: Game, currentPlayer: Player)
+    - handleChoiceButton(choiceButton: Button)
+    - checkSelectedAnswers()
+    + isExclusivitySelected(): boolean
+    + isNullifierSelected(): boolean
+    + isMultiplierSelected(multiplierIndex: int): boolean
+    + ArrayList<String> getMultipliersFactor(player: Player)
+    }
+}
+
+package controllers {
+    class NamesInputButtonHandler {
+    - namesInputScreen: PlayersNamesInputScreen
+    - stackPane: StackPane
+    + NamesInputButtonHandler(game: Game, stackPane: StackPane, playersNamesInputScreen: PlayersNamesInputScreen)
+    + handle(actionEvent: ActionEvent)
+    }
+
+    class AnswerButtonHandler {
+    - stackPane: StackPane
+    - groupChoiceScreen: GroupChoiceScreen
+    - playerIndex: int
+    - questionIndex: int
+    + AnswerButtonHandler(stackPane: StackPane, game: Game, playerIndex; int, questionIndex: int, lastQuestionScreen: QuestionScreen)
+    + AnswerButtonHandler(stackPane: StackPane, game: Game, playerIndex; int, questionIndex: int, lastGroupChoiceScreen: GroupChoiceScreen)
+    + handle(actionEvent: ActionEvent))
+    }
+}
+
+package model {
+    class Game {
+    - questions: ArrayList<Question>
+    - players: ArrayList<Player>
+    - exclusivityCount: int
+    - aNullifierIsActivated: boolean
+    - playersScoreWithoutExclusivity: int[]
+    - limit: Limit
+    - selectedQuestionIndexes: ArrayList<Integer>
+    - questionCount: int
+    + Game(players: ArrayList<Player>, questions: ArrayList<Question>)
+    + addPlayer(player: Player)
+    + addQuestion(questions: ArrayList<Question>)
+    + selectPlayers(numberOfPlayers: int, playerNames: ArrayList<String> playersNames): ArrayList<Player>
+    + registerUser(players: ArrayList<Player>, aPlayer: Player)
+    + checkIfOnlyOneCorrectAnswer(playersCorrectAnswers: int[]): boolean
+    + checkIfAllAreCorrectAnswers(playersCorrectAnswers: int[]): boolean
+    + assignScoreWithExclusivity(chosenChoices: ArrayList<String[]>, chosenExclusivities: ArrayList<boolean[]>)
+    + checkIfThereIsAScoreNullifierActivated()
+    + registerUsers(playersNames: ArrayList<String>)
+    + boolean checkIfRepeatedTheme(int index)
+    + Question getQuestion(int questionIndex)
+    + registerUsedExclusivity(isSelected: boolean)
+    + updatePlayersScoreWithoutExclusivity()
+    + updatePlayersScoreWithExclusivity()
+    + isFinished(): boolean
+    + deactivatePowers()
+    + resetExclusivityCount()
+    + powerWereUsed(): boolean
+    + assignExclusivity(playerIndex: int, exclusivitySelected: boolean)
+    }
+}
+
+QuestionScreen ..> Game: <<uses>>
+QuestionScreen ..> AnswerButtonHandler: <<instance>>
+
+NamesInputButtonHandler ..> QuestionScreen: <<instance>>
+NamesInputButtonHandler --> Game
+
+AnswerButtonHandler --> QuestionScreen
+AnswerButtonHandler -> Game
+
+@enduml

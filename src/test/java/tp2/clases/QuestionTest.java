@@ -2,12 +2,12 @@ package tp2.clases;
 
 
 import org.junit.jupiter.api.Test;
-import tp2.clases.questions.choice.Choice;
+import tp2.clases.model.questions.choice.Choice;
 import tp2.clases.exceptions.InvalidNumberOfChosenChoicesException;
-import tp2.clases.questions.Content;
-import tp2.clases.questions.modes.ClassicMode;
-import tp2.clases.questions.types.MultipleChoice;
-import tp2.clases.questions.types.TrueOrFalse;
+import tp2.clases.model.questions.Content;
+import tp2.clases.model.questions.modes.ClassicMode;
+import tp2.clases.model.questions.types.MultipleChoice;
+import tp2.clases.model.questions.types.TrueOrFalse;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -19,8 +19,9 @@ public class QuestionTest {
     Content content = new Content("", "","");
 
     @Test
+    // Una pregunta de verdadero o falso tiene 1 respuesta correcta
     public void test01ATrueOrFalseQuestionHasOneCorrectAnswer() {
-        //Arrange
+        // Arrange
         int expectedValue = 1;
         ArrayList<Choice> choices = new ArrayList<>();
 
@@ -29,16 +30,17 @@ public class QuestionTest {
 
         TrueOrFalse question = new TrueOrFalse(1, content, new ClassicMode(), choices);
 
-        //Act
+        // Act
         int numberOfCorrectAnswers = question.getNumberOfCorrectAnswers(question.getChoices());
 
-        //Assert
+        // Assert
         assertEquals(expectedValue, numberOfCorrectAnswers);
     }
 
     @Test
+    // Una pregunta de multiple choice tiene 3 respuesta correctas
     public void test02AMultipleChoiceQuestionHasThreeCorrectAnswers() {
-        //Arrange
+        // Arrange
         int expectedValue = 3;
         ArrayList<Choice> choices = new ArrayList<>();
 
@@ -49,16 +51,17 @@ public class QuestionTest {
 
         MultipleChoice question = new MultipleChoice(1, content, new ClassicMode(), choices);
 
-        //Act
+        // Act
         int numberOfCorrectAnswers = question.getNumberOfCorrectAnswers(choices);
 
-        //Assert
+        // Assert
         assertEquals(expectedValue, numberOfCorrectAnswers);
     }
 
     @Test
+    // Una pregunta de verdadero o falso devuelve las opciones elegidas
     public void test03ATrueOrFalseQuestionReturnsTheChosenChoices() {
-        //Arrange
+        // Arrange
         ArrayList<Choice> expectedValue = new ArrayList<>();
         ArrayList<Choice> choices = new ArrayList<>();
 
@@ -70,16 +73,17 @@ public class QuestionTest {
 
         TrueOrFalse question = new TrueOrFalse(1, content, new ClassicMode(), choices);
 
-        //Act
+        // Act
         ArrayList<Choice> assignChosenChoicesToPlayer = question.assignChosenChoicesToPlayer("1");
 
-        //Assert
+        // Assert
         assertEquals(expectedValue, assignChosenChoicesToPlayer);
     }
 
     @Test
+    // Una pregunta de multiple choice devuelve las opciones elegidas
     public void test04AMultipleChoiceQuestionReturnsTheChosenChoices() {
-        //Arrange
+        // Arrange
         ArrayList<Choice> expectedValue = new ArrayList<>();
         ArrayList<Choice> choices = new ArrayList<>();
 
@@ -96,14 +100,15 @@ public class QuestionTest {
 
         MultipleChoice question = new MultipleChoice(1, content, new ClassicMode(), choices);
 
-        //Act
+        // Act
         ArrayList<Choice> assignChosenChoicesToPlayer = question.assignChosenChoicesToPlayer("1,2");
 
-        //Assert
+        // Assert
         assertEquals(expectedValue, assignChosenChoicesToPlayer);
     }
 
     @Test
+    // Una pregunta de verdadero o falso lanza una excepcion cuando un jugador elije dos opciones
     public void test05ATrueOrFalseQuestionThrowsAnExceptionWhenAnUserChoosesTwoAnswersInAQuestionWithTwoChoices() {
         // Arrange
         ArrayList<Choice> choices = new ArrayList<>();
@@ -118,8 +123,9 @@ public class QuestionTest {
     }
 
     @Test
+    // Una pregunta de multiple choice lanza una excepcion cuando un jugador elije dos opciones
     public void test05AMultipleChoiceQuestionThrowsAnExceptionWhenAnUserChoosesFourAnswersInAQuestionWithFourChoices() {
-        //Arrange
+        // Arrange
         ArrayList<Choice> choices = new ArrayList<>();
 
         choices.add(new Choice("1", "correcta", 1));
@@ -129,7 +135,7 @@ public class QuestionTest {
 
         MultipleChoice question = new MultipleChoice(1, content, new ClassicMode(), choices);
 
-        //Assert
+        // Assert
         assertThrows(InvalidNumberOfChosenChoicesException.class, () -> {question.assignChosenChoicesToPlayer("1,3,2,4");});
     }
 }

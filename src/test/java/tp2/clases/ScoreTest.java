@@ -4,56 +4,41 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import tp2.clases.player.score.Score;
+import tp2.clases.model.player.score.Score;
 
 public class ScoreTest {
+
     private Score score;
-/*    @Mock private Correct correctMock;
-    @Mock private Incorrect incorrectMock;
 
-    private AutoCloseable closeable;
-
-    //mocks are initialized
-    @BeforeEach
-    public void beforeEach() {
-        closeable = MockitoAnnotations.openMocks(this);
-        Mockito.reset(correctMock, incorrectMock);
-    }
-
-    @AfterEach
-    public void releaseMocks() throws Exception {
-        closeable.close();
-    }
-*/
     @Test
+    // Se le incrementa el valor al puntaje correctamente
     public void test01AddingPointsToTheCurrentScoreIncreasesTheTotalScore() {
-        //Arrange
-//        when(correctMock.assignScore(1)).thenReturn(1);
+        // Arrange
 
         int expectedScore = 10;
         score = new Score(9);
 
-        //Act
+        // Act
         score.addScore(1);
         int scoreObtained = score.getScore();
 
-        //Assert
+        // Assert
         assertEquals(expectedScore, scoreObtained);
     }
 
     @Test
+    // Se le decrementa el valor al puntaje correctamente
     public void test02SubtractingPointsFromTheCurrentScoreDecreasesTheTotalScore() {
-        //Arrange
-//        when(incorrectMock.assignScore(1)).thenReturn(-1);
+        // Arrange
 
         int expectedScore = 0;
         score = new Score(1);
 
-        //Act
+        // Act
         score.subtractScore(1);
         int scoreObtained = score.getScore();
 
-        //Assert
+        // Assert
         assertEquals(expectedScore, scoreObtained);
     }
 }
